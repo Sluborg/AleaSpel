@@ -1,41 +1,22 @@
-// Minigames, moves and gestures as data. A move is a gesture the player draws while the gymnast
-// is in the air. Adding a move = a row; adding a gesture kind needs code in services/Gesture.ts.
-export type GestureKind = 'up' | 'down' | 'left' | 'right' | 'circle' | 'zigzag' | 'v' | 'tap';
-
-export interface GestureDef {
-  id: string;
-  kind: GestureKind;
-  symbol: string; // shown on the move card
-  hint: string; // Swedish, short
-}
-
-export const GESTURES: GestureDef[] = [
-  { id: 'up', kind: 'up', symbol: '↑', hint: 'Svep uppåt' },
-  { id: 'down', kind: 'down', symbol: '↓', hint: 'Svep nedåt' },
-  { id: 'left', kind: 'left', symbol: '←', hint: 'Svep vänster' },
-  { id: 'right', kind: 'right', symbol: '→', hint: 'Svep höger' },
-  { id: 'circle', kind: 'circle', symbol: '○', hint: 'Rita en cirkel' },
-  { id: 'zigzag', kind: 'zigzag', symbol: '⩗', hint: 'Rita sicksack' },
-  { id: 'v', kind: 'v', symbol: 'V', hint: 'Rita ett V' },
-  { id: 'tap', kind: 'tap', symbol: '●', hint: 'Tryck' },
-];
-
+// Minigames and moves as data. A move is a pattern (see gestureShapes.ts) the player draws
+// while the gymnast is in the air; the score depends on how accurately it was drawn.
 export interface MoveDef {
   id: string;
   name: string; // Swedish
-  gesture: string; // gesture id
+  shape: string; // shape id from gestureShapes.ts
   difficulty: 1 | 2 | 3; // stars at stake
   pose: 'tuck' | 'pike' | 'straddle' | 'twist' | 'flip' | 'straight';
 }
 
 export const MOVES: MoveDef[] = [
-  { id: 'straight_jump', name: 'Raka hopp', gesture: 'up', difficulty: 1, pose: 'straight' },
-  { id: 'tuck', name: 'Kroppa', gesture: 'tap', difficulty: 1, pose: 'tuck' },
-  { id: 'pike', name: 'Pik', gesture: 'v', difficulty: 2, pose: 'pike' },
-  { id: 'straddle', name: 'Grenhopp', gesture: 'zigzag', difficulty: 2, pose: 'straddle' },
-  { id: 'half_twist', name: 'Halv skruv', gesture: 'right', difficulty: 2, pose: 'twist' },
-  { id: 'seat_drop', name: 'Sittfall', gesture: 'down', difficulty: 1, pose: 'straight' },
-  { id: 'front_flip', name: 'Volt', gesture: 'circle', difficulty: 3, pose: 'flip' },
+  { id: 'straight_jump', name: 'Raka hopp', shape: 'triangle', difficulty: 1, pose: 'straight' },
+  { id: 'tuck', name: 'Kroppa', shape: 'circle', difficulty: 1, pose: 'tuck' },
+  { id: 'seat_drop', name: 'Sittfall', shape: 'square', difficulty: 1, pose: 'straight' },
+  { id: 'pike', name: 'Pik', shape: 'v', difficulty: 2, pose: 'pike' },
+  { id: 'straddle', name: 'Grenhopp', shape: 'zigzag', difficulty: 2, pose: 'straddle' },
+  { id: 'half_twist', name: 'Halv skruv', shape: 's', difficulty: 2, pose: 'twist' },
+  { id: 'front_flip', name: 'Volt', shape: 'heart', difficulty: 3, pose: 'flip' },
+  { id: 'star_jump', name: 'Stjärnhopp', shape: 'star', difficulty: 3, pose: 'straddle' },
 ];
 
 export interface MinigameDef {
@@ -54,7 +35,16 @@ export const MINIGAMES: MinigameDef[] = [
     name: 'Studsmatta',
     icon: '🤸',
     scene: 'Trampoline',
-    moves: ['straight_jump', 'tuck', 'pike', 'straddle', 'half_twist', 'seat_drop', 'front_flip'],
+    moves: [
+      'straight_jump',
+      'tuck',
+      'seat_drop',
+      'pike',
+      'straddle',
+      'half_twist',
+      'front_flip',
+      'star_jump',
+    ],
     rounds: 5,
     available: true,
   },
@@ -66,5 +56,4 @@ export const MINIGAMES: MinigameDef[] = [
 // Medals per star earned in a round.
 export const MEDALS_PER_STAR = 1;
 
-export const gestureById = (id: string) => GESTURES.find((g) => g.id === id) ?? GESTURES[0];
 export const moveById = (id: string) => MOVES.find((m) => m.id === id) ?? MOVES[0];

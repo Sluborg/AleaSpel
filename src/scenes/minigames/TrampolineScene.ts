@@ -1,13 +1,8 @@
 import Phaser from 'phaser';
 import { COLORS, FONT, GAME_HEIGHT, GAME_WIDTH } from '../../config';
-import {
-  MEDALS_PER_STAR,
-  MINIGAMES,
-  gestureById,
-  moveById,
-  type MoveDef,
-} from '../../data/minigames';
-import { recognize, stars, type Pt } from '../../services/Gesture';
+import { shapeById, type Pt } from '../../data/gestureShapes';
+import { MEDALS_PER_STAR, MINIGAMES, moveById, type MoveDef } from '../../data/minigames';
+import { accuracy, stars } from '../../services/Gesture';
 import { SaveService, type Gymnast } from '../../services/SaveService';
 import { createButton } from '../../ui/Button';
 import { GymnastView } from '../../ui/GymnastView';
@@ -29,7 +24,7 @@ export class TrampolineScene extends BaseScene {
   private view!: GymnastView;
   private trail!: Phaser.GameObjects.Graphics;
   private card!: Phaser.GameObjects.Container;
-  private cardSymbol!: Phaser.GameObjects.Text;
+  private cardShape!: Phaser.GameObjects.Graphics;
   private cardName!: Phaser.GameObjects.Text;
   private cardHint!: Phaser.GameObjects.Text;
   private progress!: Phaser.GameObjects.Text;
@@ -103,14 +98,7 @@ export class TrampolineScene extends BaseScene {
   private buildCard(): void {
     const bg = this.add.graphics();
     bg.fillStyle(0xffffff, 0.95).fillRoundedRect(-300, -110, 600, 220, 36);
-    this.cardSymbol = this.add
-      .text(-190, 0, '', {
-        fontFamily: FONT,
-        fontSize: '120px',
-        color: '#ff4f7b',
-        fontStyle: 'bold',
-      })
-      .setOrigin(0.5);
+    this.cardShape = this.add.graphics();
     this.cardName = this.add
       .text(40, -40, '', {
         fontFamily: FONT,
@@ -124,11 +112,27 @@ export class TrampolineScene extends BaseScene {
       .setOrigin(0.5);
     this.card = this.add.container(GAME_WIDTH / 2, 250, [
       bg,
-      this.cardSymbol,
+      this.cardShape,
       this.cardName,
       this.cardHint,
     ]);
     this.card.setDepth(100).setVisible(false);
+  }
+
+  // The pattern drawn on the card, with a dot where to start.
+  private drawShapePreview(points: Pt[]): void {
+    const g = this.cardShape;
+    const size = 150;
+    const ox = -190 - size / 2;
+    const oy = -size / 2;
+    g.clear();
+    g.lineStyle(10, 0xff4f7b, 1);
+    g.beginPath();
+    points.forEach((p, i) =>
+      i ? g.lineTo(ox + p.x * size, oy + p.y * size) : g.moveTo(ox + p.x * size, oy + p.y * size),
+    );
+    g.strokePath();
+    g.fillStyle(0x3a2a4a, 1).fillCircle(ox + points[0].x * size, oy + points[0].y * size, 11);
   }
 
   private showIntro(): void {
@@ -180,10 +184,10 @@ export class TrampolineScene extends BaseScene {
     const pool = GAME.moves.map(moveById);
     this.move = pool[Phaser.Math.Between(0, pool.length - 1)];
     this.maxTotal += this.move.difficulty;
-    const gesture = gestureById(this.move.gesture);
-    this.cardSymbol.setText(gesture.symbol);
+    const shape = shapeById(this.move.shape);
+    this.drawShapePreview(shape.points);
     this.cardName.setText(this.move.name);
-    this.cardHint.setText(gesture.hint);
+    this.cardHint.setText(`Rita: ${shape.name.toLowerCase()}`);
     this.card.setVisible(true).setScale(0.6);
     this.tweens.add({ targets: this.card, scale: 1, duration: 250, ease: 'Back.out' });
     this.progress.setText(`${this.round} / ${GAME.rounds}`);
@@ -299,9 +303,9 @@ export class TrampolineScene extends BaseScene {
   private evaluate(): void {
     if (!this.move) return;
     this.evaluated = true;
-    const gesture = gestureById(this.move.gesture);
-    const quality = recognize(this.stroke, gesture.kind);
-    const got = stars(quality, this.move.difficulty);
+    const acc = accuracy(this.stroke, this.move.shape);
+    const got = stars(acc, this.move.difficulty);
+    const pct = Math.round(acc * 100);
     this.total += got;
     const label =
       got === 0
@@ -312,7 +316,7 @@ export class TrampolineScene extends BaseScene {
             ? 'Okej!'
             : 'Bra!';
     const t = this.add
-      .text(GAME_WIDTH / 2, 640, `${'⭐'.repeat(got)}${got ? ' ' : ''}${label}`, {
+      .text(GAME_WIDTH / 2, 640, `${'⭐'.repeat(got)}${got ? ' ' : ''}${label}  ${pct}%`, {
         fontFamily: FONT,
         fontSize: '56px',
         color: '#ffffff',

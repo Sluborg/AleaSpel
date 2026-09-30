@@ -75,19 +75,24 @@ Decided with Alea (2026-09-30):
 Core mechanic: **finger patterns**. Each move is a data row with a gesture template; the player
 draws the gesture during a routine and is scored on shape match and timing.
 
-| Gesture                  | Example move (sv) | Apparatus       |
-| ------------------------ | ----------------- | --------------- |
-| Swipe up                 | Upphopp           | Trampolin, golv |
-| Circle                   | Volt / salto      | Trampolin, golv |
-| Zigzag                   | Flickis           | Golv            |
-| V shape                  | Spagat            | Bom, golv       |
-| Tap rhythm               | Balans            | Bom             |
-| Hold two fingers + swipe | Kip / jättesväng  | Barr            |
-| Swipe down then up       | Hopp över bocken  | Hopp (vault)    |
+| Pattern (drawn) | Move (sv)  | Stars |
+| --------------- | ---------- | ----- |
+| Triangel        | Raka hopp  | 1     |
+| Cirkel          | Kroppa     | 1     |
+| Fyrkant         | Sittfall   | 1     |
+| V               | Pik        | 2     |
+| Sicksack        | Grenhopp   | 2     |
+| S               | Halv skruv | 2     |
+| Hjärta          | Volt       | 3     |
+| Stjärna         | Stjärnhopp | 3     |
 
-- Recognizer: `src/services/Gesture.ts`, feature-based (swipe direction and straightness, turning
-  angle for circles, reversals for zigzag, V shape, tap), quality 0..1 per gesture kind, no
-  dependencies. Gestures, moves and minigames are data rows in `src/data/minigames.ts`.
+Decision (Alea's feedback 2026-09-30): no swipes, only drawn patterns, scored by how accurately
+they were drawn (percent shown, stars by accuracy bands per difficulty).
+
+- Recognizer: `src/services/Gesture.ts`, template matching (resample, centre, scale, average
+  point distance; direction and start point free, rotation not), accuracy 0..1, no dependencies.
+  Shapes are point lists in `src/data/gestureShapes.ts` (drawn on the move card with a start
+  dot); moves and minigames are rows in `src/data/minigames.ts`.
 - Built: **Studsmatta** (`scenes/minigames/TrampolineScene.ts`): 5 jumps, a move card shows the
   pattern, draw it while she is in the air, 1 to 3 stars per move by difficulty, pose animation
   at the apex, result panel with medals (1 per star) and personal best. Tävlingar hub lists the

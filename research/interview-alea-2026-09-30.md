@@ -79,3 +79,9 @@ are bought with prizes from winning competitions. Recorded in `docs/game-design.
   "Azmodeus: + bolllek, - balanslek, + magkli".
 - Leken ska kräva en enkel interaktion: ett mönster eller klicka snabbt några gånger.
 - Olika sorters mat.
+
+## Feedback on Tävlingar / Studsmatta (same day, from Stefan)
+
+- Gillade att rita mönster. Gillade inte "svep höger/vänster": pilen såg ut som ett mönster att
+  rita, men en medioker böj räckte.
+- Satsa på mönster, och ge olika poäng beroende på hur "rätt" mönstret ritades.
