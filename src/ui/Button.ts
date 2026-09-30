@@ -20,12 +20,8 @@ export function createButton(
   const height = Math.max(options.height ?? MIN_TOUCH, MIN_TOUCH);
   const color = options.color ?? COLORS.primary;
 
-  const bg = scene.add.graphics();
-  const draw = (fill: number) => {
-    bg.clear();
-    bg.fillStyle(fill, 1);
-    bg.fillRoundedRect(-width / 2, -height / 2, width, height, 28);
-  };
+  const bg = buttonBackground(scene, width, height);
+  const draw = (fill: number) => bg.paint(fill);
   draw(color);
 
   const text = scene.add
@@ -37,7 +33,7 @@ export function createButton(
     })
     .setOrigin(0.5);
 
-  const container = scene.add.container(x, y, [bg, text]);
+  const container = scene.add.container(x, y, [bg.object, text]);
   container.setSize(width, height);
   container.setInteractive({ useHandCursor: true });
 
@@ -56,4 +52,51 @@ export function createButton(
   });
 
   return container;
+}
+
+// Art pill (ui_button: white, shaded, tinted with the colour) as a 3-slice, so the round ends keep
+// their shape at any width. The drawn rounded rectangle stays as the fallback when the texture is
+// missing or the renderer is Canvas (NineSlice is WebGL only).
+const BUTTON_KEY = 'ui_button';
+const BUTTON_CAP = 88;
+const ROUND_KEY = 'ui_button_round';
+
+interface ButtonBackground {
+  object: Phaser.GameObjects.GameObject;
+  paint: (fill: number) => void;
+}
+
+function buttonBackground(scene: Phaser.Scene, width: number, height: number): ButtonBackground {
+  const webgl = scene.game.renderer.type === Phaser.WEBGL;
+  // Near-square buttons (back, icons): the round art, since the pill caps would meet in a seam.
+  if (width < height * 1.4 && scene.textures.exists(ROUND_KEY)) {
+    const disc = scene.add.image(0, 0, ROUND_KEY).setDisplaySize(width, height);
+    return { object: disc, paint: (fill) => disc.setTint(fill) };
+  }
+  if (webgl && scene.textures.exists(BUTTON_KEY)) {
+    const frameH = scene.textures.getFrame(BUTTON_KEY).height;
+    const scale = height / frameH;
+    const sliceW = Math.max(width / scale, BUTTON_CAP * 2);
+    const pill = scene.add.nineslice(
+      0,
+      0,
+      BUTTON_KEY,
+      undefined,
+      sliceW,
+      0,
+      BUTTON_CAP,
+      BUTTON_CAP,
+    );
+    pill.setScale(width / sliceW, scale);
+    return { object: pill, paint: (fill) => pill.setTint(fill) };
+  }
+  const g = scene.add.graphics();
+  return {
+    object: g,
+    paint: (fill) => {
+      g.clear();
+      g.fillStyle(fill, 1);
+      g.fillRoundedRect(-width / 2, -height / 2, width, height, 28);
+    },
+  };
 }

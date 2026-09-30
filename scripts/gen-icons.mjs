@@ -1,5 +1,6 @@
 // Generates placeholder PNG app icons (pink square, white gymnast dot) with no dependencies.
 // Run: node scripts/gen-icons.mjs
+// Superseded by scripts/art/app-icons.mjs (real art); running this overwrites the real icons.
 import { deflateSync } from 'node:zlib';
 import { writeFileSync } from 'node:fs';
 

@@ -77,7 +77,7 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       injectRegister: false,
-      includeAssets: ['icon.svg', 'apple-touch-icon.png', 'assets/manifest.json'],
+      includeAssets: ['apple-touch-icon.png', 'assets/manifest.json'],
       manifest: {
         name: 'AleaSpel',
         short_name: 'AleaSpel',
@@ -92,8 +92,12 @@ export default defineConfig({
         icons: [
           { src: 'icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
           { src: 'icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
-          { src: 'icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
-          { src: 'icon.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any' },
+          {
+            src: 'icon-maskable-512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable',
+          },
         ],
       },
       workbox: {
