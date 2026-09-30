@@ -32,6 +32,7 @@ export abstract class PatternGameScene extends BaseScene {
   private maxTotal = 0;
   private done = false;
   private practice = false; // from Mitt gym: no medals, records untouched
+  private team = false; // from Tävlingsdag: stars go to the team, medals come from the placement
   private returnTo = 'MinigameHub';
 
   // --- subclass hooks ------------------------------------------------------
@@ -44,10 +45,16 @@ export abstract class PatternGameScene extends BaseScene {
   // Reaction to the drawn pattern (called right after evaluation, with the stars earned).
   protected abstract onPattern(got: number): void;
 
-  create(data: { gymnastId?: string; practice?: boolean; returnTo?: string }): void {
+  create(data: {
+    gymnastId?: string;
+    practice?: boolean;
+    team?: boolean;
+    returnTo?: string;
+  }): void {
     const gymnasts = SaveService.get().gymnasts;
     this.gymnast = gymnasts.find((g) => g.id === data.gymnastId) ?? SaveService.activeGymnast();
     this.practice = data.practice ?? false;
+    this.team = data.team ?? false;
     this.returnTo = data.returnTo ?? 'MinigameHub';
     this.round = 0;
     this.total = 0;
@@ -273,7 +280,7 @@ export abstract class PatternGameScene extends BaseScene {
   private finish(): void {
     if (this.done) return;
     this.done = true;
-    const earned = this.practice ? 0 : this.total * MEDALS_PER_STAR;
+    const earned = this.practice || this.team ? 0 : this.total * MEDALS_PER_STAR;
     const prev = this.gymnast.bests[this.def.id] ?? 0;
     const record = !this.practice && this.total > prev;
     if (!this.practice) {
@@ -308,18 +315,32 @@ export abstract class PatternGameScene extends BaseScene {
       })
       .setOrigin(0.5);
     const medals = this.add
-      .text(GAME_WIDTH / 2, 590, this.practice ? 'Träning ger inga medaljer' : `+${earned} 🏅`, {
-        fontFamily: FONT,
-        fontSize: this.practice ? '38px' : '56px',
-        color: COLORS.text,
-      })
+      .text(
+        GAME_WIDTH / 2,
+        590,
+        this.practice
+          ? 'Träning ger inga medaljer'
+          : this.team
+            ? `${this.total} ⭐ till laget`
+            : `+${earned} 🏅`,
+        {
+          fontFamily: FONT,
+          fontSize: this.practice ? '38px' : '56px',
+          color: COLORS.text,
+        },
+      )
       .setOrigin(0.5);
     const bank = this.add
-      .text(GAME_WIDTH / 2, 670, `Du har ${SaveService.get().medals} medaljer`, {
-        fontFamily: FONT,
-        fontSize: '32px',
-        color: COLORS.textMuted,
-      })
+      .text(
+        GAME_WIDTH / 2,
+        670,
+        this.team ? 'Laget väntar på dig' : `Du har ${SaveService.get().medals} medaljer`,
+        {
+          fontFamily: FONT,
+          fontSize: '32px',
+          color: COLORS.textMuted,
+        },
+      )
       .setOrigin(0.5);
     const again = createButton(
       this,
@@ -338,16 +359,31 @@ export abstract class PatternGameScene extends BaseScene {
     );
     const back = createButton(
       this,
-      GAME_WIDTH / 2 + 150,
+      this.team ? GAME_WIDTH / 2 : GAME_WIDTH / 2 + 150,
       860,
-      'Klar',
-      () => this.scene.start(this.returnTo),
+      this.team ? 'Vidare' : 'Klar',
+      () =>
+        this.scene.start(
+          this.returnTo,
+          this.team
+            ? {
+                result: {
+                  gymnastId: this.gymnast.id,
+                  gameId: this.def.id,
+                  stars: this.total,
+                  max: this.maxTotal,
+                },
+              }
+            : undefined,
+        ),
       {
-        width: 260,
-        color: 0x6b5a85,
+        width: this.team ? 320 : 260,
+        color: this.team ? COLORS.primary : 0x6b5a85,
       },
     );
-    panel.add([bg, title, score, medals, bank, again, back]);
+    panel.add([bg, title, score, medals, bank, back]);
+    if (this.team) again.destroy();
+    else panel.add(again);
     for (let i = 0; i < 12; i++) {
       const c = this.add
         .rectangle(

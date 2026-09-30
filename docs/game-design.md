@@ -110,8 +110,11 @@ they were drawn (percent shown, stars by accuracy bands per difficulty).
   - Tävlingar hub lists all four games with the active gymnast's records.
 - Scoring: 1 to 3 stars per move plus a total. Personal bests saved per gymnast per minigame.
 - Unlocks: practising a move unlocks the next one in that apparatus track.
-- **Tävlingsdag** (later): pick 3 gymnasts, each performs a short routine, judges show scores,
-  podium with medals that go into Samlarboken.
+- **Tävlingsdag** (built): every gymnast in the team performs one routine (apparatus rotate
+  through the lineup) in team mode of the same minigame scenes (stars go to the team, no medals
+  per routine). The total meets three rival clubs (`src/data/competition.ts`, random share of the
+  same maximum), placement gives 12/8/5/2 medals. Wins and podiums are saved (`team`).
+  Later: pets as mascots, a trophy in Klubbstugan per win.
 
 ## 7. Pets (Mina djur)
 

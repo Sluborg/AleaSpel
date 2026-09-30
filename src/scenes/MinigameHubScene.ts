@@ -67,5 +67,14 @@ export class MinigameHubScene extends BaseScene {
         );
       }
     });
+
+    createButton(
+      this,
+      GAME_WIDTH / 2,
+      1170,
+      '🏆 Tävlingsdag',
+      () => this.scene.start('TeamCompetition', { fresh: true }),
+      { width: 500 },
+    );
   }
 }

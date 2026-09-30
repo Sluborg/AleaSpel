@@ -8,6 +8,7 @@ import { GymScene } from './scenes/GymScene';
 import { HomeScene } from './scenes/HomeScene';
 import { MainMenuScene } from './scenes/MainMenuScene';
 import { MinigameHubScene } from './scenes/MinigameHubScene';
+import { TeamCompetitionScene } from './scenes/TeamCompetitionScene';
 import { PetsScene } from './scenes/PetsScene';
 import { WardrobeScene } from './scenes/WardrobeScene';
 import { ShopScene } from './scenes/ShopScene';
@@ -54,6 +55,7 @@ const game = new Phaser.Game({
     ClubhouseScene,
     GymScene,
     MinigameHubScene,
+    TeamCompetitionScene,
     PetsScene,
     WardrobeScene,
     TrampolineScene,
