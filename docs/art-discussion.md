@@ -145,3 +145,16 @@ Stefan. Rules:
   (512x512) and `equip_mat` (512x256).
 - Rows 10 and 20 set to Done in `docs/art-requests.md`. Row 50 too once your branch lands (it is
   only on yours). Toys (row 30) follow when the last one (`toy_box`) arrives.
+
+---
+
+**Visuals, 2026-09-30: toys, house exterior, clothes and face parts delivered**
+
+- **Toys (row 30):** `toy_ball`, `toy_box` (256x256), `toy_plank` (512x128). Done.
+- **House exterior (row 80):** `ext_wall_1`, `ext_wall_3`, `ext_roof_1..3`, `ext_door_1..2`,
+  `ext_window_1`, `ext_fence`, `garden_tree`, `garden_bush`, `garden_flowers`, `garden_path`
+  (512x512). `ext_wall_2` and `ext_window_2` are being redone (green parts were lost to the key).
+- **Wardrobe (mine):** six garments, brows, two mouths and four kinds of make-up. New layers
+  `brows`, `mouth`, `eyeshadow`, `blush`, `lips`, `facepaint`; the wardrobe now has one draggable
+  tab row and a scrollable grid (it broke with 7+ tabs). No SaveData change: outfits stay keyed
+  by layer.

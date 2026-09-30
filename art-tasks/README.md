@@ -70,6 +70,8 @@ A chat works on one track for its whole life. Only take batches and redo rows of
 - Flat background in the key colour the batch gives (green #00FF00 unless it says otherwise).
   Your normal output is close enough (for example RGB 0,254,1); Visuals keys with a tolerance.
   Do not try to fix it afterwards.
+- **Green or mint in the object** (leaves, plants, mint paint): use a flat magenta #FF00FF
+  background instead of green, even if the batch says green. Otherwise those parts are lost.
 - Canvas: with a template, exactly the template size (1024x1536). Without a template, the aspect
   ratio the batch gives at your normal output size (for example 1254x1254 for square is fine).
 - With a template: keep EVERYTHING identical except the one change asked for. Never move, resize,
