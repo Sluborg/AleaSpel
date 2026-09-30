@@ -8,7 +8,7 @@ import {
   type RivalTeam,
 } from '../data/competition';
 import { APPARATUS_GAMES } from '../data/minigames';
-import { SaveService } from '../services/SaveService';
+import { localDate, SaveService } from '../services/SaveService';
 import { createButton } from '../ui/Button';
 import { BaseScene } from './BaseScene';
 
@@ -155,7 +155,7 @@ export class TeamCompetitionScene extends BaseScene {
           d.team.podiums += 1;
           d.team.trophies.push({
             place: (place + 1) as 1 | 2 | 3,
-            date: new Date().toISOString().slice(0, 10),
+            date: localDate(),
           });
         }
       });

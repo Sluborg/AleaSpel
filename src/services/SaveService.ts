@@ -29,6 +29,12 @@ export interface Trophy {
   date: string; // YYYY-MM-DD
 }
 
+// Today's date in the player's own calendar (not UTC), as YYYY-MM-DD.
+export function localDate(d = new Date()): string {
+  const pad = (n: number) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
+
 export function newUid(): string {
   return `f${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
 }
@@ -184,7 +190,7 @@ const MIGRATIONS: Record<number, Migration> = {
       wins: 0,
       podiums: 0,
     };
-    const today = new Date().toISOString().slice(0, 10);
+    const today = localDate();
     const trophies: Trophy[] = [
       ...Array.from({ length: team.wins }, (): Trophy => ({ place: 1, date: today })),
       ...Array.from({ length: Math.max(0, team.podiums - team.wins) }, (): Trophy => ({
