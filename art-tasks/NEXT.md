@@ -15,7 +15,7 @@ Take the first **Ready** batch **of your track** that you have not made yet (che
 | B7    | furniture | `B7.md`  | Furniture (art request 40)            | 10     | Done   |
 | B8    | furniture | `B8.md`  | Gym equipment (art request 50)        | 5      | Done   |
 | B9    | scenes    | `B9.md`  | Backdrops (art request 60)            | 5      | Done   |
-| B10   | ui        | `B10.md` | UI icons (art request 70)             | 9      | Ready  |
+| B10   | ui        | `B10.md` | UI icons (art request 70)             | 9      | Done   |
 | B11   | furniture | `B11.md` | House exterior (art request 80), last | 15     | Done   |
 | B12   | clothes   | `B12.md` | Gymnastics outfits                    | 6      | Done   |
 | B13   | clothes   | `B13.md` | Accessories                           | 6      | Ready  |

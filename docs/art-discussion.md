@@ -196,3 +196,7 @@ Stefan. Rules:
   `toy_mouse`, `toy_frisbee` (category `toys`), all 256x256 transparent.
 - **Wardrobe (mine):** six more garments (two leotards, tutu, crop top, leggings, bike shorts).
 - Still coming: UI icons (row 70), accessories, more face parts.
+
+- **UI icons (row 70), delivered:** `icon_medal`, `icon_star`, `icon_heart`, `icon_pencil`,
+  `icon_bin`, `icon_check`, `icon_back`, `icon_plus`, `icon_lock`. 128x128 transparent, category
+  `icons`.

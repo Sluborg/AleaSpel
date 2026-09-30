@@ -837,6 +837,87 @@
       "tintable": true,
       "license": "Project-owned, AI-generated for AleaSpel",
       "source": "ChatGPT image generation 2026-09-30, batch B12 (assets/source/wardrobe/tops/top_crop-raw.png), extracted by scripts/art/extract-item.mjs"
+    },
+    {
+      "id": "icon_back",
+      "category": "icons",
+      "layer": "ui",
+      "file": "icons/icon_back.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B10 (assets/source/icons/icon_back-raw.png), extracted by scripts/art/extract-object.mjs"
+    },
+    {
+      "id": "icon_bin",
+      "category": "icons",
+      "layer": "ui",
+      "file": "icons/icon_bin.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B10 (assets/source/icons/icon_bin-raw.png), extracted by scripts/art/extract-object.mjs"
+    },
+    {
+      "id": "icon_check",
+      "category": "icons",
+      "layer": "ui",
+      "file": "icons/icon_check.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B10 (assets/source/icons/icon_check-raw.png), extracted by scripts/art/extract-object.mjs"
+    },
+    {
+      "id": "icon_heart",
+      "category": "icons",
+      "layer": "ui",
+      "file": "icons/icon_heart.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B10 (assets/source/icons/icon_heart-raw.png), extracted by scripts/art/extract-object.mjs"
+    },
+    {
+      "id": "icon_lock",
+      "category": "icons",
+      "layer": "ui",
+      "file": "icons/icon_lock.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B10 (assets/source/icons/icon_lock-raw.png), extracted by scripts/art/extract-object.mjs"
+    },
+    {
+      "id": "icon_medal",
+      "category": "icons",
+      "layer": "ui",
+      "file": "icons/icon_medal.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B10 (assets/source/icons/icon_medal-raw.png), extracted by scripts/art/extract-object.mjs"
+    },
+    {
+      "id": "icon_pencil",
+      "category": "icons",
+      "layer": "ui",
+      "file": "icons/icon_pencil.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B10 (assets/source/icons/icon_pencil-raw.png), extracted by scripts/art/extract-object.mjs"
+    },
+    {
+      "id": "icon_plus",
+      "category": "icons",
+      "layer": "ui",
+      "file": "icons/icon_plus.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B10 (assets/source/icons/icon_plus-raw.png), extracted by scripts/art/extract-object.mjs"
+    },
+    {
+      "id": "icon_star",
+      "category": "icons",
+      "layer": "ui",
+      "file": "icons/icon_star.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B10 (assets/source/icons/icon_star-raw.png), extracted by scripts/art/extract-object.mjs"
     }
   ]
 }
