@@ -15,7 +15,7 @@ export class MinigameHubScene extends BaseScene {
     this.addTitle('Tävlingar');
     this.addBackButton();
     const save = SaveService.get();
-    const gymnast = save.gymnasts[0];
+    const gymnast = SaveService.activeGymnast();
 
     this.add
       .text(GAME_WIDTH / 2, 175, `🏅 ${save.medals} medaljer   ·   ${gymnast.name}`, {

@@ -29,6 +29,8 @@ Updated 2026-09-30. Read this first when resuming ("continue from project-status
 - Tävlingar: gesture recognizer (`services/Gesture.ts`), Studsmatta minigame (5 jumps, draw the
   pattern on the card, stars, poses), medals (1 per star) and personal bests. Save schema v5.
   Medal count on the main menu.
+- Mitt lag: several gymnasts (up to 8), each with her own outfit and records; the shown one is
+  active and competes. Save schema v7.
 - Butiken: buy furniture (7 priced rows) with medals, scrollable list (`ui/ScrollList.ts`),
   bought furniture appears in Mina hus. Save schema v6 (owned). Menu entry Butiken.
 - Face pipeline: `face_blank` template, `scripts/art/extract-face.mjs`, 7 eye styles in the
@@ -37,9 +39,8 @@ eyes_wink`).
 
 ## Lead
 
-- In progress: nothing. SaveData is at v6 (owned shop items).
-- Next: Klubbstugan + gym, or more minigames (Bom, Barr, Hopp) on the same gesture engine, or
-  more gymnasts.
+- In progress: nothing. SaveData is at v7 (owned shop items, activeGymnastId).
+- Next: Klubbstugan + gym, or more minigames (Bom, Barr, Hopp) on the same gesture engine.
 - Ask to Visuals: when a priced garment exists, list it in `src/data/shop.ts` `CLOTHES_PRICES`
   and hide unowned priced items in the wardrobe (`SaveService.get().owned`).
 
@@ -55,10 +56,9 @@ eyes_wink`).
 1. More clothes: one ChatGPT prompt per garment (template in `docs/asset-spec.md`, section 9).
    Suggested: T-shirt, shorts, dress, track jacket, gymnastics slippers, ankle socks. [0.85]
 2. Wardrobe scroll for many items per tab (needed after about 7 items). [0.8]
-3. More gymnasts: "+" card in Mitt lag. [0.75]
-4. Hair: the bun is baked into the master. Decide approach (hair mask image to split hair into
+3. Hair: the bun is baked into the master. Decide approach (hair mask image to split hair into
    its own layer). [0.7]
-5. First gesture minigame (trampoline, swipe patterns). [0.7]
+4. First gesture minigame (trampoline, swipe patterns). [0.7]
 
 ## Open questions
 

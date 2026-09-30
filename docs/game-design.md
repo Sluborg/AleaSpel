@@ -33,7 +33,8 @@ out to place it in the scene, drag it back to put it away (Toca Boca's character
 
 ## 3. Gymnastics team (Mitt lag)
 
-- A list of gymnasts, no cap in code (UI starts with 3 slots, add more with a "+" card).
+- A list of gymnasts (built: up to 8, "+ Ny gymnast" in Mitt lag, browse with arrows; the shown
+  gymnast is the active one, `SaveData.activeGymnastId` v7, used in Tävlingar).
 - Each gymnast: name, look, personal bests per move, unlocked moves.
 - **Gymnast editor** with icon tabs: Kropp, Ansikte, Hår, Dräkt (leotard), Tillbehör, Skor.
   - Each tab is a row of swatches; tap to apply. Colour dots under the selected part.

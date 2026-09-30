@@ -3,7 +3,7 @@ import { rollTraits } from './PetCare';
 // Versioned save data in localStorage.
 // To change the schema: bump SAVE_VERSION, update SaveData, add a migration from the previous version.
 
-export const SAVE_VERSION = 6;
+export const SAVE_VERSION = 7;
 const STORAGE_KEY = 'aleaspel.save';
 
 export interface Position {
@@ -51,6 +51,7 @@ export interface SaveData {
   pets: Pet[];
   medals: number; // currency won in Tävlingar, spent in Butiken
   owned: string[]; // shop item ids bought in Butiken
+  activeGymnastId: string; // the gymnast shown in Mitt lag and used in Tävlingar
 }
 
 export function createGymnast(index: number): Gymnast {
@@ -79,6 +80,11 @@ const MIGRATIONS: Record<number, Migration> = {
     gymnasts: ((data.gymnasts as Gymnast[]) ?? []).map((g) => ({ ...g, bests: {} })),
   }),
   5: (data) => ({ ...data, version: 6, owned: [] }),
+  6: (data) => ({
+    ...data,
+    version: 7,
+    activeGymnastId: ((data.gymnasts as Gymnast[]) ?? [])[0]?.id ?? 'g1',
+  }),
 };
 
 function createDefault(): SaveData {
@@ -89,6 +95,7 @@ function createDefault(): SaveData {
     pets: [],
     medals: 0,
     owned: [],
+    activeGymnastId: 'g1',
   };
 }
 
@@ -121,6 +128,12 @@ class SaveServiceImpl {
   update(mutator: (data: SaveData) => void): void {
     mutator(this.data);
     this.persist();
+  }
+
+  // The active gymnast, falling back to the first one.
+  activeGymnast(): Gymnast {
+    const { gymnasts, activeGymnastId } = this.data;
+    return gymnasts.find((g) => g.id === activeGymnastId) ?? gymnasts[0];
   }
 
   reset(): void {
