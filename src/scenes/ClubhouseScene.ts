@@ -198,6 +198,8 @@ export class ClubhouseScene extends RoomScene {
     const party = this.party;
     this.party = undefined;
     (party?.getData('confetti') as Phaser.Time.TimerEvent | undefined)?.remove();
+    // Looping disco and confetti tweens outlive their targets unless killed first.
+    if (party) this.tweens.killTweensOf(party.list);
     party?.destroy();
     this.gymnastView?.stopMove();
     this.gymnastView?.refresh(SaveService.activeGymnast(), 'chill');
