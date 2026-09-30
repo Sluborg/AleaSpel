@@ -72,6 +72,13 @@ Decided with Alea (2026-09-30):
   of pieces (`SaveData.furniture`, v12): several of a kind, each placed or stored. The 📦
   Förråd button lists stored pieces of that room; tap one to put it in the middle of the view.
 
+- **Trädgården (built, first version):** the house from outside, reached with 🌳 Ute in Mina hus
+  (the door leads back in). The house is put together from one part per slot: Vägg, Tak, Dörr,
+  Fönster (`src/data/exterior.ts`: art rows times `HOUSE_HUES` colour shifts). 🎨 Bygg opens the
+  part picker. The choice is saved as one piece per slot in `SaveData.furniture` (no schema
+  change). Garden things (tree, path, flowers free; bush and fence in Butiken) are furniture
+  rows with `room: 'garden'`, so drag, layers and the Förråd work as in the rooms.
+
 - Every house has:
   - **Exterior**: wall colour, roof shape and colour, door, windows, fence. Parts are data rows.
   - **Rooms**: 1 to N rooms, each with wallpaper, floor and placed items.

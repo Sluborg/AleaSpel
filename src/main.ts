@@ -4,6 +4,7 @@ import { COLORS, GAME_HEIGHT, GAME_WIDTH } from './config';
 import { AvatarEditorScene } from './scenes/AvatarEditorScene';
 import { BootScene } from './scenes/BootScene';
 import { ClubhouseScene } from './scenes/ClubhouseScene';
+import { GardenScene } from './scenes/GardenScene';
 import { GymScene } from './scenes/GymScene';
 import { HomeScene } from './scenes/HomeScene';
 import { MainMenuScene } from './scenes/MainMenuScene';
@@ -57,6 +58,7 @@ const game = new Phaser.Game({
     MainMenuScene,
     AvatarEditorScene,
     HomeScene,
+    GardenScene,
     ClubhouseScene,
     GymScene,
     MinigameHubScene,

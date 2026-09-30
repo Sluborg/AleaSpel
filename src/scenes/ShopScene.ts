@@ -187,7 +187,7 @@ export class ShopScene extends BaseScene {
         GAME_WIDTH / 2,
         600,
         def
-          ? `📦 ${item.name} i förrådet!`
+          ? `📦 ${item.name} i ${def.room === 'garden' ? 'trädgårdens förråd' : 'förrådet'}!`
           : item.kind === 'gym'
             ? `🎉 ${item.name} står i gymmet!`
             : `🎉 ${item.name} är din!`,

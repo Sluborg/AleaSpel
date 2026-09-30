@@ -30,7 +30,7 @@ export interface Placeable {
   def?: string; // furniture id, for pieces of furniture
 }
 
-export type FurnitureRoom = 'house' | 'clubhouse';
+export type FurnitureRoom = 'house' | 'clubhouse' | 'garden';
 
 // Rooms are wider than the screen: drag the floor to look around, like Toca Boca.
 export const ROOM_WORLD_W = GAME_WIDTH * 2;

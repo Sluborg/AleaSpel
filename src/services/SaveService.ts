@@ -17,7 +17,7 @@ export interface Position {
 // the piece is dragged, so it sorts by where it stands again).
 export interface FurnitureItem {
   uid: string;
-  def: string; // furniture id in data/furniture.ts
+  def: string; // furniture id in data/furniture.ts, or a house part in data/exterior.ts
   x: number;
   y: number;
   z?: number;

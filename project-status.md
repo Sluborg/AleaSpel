@@ -69,7 +69,7 @@ eyes_wink`).
   hus/Klubbstugan/Butiken, equipment in Mitt gym) via `src/ui/art.ts` helpers with placeholder
   fallback.
 - Next: trophy in Klubbstugan per Tävlingsdag win, more warm-up games (same base), gym
-  equipment upgrades in Butiken, house exterior editor (art for row 80 is in), club furniture
+  equipment upgrades in Butiken, club furniture
   art (Anslagstavla, Prisskåp, Lagsoffa, Fikabord are still placeholders).
 - Waiting on Visuals: wardrobe fixes from Stefan (clipping, face tiles, face zoom, make-up
   grouping), posted in `docs/art-discussion.md`.

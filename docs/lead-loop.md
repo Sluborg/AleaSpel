@@ -34,13 +34,16 @@ Lead works in rounds of about 40 minutes. Goal: features that make the game more
 | ----- | ------------------------------------------------------------------------------------------ | ------ |
 | 10    | CI on pull requests (lint, format, validate:art, build) and a Codex review test            | Done   |
 | 20    | Trophies: Tävlingsdag places give cups (gold, silver, bronze) shown in Prisskåp (save v14) | Done   |
-| 30    | Leaner UI in Lead's screens (Mitt lag, Tävlingar, Butiken, Lagets djur): smaller buttons   | Open   |
-| 40    | Lagfest: a party in Klubbstugan (Fest look, disco light, dancing pets), unlocked by a win  | Open   |
-| 50    | Gym upgrades in Butiken (new apparatus colours and extra mats as data rows)                | Open   |
-| 60    | House exterior editor with the delivered `ext_*` and `garden_*` art                        | Open   |
+| 30    | Leaner UI in Lead's screens (Mitt lag, Tävlingar, Butiken, Lagets djur): smaller buttons   | Done   |
+| 40    | Lagfest: a party in Klubbstugan (Fest look, disco light, dancing pets), unlocked by a win  | Done   |
+| 50    | Gym upgrades in Butiken (new apparatus colours and extra mats as data rows)                | Done   |
+| 60    | House exterior editor with the delivered `ext_*` and `garden_*` art                        | Done   |
 
 ## Round log
 
 | Time (UTC) | Release | What happened                                                                                                                                                         |
 | ---------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 21:35      | (next)  | Round 1: PR CI (#5, #9 after Codex review), trophies (#6, save v14, Codex found a UTC date bug, fixed), main menu tiles (#8, part of backlog 30). Codex reviews work. |
+| 22:45      | (next)  | Round 2: leaner UI in Butiken, Tävlingar and room buttons (#10), Lagfest in Klubbstugan (#11, Codex found leaking disco tweens, fixed).                               |
+| 23:05      | (next)  | Round 3: Gym tab in Butiken with colour variants of apparatus and mats (#12).                                                                                         |
+| 23:24      | (next)  | Round 4: Trädgården, house exterior builder and garden (no save change, v15 stays with Visuals).                                                                      |

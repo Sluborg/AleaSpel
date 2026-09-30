@@ -35,6 +35,7 @@ src/
   config.ts          design resolution, colors, MIN_TOUCH
   scenes/            Boot, Preload, MainMenu, AvatarEditor (Mitt lag), Wardrobe (Garderob),
                      Pets (Lagets djur, games in scenes/pets/), RoomScene base for Home,
+                     Garden (Trädgården, house exterior builder),
                      Clubhouse (Klubbstugan) and Gym (Mitt gym, practice),
                      MinigameHub (Tävlingar), TeamCompetition (Tävlingsdag),
                      minigames/ (PatternGameScene base: Trampoline, Beam, Bars, Vault;
