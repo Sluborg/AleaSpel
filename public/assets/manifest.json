@@ -1,4 +1,14 @@
 {
-  "version": 1,
-  "assets": []
+  "version": 2,
+  "assets": [
+    {
+      "id": "base_body",
+      "category": "base",
+      "layer": "body",
+      "file": "base/master.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, green removed by scripts/art/key-master.mjs (raw: assets/source/base/master-raw.png)"
+    }
+  ]
 }

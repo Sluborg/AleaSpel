@@ -26,6 +26,12 @@ export default defineConfig({
   },
   build: {
     chunkSizeWarningLimit: 2000,
+    rollupOptions: {
+      input: {
+        main: 'index.html',
+        preview: 'preview/index.html',
+      },
+    },
   },
   plugins: [
     VitePWA({
@@ -54,6 +60,8 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,svg,json,png,webp,mp3,ogg}'],
         maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
         cleanupOutdatedCaches: true,
+        // The preview page is a separate document, never answer it with the game shell.
+        navigateFallbackDenylist: [/\/preview\//],
         clientsClaim: true,
         skipWaiting: true,
       },

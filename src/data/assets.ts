@@ -4,6 +4,8 @@ export interface AssetEntry {
   category: string; // e.g. 'avatar', 'furniture', 'gym', 'ui'
   layer?: string; // avatar/render layer, e.g. 'hair', 'top'
   file: string; // path relative to public/assets
+  tintable?: boolean; // true = light/grayscale art, coloured in code (multiply tint)
+  detail?: string; // optional untinted overlay file for a tintable item
   license: string;
   source: string;
 }

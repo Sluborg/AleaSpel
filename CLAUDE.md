@@ -34,9 +34,15 @@ src/
   services/          SaveService and other non-visual services
   ui/                reusable UI widgets (Button)
 public/
-  assets/manifest.json   asset list, read by Preload
+  assets/manifest.json   asset list, read by Preload and /preview
+  assets/base/           shipped master + anchors.json
+  assets/wardrobe/       wardrobe PNGs (<category>/<id>.png)
   icon*.png, icon.svg    placeholder app icons (scripts/gen-icons.mjs)
+assets/source/         art sources and derived data, not shipped (master-raw, mask, debug)
+preview/index.html     wardrobe preview page (/preview/), code in src/preview/
+scripts/art/           key-master, derive-base, validate (Node + pngjs)
 docs/game-design.md    systems, data model, roadmap
+docs/asset-spec.md     character and wardrobe art rules
 research/              interviews with Alea, reference-game research
 .github/workflows/deploy.yml
 ```
@@ -46,8 +52,11 @@ research/              interviews with Alea, reference-game research
 - **Data-driven.** Avatar parts, furniture, gym equipment and minigames are defined as data in
   `src/data/*.ts` (or JSON). Adding one must be a data row, not new code. If a new item needs new
   code, generalize the code once, then keep adding rows.
-- **Placeholder graphics only.** Graphics are not decided. Draw shapes and colors in code
-  (Phaser Graphics/Shapes). Do not download or add art, sprites, fonts or asset libraries.
+- **Character art follows `docs/asset-spec.md`.** The master (`assets/source/base/master.png`) is
+  fixed: never modify, resize, crop or move it. Wardrobe items are 1024x1536 PNGs registered to it.
+  Run `npm run validate:art` after adding art; CI runs it too.
+- **Other graphics are placeholders.** Rooms, furniture, UI, pets: shapes and colours drawn in code
+  until their style is decided. Do not download art, sprites, fonts or asset libraries.
 - **Assets, when they arrive:** put files in `public/assets/` and add an entry to
   `public/assets/manifest.json` with `id, category, layer, file, license, source`. Preload loads
   every entry. No asset without license and source.
@@ -67,7 +76,8 @@ research/              interviews with Alea, reference-game research
 
 ## Deploy flow
 
-- Push to `main` triggers `.github/workflows/deploy.yml`: `npm ci`, lint, format check, build,
+- Push to `main` triggers `.github/workflows/deploy.yml`: `npm ci`, lint, format check,
+  `validate:art`, build,
   upload `dist/` with `actions/upload-pages-artifact`, deploy with `actions/deploy-pages`.
   It can also be run by hand (workflow_dispatch).
 - Vite `base` comes from the `BASE_PATH` env var, which the workflow derives from

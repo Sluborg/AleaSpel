@@ -1,0 +1,107 @@
+{
+  "note": "Wardrobe layers, back to front. Used by the game, the preview page and scripts/art/validate.mjs. Region edges reference anchors in public/assets/base/anchors.json as '<point>.<x|y>' plus an optional offset, or a plain number. maxOutsideMask = how far (px) visible pixels may extend beyond the body silhouette.",
+  "layers": [
+    {
+      "id": "hair_back",
+      "order": 10,
+      "region": {
+        "top": 0,
+        "bottom": "crotch.y+150",
+        "left": "bbox.left-150",
+        "right": "bbox.right+150"
+      },
+      "maxOutsideMask": 400
+    },
+    {
+      "id": "body",
+      "order": 20,
+      "region": { "top": 0, "bottom": 1536, "left": 0, "right": 1024 },
+      "maxOutsideMask": 0
+    },
+    {
+      "id": "socks",
+      "order": 30,
+      "region": { "top": "kneeL.y-150", "bottom": 1536, "left": "hipL.x-40", "right": "hipR.x+40" },
+      "maxOutsideMask": 25
+    },
+    {
+      "id": "bottoms",
+      "order": 40,
+      "region": {
+        "top": "waist.y-80",
+        "bottom": 1536,
+        "left": "hipL.x-160",
+        "right": "hipR.x+160"
+      },
+      "maxOutsideMask": 200
+    },
+    {
+      "id": "onepiece",
+      "order": 50,
+      "region": {
+        "top": "chin.y",
+        "bottom": 1536,
+        "left": "bbox.left-60",
+        "right": "bbox.right+60"
+      },
+      "maxOutsideMask": 250
+    },
+    {
+      "id": "tops",
+      "order": 60,
+      "region": {
+        "top": "chin.y",
+        "bottom": "kneeL.y",
+        "left": "bbox.left-60",
+        "right": "bbox.right+60"
+      },
+      "maxOutsideMask": 120
+    },
+    {
+      "id": "outerwear",
+      "order": 70,
+      "region": {
+        "top": "headTop.y",
+        "bottom": 1536,
+        "left": "bbox.left-100",
+        "right": "bbox.right+100"
+      },
+      "maxOutsideMask": 250
+    },
+    {
+      "id": "shoes",
+      "order": 80,
+      "region": { "top": "kneeL.y-120", "bottom": 1536, "left": "hipL.x-80", "right": "hipR.x+80" },
+      "maxOutsideMask": 60
+    },
+    {
+      "id": "accessories",
+      "order": 90,
+      "region": { "top": 0, "bottom": 1536, "left": 0, "right": 1024 },
+      "maxOutsideMask": 400
+    },
+    {
+      "id": "hair_front",
+      "order": 100,
+      "region": {
+        "top": 0,
+        "bottom": "crotch.y+150",
+        "left": "bbox.left-150",
+        "right": "bbox.right+150"
+      },
+      "maxOutsideMask": 400
+    }
+  ],
+  "categories": [
+    { "id": "base", "layer": "body" },
+    { "id": "hair_back", "layer": "hair_back" },
+    { "id": "hair_front", "layer": "hair_front" },
+    { "id": "socks", "layer": "socks" },
+    { "id": "bottoms", "layer": "bottoms" },
+    { "id": "onepiece", "layer": "onepiece" },
+    { "id": "tops", "layer": "tops" },
+    { "id": "outerwear", "layer": "outerwear" },
+    { "id": "shoes", "layer": "shoes" },
+    { "id": "accessories", "layer": "accessories" }
+  ]
+}

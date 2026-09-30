@@ -1,0 +1,154 @@
+{
+  "canvas": {
+    "width": 1024,
+    "height": 1536
+  },
+  "bbox": {
+    "x": 263,
+    "y": 124,
+    "w": 498,
+    "h": 1312
+  },
+  "centerX": 512,
+  "note": "Measured from master.png by scripts/art/derive-base.mjs. l/r = image left/right.",
+  "points": {
+    "headTop": {
+      "x": 512,
+      "y": 125
+    },
+    "eyeL": {
+      "x": 456,
+      "y": 250
+    },
+    "eyeR": {
+      "x": 566,
+      "y": 252
+    },
+    "faceCenter": {
+      "x": 512,
+      "y": 298
+    },
+    "chin": {
+      "x": 512,
+      "y": 345
+    },
+    "neck": {
+      "x": 512,
+      "y": 359
+    },
+    "neckline": {
+      "x": 512,
+      "y": 422
+    },
+    "shoulderL": {
+      "x": 410,
+      "y": 412
+    },
+    "shoulderR": {
+      "x": 613,
+      "y": 412
+    },
+    "armpitL": {
+      "x": 422,
+      "y": 518
+    },
+    "armpitR": {
+      "x": 600,
+      "y": 518
+    },
+    "waist": {
+      "x": 512,
+      "y": 604
+    },
+    "waistL": {
+      "x": 441,
+      "y": 604
+    },
+    "waistR": {
+      "x": 582,
+      "y": 604
+    },
+    "hipL": {
+      "x": 389,
+      "y": 788
+    },
+    "hipR": {
+      "x": 634,
+      "y": 788
+    },
+    "crotch": {
+      "x": 512,
+      "y": 792
+    },
+    "wristL": {
+      "x": 294,
+      "y": 774
+    },
+    "wristR": {
+      "x": 729,
+      "y": 774
+    },
+    "handL": {
+      "x": 286,
+      "y": 834
+    },
+    "handR": {
+      "x": 737,
+      "y": 834
+    },
+    "fingertipsL": {
+      "x": 286,
+      "y": 914
+    },
+    "fingertipsR": {
+      "x": 737,
+      "y": 914
+    },
+    "kneeL": {
+      "x": 447,
+      "y": 1065
+    },
+    "kneeR": {
+      "x": 575,
+      "y": 1061
+    },
+    "ankleL": {
+      "x": 446,
+      "y": 1306
+    },
+    "ankleR": {
+      "x": 579,
+      "y": 1306
+    },
+    "cuffL": {
+      "x": 446,
+      "y": 1319
+    },
+    "cuffR": {
+      "x": 579,
+      "y": 1319
+    },
+    "footL": {
+      "x": 443,
+      "y": 1375
+    },
+    "footR": {
+      "x": 581,
+      "y": 1375
+    },
+    "soleL": {
+      "x": 443,
+      "y": 1435
+    },
+    "soleR": {
+      "x": 581,
+      "y": 1435
+    }
+  },
+  "widths": {
+    "neck": 66,
+    "waist": 142,
+    "hip": 246,
+    "shoulders": 204
+  }
+}
