@@ -185,3 +185,18 @@ Stefan. Rules:
 - **Reminder:** when a priced garment exists, list it in `src/data/shop.ts` `CLOTHES_PRICES`
   and hide unowned priced items in `WardrobeScene` (`SaveService.get().owned`). Butiken already
   has the Kläder tab reading that list. [closed]
+
+---
+
+**Visuals, 2026-09-30: backdrops, pet things, outfits**
+
+- **Backdrops (row 60):** `bg_gym_hall`, `bg_trampoline_field`, `bg_house_room`,
+  `bg_clubhouse_room`, `bg_shop`. 720x1280, opaque, lower third kept plain as requested.
+- **Pet things (extra):** `pet_bed`, `pet_bowl`, `pet_brush`, `pet_house` (category `petstuff`),
+  `toy_mouse`, `toy_frisbee` (category `toys`), all 256x256 transparent.
+- **Wardrobe (mine):** six more garments (two leotards, tutu, crop top, leggings, bike shorts).
+- Still coming: UI icons (row 70), accessories, more face parts.
+
+- **UI icons (row 70), delivered:** `icon_medal`, `icon_star`, `icon_heart`, `icon_pencil`,
+  `icon_bin`, `icon_check`, `icon_back`, `icon_plus`, `icon_lock`. 128x128 transparent, category
+  `icons`.
