@@ -94,43 +94,56 @@ Canvas exactly 1024x1024 pixels. Flat green background #00FF00, no shadow, no gl
 nothing green on the object.
 ```
 
+## Batches
+
+ChatGPT can make several images in one reply (7 eyes worked). Visuals sends one prompt per
+batch: the shared rules once, then a numbered list of items, one separate image each, each
+labelled with its id. Items in a batch share a template. Stefan pastes all images back with
+their ids; a failed item is redone alone or moved to a later batch.
+
 ## Queue (next first)
 
-| Order | Id           | Template     | What to ask for                                                                                                                                             | Status |
-| ----- | ------------ | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
-| 10    | face_blank   | green master | Remove the eyebrows, eyes (with lashes) and mouth; fill with smooth matching skin and soft shading. Keep nose and ears exactly. No blush, lines or shadows. | Done   |
-| 20    | eyes_round   | blank face   | Face part: big round cute eyes with brown irises, white highlights and short lashes                                                                         | Done   |
-| 21    | eyes_almond  | blank face   | Face part: almond-shaped eyes with amber irises and a small wing                                                                                            | Done   |
-| 22    | eyes_doe     | blank face   | Face part: big doe eyes with brown irises and lower lashes                                                                                                  | Done   |
-| 23    | eyes_blue    | blank face   | Face part: big round eyes with blue irises                                                                                                                  | Done   |
-| 24    | eyes_green   | blank face   | Face part: big round eyes with green irises                                                                                                                 | Done   |
-| 25    | eyes_sleepy  | blank face   | Face part: sleepy half-closed eyes with brown irises                                                                                                        | Done   |
-| 26    | eyes_wink    | blank face   | Face part: winking eyes (image-right eye closed in a curved line)                                                                                           | Done   |
-| 30    | brows_soft   | blank face   | Face part: soft rounded light-brown eyebrows                                                                                                                | Next   |
-| 40    | mouth_smile  | blank face   | Face part: small closed happy smile                                                                                                                         | Queued |
-| 50    | blush_round  | blank face   | Make-up: round blush on both cheeks                                                                                                                         | Queued |
-| 60    | lips_gloss   | blank face   | Make-up: lip gloss on the lips                                                                                                                              | Queued |
-| 70    | shadow_soft  | blank face   | Make-up: soft eyeshadow on both eyelids                                                                                                                     | Queued |
-| 80    | paint_hearts | blank face   | Make-up: two small hearts face paint on one cheek                                                                                                           | Queued |
-| 90    | pet_cat      | none         | Pet (art request 10): a kitten, sitting                                                                                                                     | Queued |
-| 100   | pet_dog      | none         | Pet (art request 10): a puppy, sitting                                                                                                                      | Queued |
-| 110   | pet_rabbit   | none         | Pet (art request 10): a bunny with long ears, sitting                                                                                                       | Queued |
-| 120   | pet_guinea   | none         | Pet (art request 10): a guinea pig, sitting                                                                                                                 | Queued |
-| 130   | pet_hamster  | none         | Pet (art request 10): a hamster, sitting                                                                                                                    | Queued |
-| 140   | pet_pony     | none         | Pet (art request 10): a pony, standing, all four hooves on the ground                                                                                       | Queued |
-| 150   | food_fish    | none         | Food (art request 20): a small fish                                                                                                                         | Queued |
-| 160   | food_bone    | none         | Food (art request 20): a dog bone                                                                                                                           | Queued |
-| 170   | food_carrot  | none         | Food (art request 20): a carrot, no leaves                                                                                                                  | Queued |
-| 180   | food_apple   | none         | Food (art request 20): a red apple, no leaf                                                                                                                 | Queued |
-| 190   | food_seeds   | none         | Food (art request 20): a small pile of sunflower seeds                                                                                                      | Queued |
-| 200   | food_cheese  | none         | Food (art request 20): a wedge of cheese with holes                                                                                                         | Queued |
-| 210   | food_berries | none         | Food (art request 20): a small bunch of berries                                                                                                             | Queued |
-| 220   | food_cookie  | none         | Food (art request 20): a round cookie                                                                                                                       | Queued |
-| 230   | toy_ball     | none         | Toy (art request 30): a bouncy ball with a star                                                                                                             | Queued |
-| 240   | toy_plank    | none         | Toy (art request 30): a long wooden balance plank, horizontal, seen from the front                                                                          | Queued |
-| 250   | toy_box      | none         | Toy (art request 30): a cardboard hide box with a round door                                                                                                | Queued |
-| 260   | tshirt_basic | green master | Clothes: a short-sleeved loose T-shirt                                                                                                                      | Queued |
-| 270   | shorts_gym   | green master | Clothes: short gymnastics shorts                                                                                                                            | Queued |
+| Order | Id           | Batch | Template     | What to ask for                                                                                                                                             | Status |
+| ----- | ------------ | ----- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| 10    | face_blank   | -     | green master | Remove the eyebrows, eyes (with lashes) and mouth; fill with smooth matching skin and soft shading. Keep nose and ears exactly. No blush, lines or shadows. | Done   |
+| 20    | eyes_round   | -     | blank face   | Face part: big round cute eyes with brown irises, white highlights and short lashes                                                                         | Done   |
+| 21    | eyes_almond  | -     | blank face   | Face part: almond-shaped eyes with amber irises and a small wing                                                                                            | Done   |
+| 22    | eyes_doe     | -     | blank face   | Face part: big doe eyes with brown irises and lower lashes                                                                                                  | Done   |
+| 23    | eyes_blue    | -     | blank face   | Face part: big round eyes with blue irises                                                                                                                  | Done   |
+| 24    | eyes_green   | -     | blank face   | Face part: big round eyes with green irises                                                                                                                 | Done   |
+| 25    | eyes_sleepy  | -     | blank face   | Face part: sleepy half-closed eyes with brown irises                                                                                                        | Done   |
+| 26    | eyes_wink    | -     | blank face   | Face part: winking eyes (image-right eye closed in a curved line)                                                                                           | Done   |
+| 30    | brows_soft   | B1    | blank face   | Face part: soft rounded light-brown eyebrows                                                                                                                | Sent   |
+| 40    | mouth_smile  | B2    | blank face   | Face part: small closed happy smile                                                                                                                         | Queued |
+| 41    | brows_thin   | B2    | blank face   | Face part: thin, arched, dark-auburn eyebrows                                                                                                               | Queued |
+| 42    | mouth_open   | B2    | blank face   | Face part: small open happy smile showing a little tongue                                                                                                   | Queued |
+| 50    | blush_round  | B2    | blank face   | Make-up: round blush on both cheeks                                                                                                                         | Queued |
+| 60    | lips_gloss   | B2    | blank face   | Make-up: lip gloss on the lips                                                                                                                              | Queued |
+| 70    | shadow_soft  | B2    | blank face   | Make-up: soft eyeshadow on both eyelids                                                                                                                     | Queued |
+| 80    | paint_hearts | B2    | blank face   | Make-up: two small hearts face paint on one cheek                                                                                                           | Queued |
+| 90    | pet_cat      | B3    | none         | Pet (art request 10): a kitten, sitting                                                                                                                     | Queued |
+| 100   | pet_dog      | B3    | none         | Pet (art request 10): a puppy, sitting                                                                                                                      | Queued |
+| 110   | pet_rabbit   | B3    | none         | Pet (art request 10): a bunny with long ears, sitting                                                                                                       | Queued |
+| 120   | pet_guinea   | B3    | none         | Pet (art request 10): a guinea pig, sitting                                                                                                                 | Queued |
+| 130   | pet_hamster  | B3    | none         | Pet (art request 10): a hamster, sitting                                                                                                                    | Queued |
+| 140   | pet_pony     | B3    | none         | Pet (art request 10): a pony, standing, all four hooves on the ground                                                                                       | Queued |
+| 150   | food_fish    | B4    | none         | Food (art request 20): a small fish                                                                                                                         | Queued |
+| 160   | food_bone    | B4    | none         | Food (art request 20): a dog bone                                                                                                                           | Queued |
+| 170   | food_carrot  | B4    | none         | Food (art request 20): a carrot, no leaves                                                                                                                  | Queued |
+| 180   | food_apple   | B4    | none         | Food (art request 20): a red apple, no leaf                                                                                                                 | Queued |
+| 190   | food_seeds   | B4    | none         | Food (art request 20): a small pile of sunflower seeds                                                                                                      | Queued |
+| 200   | food_cheese  | B4    | none         | Food (art request 20): a wedge of cheese with holes                                                                                                         | Queued |
+| 210   | food_berries | B4    | none         | Food (art request 20): a small bunch of berries                                                                                                             | Queued |
+| 220   | food_cookie  | B4    | none         | Food (art request 20): a round cookie                                                                                                                       | Queued |
+| 230   | toy_ball     | B5    | none         | Toy (art request 30): a bouncy ball with a star                                                                                                             | Queued |
+| 240   | toy_plank    | B5    | none         | Toy (art request 30): a long wooden balance plank, horizontal, seen from the front                                                                          | Queued |
+| 250   | toy_box      | B5    | none         | Toy (art request 30): a cardboard hide box with a round door                                                                                                | Queued |
+| 260   | tshirt_basic | B6    | green master | Clothes: a short-sleeved loose T-shirt                                                                                                                      | Queued |
+| 270   | shorts_gym   | B6    | green master | Clothes: short gymnastics shorts                                                                                                                            | Queued |
+| 280   | dress_basic  | B6    | green master | Clothes: a simple knee-length dress with short sleeves                                                                                                      | Queued |
+| 290   | jacket_track | B6    | green master | Clothes: a zip-up track jacket with long sleeves                                                                                                            | Queued |
+| 300   | slippers_gym | B6    | green master | Clothes: gymnastics slippers (soft ballet-style shoes)                                                                                                      | Queued |
+| 310   | socks_ankle  | B6    | green master | Clothes: ankle socks                                                                                                                                        | Queued |
 
 When an image is done, send it to Claude Code with its id. Claude Code extracts it, adds it to the
 game, and updates this queue. Face parts are extracted with `scripts/art/extract-face.mjs` (pixels
