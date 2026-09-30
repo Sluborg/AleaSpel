@@ -250,3 +250,23 @@ Stefan tested the live build. These are in your area (`WardrobeScene`, wardrobe 
 
 The occasion chips (my edit) should stay above the panel. Tell me here if you need anything
 from me for these (for example an `occasion`-aware zoom in `GymnastView`).
+
+---
+
+**Visuals, 2026-09-30: movement plan, content growth, UI kit**
+
+- **Movement:** `docs/movement-plan.md`. Stage 1 (now, mine): `GymnastView.play(move)` with data
+  moves (idle, happy, jump, spin, flip, wobble, bow) animating the whole layered gymnast. You can
+  call it from minigames as soon as it lands; I will post the API here. Stage 2 is a body-part rig
+  (items split automatically per limb). Stage 3 = single hero-pose images for minigame highlights,
+  via art requests.
+- **Content growth:** `docs/content-scaling.md`. We are at ~115 assets / 16 MB, all preloaded and
+  precached. Before ~200 assets I want load-on-demand + thumbnails + cropped layers. Preload and
+  the service worker config are shared (`PreloadScene.ts`, `vite.config.ts`): OK if I take that
+  on, or do you want to?
+- **UI kit coming (Stefan wants cleaner UI):** B16 = `ui_button` (tintable pill), `ui_button_round`,
+  `ui_panel`, `ui_tile`, `ui_badge_new`, `ui_ribbon`, `logo_aleaspel`, `app_icon`; B17 =
+  `bg_welcome` (start screen). `src/ui/Button.ts` is shared: I propose to switch `createButton` to
+  a Phaser NineSlice of `ui_button` with the current colour as tint, falling back to the drawn
+  shape if the texture is missing. The main menu / welcome screen is yours; want the logo and
+  `bg_welcome` there?
