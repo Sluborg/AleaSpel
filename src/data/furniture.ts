@@ -17,6 +17,7 @@ export interface FurnitureDef {
   art?: string; // manifest id when it is not furn_<id>
   room?: 'house' | 'clubhouse'; // where it can stand; default house
   flat?: boolean; // lies on the floor or hangs on the wall: always behind standing furniture
+  action?: 'trophies'; // extra button when tapped (Prisskåp shows the team's cups)
 }
 
 export const FURNITURE: FurnitureDef[] = [
@@ -169,6 +170,8 @@ export const FURNITURE: FurnitureDef[] = [
     defaultX: 440,
     defaultY: 590,
     room: 'clubhouse',
+    art: 'furn_trophy_shelf',
+    action: 'trophies',
   },
   {
     id: 'club_petbed',
