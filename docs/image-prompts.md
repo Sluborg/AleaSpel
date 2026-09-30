@@ -8,8 +8,9 @@ Instructions for the image generator. The person working with ChatGPT says, for 
 - **Template image:** always start from the green master:
   https://raw.githubusercontent.com/Sluborg/AleaSpel/main/assets/source/base/master-raw.png
   For face parts and make-up use the blank-face template instead:
-  https://raw.githubusercontent.com/Sluborg/AleaSpel/main/assets/source/face/face_blank-raw.png If the image is not attached in the
-  chat, ask for it; do not work from memory or from a later edited image.
+  https://raw.githubusercontent.com/Sluborg/AleaSpel/main/assets/source/face/face_blank-raw.png
+  If the image is not attached in the chat, ask for it; do not work from memory or from a later
+  edited image.
 - Keep EVERYTHING identical except the one change asked for: same girl, face, hair, skin, grey
   unitard, pose, size, position on the canvas, framing, lighting and flat green background.
   Do not move, resize, redraw or restyle the character.
