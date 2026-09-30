@@ -40,7 +40,9 @@ const KIND = [
     /^(tshirt|shorts|dress|jacket|slippers|socks|leotard|skirt|top|shoes)_/,
     { canvas: [1024, 1536], template: 'master' },
   ],
-  [/^(pet|food|toy|furn)_/, { canvas: [1024, 1024], template: null }],
+  [/^(pet|food|toy|furn|equip|ext|garden|icon)_/, { canvas: [1024, 1024], template: null }],
+  // Backdrops fill the whole canvas: no key colour.
+  [/^bg_/, { canvas: [1024, 1536], template: null, noKey: true }],
 ];
 const kindOf = (id) => KIND.find(([re]) => re.test(id))?.[1] ?? { canvas: [1024, 1024] };
 
@@ -71,7 +73,7 @@ for (const file of readdirSync(dir)
       border++;
       if (isGreen(img.data, (y * img.width + x) * 4)) green++;
     }
-  if (green / border < 0.98)
+  if (!kind.noKey && green / border < 0.98)
     problems.push(`border only ${((green / border) * 100).toFixed(0)}% key colour`);
   // Template items: pixels far from the character's face/body centre must not change.
   if (kind.template && !problems.length) {

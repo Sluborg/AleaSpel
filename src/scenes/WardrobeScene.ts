@@ -31,7 +31,8 @@ export class WardrobeScene extends BaseScene {
   private gymnast!: Gymnast;
   private view!: GymnastView;
   private panel?: Phaser.GameObjects.Container;
-  private tab = '';
+  private tab = ''; // tab label
+  private focusLayer = ''; // layer the colour swatches apply to
   // Drag scrolling: the tab strip scrolls sideways, the item grid up and down.
   private tabStrip?: Phaser.GameObjects.Container;
   private grid?: Phaser.GameObjects.Container;
@@ -56,7 +57,7 @@ export class WardrobeScene extends BaseScene {
     this.view = new GymnastView(this, GAME_WIDTH / 2, 450, 640, this.gymnast);
 
     const tabs = this.tabs();
-    this.tab = tabs[0]?.category ?? '';
+    this.tab = tabs[0]?.label ?? '';
     this.buildPanel();
     this.setupDragScroll();
   }
@@ -105,7 +106,11 @@ export class WardrobeScene extends BaseScene {
 
   private tabs() {
     const items = this.items();
-    return CATEGORY_TABS.filter((t) => items.some((i) => i.category === t.category));
+    return CATEGORY_TABS.filter((t) => items.some((i) => t.categories.includes(i.category)));
+  }
+
+  private currentTab() {
+    return this.tabs().find((t) => t.label === this.tab);
   }
 
   private buildPanel(): void {
@@ -127,7 +132,7 @@ export class WardrobeScene extends BaseScene {
     const strip = this.add.container(this.tabScroll, 0);
     this.tabStrip = strip;
     tabs.forEach((t, i) => {
-      const selected = t.category === this.tab;
+      const selected = t.label === this.tab;
       strip.add(
         createButton(
           this,
@@ -135,7 +140,8 @@ export class WardrobeScene extends BaseScene {
           PANEL_TOP + 70,
           t.label,
           this.tap('tabs', () => {
-            this.tab = t.category;
+            this.tab = t.label;
+            this.focusLayer = '';
             this.gridScroll = 0;
             this.buildPanel();
           }),
@@ -149,14 +155,16 @@ export class WardrobeScene extends BaseScene {
     strip.setMask(this.maskRect(20, PANEL_TOP, GAME_WIDTH - 40, TAB_ZONE_BOTTOM - PANEL_TOP));
     panel.add(strip);
 
-    const layer = layerOfCategory(this.tab) ?? '';
-    const worn = this.gymnast.outfit[layer];
+    const tab = this.currentTab();
+    const layers = (tab?.categories ?? []).map((c) => layerOfCategory(c) ?? c);
+    const wornIn = layers.filter((l) => this.gymnast.outfit[l]);
+    if (!wornIn.includes(this.focusLayer)) this.focusLayer = wornIn[0] ?? '';
     const rowY = TAB_ZONE_BOTTOM + 20 + TILE / 2;
 
-    // Item grid ("none" first, then every item in this category, then colours), drag up/down.
+    // Item grid ("none" first, then every item in the tab, then colours), drag up/down.
     const grid = this.add.container(0, this.gridScroll);
     this.grid = grid;
-    const items = this.items().filter((i) => i.category === this.tab);
+    const items = this.items().filter((i) => tab?.categories.includes(i.category));
     const tiles: (AssetEntry | null)[] = [null, ...items];
     const perRow = 4;
     const startX = GAME_WIDTH / 2 - ((perRow - 1) * (TILE + TILE_GAP)) / 2;
@@ -165,11 +173,15 @@ export class WardrobeScene extends BaseScene {
       const x = startX + (i % perRow) * (TILE + TILE_GAP);
       const y = rowY + Math.floor(i / perRow) * (TILE + TILE_GAP);
       lastY = y;
-      grid.add(this.tile(x, y, item, item ? worn?.item === item.id : !worn, worn?.tint));
+      const w = item ? this.gymnast.outfit[layerOfCategory(item.category) ?? ''] : undefined;
+      const selected = item ? w?.item === item.id : wornIn.length === 0;
+      grid.add(this.tile(x, y, item, selected, w?.tint));
     });
     let contentBottom = lastY + TILE / 2;
 
     // Colour swatches for the worn item, when it can be coloured.
+    const worn = this.gymnast.outfit[this.focusLayer];
+    const layer = this.focusLayer;
     const wornEntry = items.find((i) => i.id === worn?.item);
     if (wornEntry?.tintable) {
       const swY = lastY + TILE / 2 + 62;
@@ -254,16 +266,27 @@ export class WardrobeScene extends BaseScene {
   }
 
   private wear(item: AssetEntry | null): void {
-    const layer = layerOfCategory(this.tab);
-    if (!layer) return;
+    const tab = this.currentTab();
+    if (!tab) return;
+    const layers = tab.categories.map((c) => layerOfCategory(c) ?? c);
+    const multi = layers.length > 1;
     this.save((g) => {
-      if (!item) delete g.outfit[layer];
-      else {
-        const prevTint = g.outfit[layer]?.tint;
-        g.outfit[layer] = item.tintable
-          ? { item: item.id, tint: prevTint ?? DEFAULT_TINT }
-          : { item: item.id };
+      if (!item) {
+        for (const l of layers) delete g.outfit[l];
+        return;
       }
+      const layer = layerOfCategory(item.category);
+      if (!layer) return;
+      this.focusLayer = layer;
+      // In a tab with several layers (Smink), tapping a worn item takes it off again.
+      if (multi && g.outfit[layer]?.item === item.id) {
+        delete g.outfit[layer];
+        return;
+      }
+      const prevTint = g.outfit[layer]?.tint;
+      g.outfit[layer] = item.tintable
+        ? { item: item.id, tint: prevTint ?? DEFAULT_TINT }
+        : { item: item.id };
     });
   }
 

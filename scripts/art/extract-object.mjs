@@ -4,10 +4,10 @@
 //
 // Usage:
 //   node scripts/art/extract-object.mjs --src <raw.png> --out public/assets/furniture/furn_bed.png \
-//     [--size 512] [--height <px, default = size>]
+//     [--size 512] [--height <px, default = size>] [--fit 1]
 import { mkdirSync } from 'node:fs';
 import { dirname } from 'node:path';
-import { readPng, writePng, components, alphaReport } from './lib.mjs';
+import { readPng, writePng, components, alphaReport, bbox } from './lib.mjs';
 
 const args = Object.fromEntries(
   process.argv
@@ -81,6 +81,8 @@ for (let i = 0; i < n; i++)
   if (labels[i] && sizes[labels[i]] < Math.max(200, biggest * 0.002)) out.fill(0, i * 4, i * 4 + 4);
 
 // Centre-crop to the output aspect ratio, then box-filter down (premultiplied alpha).
+// --fit: crop around the object itself (plus a 6% margin) instead of the canvas centre, for
+// long thin objects like a plank that should fill a wide output.
 const aspect = OW / OH;
 let cw = W;
 let ch = Math.round(W / aspect);
@@ -88,8 +90,17 @@ if (ch > H) {
   ch = H;
   cw = Math.round(H * aspect);
 }
-const cx = Math.floor((W - cw) / 2);
-const cy = Math.floor((H - ch) / 2);
+let cx = Math.floor((W - cw) / 2);
+let cy = Math.floor((H - ch) / 2);
+if (args.fit) {
+  const vis2 = new Uint8Array(n);
+  for (let i = 0; i < n; i++) vis2[i] = out[i * 4 + 3] > 0 ? 1 : 0;
+  const b = bbox(vis2, W, H);
+  cw = Math.round(Math.max(b.w, b.h * aspect) * 1.12);
+  ch = Math.round(cw / aspect);
+  cx = Math.round(b.x + b.w / 2 - cw / 2);
+  cy = Math.round(b.y + b.h / 2 - ch / 2);
+}
 const res = Buffer.alloc(OW * OH * 4);
 for (let oy = 0; oy < OH; oy++) {
   const y0 = cy + (oy * ch) / OH;
@@ -106,6 +117,10 @@ for (let oy = 0; oy < OH; oy++) {
       const wy = Math.min(y + 1, y1) - Math.max(y, y0);
       for (let x = Math.floor(x0); x < Math.ceil(x1); x++) {
         const w = wy * (Math.min(x + 1, x1) - Math.max(x, x0));
+        if (x < 0 || y < 0 || x >= W || y >= H) {
+          sw += w;
+          continue;
+        }
         const p = (y * W + x) * 4;
         const a = out[p + 3] / 255;
         sr += out[p] * a * w;
@@ -117,7 +132,7 @@ for (let oy = 0; oy < OH; oy++) {
     }
     const q = (oy * OW + ox) * 4;
     const A = sa / sw;
-    if (A * 255 < 3) continue;
+    if (A * 255 < 3 || sa === 0) continue;
     res[q] = Math.round(sr / sa);
     res[q + 1] = Math.round(sg / sa);
     res[q + 2] = Math.round(sb / sa);

@@ -450,6 +450,213 @@
       "tintable": true,
       "license": "Project-owned, AI-generated for AleaSpel",
       "source": "ChatGPT image generation 2026-09-30, batch B6 (assets/source/wardrobe/socks/socks_ankle-raw.png), extracted by scripts/art/extract-item.mjs"
+    },
+    {
+      "id": "brows_thin",
+      "category": "brows",
+      "layer": "brows",
+      "file": "wardrobe/brows/brows_thin.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B2 on the face_blank template (assets/source/face/brows/brows_thin-raw.png), extracted by scripts/art/extract-face.mjs"
+    },
+    {
+      "id": "mouth_smile",
+      "category": "mouth",
+      "layer": "mouth",
+      "file": "wardrobe/mouth/mouth_smile.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B2 on the face_blank template (assets/source/face/mouth/mouth_smile-raw.png), extracted by scripts/art/extract-face.mjs"
+    },
+    {
+      "id": "mouth_open",
+      "category": "mouth",
+      "layer": "mouth",
+      "file": "wardrobe/mouth/mouth_open.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B2 on the face_blank template (assets/source/face/mouth/mouth_open-raw.png), extracted by scripts/art/extract-face.mjs"
+    },
+    {
+      "id": "shadow_soft",
+      "category": "eyeshadow",
+      "layer": "eyeshadow",
+      "file": "wardrobe/eyeshadow/shadow_soft_tint.png",
+      "tintable": true,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B2 on the face_blank template (assets/source/face/makeup/shadow_soft-raw.png), extracted by scripts/art/extract-makeup.mjs"
+    },
+    {
+      "id": "blush_round",
+      "category": "blush",
+      "layer": "blush",
+      "file": "wardrobe/blush/blush_round_tint.png",
+      "tintable": true,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B2 on the face_blank template (assets/source/face/makeup/blush_round-raw.png), extracted by scripts/art/extract-makeup.mjs"
+    },
+    {
+      "id": "lips_gloss",
+      "category": "lips",
+      "layer": "lips",
+      "file": "wardrobe/lips/lips_gloss_tint.png",
+      "tintable": true,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B2 on the face_blank template (assets/source/face/makeup/lips_gloss-raw.png), extracted by scripts/art/extract-makeup.mjs"
+    },
+    {
+      "id": "paint_hearts",
+      "category": "facepaint",
+      "layer": "facepaint",
+      "file": "wardrobe/facepaint/paint_hearts_tint.png",
+      "tintable": true,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B2 on the face_blank template (assets/source/face/makeup/paint_hearts-raw.png), extracted by scripts/art/extract-makeup.mjs"
+    },
+    {
+      "id": "toy_ball",
+      "category": "toys",
+      "layer": "icon",
+      "file": "toys/toy_ball.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B5 (assets/source/toys/toy_ball-raw.png), extracted by scripts/art/extract-object.mjs"
+    },
+    {
+      "id": "toy_plank",
+      "category": "toys",
+      "layer": "icon",
+      "file": "toys/toy_plank.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B5 (assets/source/toys/toy_plank-raw.png), extracted by scripts/art/extract-object.mjs"
+    },
+    {
+      "id": "toy_box",
+      "category": "toys",
+      "layer": "icon",
+      "file": "toys/toy_box.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B5 (assets/source/toys/toy_box-raw.png), extracted by scripts/art/extract-object.mjs"
+    },
+    {
+      "id": "ext_wall_1",
+      "category": "exterior",
+      "layer": "house",
+      "file": "exterior/ext_wall_1.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B11 (assets/source/exterior/ext_wall_1-raw.png), extracted by scripts/art/extract-object.mjs"
+    },
+    {
+      "id": "ext_wall_3",
+      "category": "exterior",
+      "layer": "house",
+      "file": "exterior/ext_wall_3.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B11 (assets/source/exterior/ext_wall_3-raw.png), extracted by scripts/art/extract-object.mjs"
+    },
+    {
+      "id": "ext_roof_1",
+      "category": "exterior",
+      "layer": "house",
+      "file": "exterior/ext_roof_1.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B11 (assets/source/exterior/ext_roof_1-raw.png), extracted by scripts/art/extract-object.mjs"
+    },
+    {
+      "id": "ext_roof_2",
+      "category": "exterior",
+      "layer": "house",
+      "file": "exterior/ext_roof_2.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B11 (assets/source/exterior/ext_roof_2-raw.png), extracted by scripts/art/extract-object.mjs"
+    },
+    {
+      "id": "ext_roof_3",
+      "category": "exterior",
+      "layer": "house",
+      "file": "exterior/ext_roof_3.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B11 (assets/source/exterior/ext_roof_3-raw.png), extracted by scripts/art/extract-object.mjs"
+    },
+    {
+      "id": "ext_door_1",
+      "category": "exterior",
+      "layer": "house",
+      "file": "exterior/ext_door_1.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B11 (assets/source/exterior/ext_door_1-raw.png), extracted by scripts/art/extract-object.mjs"
+    },
+    {
+      "id": "ext_door_2",
+      "category": "exterior",
+      "layer": "house",
+      "file": "exterior/ext_door_2.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B11 (assets/source/exterior/ext_door_2-raw.png), extracted by scripts/art/extract-object.mjs"
+    },
+    {
+      "id": "ext_window_1",
+      "category": "exterior",
+      "layer": "house",
+      "file": "exterior/ext_window_1.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B11 (assets/source/exterior/ext_window_1-raw.png), extracted by scripts/art/extract-object.mjs"
+    },
+    {
+      "id": "ext_fence",
+      "category": "exterior",
+      "layer": "house",
+      "file": "exterior/ext_fence.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B11 (assets/source/exterior/ext_fence-raw.png), extracted by scripts/art/extract-object.mjs"
+    },
+    {
+      "id": "garden_tree",
+      "category": "exterior",
+      "layer": "house",
+      "file": "exterior/garden_tree.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B11 (assets/source/exterior/garden_tree-raw.png), extracted by scripts/art/extract-object.mjs"
+    },
+    {
+      "id": "garden_bush",
+      "category": "exterior",
+      "layer": "house",
+      "file": "exterior/garden_bush.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B11 (assets/source/exterior/garden_bush-raw.png), extracted by scripts/art/extract-object.mjs"
+    },
+    {
+      "id": "garden_flowers",
+      "category": "exterior",
+      "layer": "house",
+      "file": "exterior/garden_flowers.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B11 (assets/source/exterior/garden_flowers-raw.png), extracted by scripts/art/extract-object.mjs"
+    },
+    {
+      "id": "garden_path",
+      "category": "exterior",
+      "layer": "house",
+      "file": "exterior/garden_path.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B11 (assets/source/exterior/garden_path-raw.png), extracted by scripts/art/extract-object.mjs"
     }
   ]
 }
