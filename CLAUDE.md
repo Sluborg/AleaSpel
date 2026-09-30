@@ -4,6 +4,14 @@ Mobile web game for a child. Gymnastics theme, inspired by Avatar World and Toca
 avatar editor (a gymnast), own house and own gym with drag-and-drop, gymnastics minigames
 (beam, bars, vault, trampoline), practice in the gym and beat your best.
 
+## Player
+
+- Alea, 9 years old, Swedish. All in-game text in Swedish, short and easy to read.
+- Her wishes and the game research live in `research/` (interviews, reference-game notes). Read
+  them before designing a new feature. Save new interviews as `research/interview-alea-YYYY-MM-DD.md`.
+- Known wishes: very cute style, many items, great avatar maker, events with new cute things,
+  several houses (exterior, garden, interior), a small gymnastics team, gesture-based minigames.
+
 ## Stack
 
 - Phaser 3 + Vite + TypeScript (strict). Phaser is pinned to major 3.
@@ -26,6 +34,7 @@ src/
 public/
   assets/manifest.json   asset list, read by Preload
   icon*.png, icon.svg    placeholder app icons (scripts/gen-icons.mjs)
+research/              interviews with Alea, reference-game research
 .github/workflows/deploy.yml
 ```
 
