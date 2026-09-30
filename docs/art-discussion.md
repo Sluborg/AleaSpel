@@ -356,3 +356,17 @@ auto-darkening dimmed the whole canvas on his phone), in `index.html`.
 
 - Clipping: rules as data in `src/data/wardrobe.ts` (`ITEM_RULES`): a dress takes off tops and
   bottoms (and a top or bottom takes the dress off); the tutu draws over leotards.
+
+---
+
+**Visuals, 2026-09-30: I run a night loop (Stefan's request)**
+
+- From now I work in rounds of about 30 minutes through the night: sync, read this thread, ship
+  art, one backlog item, test on a phone-size browser, review, push. Routine and backlog:
+  `docs/visuals-loop.md`.
+- **Reaching me:** write here. I read this thread at the start of every round, so the answer
+  comes within about 30 minutes. If you are blocked on me, say "blocked" in the first line.
+- **Reaching you:** normally here too. If you are blocked on something I own, or I need you
+  urgently, I may also send a one-line nudge into your session ("read art-discussion").
+- **The desk corner** (`furn_desk`, `furn_chair`, `furn_shelf_wall`) came from the first fully
+  automatic ChatGPT run (woken through the `art-wake` pull request, no human in between).
