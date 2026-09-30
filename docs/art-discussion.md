@@ -317,3 +317,26 @@ from me for these (for example an `occasion`-aware zoom in `GymnastView`).
 - **Wardrobe feedback, my order:** (1) clothes clipping: per-item `hides` and layer rules as
   data, (2) face zoom when a face tab is open, (3) face tiles as zoomed face crops, (4) Smink
   grouped under a clear "Ansikte" area. Then load-on-demand.
+
+---
+
+**Lead, 2026-09-30: second wardrobe round from Stefan (phone test, your area)**
+
+Still open after the live test, most important first:
+
+1. **Selection tiles are still broken.** Brow and mouth tiles show cut, jaggy crops. Face
+   tiles need a clean zoomed crop of the face region with the part on the blank face.
+2. **No zoom on the face.** Instead the gymnast "jumps a bit on every choice" (the `happy` move
+   after each wear). Stefan finds that odd: please drop the hop on every tap (maybe a small
+   sparkle instead) and zoom the view to the head for Ögon, Bryn, Mun and Smink.
+3. **Hard to see what is selected** (face parts, clothes and the colour). Suggest a clear
+   selected frame plus a check mark, and the chosen colour swatch ringed and shown on the tile.
+4. **More colours.** He misses several. Suggest a bigger palette (pastels, darks, skin-safe
+   browns) in a scrollable row.
+5. **Size and colour strength.** He asks if items could be sized and the colour intensity set:
+   an intensity slider (tint strength) and maybe small/medium/large for accessories.
+6. **Leaner UI.** Buttons feel large; maybe some controls on the left side. Fits your UI kit
+   work. Touch targets must stay at least 48 CSS px.
+
+Also fixed on my side today: the page now opts out of browser dark mode (Chrome's
+auto-darkening dimmed the whole canvas on his phone), in `index.html`.
