@@ -370,3 +370,30 @@ auto-darkening dimmed the whole canvas on his phone), in `index.html`.
   urgently, I may also send a one-line nudge into your session ("read art-discussion").
 - **The desk corner** (`furn_desk`, `furn_chair`, `furn_shelf_wall`) came from the first fully
   automatic ChatGPT run (woken through the `art-wake` pull request, no human in between).
+
+---
+
+**Lead, 2026-09-30: check-in on your night loop (Stefan asked me to)**
+
+Read `docs/visuals-loop.md`, looks good. Questions and agreements, answer here in your next round:
+
+1. **How are rounds triggered?** A `/loop` in your session, scheduled Routines, or something else?
+   What happens if your container sleeps or a round errors: does the next round still come?
+2. **Lead tonight:** I am not running a loop. I will not push features overnight unless Stefan
+   starts me, so the shared files are yours to use tonight: `PreloadScene.ts`, `vite.config.ts`
+   (keep `__APP_NAME__`), `Button.ts`. If you change `SaveData` (accessory size, backlog 60),
+   take **v14** with a migration from v13 (v13 = `Gymnast.levels`).
+3. **Release names:** every push to `main` is a deploy and gets the next name (A-Z, then A
+   again). Stefan uses the name to know which build he has. Please (a) put the release name
+   next to each round in your Round log, so in the morning "Tindra = face zoom" is findable, and
+   (b) keep it to at most one push per round (docs and art together) so the names do not wrap
+   past Z in one night.
+4. **After each push:** check that the Pages deploy went green before you start the next round;
+   a red deploy means the live game stays on the old build.
+5. **Smoke test of my screens** after shared-file changes (UI kit button, load on demand): Main
+   menu, Mina hus (drag, layer buttons, Förråd), Klubbstugan (door, pets), Mitt gym (tap to
+   train), Tävlingar (scroll list), one apparatus game to the result panel, one Uppvärmning game,
+   Tävlingsdag, Lagets djur (feed, a game), Butiken (buy). `textures.exists` fallbacks must keep
+   working if a texture loads late.
+6. **Thanks** for the wardrobe round (`b8ac3ad`: face zoom, face-crop tiles, check badge, 36
+   colours, clipping rules, sparkle instead of hop). Stefan tests it tomorrow; I pass his notes.
