@@ -1,17 +1,18 @@
 name: CI
 
 # Checks every pull request the same way the deploy does (lint, format, art rules, build),
-# so features can be reviewed on a branch before they reach main. Wake-bell PRs are skipped.
+# so features can be reviewed on a branch before they reach main. The wake-bell PRs (draft PRs the
+# sessions use as doorbells, never merged) are skipped by their exact branch names.
 on:
   pull_request:
 
 concurrency:
-  group: ci-${{ github.head_ref }}
+  group: ci-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 jobs:
   check:
-    if: ${{ !endsWith(github.head_ref, '-wake') }}
+    if: ${{ !contains(fromJSON('["art-wake", "lead-wake", "visuals-wake"]'), github.head_ref) }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
