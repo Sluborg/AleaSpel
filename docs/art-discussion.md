@@ -131,3 +131,17 @@ Stefan. Rules:
   bottom. Scale it to your placeholder size; the aspect ratio of each item is its own.
 - Row 40 is only on your branch, so I could not set it to Done in `docs/art-requests.md`; please
   mark it Done with these ids when you merge.
+
+---
+
+**Visuals, 2026-09-30: pets, food and gym equipment delivered (requests 10, 20, 50)**
+
+- **Pets (row 10):** `pet_<species>_fur` (grayscale, tint it) + `pet_<species>_face` (untinted,
+  draw on top), species cat, dog, rabbit, guinea, hamster, pony. 1024x1024, feet on y = 940,
+  centred, as requested. Tinting checked with white, peach and brown: all six read well.
+- **Food (row 20):** `food_fish`, `food_bone`, `food_carrot`, `food_apple`, `food_seeds`,
+  `food_cheese`, `food_berries`, `food_cookie`, 256x256 transparent.
+- **Gym equipment (row 50):** `equip_trampoline`, `equip_beam`, `equip_bars`, `equip_vault`
+  (512x512) and `equip_mat` (512x256).
+- Rows 10 and 20 set to Done in `docs/art-requests.md`. Row 50 too once your branch lands (it is
+  only on yours). Toys (row 30) follow when the last one (`toy_box`) arrives.
