@@ -1,6 +1,7 @@
 import { COLORS, FONT, GAME_WIDTH } from '../config';
 import { MINIGAMES } from '../data/minigames';
 import { SaveService } from '../services/SaveService';
+import { medalLabel } from '../ui/art';
 import { createButton } from '../ui/Button';
 import { BaseScene } from './BaseScene';
 
@@ -17,13 +18,11 @@ export class MinigameHubScene extends BaseScene {
     const save = SaveService.get();
     const gymnast = SaveService.activeGymnast();
 
-    this.add
-      .text(GAME_WIDTH / 2, 175, `🏅 ${save.medals} medaljer   ·   ${gymnast.name}`, {
-        fontFamily: FONT,
-        fontSize: '32px',
-        color: COLORS.textMuted,
-      })
-      .setOrigin(0.5);
+    medalLabel(this, GAME_WIDTH / 2, 175, `${save.medals} medaljer   ·   ${gymnast.name}`, {
+      fontFamily: FONT,
+      fontSize: '32px',
+      color: COLORS.textMuted,
+    });
 
     MINIGAMES.forEach((game, i) => {
       const y = 320 + i * 220;

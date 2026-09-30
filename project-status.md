@@ -40,6 +40,8 @@ Updated 2026-09-30. Read this first when resuming ("continue from project-status
 - Mitt gym: drag the apparatus around, tap one to practise its game (no medals). Save schema v8.
 - Tävlingsdag (from Tävlingar): the whole team competes, one routine each, against three rival
   clubs; placement gives medals; wins counted. Save schema v10.
+- Delivered art in use: pets, food, toys, furniture, equipment, backdrops in every room and
+  minigame, medal icon, pet bowl/brush/bed/house; two new pet games (Fånga musen, Frisbee).
 - Butiken: buy furniture (7 priced rows) with medals, scrollable list (`ui/ScrollList.ts`),
   bought furniture appears in Mina hus. Save schema v6 (owned). Menu entry Butiken.
 - Face pipeline: `face_blank` template, `scripts/art/extract-face.mjs`, 7 eye styles in the
@@ -53,8 +55,8 @@ eyes_wink`).
 - Done on my branch: delivered art in use (pets fur+face tinted, food icons, furniture in Mina
   hus/Klubbstugan/Butiken, equipment in Mitt gym) via `src/ui/art.ts` helpers with placeholder
   fallback.
-- Next: backdrops (row 60) and icons (row 70) when delivered, B15 pet things (bowl, bed, brush,
-  house, two new games), gym equipment upgrades in Butiken, house exterior (art for row 80 is in).
+- Next: trophy in Klubbstugan per Tävlingsdag win, gym equipment upgrades in Butiken, house
+  exterior editor (art for row 80 is in), remaining icons (back, pencil, plus, lock) in the UI.
 - Ask to Visuals: when a priced garment exists, list it in `src/data/shop.ts` `CLOTHES_PRICES`
   and hide unowned priced items in the wardrobe (`SaveService.get().owned`).
 

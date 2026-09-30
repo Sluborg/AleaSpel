@@ -276,7 +276,8 @@ export class PetsScene extends BaseScene {
       .setDepth(30)
       .setAlpha(0);
     const g = this.add.graphics();
-    g.fillStyle(0xff6fae, 1).fillEllipse(0, 0, 150, 50);
+    if (hasArt(this, 'pet_bowl')) bowl.add(artImage(this, 0, -10, 'pet_bowl', 170, 170));
+    else g.fillStyle(0xff6fae, 1).fillEllipse(0, 0, 150, 50);
     const foodKey = `food_${food.id}`;
     bowl.add([
       g,
@@ -317,9 +318,14 @@ export class PetsScene extends BaseScene {
     this.layer!.add(
       createButton(this, GAME_WIDTH / 2, 1070, 'Klar', () => this.backToIdle(), { width: 240 }),
     );
+    const brush = hasArt(this, 'pet_brush')
+      ? artImage(this, PET_X + 120, PET_Y - 60, 'pet_brush', 130, 130).setDepth(60)
+      : null;
+    if (brush) this.layer!.add(brush);
     let last: Phaser.Math.Vector2 | null = null;
     let dist = 0;
     const move = (p: Phaser.Input.Pointer) => {
+      if (brush && p.isDown) brush.setPosition(p.x + 40, p.y - 30);
       if (!p.isDown) return (last = null);
       if (Phaser.Math.Distance.Between(p.x, p.y, PET_X, PET_Y) > PET_SIZE * 0.42) return;
       if (last) dist += Phaser.Math.Distance.Between(p.x, p.y, last.x, last.y);
@@ -410,8 +416,8 @@ export class PetsScene extends BaseScene {
     onPick: (id: string) => void,
   ): void {
     const pet = this.current()!;
-    const w = perRow === 2 ? 280 : 150;
-    const h = perRow === 2 ? 220 : 180;
+    const w = perRow === 3 ? 205 : 150;
+    const h = perRow === 3 ? 200 : 180;
     rows.forEach((row, i) => {
       const x = GAME_WIDTH / 2 + ((i % perRow) - (perRow - 1) / 2) * (w + 20);
       const y = 390 + Math.floor(i / perRow) * (h + 20);
@@ -421,7 +427,7 @@ export class PetsScene extends BaseScene {
       const icon = hasArt(this, iconKey)
         ? artImage(this, x, y - 25, iconKey, 100, 100)
         : this.add.text(x, y - 25, row.icon, { fontSize: '72px' }).setOrigin(0.5);
-      const label = this.text(x, y + h / 2 - 32, row.name, 28, '#6b4a55');
+      const label = this.text(x, y + h / 2 - 32, row.name, perRow === 3 ? 25 : 28, '#6b4a55');
       modal.add([g, icon, label]);
       if (pet.known.includes(row.id)) {
         modal.add(
@@ -444,7 +450,7 @@ export class PetsScene extends BaseScene {
 
   private openGames(): void {
     const modal = this.modal('Vilken lek?');
-    this.tiles(modal, PET_GAMES, 2, (id) => this.startGame(PET_GAMES.find((g) => g.id === id)!));
+    this.tiles(modal, PET_GAMES, 3, (id) => this.startGame(PET_GAMES.find((g) => g.id === id)!));
   }
 
   private openAbout(): void {

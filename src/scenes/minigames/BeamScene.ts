@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { GAME_HEIGHT, GAME_WIDTH } from '../../config';
+import { backdrop } from '../../ui/art';
 import { MINIGAMES } from '../../data/minigames';
 import { PatternGameScene } from './PatternGameScene';
 
@@ -25,13 +26,15 @@ export class BeamScene extends PatternGameScene {
 
   protected drawWorld(): void {
     const g = this.add.graphics();
-    g.fillStyle(0xf6e7d2, 1).fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-    g.fillStyle(0xe8d3b6, 1).fillRect(0, 0, GAME_WIDTH, 560);
-    // Windows.
-    g.fillStyle(0xbfe3ff, 1);
-    for (const x of [90, 300, 510]) g.fillRoundedRect(x, 120, 130, 170, 16);
-    // Mats and floor.
-    g.fillStyle(0x6fa8dc, 1).fillRect(0, BEAM_Y + 170, GAME_WIDTH, GAME_HEIGHT - BEAM_Y - 170);
+    if (!backdrop(this, 'bg_gym_hall')) {
+      g.fillStyle(0xf6e7d2, 1).fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+      g.fillStyle(0xe8d3b6, 1).fillRect(0, 0, GAME_WIDTH, 560);
+      // Windows.
+      g.fillStyle(0xbfe3ff, 1);
+      for (const x of [90, 300, 510]) g.fillRoundedRect(x, 120, 130, 170, 16);
+      g.fillStyle(0x6fa8dc, 1).fillRect(0, BEAM_Y + 170, GAME_WIDTH, GAME_HEIGHT - BEAM_Y - 170);
+    }
+    // Mat.
     g.fillStyle(0x4f8fd0, 1).fillRoundedRect(20, BEAM_Y + 130, GAME_WIDTH - 40, 90, 20);
     // Beam legs and beam.
     g.fillStyle(0x7a7a85, 1);

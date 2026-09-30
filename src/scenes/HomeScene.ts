@@ -1,7 +1,7 @@
 import { COLORS, FONT, GAME_HEIGHT, GAME_WIDTH } from '../config';
 import { FURNITURE, type FurnitureDef } from '../data/furniture';
 import { SaveService, type Position } from '../services/SaveService';
-import { artHeight, hasArt } from '../ui/art';
+import { artHeight, backdrop, hasArt } from '../ui/art';
 import { RoomScene, type Placeable } from './RoomScene';
 
 const ROOM = { left: 20, top: 160, right: GAME_WIDTH - 20, bottom: GAME_HEIGHT - 20 };
@@ -20,6 +20,7 @@ export class HomeScene extends RoomScene {
   }
 
   protected drawRoom(): void {
+    if (backdrop(this, 'bg_house_room', ROOM)) return;
     const g = this.add.graphics();
     const w = ROOM.right - ROOM.left;
     g.fillStyle(COLORS.wall, 1).fillRect(ROOM.left, ROOM.top, w, FLOOR_Y - ROOM.top);
@@ -54,7 +55,7 @@ export class HomeScene extends RoomScene {
 
 // Delivered furniture art (`furn_<id>`) is scaled to the row's width, keeping its aspect ratio.
 export function furnitureArtKey(scene: Phaser.Scene, def: FurnitureDef): string | null {
-  const key = `furn_${def.id}`;
+  const key = def.art ?? `furn_${def.id}`;
   return hasArt(scene, key) ? key : null;
 }
 

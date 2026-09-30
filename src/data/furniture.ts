@@ -14,6 +14,7 @@ export interface FurnitureDef {
   defaultY: number;
   price?: number; // medals in Butiken; no price = free from the start
   icon?: string; // shop tile icon (placeholder until art arrives)
+  art?: string; // manifest id when it is not furn_<id>
   room?: 'house' | 'clubhouse'; // where it can stand; default house
 }
 
@@ -176,6 +177,21 @@ export const FURNITURE: FurnitureDef[] = [
     defaultX: 160,
     defaultY: 1150,
     room: 'clubhouse',
+    art: 'pet_bed',
+  },
+  {
+    id: 'club_pethouse',
+    name: 'Djurhus',
+    shape: 'rect',
+    width: 220,
+    height: 200,
+    color: 0xe0a870,
+    defaultX: 600,
+    defaultY: 980,
+    room: 'clubhouse',
+    price: 5,
+    icon: '🏠',
+    art: 'pet_house',
   },
   {
     id: 'club_board',

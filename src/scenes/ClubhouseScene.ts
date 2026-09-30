@@ -1,6 +1,7 @@
 import { COLORS, FONT, GAME_HEIGHT, GAME_WIDTH } from '../config';
 import { FURNITURE } from '../data/furniture';
 import { SaveService, type Position } from '../services/SaveService';
+import { backdrop } from '../ui/art';
 import { createButton } from '../ui/Button';
 import { GymnastView } from '../ui/GymnastView';
 import { PetView } from '../ui/PetView';
@@ -27,15 +28,17 @@ export class ClubhouseScene extends RoomScene {
   protected drawRoom(): void {
     const g = this.add.graphics();
     const w = ROOM.right - ROOM.left;
-    g.fillStyle(0xf7d9c4, 1).fillRect(ROOM.left, ROOM.top, w, FLOOR_Y - ROOM.top);
-    // Bunting along the wall.
-    for (let i = 0; i < 9; i++) {
-      const x = ROOM.left + 40 + i * 80;
-      g.fillStyle([0xff6fae, 0xffd84d, 0x7ed957, 0x5aa9ff][i % 4], 1);
-      g.fillTriangle(x, ROOM.top + 20, x + 60, ROOM.top + 20, x + 30, ROOM.top + 70);
+    if (!backdrop(this, 'bg_clubhouse_room', ROOM)) {
+      g.fillStyle(0xf7d9c4, 1).fillRect(ROOM.left, ROOM.top, w, FLOOR_Y - ROOM.top);
+      // Bunting along the wall.
+      for (let i = 0; i < 9; i++) {
+        const x = ROOM.left + 40 + i * 80;
+        g.fillStyle([0xff6fae, 0xffd84d, 0x7ed957, 0x5aa9ff][i % 4], 1);
+        g.fillTriangle(x, ROOM.top + 20, x + 60, ROOM.top + 20, x + 30, ROOM.top + 70);
+      }
+      g.fillStyle(0xd9a27a, 1).fillRect(ROOM.left, FLOOR_Y, w, ROOM.bottom - FLOOR_Y);
+      g.fillStyle(0xa86b3c, 1).fillRect(ROOM.left, FLOOR_Y - 12, w, 12);
     }
-    g.fillStyle(0xd9a27a, 1).fillRect(ROOM.left, FLOOR_Y, w, ROOM.bottom - FLOOR_Y);
-    g.fillStyle(0xa86b3c, 1).fillRect(ROOM.left, FLOOR_Y - 12, w, 12);
     // Door to the gym on the right wall.
     g.fillStyle(0x8fd36b, 1).fillRoundedRect(ROOM.right - 150, FLOOR_Y - 250, 120, 250, 12);
     g.fillStyle(0x4a7a2a, 1).fillCircle(ROOM.right - 60, FLOOR_Y - 120, 8);

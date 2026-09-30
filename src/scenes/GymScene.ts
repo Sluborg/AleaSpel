@@ -2,7 +2,7 @@ import { COLORS, FONT, GAME_HEIGHT, GAME_WIDTH } from '../config';
 import { GYM_EQUIPMENT, type EquipmentDef } from '../data/gymEquipment';
 import { MINIGAMES } from '../data/minigames';
 import { SaveService, type Position } from '../services/SaveService';
-import { artHeight, hasArt } from '../ui/art';
+import { artHeight, backdrop, hasArt } from '../ui/art';
 import { RoomScene, type Placeable } from './RoomScene';
 
 const HALL = { left: 20, top: 250, right: GAME_WIDTH - 20, bottom: GAME_HEIGHT - 20 };
@@ -22,6 +22,7 @@ export class GymScene extends RoomScene {
   }
 
   protected drawRoom(): void {
+    if (backdrop(this, 'bg_gym_hall', HALL)) return;
     const g = this.add.graphics();
     const w = HALL.right - HALL.left;
     g.fillStyle(0xe8d3b6, 1).fillRect(HALL.left, HALL.top, w, WALL_Y - HALL.top);

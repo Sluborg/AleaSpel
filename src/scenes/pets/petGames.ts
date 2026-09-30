@@ -325,6 +325,99 @@ const hide: Runner = (ctx) => {
   };
 };
 
+// Fånga musen: a toy mouse scurries across the floor, tap it before it escapes. Four catches.
+const mouse: Runner = (ctx) => {
+  ctx.hint('Tryck på musen!');
+  let caught = 0;
+  let running: Phaser.Tweens.Tween | null = null;
+  const m = toy(ctx.scene, 'toy_mouse', -80, ctx.floorY - 30, 110, 110, () =>
+    ctx.scene.add.ellipse(-80, ctx.floorY - 30, 80, 50, 0x9a9a9a),
+  ).setDepth(35);
+  ctx.add(m);
+  m.setInteractive({ useHandCursor: true });
+  const run = () => {
+    const fromLeft = Math.random() < 0.5;
+    m.setPosition(fromLeft ? -80 : ctx.width + 80, ctx.floorY - 30 - Phaser.Math.Between(0, 60));
+    if (m instanceof Phaser.GameObjects.Image) m.setFlipX(!fromLeft);
+    running = ctx.scene.tweens.add({
+      targets: m,
+      x: fromLeft ? ctx.width + 80 : -80,
+      duration: Phaser.Math.Between(1300, 1900),
+      onComplete: () => ctx.scene.time.delayedCall(400, run),
+    });
+  };
+  m.on('pointerdown', () => {
+    running?.stop();
+    caught++;
+    ctx.sparkle(m.x, m.y - 40, '⭐', 2);
+    ctx.scene.tweens.add({ targets: ctx.pet, x: m.x, duration: 250, yoyo: true });
+    hop(ctx, 60);
+    if (caught >= 4) ctx.scene.time.delayedCall(600, ctx.finish);
+    else ctx.scene.time.delayedCall(500, run);
+  });
+  run();
+  return () => {
+    running?.stop();
+    m.destroy();
+  };
+};
+
+// Frisbee: tap anywhere to throw, the frisbee flies in an arc and the pet jumps to catch it.
+const frisbee: Runner = (ctx) => {
+  ctx.hint('Tryck för att kasta');
+  let throws = 0;
+  let flying = false;
+  const startX = 120;
+  const f = toy(ctx.scene, 'toy_frisbee', startX, ctx.floorY - 200, 120, 120, () =>
+    ctx.scene.add.ellipse(startX, ctx.floorY - 200, 100, 40, 0xff9f40),
+  ).setDepth(35);
+  ctx.add(f);
+  const zone = ctx.scene.add.zone(ctx.width / 2, ctx.floorY - 300, ctx.width, 700).setInteractive();
+  ctx.add(zone);
+  zone.on('pointerdown', () => {
+    if (flying) return;
+    flying = true;
+    const tx = Phaser.Math.Between(ctx.width / 2, ctx.width - 120);
+    ctx.scene.tweens.add({ targets: f, angle: 720, duration: 900 });
+    ctx.scene.tweens.add({ targets: f, x: tx, duration: 900, ease: 'Sine.out' });
+    ctx.scene.tweens.add({
+      targets: f,
+      y: ctx.floorY - 420,
+      duration: 450,
+      yoyo: true,
+      ease: 'Sine.out',
+    });
+    ctx.scene.tweens.add({
+      targets: ctx.pet,
+      x: tx,
+      duration: 700,
+      delay: 100,
+      onComplete: () =>
+        hop(ctx, 140, () => {
+          ctx.sparkle(tx, ctx.home.y - 160, '⭐', 2);
+          throws++;
+          ctx.scene.tweens.add({ targets: ctx.pet, x: ctx.home.x, duration: 450, delay: 150 });
+          ctx.scene.tweens.add({
+            targets: f,
+            x: startX,
+            y: ctx.floorY - 200,
+            angle: 0,
+            duration: 500,
+            delay: 300,
+            onComplete: () => {
+              flying = false;
+              if (throws >= 3) ctx.finish();
+            },
+          });
+        }),
+    });
+  });
+  return () => {
+    f.destroy();
+    zone.destroy();
+  };
+};
+
 export const PET_GAME_RUNNERS: Record<GameKind, Runner> = {
   ball,
   tapfast,
@@ -332,4 +425,6 @@ export const PET_GAME_RUNNERS: Record<GameKind, Runner> = {
   hold,
   rub,
   hide,
+  mouse,
+  frisbee,
 };

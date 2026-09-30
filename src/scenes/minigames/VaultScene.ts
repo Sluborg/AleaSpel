@@ -1,4 +1,5 @@
 import { GAME_HEIGHT, GAME_WIDTH } from '../../config';
+import { backdrop } from '../../ui/art';
 import { MINIGAMES } from '../../data/minigames';
 import { PatternGameScene } from './PatternGameScene';
 
@@ -27,12 +28,14 @@ export class VaultScene extends PatternGameScene {
 
   protected drawWorld(): void {
     const g = this.add.graphics();
-    g.fillStyle(0xf6e7d2, 1).fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-    g.fillStyle(0xe8d3b6, 1).fillRect(0, 0, GAME_WIDTH, 560);
-    g.fillStyle(0xbfe3ff, 1);
-    for (const x of [90, 300, 510]) g.fillRoundedRect(x, 120, 130, 170, 16);
+    if (!backdrop(this, 'bg_gym_hall')) {
+      g.fillStyle(0xf6e7d2, 1).fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+      g.fillStyle(0xe8d3b6, 1).fillRect(0, 0, GAME_WIDTH, 560);
+      g.fillStyle(0xbfe3ff, 1);
+      for (const x of [90, 300, 510]) g.fillRoundedRect(x, 120, 130, 170, 16);
+      g.fillStyle(0x6fa8dc, 1).fillRect(0, FLOOR_Y, GAME_WIDTH, GAME_HEIGHT - FLOOR_Y);
+    }
     // Runway, springboard, vault table, landing mat.
-    g.fillStyle(0x6fa8dc, 1).fillRect(0, FLOOR_Y, GAME_WIDTH, GAME_HEIGHT - FLOOR_Y);
     g.fillStyle(0xd94f8c, 1).fillRect(0, FLOOR_Y, BOARD_X - 40, 14);
     g.fillStyle(0xf3d9a4, 1).fillTriangle(
       BOARD_X - 60,

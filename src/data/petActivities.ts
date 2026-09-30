@@ -1,6 +1,7 @@
 // Pet games and foods. Each pet has a hidden preference (-1, 0, +1) for every row, discovered by
 // trying it. Adding a food = a row. Adding a game = a row with an existing kind.
-export type GameKind = 'ball' | 'tapfast' | 'pattern' | 'hold' | 'rub' | 'hide';
+export type GameKind =
+  'ball' | 'tapfast' | 'pattern' | 'hold' | 'rub' | 'hide' | 'mouse' | 'frisbee';
 
 export interface PetGame {
   id: string;
@@ -16,6 +17,8 @@ export const PET_GAMES: PetGame[] = [
   { id: 'balance', name: 'Balans', icon: '🪵', kind: 'hold' },
   { id: 'belly', name: 'Magkli', icon: '🤲', kind: 'rub' },
   { id: 'hide', name: 'Kurragömma', icon: '📦', kind: 'hide' },
+  { id: 'mouse', name: 'Fånga musen', icon: '🐭', kind: 'mouse' },
+  { id: 'frisbee', name: 'Frisbee', icon: '🥏', kind: 'frisbee' },
 ];
 
 export interface PetFood {

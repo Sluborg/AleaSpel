@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { GAME_HEIGHT, GAME_WIDTH } from '../../config';
+import { backdrop } from '../../ui/art';
 import { MINIGAMES } from '../../data/minigames';
 import { PatternGameScene } from './PatternGameScene';
 
@@ -25,9 +26,11 @@ export class BarsScene extends PatternGameScene {
 
   protected drawWorld(): void {
     const g = this.add.graphics();
-    g.fillStyle(0xf6e7d2, 1).fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-    g.fillStyle(0xe8d3b6, 1).fillRect(0, 0, GAME_WIDTH, 300);
-    g.fillStyle(0x6fa8dc, 1).fillRect(0, 1000, GAME_WIDTH, GAME_HEIGHT - 1000);
+    if (!backdrop(this, 'bg_gym_hall')) {
+      g.fillStyle(0xf6e7d2, 1).fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+      g.fillStyle(0xe8d3b6, 1).fillRect(0, 0, GAME_WIDTH, 300);
+      g.fillStyle(0x6fa8dc, 1).fillRect(0, 1000, GAME_WIDTH, GAME_HEIGHT - 1000);
+    }
     g.fillStyle(0x4f8fd0, 1).fillRoundedRect(20, 960, GAME_WIDTH - 40, 90, 20);
     // Uprights, the low bar behind and the high bar in front.
     g.fillStyle(0x7a7a85, 1);

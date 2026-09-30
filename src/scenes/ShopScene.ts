@@ -3,7 +3,7 @@ import { COLORS, FONT, GAME_HEIGHT, GAME_WIDTH } from '../config';
 import { ASSET_MANIFEST_KEY, type AssetManifest } from '../data/assets';
 import { SHOP_TABS, shopItems, type ShopItem, type ShopKind } from '../data/shop';
 import { SaveService } from '../services/SaveService';
-import { artImage, hasArt } from '../ui/art';
+import { artImage, hasArt, medalLabel } from '../ui/art';
 import { createButton } from '../ui/Button';
 import { ScrollList } from '../ui/ScrollList';
 import { BaseScene } from './BaseScene';
@@ -17,7 +17,7 @@ export class ShopScene extends BaseScene {
   private tab: ShopKind = 'furniture';
   private layer?: Phaser.GameObjects.Container;
   private list?: ScrollList;
-  private medalText!: Phaser.GameObjects.Text;
+  private medalText?: Phaser.GameObjects.Container;
 
   constructor() {
     super('Shop');
@@ -27,14 +27,6 @@ export class ShopScene extends BaseScene {
     this.cameras.main.setBackgroundColor(COLORS.background);
     this.addTitle('Butiken');
     this.addBackButton();
-    this.medalText = this.add
-      .text(GAME_WIDTH / 2, 175, '', {
-        fontFamily: FONT,
-        fontSize: '40px',
-        color: '#ffd84d',
-        fontStyle: 'bold',
-      })
-      .setOrigin(0.5);
     this.build();
   }
 
@@ -43,7 +35,13 @@ export class ShopScene extends BaseScene {
     this.list?.content.destroy();
     this.layer = this.add.container(0, 0);
     const save = SaveService.get();
-    this.medalText.setText(`🏅 ${save.medals} medaljer`);
+    this.medalText?.destroy();
+    this.medalText = medalLabel(this, GAME_WIDTH / 2, 175, `${save.medals} medaljer`, {
+      fontFamily: FONT,
+      fontSize: '40px',
+      color: '#ffd84d',
+      fontStyle: 'bold',
+    });
 
     SHOP_TABS.forEach((t, i) => {
       const x = GAME_WIDTH / 2 + (i - (SHOP_TABS.length - 1) / 2) * 260;

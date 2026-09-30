@@ -14,9 +14,10 @@ ChatGPT prompts (`docs/image-prompts.md`), delivers manifest ids, and sets the s
 | 70    | ui_icons       | Icons: medal, star, heart, pencil (design mode), bin, checkmark, back arrow, plus, lock                                         | Menus, Butiken, results                   | 128x128 transparent PNG each, thick friendly lines, `icon_<id>`. Ids: medal, star, heart, pencil, bin, check, back, plus, lock.                                                                                                                                                                                                                                | Done   |
 | 80    | house_exterior | House exterior parts: 3 wall styles, 3 roof styles, 2 doors, 2 windows, fence, garden items (tree, bush, flower bed, path tile) | Mina hus exterior + garden (planned)      | 512x512 transparent PNG each, front view, `ext_<slot>_<n>` (wall_1..3, roof_1..3, door_1..2, window_1..2, fence) and `garden_<id>` (tree, bush, flowers, path). Low priority until the exterior editor exists.                                                                                                                                                 | Done   |
 
-Placeholders in use until delivered: shapes for toys, code-drawn backdrops, emoji for icons.
-Delivered ids are in use (pets, food, furniture, equipment); the code falls back to the
-placeholder (SVG pets, emoji food, labelled rectangles) when an id is missing from the manifest.
+Delivered ids in use: pets, food, toys, furniture, equipment, backdrops (rooms, gym, minigames),
+`icon_medal`, pet things (bowl, brush, bed, house, mouse, frisbee). The code falls back to the
+placeholder (SVG pets, emoji, shapes, code-drawn rooms) when an id is missing. Not yet used:
+`bg_shop`, the other icons, exterior parts (no exterior editor yet).
 
 Visuals notes:
 

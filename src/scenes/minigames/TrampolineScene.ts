@@ -1,4 +1,5 @@
 import { GAME_HEIGHT, GAME_WIDTH } from '../../config';
+import { backdrop } from '../../ui/art';
 import { MINIGAMES } from '../../data/minigames';
 import { PatternGameScene } from './PatternGameScene';
 
@@ -22,19 +23,21 @@ export class TrampolineScene extends PatternGameScene {
 
   protected drawWorld(): void {
     const g = this.add.graphics();
-    g.fillGradientStyle(0x7fc8ff, 0x7fc8ff, 0xd8f1ff, 0xd8f1ff, 1);
-    g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-    g.fillStyle(0xffffff, 0.9);
-    for (const [x, y, r] of [
-      [120, 300, 50],
-      [180, 280, 70],
-      [250, 310, 55],
-      [520, 520, 45],
-      [580, 500, 65],
-      [650, 530, 50],
-    ])
-      g.fillCircle(x, y, r);
-    g.fillStyle(0x8fd36b, 1).fillRect(0, MAT_Y + 40, GAME_WIDTH, GAME_HEIGHT - MAT_Y - 40);
+    if (!backdrop(this, 'bg_trampoline_field')) {
+      g.fillGradientStyle(0x7fc8ff, 0x7fc8ff, 0xd8f1ff, 0xd8f1ff, 1);
+      g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+      g.fillStyle(0xffffff, 0.9);
+      for (const [x, y, r] of [
+        [120, 300, 50],
+        [180, 280, 70],
+        [250, 310, 55],
+        [520, 520, 45],
+        [580, 500, 65],
+        [650, 530, 50],
+      ])
+        g.fillCircle(x, y, r);
+      g.fillStyle(0x8fd36b, 1).fillRect(0, MAT_Y + 40, GAME_WIDTH, GAME_HEIGHT - MAT_Y - 40);
+    }
     g.fillStyle(0x4a4a55, 1);
     g.fillRect(150, MAT_Y, 24, 120).fillRect(GAME_WIDTH - 174, MAT_Y, 24, 120);
     g.fillStyle(0x2b6cb0, 1).fillEllipse(GAME_WIDTH / 2, MAT_Y, 560, 70);

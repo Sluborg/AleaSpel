@@ -1,6 +1,7 @@
 import { COLORS, FONT, GAME_HEIGHT, GAME_WIDTH } from '../config';
 import { MENU_ENTRIES } from '../data/menu';
 import { SaveService } from '../services/SaveService';
+import { medalLabel } from '../ui/art';
 import { createButton } from '../ui/Button';
 import { BaseScene } from './BaseScene';
 
@@ -12,14 +13,14 @@ export class MainMenuScene extends BaseScene {
   create(): void {
     this.cameras.main.setBackgroundColor(COLORS.background);
     this.addTitle('AleaSpel', 220).setFontSize(96);
-    this.add
-      .text(GAME_WIDTH - 30, 60, `🏅 ${SaveService.get().medals}`, {
-        fontFamily: FONT,
-        fontSize: '36px',
-        color: COLORS.text,
-        fontStyle: 'bold',
-      })
-      .setOrigin(1, 0.5);
+    medalLabel(
+      this,
+      GAME_WIDTH - 30,
+      60,
+      `${SaveService.get().medals}`,
+      { fontFamily: FONT, fontSize: '36px', color: COLORS.text, fontStyle: 'bold' },
+      1,
+    );
 
     const startY = 385;
     const gap = 126;
