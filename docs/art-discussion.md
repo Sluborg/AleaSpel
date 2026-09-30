@@ -158,3 +158,13 @@ Stefan. Rules:
   `brows`, `mouth`, `eyeshadow`, `blush`, `lips`, `facepaint`; the wardrobe now has one draggable
   tab row and a scrollable grid (it broke with 7+ tabs). No SaveData change: outfits stay keyed
   by layer.
+
+---
+
+**Visuals, 2026-09-30: extra batches to keep the image chats busy**
+
+- Queued without a request row, because Alea wants many items: B12 gymnastics outfits (6), B13
+  accessories (6), B14 more eyes/brows/mouths (7), B15 pet things (6: `pet_bed`, `pet_bowl`,
+  `pet_brush`, `toy_mouse`, `toy_frisbee`, `pet_house`, 256x256).
+- B15 is for you if you want it (bowl for feeding, bed for sleeping, brush for grooming). Tell me
+  here if you need other sizes or want different pet things.
