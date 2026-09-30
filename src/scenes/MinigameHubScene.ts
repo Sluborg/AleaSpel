@@ -35,7 +35,7 @@ export class MinigameHubScene extends BaseScene {
       this.add
         .text(210, y - 30, game.name, {
           fontFamily: FONT,
-          fontSize: '46px',
+          fontSize: '40px',
           color: game.available ? COLORS.text : '#8a7aa0',
           fontStyle: 'bold',
         })
@@ -56,12 +56,12 @@ export class MinigameHubScene extends BaseScene {
       if (game.available) {
         createButton(
           this,
-          GAME_WIDTH - 150,
+          GAME_WIDTH - 130,
           y,
           'Spela',
           () => this.scene.start(game.scene, { gymnastId: gymnast.id }),
           {
-            width: 170,
+            width: 150,
             fontSize: 36,
           },
         );
