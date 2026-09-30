@@ -1,7 +1,7 @@
 // Versioned save data in localStorage.
 // To change the schema: bump SAVE_VERSION, update SaveData, add a migration from the previous version.
 
-export const SAVE_VERSION = 1;
+export const SAVE_VERSION = 2;
 const STORAGE_KEY = 'aleaspel.save';
 
 export interface Position {
@@ -9,22 +9,39 @@ export interface Position {
   y: number;
 }
 
+// One worn item per wardrobe layer. tint is a 0xRRGGBB colour for tintable items.
+export interface WornItem {
+  item: string;
+  tint?: number;
+}
+
+export interface Gymnast {
+  id: string;
+  name: string;
+  outfit: Record<string, WornItem>; // key = wardrobe layer id
+}
+
 export interface SaveData {
   version: number;
   home: {
     furniture: Record<string, Position>;
   };
+  gymnasts: Gymnast[];
+}
+
+export function createGymnast(index: number): Gymnast {
+  return { id: `g${index}`, name: `Gymnast ${index}`, outfit: {} };
 }
 
 type Migration = (data: Record<string, unknown>) => Record<string, unknown>;
 
 // MIGRATIONS[n] upgrades a save from version n to n + 1.
 const MIGRATIONS: Record<number, Migration> = {
-  // 1: (data) => ({ ...data, version: 2, gym: { equipment: {} } }),
+  1: (data) => ({ ...data, version: 2, gymnasts: [createGymnast(1)] }),
 };
 
 function createDefault(): SaveData {
-  return { version: SAVE_VERSION, home: { furniture: {} } };
+  return { version: SAVE_VERSION, home: { furniture: {} }, gymnasts: [createGymnast(1)] };
 }
 
 function migrate(raw: Record<string, unknown>): SaveData {

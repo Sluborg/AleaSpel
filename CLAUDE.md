@@ -28,11 +28,12 @@ minigames. Full design: `docs/game-design.md` (keep it updated when a design dec
 src/
   main.ts            Phaser game config, SW registration, zoom/scroll blocking
   config.ts          design resolution, colors, MIN_TOUCH
-  scenes/            Boot, Preload, MainMenu, AvatarEditor, Home, Gym, MinigameHub, Pets
+  scenes/            Boot, Preload, MainMenu, AvatarEditor (Mitt lag), Wardrobe (Garderob),
+                     Home, Gym, MinigameHub, Pets
                      BaseScene (title, back button), PlaceholderScene (empty scenes)
-  data/              game content as data (menu, furniture, asset manifest types)
+  data/              game content as data (menu, furniture, wardrobe tabs/palette, manifest types)
   services/          SaveService and other non-visual services
-  ui/                reusable UI widgets (Button)
+  ui/                reusable UI (Button, GymnastView, NameInput, itemBounds)
 public/
   assets/manifest.json   asset list, read by Preload and /preview
   assets/base/           shipped master + anchors.json

@@ -8,6 +8,7 @@ import { HomeScene } from './scenes/HomeScene';
 import { MainMenuScene } from './scenes/MainMenuScene';
 import { MinigameHubScene } from './scenes/MinigameHubScene';
 import { PetsScene } from './scenes/PetsScene';
+import { WardrobeScene } from './scenes/WardrobeScene';
 import { PreloadScene } from './scenes/PreloadScene';
 
 // Auto-update: a new deploy is picked up and the page reloads with it.
@@ -37,6 +38,7 @@ new Phaser.Game({
     height: GAME_HEIGHT,
   },
   input: { activePointers: 2 },
+  dom: { createContainer: true },
   scene: [
     BootScene,
     PreloadScene,
@@ -46,5 +48,6 @@ new Phaser.Game({
     GymScene,
     MinigameHubScene,
     PetsScene,
+    WardrobeScene,
   ],
 });
