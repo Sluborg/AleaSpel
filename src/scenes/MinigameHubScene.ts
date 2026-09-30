@@ -10,7 +10,7 @@ import { BaseScene } from './BaseScene';
 
 const LIST_TOP = 220;
 const LIST_BOTTOM = GAME_HEIGHT - 150;
-const CARD_H = 160;
+const CARD_H = 128;
 const GAP = 20;
 
 // Tävlingar: the gymnastics events, then the Uppvärmning quick games, one card per data row
@@ -80,22 +80,22 @@ export class MinigameHubScene extends BaseScene {
       this.scene.start(game.scene, { gymnastId: SaveService.activeGymnast().id, gameId: game.id });
     };
     const play = createButton(this, GAME_WIDTH - 130, 0, 'Spela', start, {
-      width: 150,
+      width: 140,
       fontSize: 36,
     });
     c.add([
       g,
-      this.add.text(80, 0, game.icon, { fontSize: '72px' }).setOrigin(0, 0.5),
+      this.add.text(70, 0, game.icon, { fontSize: '56px' }).setOrigin(0, 0.5),
       this.add
-        .text(190, -28, game.name, {
+        .text(160, -22, game.name, {
           fontFamily: FONT,
-          fontSize: '38px',
+          fontSize: '34px',
           color: COLORS.text,
           fontStyle: 'bold',
         })
         .setOrigin(0, 0.5),
       this.add
-        .text(190, 32, info, {
+        .text(160, 26, info, {
           fontFamily: FONT,
           fontSize: '26px',
           color: COLORS.textMuted,

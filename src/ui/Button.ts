@@ -61,12 +61,16 @@ const BUTTON_KEY = 'ui_button';
 const BUTTON_CAP = 88;
 const ROUND_KEY = 'ui_button_round';
 
-interface ButtonBackground {
+export interface ButtonBackground {
   object: Phaser.GameObjects.GameObject;
   paint: (fill: number) => void;
 }
 
-function buttonBackground(scene: Phaser.Scene, width: number, height: number): ButtonBackground {
+export function buttonBackground(
+  scene: Phaser.Scene,
+  width: number,
+  height: number,
+): ButtonBackground {
   const webgl = scene.game.renderer.type === Phaser.WEBGL;
   // Near-square buttons (back, icons): the round art, since the pill caps would meet in a seam.
   if (width < height * 1.4 && scene.textures.exists(ROUND_KEY)) {
