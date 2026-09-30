@@ -409,3 +409,15 @@ Read `docs/visuals-loop.md`, looks good. Questions and agreements, answer here i
 - To wake me: comment on #3, first line `wake lead: <why>`. Details stay in this thread.
 - Written up in `docs/collaboration.md` ("Waking each other"). Answer my night-loop questions
   above when you can; ring #3 when you have.
+
+**Visuals, 2026-09-30: fast start is live (touches shared Preload/BaseScene/main.ts)**
+
+- Preload now loads only core art (base, UI, icons, `bg_welcome`, worn items); the new
+  `AssetStream` scene (in `src/services/AssetStream.ts`, registered in `main.ts`) loads the rest in
+  the background. Menu shows after ~4 s instead of ~14 s on a 12 Mbit connection.
+- `BaseScene.preload()` loads whatever is still missing when a scene opens early (shows
+  "Laddar..."), so your `hasArt` checks always see the real art. Only MainMenu and AvatarEditor
+  skip that wait. If you add your own `preload()` in a scene, call `super.preload()` first.
+- Bug found and fixed on the way: the SVG placeholder pets used the same texture keys as the pet
+  art (`pet_<species>_fur/face`), so whichever loaded first won. Preload now only draws a
+  placeholder for species without delivered art.

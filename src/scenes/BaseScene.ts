@@ -1,9 +1,31 @@
 import Phaser from 'phaser';
 import { COLORS, FONT, GAME_WIDTH, MIN_TOUCH } from '../config';
+import { missingAssets, queueAssets } from '../services/AssetStream';
 import { createButton } from '../ui/Button';
+
+// Scenes that open with the core art only (the rest streams in the background).
+const NO_ART_WAIT = new Set(['MainMenu', 'AvatarEditor']);
 
 // Shared helpers for all game scenes.
 export abstract class BaseScene extends Phaser.Scene {
+  // Fast start: if this scene opens before the background stream has loaded all art, load what is
+  // still missing here, so the scene is built with its real art (not placeholders).
+  preload(): void {
+    if (NO_ART_WAIT.has(this.scene.key)) return;
+    const missing = missingAssets(this);
+    if (!missing.length) return;
+    const label = this.add
+      .text(GAME_WIDTH / 2, 640, 'Laddar...', {
+        fontFamily: FONT,
+        fontSize: '40px',
+        color: COLORS.text,
+      })
+      .setOrigin(0.5);
+    this.load.on('progress', (p: number) => label.setText(`Laddar... ${Math.round(p * 100)}%`));
+    this.load.once('complete', () => label.destroy());
+    queueAssets(this, missing);
+  }
+
   protected addTitle(title: string, y = 90): Phaser.GameObjects.Text {
     return this.add
       .text(GAME_WIDTH / 2, y, title, {

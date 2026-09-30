@@ -20,6 +20,7 @@ import { BeamScene } from './scenes/minigames/BeamScene';
 import { TrampolineScene } from './scenes/minigames/TrampolineScene';
 import { VaultScene } from './scenes/minigames/VaultScene';
 import { PreloadScene } from './scenes/PreloadScene';
+import { AssetStreamScene } from './services/AssetStream';
 
 // Auto-update: a new deploy is picked up and the page reloads with it.
 registerSW({
@@ -52,6 +53,7 @@ const game = new Phaser.Game({
   scene: [
     BootScene,
     PreloadScene,
+    AssetStreamScene,
     MainMenuScene,
     AvatarEditorScene,
     HomeScene,

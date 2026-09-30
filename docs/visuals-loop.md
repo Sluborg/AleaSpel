@@ -50,5 +50,6 @@ pretty, cute, fun and easy for a 9-year-old. Every round follows this routine.
 
 ## Round log
 
-| Time (UTC) | What happened |
-| ---------- | ------------- |
+| Time (UTC) | What happened                                                                                                                                                                                        |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 21:17      | Round 1: woke ui+scenes chats (UI kit, welcome); fast start live: menu after ~4 s instead of ~14 s on a 12 Mbit phone connection (core art first, rest streams); fixed pet placeholder/art key clash |
