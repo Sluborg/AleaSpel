@@ -58,13 +58,19 @@ export function medalLabel(
   return c;
 }
 
-// Where the visible part of a texture ends, as a share of its height (0..1): the lowest row with
-// an opaque pixel. Art has transparent margins, so this is where furniture stands on the floor.
-const bottoms = new Map<string, number>();
-export function visibleBottom(scene: Phaser.Scene, key: string): number {
-  const known = bottoms.get(key);
-  if (known !== undefined) return known;
-  let ratio = 1;
+// The visible (opaque) part of a texture as shares of its size (0..1). Art has transparent
+// margins; this is where it really starts and ends.
+export interface VisibleBox {
+  left: number;
+  top: number;
+  right: number;
+  bottom: number;
+}
+const boxes = new Map<string, VisibleBox>();
+export function visibleBox(scene: Phaser.Scene, key: string): VisibleBox {
+  const known = boxes.get(key);
+  if (known) return known;
+  const box = { left: 0, top: 0, right: 1, bottom: 1 };
   try {
     const src = scene.textures.get(key).getSourceImage() as CanvasImageSource & {
       width: number;
@@ -77,20 +83,34 @@ export function visibleBottom(scene: Phaser.Scene, key: string): number {
     if (ctx) {
       ctx.drawImage(src, 0, 0);
       const data = ctx.getImageData(0, 0, src.width, src.height).data;
-      scan: for (let y = src.height - 1; y >= 0; y--) {
+      let [x0, y0, x1, y1] = [src.width, src.height, -1, -1];
+      for (let y = 0; y < src.height; y += 2) {
         for (let x = 0; x < src.width; x += 2) {
-          if (data[(y * src.width + x) * 4 + 3] > 40) {
-            ratio = (y + 1) / src.height;
-            break scan;
-          }
+          if (data[(y * src.width + x) * 4 + 3] <= 40) continue;
+          x0 = Math.min(x0, x);
+          x1 = Math.max(x1, x);
+          y0 = Math.min(y0, y);
+          y1 = Math.max(y1, y);
         }
+      }
+      if (x1 >= 0) {
+        box.left = x0 / src.width;
+        box.top = y0 / src.height;
+        box.right = Math.min(1, (x1 + 2) / src.width);
+        box.bottom = Math.min(1, (y1 + 2) / src.height);
       }
     }
   } catch {
-    ratio = 1;
+    // Keep the whole texture.
   }
-  bottoms.set(key, ratio);
-  return ratio;
+  boxes.set(key, box);
+  return box;
+}
+
+// Where the visible part of a texture ends, as a share of its height (0..1): where furniture
+// stands on the floor.
+export function visibleBottom(scene: Phaser.Scene, key: string): number {
+  return visibleBox(scene, key).bottom;
 }
 
 // Shift the colours of an image around the colour wheel (degrees), for colour variants of art that

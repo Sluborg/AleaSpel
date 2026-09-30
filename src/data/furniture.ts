@@ -15,7 +15,7 @@ export interface FurnitureDef {
   price?: number; // medals in Butiken; no price = free from the start
   icon?: string; // shop tile icon (placeholder until art arrives)
   art?: string; // manifest id when it is not furn_<id>
-  room?: 'house' | 'clubhouse'; // where it can stand; default house
+  room?: 'house' | 'clubhouse' | 'garden'; // where it can stand; default house
   flat?: boolean; // lies on the floor or hangs on the wall: always behind standing furniture
   action?: 'trophies'; // extra button when tapped (Prisskåp shows the team's cups)
 }
@@ -237,5 +237,71 @@ export const FURNITURE: FurnitureDef[] = [
     room: 'clubhouse',
     price: 9,
     icon: '🪩',
+  },
+  // Trädgården (outside the house).
+  {
+    id: 'garden_tree',
+    art: 'garden_tree',
+    name: 'Träd',
+    shape: 'ellipse',
+    width: 280,
+    height: 280,
+    color: 0x7ed957,
+    defaultX: 660,
+    defaultY: 690,
+    room: 'garden',
+  },
+  {
+    id: 'garden_path',
+    art: 'garden_path',
+    name: 'Gång',
+    shape: 'ellipse',
+    width: 210,
+    height: 180,
+    color: 0xd9c4a0,
+    defaultX: 360,
+    defaultY: 930,
+    room: 'garden',
+    flat: true,
+  },
+  {
+    id: 'garden_flowers',
+    art: 'garden_flowers',
+    name: 'Blommor',
+    shape: 'ellipse',
+    width: 200,
+    height: 120,
+    color: 0xff8fc0,
+    defaultX: 130,
+    defaultY: 900,
+    room: 'garden',
+  },
+  {
+    id: 'garden_bush',
+    art: 'garden_bush',
+    name: 'Buske',
+    shape: 'ellipse',
+    width: 200,
+    height: 170,
+    color: 0x5fbf4a,
+    defaultX: 900,
+    defaultY: 900,
+    room: 'garden',
+    price: 4,
+    icon: '🌳',
+  },
+  {
+    id: 'garden_fence',
+    name: 'Staket',
+    shape: 'rect',
+    width: 300,
+    height: 170,
+    color: 0xffffff,
+    defaultX: 1000,
+    defaultY: 800,
+    room: 'garden',
+    art: 'ext_fence',
+    price: 6,
+    icon: '🪵',
   },
 ];
