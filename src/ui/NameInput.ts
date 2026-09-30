@@ -9,6 +9,7 @@ export function openNameInput(
   scene: Phaser.Scene,
   current: string,
   onDone: (name: string) => void,
+  options: { title?: string; onCancel?: () => void } = {},
 ): void {
   const parts: Phaser.GameObjects.GameObject[] = [];
   const close = () => parts.forEach((p) => p.destroy());
@@ -22,7 +23,7 @@ export function openNameInput(
   panel.fillStyle(COLORS.background, 1);
   panel.fillRoundedRect(40, 380, GAME_WIDTH - 80, 460, 36);
   const title = scene.add
-    .text(GAME_WIDTH / 2, 450, 'Vad heter hon?', {
+    .text(GAME_WIDTH / 2, 450, options.title ?? 'Vad heter hon?', {
       fontFamily: FONT,
       fontSize: '48px',
       color: COLORS.text,
@@ -56,15 +57,26 @@ export function openNameInput(
     const name = input.value.trim().slice(0, MAX_LENGTH);
     close();
     if (name) onDone(name);
+    else options.onCancel?.();
   };
   input.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') confirm();
   });
   const ok = createButton(scene, GAME_WIDTH / 2 + 140, 740, 'Klar', confirm, { width: 240 });
-  const cancel = createButton(scene, GAME_WIDTH / 2 - 140, 740, 'Avbryt', close, {
-    width: 240,
-    color: 0x6b5a85,
-  });
+  const cancel = createButton(
+    scene,
+    GAME_WIDTH / 2 - 140,
+    740,
+    'Avbryt',
+    () => {
+      close();
+      options.onCancel?.();
+    },
+    {
+      width: 240,
+      color: 0x6b5a85,
+    },
+  );
   ok.setDepth(2002);
   cancel.setDepth(2002);
   parts.push(dim, panel, title, dom, ok, cancel);

@@ -9,5 +9,5 @@ export const MENU_ENTRIES: MenuEntry[] = [
   { scene: 'Home', label: 'Mina hus' },
   { scene: 'Gym', label: 'Mitt gym' },
   { scene: 'MinigameHub', label: 'Tävlingar' },
-  { scene: 'Pets', label: 'Mina djur' },
+  { scene: 'Pets', label: 'Lagets djur' },
 ];

@@ -29,11 +29,11 @@ src/
   main.ts            Phaser game config, SW registration, zoom/scroll blocking
   config.ts          design resolution, colors, MIN_TOUCH
   scenes/            Boot, Preload, MainMenu, AvatarEditor (Mitt lag), Wardrobe (Garderob),
-                     Home, Gym, MinigameHub, Pets
+                     Pets (Lagets djur), Home, Gym, MinigameHub
                      BaseScene (title, back button), PlaceholderScene (empty scenes)
   data/              game content as data (menu, furniture, wardrobe tabs/palette, manifest types)
-  services/          SaveService and other non-visual services
-  ui/                reusable UI (Button, GymnastView, NameInput, itemBounds)
+  services/          SaveService, PetCare and other non-visual services
+  ui/                reusable UI (Button, GymnastView, NameInput, itemBounds, PetView, petSvg)
 public/
   assets/manifest.json   asset list, read by Preload and /preview
   assets/base/           shipped master + anchors.json

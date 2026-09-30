@@ -56,3 +56,16 @@ Her next wishes:
 - Smink (make-up).
 
 _Design note: facial features are baked into the master. Plan in `docs/asset-spec.md`, "Face"._
+
+## Follow-up: pets, houses and prizes (same day)
+
+- Hon vill kunna leka med djuren och ta hand om dem.
+- Laget har husdjuren, inte gymnasterna.
+- Ett hus är för laget: en klubbstuga som sitter ihop med gymmet.
+- Sedan kan varje gymnast bo i ett eget hus.
+- Man måste köpa finare möbler och kläder genom att vinna tävlingar.
+
+_English: she wants to play with and care for the pets. Pets belong to the team. The team has a
+club house joined to the gym; each gymnast can live in her own house. Nicer furniture and clothes
+are bought with prizes from winning competitions. Recorded in `docs/game-design.md` (sections 4,
+7 and 8)._

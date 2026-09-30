@@ -1,7 +1,7 @@
 // Versioned save data in localStorage.
 // To change the schema: bump SAVE_VERSION, update SaveData, add a migration from the previous version.
 
-export const SAVE_VERSION = 2;
+export const SAVE_VERSION = 3;
 const STORAGE_KEY = 'aleaspel.save';
 
 export interface Position {
@@ -21,12 +21,29 @@ export interface Gymnast {
   outfit: Record<string, WornItem>; // key = wardrobe layer id
 }
 
+export interface PetNeeds {
+  food: number; // 0-100
+  clean: number;
+  fun: number;
+}
+
+// Pets belong to the team (not to a gymnast).
+export interface Pet {
+  id: string;
+  name: string;
+  species: string;
+  color: number;
+  needs: PetNeeds;
+  updatedAt: number; // ms timestamp of the last needs update
+}
+
 export interface SaveData {
   version: number;
   home: {
     furniture: Record<string, Position>;
   };
   gymnasts: Gymnast[];
+  pets: Pet[];
 }
 
 export function createGymnast(index: number): Gymnast {
@@ -38,10 +55,16 @@ type Migration = (data: Record<string, unknown>) => Record<string, unknown>;
 // MIGRATIONS[n] upgrades a save from version n to n + 1.
 const MIGRATIONS: Record<number, Migration> = {
   1: (data) => ({ ...data, version: 2, gymnasts: [createGymnast(1)] }),
+  2: (data) => ({ ...data, version: 3, pets: [] }),
 };
 
 function createDefault(): SaveData {
-  return { version: SAVE_VERSION, home: { furniture: {} }, gymnasts: [createGymnast(1)] };
+  return {
+    version: SAVE_VERSION,
+    home: { furniture: {} },
+    gymnasts: [createGymnast(1)],
+    pets: [],
+  };
 }
 
 function migrate(raw: Record<string, unknown>): SaveData {

@@ -12,8 +12,8 @@ Inputs: `research/interview-alea-2026-09-30.md`, `research/avatar-world.md`,
 2. **Lots of stuff.** Many items from few rows: shapes x colours x patterns (combinatorial data).
 3. **Make it yours.** Gymnasts, pets, houses, gardens and the gym are all editable.
 4. **Gymnastics with a light goal.** Practice moves by finger patterns, beat your own best.
-5. **Free and safe.** No shop, no ads, no accounts, no network features. Everything is earned by
-   playing or by the weekly gift.
+5. **Free and safe.** No real money, no ads, no accounts, no network features. Basic items are free;
+   nicer items are bought in the in-game shop with medals won in competitions (Alea's wish).
 6. **Swedish, icon-first.** Short Swedish labels, but every action is readable from its icon.
 
 ## 2. World map (screens)
@@ -25,7 +25,7 @@ Inputs: `research/interview-alea-2026-09-30.md`, `research/avatar-world.md`,
 | 30    | Home         | Mina hus     | Houses: interior rooms, exterior, garden               |
 | 40    | Gym          | Mitt gym     | Build the gym, tap equipment to practice               |
 | 50    | MinigameHub  | Tävlingar    | All minigames, personal bests, competition day         |
-| 60    | Pets         | Mina djur    | Pet roster plus the pet editor, pet care and pet games |
+| 60    | Pets         | Lagets djur  | Pet roster plus the pet editor, pet care and pet games |
 | 70    | Collection   | Samlarboken  | Stickers, medals, found secrets (later)                |
 
 Shared UI: a **bench bar** at the bottom of Home and Gym holding all gymnasts and pets. Drag one
@@ -44,7 +44,13 @@ out to place it in the scene, drag it back to put it away (Toca Boca's character
 
 ## 4. Houses (Mina hus)
 
-- Several houses, each with:
+Decided with Alea (2026-09-30):
+
+- **Klubbstugan** (the club house) belongs to the team and is built together with the gym. The
+  team's pets live there.
+- **Each gymnast has her own house.** A new gymnast gets a house.
+
+- Every house has:
   - **Exterior**: wall colour, roof shape and colour, door, windows, fence. Parts are data rows.
   - **Rooms**: 1 to N rooms, each with wallpaper, floor and placed items.
   - **Garden**: a placement area like a room, with garden items (flowers, trees, trampoline, pool,
@@ -87,15 +93,21 @@ draws the gesture during a routine and is scored on shape match and timing.
 
 ## 7. Pets (Mina djur)
 
-New concept, requested by the parent. Pets live in houses and the gym, and have their own games.
+Requested by the parent; Alea (2026-09-30): she wants to play with the pets and take care of
+them, and **the pets belong to the team**, not to single gymnasts. They live in Klubbstugan.
+
+Built (step 1): Pets scene with adoption (species + colour + name), care (Mata, Borsta, Klappa,
+Leka) and gentle needs bars. Placeholder art is SVG generated in code (`src/ui/petSvg.ts`),
+species are data rows in `src/data/pets.ts`.
 
 - **Species** as data rows: katt, hund, kanin, marsvin, hamster, ponny (more later).
 - **Pet editor**: species, colour, pattern (fläckar, ränder, tabby), ears/tail variants, name,
   accessories (rosett, halsband, täcke). Same tab-and-swatch UI as the gymnast editor.
 - **Pet furniture**: bed, bowl, toy, cat tree, rabbit hutch, stable. Normal furniture rows with a
   `petSlot` so a pet snaps to them.
-- **Care without guilt**: feed, brush, pet and play give happy reactions and hearts. Needs never
-  decay into sadness or illness; not caring has no penalty (cozy pillar).
+- **Care without guilt**: feed, brush, pet and play give happy reactions and hearts. Needs (Mat,
+  Ren, Lek) drop slowly over real time but never below 20%; a low need only shows a small thought
+  bubble, never sadness or illness (cozy pillar).
 - **Following**: a pet can be set as a gymnast's buddy and follows her between scenes.
 - **Pet minigames**, same gesture engine as gymnastics:
   - **Agility (hundagility)**: draw the path through a course of jumps, tunnels and slalom poles.
@@ -105,7 +117,16 @@ New concept, requested by the parent. Pets live in houses and the gym, and have 
 - Pets can join Tävlingsdag as team mascots (cosmetic).
 - Pet courses are placeable in the garden or gym, so the same builder is reused.
 
-## 8. Retention without pressure
+## 8. Economy: medals and the shop
+
+Alea's wish: nicer furniture and clothes are bought with prizes from winning competitions.
+
+- **Medaljer** (currency): won in Tävlingar (more for more stars) and in pet shows.
+- **Butiken**: nicer furniture, clothes, pet accessories. Every item row gets an optional `price`;
+  no price = free from the start. Bought items are kept forever.
+- No real money, no timers, no loot boxes. Prices tuned so a new item comes every few games.
+
+## 9. Retention without pressure
 
 - **Fredagspaket**: a gift box appears in the active house every Friday. Double-tap to open with
   confetti. Unclaimed gifts stack and never expire.
@@ -115,7 +136,7 @@ New concept, requested by the parent. Pets live in houses and the gym, and have 
   or a new pet colour. Rows: object id, trigger, reward.
 - **Samlarboken**: pages with silhouettes to fill (stickers, medals, secrets, seasonal items).
 
-## 9. Data model
+## 10. Data model
 
 All content is catalog data in `src/data/`. Player state is in `SaveData` (SaveService).
 
@@ -157,7 +178,7 @@ PlacedItem { uid, defId, x, y, flip, colour? }
 - `uid` lets the same furniture appear many times.
 - Everything unlocked by default except rewards, so "lots of stuff" is there from day one.
 
-## 10. Roadmap (graphics-independent first)
+## 11. Roadmap (graphics-independent first)
 
 | Order | Step                                                                         | Needs art? |
 | ----- | ---------------------------------------------------------------------------- | ---------- |
@@ -173,7 +194,7 @@ PlacedItem { uid, defId, x, y, flip, colour? }
 | 100   | Art pass: replace placeholder shapes via assets/manifest.json                | Yes        |
 | 110   | Sound pass                                                                   | Yes        |
 
-## 11. Open questions
+## 12. Open questions
 
 - Art style and asset source (decided in a separate discussion).
 - Sound and music: wanted from the start or later?

@@ -1,6 +1,8 @@
 import Phaser from 'phaser';
 import { COLORS, FONT, GAME_HEIGHT, GAME_WIDTH } from '../config';
 import { ASSET_MANIFEST_KEY, type AssetManifest } from '../data/assets';
+import { PET_SPECIES } from '../data/pets';
+import { PET_SVG_SIZE, petSvg, petTextureKey } from '../ui/petSvg';
 
 const AUDIO_EXT = /\.(mp3|ogg|wav|m4a)$/i;
 
@@ -25,6 +27,17 @@ export class PreloadScene extends Phaser.Scene {
       const url = `assets/${asset.file}`;
       if (AUDIO_EXT.test(asset.file)) this.load.audio(asset.id, url);
       else this.load.image(asset.id, url);
+    }
+
+    // Placeholder pets: SVG generated in code.
+    for (const species of PET_SPECIES) {
+      for (const layer of ['fur', 'face'] as const) {
+        const blob = new Blob([petSvg(species, layer)], { type: 'image/svg+xml' });
+        this.load.svg(petTextureKey(species.id, layer), URL.createObjectURL(blob), {
+          width: PET_SVG_SIZE,
+          height: PET_SVG_SIZE,
+        });
+      }
     }
   }
 
