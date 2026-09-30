@@ -3,6 +3,7 @@ import { registerSW } from 'virtual:pwa-register';
 import { COLORS, GAME_HEIGHT, GAME_WIDTH } from './config';
 import { AvatarEditorScene } from './scenes/AvatarEditorScene';
 import { BootScene } from './scenes/BootScene';
+import { ClubhouseScene } from './scenes/ClubhouseScene';
 import { GymScene } from './scenes/GymScene';
 import { HomeScene } from './scenes/HomeScene';
 import { MainMenuScene } from './scenes/MainMenuScene';
@@ -50,6 +51,7 @@ const game = new Phaser.Game({
     MainMenuScene,
     AvatarEditorScene,
     HomeScene,
+    ClubhouseScene,
     GymScene,
     MinigameHubScene,
     PetsScene,

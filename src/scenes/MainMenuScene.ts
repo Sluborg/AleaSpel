@@ -21,8 +21,8 @@ export class MainMenuScene extends BaseScene {
       })
       .setOrigin(1, 0.5);
 
-    const startY = 400;
-    const gap = 138;
+    const startY = 385;
+    const gap = 126;
     MENU_ENTRIES.forEach((entry, i) => {
       createButton(this, GAME_WIDTH / 2, startY + i * gap, entry.label, () =>
         this.scene.start(entry.scene),

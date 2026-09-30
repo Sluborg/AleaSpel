@@ -34,7 +34,8 @@ src/
   main.ts            Phaser game config, SW registration, zoom/scroll blocking
   config.ts          design resolution, colors, MIN_TOUCH
   scenes/            Boot, Preload, MainMenu, AvatarEditor (Mitt lag), Wardrobe (Garderob),
-                     Pets (Lagets djur, games in scenes/pets/), Home, Gym (Mitt gym, practice),
+                     Pets (Lagets djur, games in scenes/pets/), RoomScene base for Home,
+                     Clubhouse (Klubbstugan) and Gym (Mitt gym, practice),
                      MinigameHub (Tävlingar), minigames/ (PatternGameScene base,
                      Trampoline, Beam, Bars, Vault), Shop (Butiken)
                      BaseScene (title, back button), PlaceholderScene (empty scenes)

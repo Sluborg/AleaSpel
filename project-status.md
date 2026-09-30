@@ -34,6 +34,9 @@ Updated 2026-09-30. Read this first when resuming ("continue from project-status
   Medal count on the main menu.
 - Mitt lag: several gymnasts (up to 8), each with her own outfit and records; the shown one is
   active and competes. Save schema v7.
+- Klubbstugan: the team's room joined to the gym; pets sit there (drag, tap to care), active
+  gymnast, door to the gym, club furniture (2 for sale). Rooms share `scenes/RoomScene.ts`.
+  Save schema v9.
 - Mitt gym: drag the apparatus around, tap one to practise its game (no medals). Save schema v8.
 - Butiken: buy furniture (7 priced rows) with medals, scrollable list (`ui/ScrollList.ts`),
   bought furniture appears in Mina hus. Save schema v6 (owned). Menu entry Butiken.
@@ -43,8 +46,8 @@ eyes_wink`).
 
 ## Lead
 
-- In progress: nothing. SaveData is at v8 on my branch (owned, activeGymnastId, gym).
-- Next: Klubbstugan (team house joined to the gym, pets live there), then gym equipment in Butiken.
+- In progress: nothing. SaveData is at v9 on my branch (owned, activeGymnastId, gym, clubhouse).
+- Next: gym equipment upgrades in Butiken, team competition (Tävlingsdag), house exterior.
 - Ask to Visuals: when a priced garment exists, list it in `src/data/shop.ts` `CLOTHES_PRICES`
   and hide unowned priced items in the wardrobe (`SaveService.get().owned`).
 

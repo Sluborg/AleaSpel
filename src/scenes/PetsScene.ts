@@ -49,13 +49,15 @@ export class PetsScene extends BaseScene {
     super('Pets');
   }
 
-  create(): void {
+  create(data: { petId?: string } = {}): void {
     this.cameras.main.setBackgroundColor(COLORS.background);
     this.mode = 'idle';
     this.addTitle('Lagets djur');
     this.addBackButton();
     const pets = SaveService.get().pets;
     SaveService.update(() => pets.forEach((p) => applyDecay(p)));
+    const wanted = pets.findIndex((p) => p.id === data.petId);
+    if (wanted >= 0) this.index = wanted;
     this.index = Math.min(this.index, Math.max(0, pets.length - 1));
     this.events.once('shutdown', () => this.cleanup?.());
     this.build();

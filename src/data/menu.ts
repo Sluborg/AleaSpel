@@ -7,6 +7,7 @@ export interface MenuEntry {
 export const MENU_ENTRIES: MenuEntry[] = [
   { scene: 'AvatarEditor', label: 'Mitt lag' },
   { scene: 'Home', label: 'Mina hus' },
+  { scene: 'Clubhouse', label: 'Klubbstugan' },
   { scene: 'Gym', label: 'Mitt gym' },
   { scene: 'MinigameHub', label: 'Tävlingar' },
   { scene: 'Pets', label: 'Lagets djur' },

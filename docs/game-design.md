@@ -48,7 +48,11 @@ out to place it in the scene, drag it back to put it away (Toca Boca's character
 Decided with Alea (2026-09-30):
 
 - **Klubbstugan** (the club house) belongs to the team and is built together with the gym. The
-  team's pets live there.
+  team's pets live there. Built: `scenes/ClubhouseScene.ts` on the shared `RoomScene` base
+  (drag-and-drop, tap, depth, saved positions, also used by Mina hus and Mitt gym): club
+  furniture rows (`room: 'clubhouse'` in `data/furniture.ts`, two of them for sale), the pets
+  sit in the room (drag them, tap to care), the active gymnast stands there (tap for Mitt lag),
+  and a door leads to the gym. Positions in `SaveData.clubhouse` (v9).
 - **Each gymnast has her own house.** A new gymnast gets a house.
 
 - Every house has:

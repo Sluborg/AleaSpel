@@ -3,7 +3,7 @@ import { rollTraits } from './PetCare';
 // Versioned save data in localStorage.
 // To change the schema: bump SAVE_VERSION, update SaveData, add a migration from the previous version.
 
-export const SAVE_VERSION = 8;
+export const SAVE_VERSION = 9;
 const STORAGE_KEY = 'aleaspel.save';
 
 export interface Position {
@@ -55,6 +55,10 @@ export interface SaveData {
   gym: {
     equipment: Record<string, Position>; // placed apparatus in Mitt gym
   };
+  clubhouse: {
+    furniture: Record<string, Position>;
+    pets: Record<string, Position>; // pet id -> where it sits in Klubbstugan
+  };
 }
 
 export function createGymnast(index: number): Gymnast {
@@ -89,6 +93,7 @@ const MIGRATIONS: Record<number, Migration> = {
     activeGymnastId: ((data.gymnasts as Gymnast[]) ?? [])[0]?.id ?? 'g1',
   }),
   7: (data) => ({ ...data, version: 8, gym: { equipment: {} } }),
+  8: (data) => ({ ...data, version: 9, clubhouse: { furniture: {}, pets: {} } }),
 };
 
 function createDefault(): SaveData {
@@ -101,6 +106,7 @@ function createDefault(): SaveData {
     owned: [],
     activeGymnastId: 'g1',
     gym: { equipment: {} },
+    clubhouse: { furniture: {}, pets: {} },
   };
 }
 
