@@ -54,6 +54,8 @@ docs/asset-spec.md     character and wardrobe art rules
 docs/image-prompts.md  ChatGPT image prompts and the image queue (Visuals)
 docs/art-requests.md   art the features need (Lead -> Visuals)
 docs/collaboration.md  how the sessions work together
+docs/art-discussion.md Lead <-> Visuals thread (append-only)
+art-tasks/             ChatGPT task queue (Visuals)
 research/              interviews with Alea, reference-game research
 .github/workflows/deploy.yml
 ```

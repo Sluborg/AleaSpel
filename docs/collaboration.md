@@ -28,7 +28,14 @@ Only the owner edits these. The other session asks through `docs/art-requests.md
   `docs/game-design.md`, `research/`.
 - **Shared, small careful commits:** `src/services/SaveService.ts`, `src/main.ts`,
   `src/scenes/PreloadScene.ts`, `src/scenes/AvatarEditorScene.ts`, `src/ui/Button.ts`,
-  `src/ui/NameInput.ts`, `src/config.ts`, `CLAUDE.md`, `project-status.md`, `docs/art-requests.md`.
+  `src/ui/NameInput.ts`, `src/config.ts`, `CLAUDE.md`, `project-status.md`, `docs/art-requests.md`,
+  `docs/art-discussion.md` (append-only), `art-tasks/` is Visuals' (ChatGPT fetches it).
+
+## Talking to each other: `docs/art-discussion.md`
+
+Questions, proposals and answers between the sessions go into `docs/art-discussion.md`
+(append-only entries, `Lead:` / `Visuals:` with date, `[closed]` when settled). Pull before
+reading and before writing. Decisions that change a file still go into that file.
 
 ## Asking for art: `docs/art-requests.md`
 
