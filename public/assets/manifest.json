@@ -657,6 +657,15 @@
       "tintable": false,
       "license": "Project-owned, AI-generated for AleaSpel",
       "source": "ChatGPT image generation 2026-09-30, batch B11 (assets/source/exterior/garden_path-raw.png), extracted by scripts/art/extract-object.mjs"
+    },
+    {
+      "id": "brows_soft",
+      "category": "brows",
+      "layer": "brows",
+      "file": "wardrobe/brows/brows_soft.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B1 on the face_blank template (assets/source/face/brows/brows_soft-raw.png), extracted by scripts/art/extract-face.mjs"
     }
   ]
 }
