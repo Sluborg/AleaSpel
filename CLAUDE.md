@@ -41,7 +41,8 @@ src/
                      Trampoline, Beam, Bars, Vault), Shop (Butiken)
                      BaseScene (title, back button), PlaceholderScene (empty scenes)
   data/              game content as data (menu, furniture, wardrobe, pets, pet games/foods,
-                     minigames: shapes, moves, games; competition rivals; gym equipment; shop)
+                     minigames: shapes, moves, games; competition rivals; gym equipment; shop;
+                     clothing occasions)
   services/          SaveService, PetCare, Gesture (finger-pattern recognizer)
   ui/                reusable UI (Button, GymnastView, NameInput, itemBounds, PetView, petSvg,
                      ScrollList)

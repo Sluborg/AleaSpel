@@ -67,7 +67,14 @@ export abstract class PatternGameScene extends BaseScene {
     this.drawWorld();
     this.addBackButton(this.returnTo);
     const start = this.gymnastStart();
-    this.view = new GymnastView(this, start.x, start.y, start.height, this.gymnast);
+    this.view = new GymnastView(
+      this,
+      start.x,
+      start.y,
+      start.height,
+      this.gymnast,
+      this.practice ? 'traning' : 'tavling',
+    );
     this.trail = this.add.graphics().setDepth(200);
     this.buildCard();
     this.progress = this.add

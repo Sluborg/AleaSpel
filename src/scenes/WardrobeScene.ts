@@ -11,6 +11,7 @@ import {
   wardrobeItems,
   type Anchors,
 } from '../data/wardrobe';
+import { DEFAULT_OCCASION, OCCASIONS, lookTarget, outfitFor } from '../data/occasions';
 import { SaveService, type Gymnast } from '../services/SaveService';
 import { createButton } from '../ui/Button';
 import { GymnastView } from '../ui/GymnastView';
@@ -32,6 +33,8 @@ export class WardrobeScene extends BaseScene {
   private view!: GymnastView;
   private panel?: Phaser.GameObjects.Container;
   private tab = ''; // tab label
+  private occasion = DEFAULT_OCCASION; // which look is being dressed
+  private chips?: Phaser.GameObjects.Container;
   private focusLayer = ''; // layer the colour swatches apply to
   // Drag scrolling: the tab strip scrolls sideways, the item grid up and down.
   private tabStrip?: Phaser.GameObjects.Container;
@@ -54,7 +57,8 @@ export class WardrobeScene extends BaseScene {
     this.gymnast = gymnasts.find((g) => g.id === data.gymnastId) ?? gymnasts[0];
     this.addTitle(this.gymnast.name);
     this.addBackButton('AvatarEditor');
-    this.view = new GymnastView(this, GAME_WIDTH / 2, 450, 640, this.gymnast);
+    this.view = new GymnastView(this, GAME_WIDTH / 2, 480, 580, this.gymnast, this.occasion);
+    this.buildOccasions();
 
     const tabs = this.tabs();
     this.tab = tabs[0]?.label ?? '';
@@ -91,6 +95,38 @@ export class WardrobeScene extends BaseScene {
     return () => {
       if (!this.dragged && this.dragZone === zone) action();
     };
+  }
+
+  // Occasion chips under the title: each occasion has its own look (face and hair are shared).
+  private buildOccasions(): void {
+    this.chips?.destroy();
+    const chips = this.add.container(0, 0);
+    this.chips = chips;
+    const step = 138;
+    OCCASIONS.forEach((o, i) => {
+      const selected = o.id === this.occasion;
+      chips.add(
+        createButton(
+          this,
+          GAME_WIDTH / 2 + (i - (OCCASIONS.length - 1) / 2) * step,
+          165,
+          `${o.icon} ${o.name}`,
+          () => {
+            this.occasion = o.id;
+            this.focusLayer = '';
+            this.view.refresh(this.gymnast, this.occasion);
+            this.buildOccasions();
+            this.buildPanel();
+          },
+          { width: step - 6, fontSize: 22, color: selected ? COLORS.primary : 0x6b5a85 },
+        ),
+      );
+    });
+  }
+
+  // The outfit shown and edited: shared face and hair plus the current occasion's look.
+  private look() {
+    return outfitFor(this.gymnast, this.occasion);
   }
 
   private maskRect(x: number, y: number, w: number, h: number) {
@@ -157,7 +193,8 @@ export class WardrobeScene extends BaseScene {
 
     const tab = this.currentTab();
     const layers = (tab?.categories ?? []).map((c) => layerOfCategory(c) ?? c);
-    const wornIn = layers.filter((l) => this.gymnast.outfit[l]);
+    const look = this.look();
+    const wornIn = layers.filter((l) => look[l]);
     if (!wornIn.includes(this.focusLayer)) this.focusLayer = wornIn[0] ?? '';
     const rowY = TAB_ZONE_BOTTOM + 20 + TILE / 2;
 
@@ -173,14 +210,14 @@ export class WardrobeScene extends BaseScene {
       const x = startX + (i % perRow) * (TILE + TILE_GAP);
       const y = rowY + Math.floor(i / perRow) * (TILE + TILE_GAP);
       lastY = y;
-      const w = item ? this.gymnast.outfit[layerOfCategory(item.category) ?? ''] : undefined;
+      const w = item ? look[layerOfCategory(item.category) ?? ''] : undefined;
       const selected = item ? w?.item === item.id : wornIn.length === 0;
       grid.add(this.tile(x, y, item, selected, w?.tint));
     });
     let contentBottom = lastY + TILE / 2;
 
     // Colour swatches for the worn item, when it can be coloured.
-    const worn = this.gymnast.outfit[this.focusLayer];
+    const worn = look[this.focusLayer];
     const layer = this.focusLayer;
     const wornEntry = items.find((i) => i.id === worn?.item);
     if (wornEntry?.tintable) {
@@ -272,19 +309,20 @@ export class WardrobeScene extends BaseScene {
     const multi = layers.length > 1;
     this.save((g) => {
       if (!item) {
-        for (const l of layers) delete g.outfit[l];
+        for (const l of layers) delete lookTarget(g, this.occasion, l)[l];
         return;
       }
       const layer = layerOfCategory(item.category);
       if (!layer) return;
       this.focusLayer = layer;
+      const target = lookTarget(g, this.occasion, layer);
       // In a tab with several layers (Smink), tapping a worn item takes it off again.
-      if (multi && g.outfit[layer]?.item === item.id) {
-        delete g.outfit[layer];
+      if (multi && target[layer]?.item === item.id) {
+        delete target[layer];
         return;
       }
-      const prevTint = g.outfit[layer]?.tint;
-      g.outfit[layer] = item.tintable
+      const prevTint = target[layer]?.tint;
+      target[layer] = item.tintable
         ? { item: item.id, tint: prevTint ?? DEFAULT_TINT }
         : { item: item.id };
     });
@@ -292,7 +330,7 @@ export class WardrobeScene extends BaseScene {
 
   private setTint(layer: string, color: number): void {
     this.save((g) => {
-      const w = g.outfit[layer];
+      const w = lookTarget(g, this.occasion, layer)[layer];
       if (w) w.tint = color;
     });
   }
@@ -300,7 +338,7 @@ export class WardrobeScene extends BaseScene {
   // this.gymnast is the object inside the save data, so the change is visible right away.
   private save(change: (g: Gymnast) => void): void {
     SaveService.update(() => change(this.gymnast));
-    this.view.refresh(this.gymnast);
+    this.view.refresh(this.gymnast, this.occasion);
     this.buildPanel();
   }
 }

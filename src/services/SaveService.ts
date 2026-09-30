@@ -3,7 +3,7 @@ import { rollTraits } from './PetCare';
 // Versioned save data in localStorage.
 // To change the schema: bump SAVE_VERSION, update SaveData, add a migration from the previous version.
 
-export const SAVE_VERSION = 10;
+export const SAVE_VERSION = 11;
 const STORAGE_KEY = 'aleaspel.save';
 
 export interface Position {
@@ -20,7 +20,8 @@ export interface WornItem {
 export interface Gymnast {
   id: string;
   name: string;
-  outfit: Record<string, WornItem>; // key = wardrobe layer id
+  outfit: Record<string, WornItem>; // key = wardrobe layer id; face and hair are shared here
+  looks?: Record<string, Record<string, WornItem>>; // occasion id -> clothes per layer
   bests: Record<string, number>; // minigame id -> best score (stars)
 }
 
@@ -67,7 +68,7 @@ export interface SaveData {
 }
 
 export function createGymnast(index: number): Gymnast {
-  return { id: `g${index}`, name: `Gymnast ${index}`, outfit: {}, bests: {} };
+  return { id: `g${index}`, name: `Gymnast ${index}`, outfit: {}, looks: {}, bests: {} };
 }
 
 type Migration = (data: Record<string, unknown>) => Record<string, unknown>;
@@ -100,6 +101,21 @@ const MIGRATIONS: Record<number, Migration> = {
   7: (data) => ({ ...data, version: 8, gym: { equipment: {} } }),
   8: (data) => ({ ...data, version: 9, clubhouse: { furniture: {}, pets: {} } }),
   9: (data) => ({ ...data, version: 10, team: { days: 0, wins: 0, podiums: 0 } }),
+  // Looks per occasion: the clothes worn so far become the Vardag look.
+  10: (data) => ({
+    ...data,
+    version: 11,
+    gymnasts: ((data.gymnasts as Gymnast[]) ?? []).map((g) => ({
+      ...g,
+      looks: {
+        vardag: Object.fromEntries(
+          Object.entries(g.outfit ?? {}).filter(
+            ([l]) => !['body', 'eyes', 'brows', 'mouth', 'hair_back', 'hair_front'].includes(l),
+          ),
+        ),
+      },
+    })),
+  }),
 };
 
 function createDefault(): SaveData {

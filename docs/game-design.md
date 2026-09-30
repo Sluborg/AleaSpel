@@ -42,6 +42,12 @@ out to place it in the scene, drag it back to put it away (Toca Boca's character
   - **Dräktdesigner**: leotard base colour, pattern (ränder, prickar, stjärnor, glitter), sleeves.
 - Avatar is layered: each part has a `layer` (body, face, hair-back, leotard, hair-front, ...).
   Layers are data, so art can later replace placeholder shapes part by part.
+- **Clothing occasions** (built, Stefan 2026-09-30): Vardag, Träning, Tävling, Fest, Chill
+  (`src/data/occasions.ts`). Face and hair are shared; clothes, shoes, make-up and accessories
+  are one look per occasion (`Gymnast.looks`, save v11, the old outfit became Vardag). Chips in
+  Garderob pick which look is dressed; a new look starts as a copy of Vardag. Scenes choose the
+  look: Klubbstugan = Chill, practice in Mitt gym = Träning, Tävlingar and Tävlingsdag =
+  Tävling, Mitt lag and Mina hus = Vardag, Fest is for events.
 
 ## 4. Houses (Mina hus)
 

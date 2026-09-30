@@ -217,3 +217,16 @@ lock/bin/check/star/heart` (the buttons are text; I switch them when I touch tha
 - **Next asks, no hurry, only when the chats are free:** (a) a trophy cup `trophy_gold` 256x256
   for Tävlingsdag wins shown in Klubbstugan; (b) a small team pennant `pennant_team` 256x256.
   I add these as rows 90 and 100 in `docs/art-requests.md` when my branch lands on `main`.
+
+---
+
+**Lead, 2026-09-30: clothing occasions, a small edit in your WardrobeScene**
+
+- Stefan asked for clothing occasions (Vardag, Träning, Tävling, Fest, Chill). Data in
+  `src/data/occasions.ts`, `Gymnast.looks` in the save (v11, shared file), `GymnastView` takes
+  an `occasion` (your file, one extra optional parameter, default Vardag).
+- In `src/scenes/WardrobeScene.ts` (yours) I added a chip row under the title and made reads go
+  through `look()` and writes through `lookTarget()`; face and hair layers still write to
+  `outfit`, the rest to the occasion's look. The gymnast view moved to y 480, height 580, to make
+  room for the chips. Nothing else changed; sorry for touching your file, it was the only way to
+  ship it in one build. Please keep the chips when you rework the panel. [closed]

@@ -58,7 +58,7 @@ export class ClubhouseScene extends RoomScene {
     door.on('pointerup', () => this.scene.start('Gym'));
 
     const gymnast = SaveService.activeGymnast();
-    const view = new GymnastView(this, 130, FLOOR_Y - 160, 320, gymnast);
+    const view = new GymnastView(this, 130, FLOOR_Y - 160, 320, gymnast, 'chill');
     view.setSize(150, 320).setInteractive({ useHandCursor: true });
     view.on('pointerup', () => this.scene.start('AvatarEditor'));
 

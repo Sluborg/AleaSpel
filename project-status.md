@@ -42,6 +42,8 @@ Updated 2026-09-30. Read this first when resuming ("continue from project-status
   clubs; placement gives medals; wins counted. Save schema v10.
 - Delivered art in use: pets, food, toys, furniture, equipment, backdrops in every room and
   minigame, medal icon, pet bowl/brush/bed/house; two new pet games (Fånga musen, Frisbee).
+- Clothing occasions in Garderob: Vardag, Träning, Tävling, Fest, Chill, one look each, shared
+  face and hair; scenes dress the gymnast for the occasion. Save schema v11.
 - Butiken: buy furniture (7 priced rows) with medals, scrollable list (`ui/ScrollList.ts`),
   bought furniture appears in Mina hus. Save schema v6 (owned). Menu entry Butiken.
 - Face pipeline: `face_blank` template, `scripts/art/extract-face.mjs`, 7 eye styles in the
@@ -50,8 +52,7 @@ eyes_wink`).
 
 ## Lead
 
-- In progress: nothing. SaveData is at v10 on my branch (owned, activeGymnastId, gym, clubhouse,
-  team).
+- In progress: nothing. SaveData is at v11 (owned, activeGymnastId, gym, clubhouse, team, looks).
 - Done on my branch: delivered art in use (pets fur+face tinted, food icons, furniture in Mina
   hus/Klubbstugan/Butiken, equipment in Mitt gym) via `src/ui/art.ts` helpers with placeholder
   fallback.
