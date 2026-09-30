@@ -3,7 +3,7 @@ import { COLORS, FONT, GAME_HEIGHT, GAME_WIDTH } from '../config';
 import { FURNITURE, type FurnitureDef } from '../data/furniture';
 import { SaveService, type Position } from '../services/SaveService';
 import { artImage } from '../ui/art';
-import { createButton } from '../ui/Button';
+import { buttonBackground, createButton } from '../ui/Button';
 import { ScrollList } from '../ui/ScrollList';
 import { BaseScene } from './BaseScene';
 import { furnitureArtKey, furnitureFoot, furnitureShape, furnitureSize } from '../ui/furnitureView';
@@ -280,8 +280,10 @@ export abstract class RoomScene extends BaseScene {
     b: { icon: string; label: string; run: () => void },
   ): Phaser.GameObjects.Container {
     const c = this.add.container(x, y);
-    const g = this.add.graphics();
-    g.fillStyle(0x6b5a85, 1).fillRoundedRect(-w / 2, -66, w, 132, 22);
+    // UI kit art (ui_button_round, tinted) like createButton, drawn shape as fallback.
+    const bg = buttonBackground(this, w, 132);
+    bg.paint(0x6b5a85);
+    const g = bg.object;
     const icon = this.add.text(0, -18, b.icon, { fontSize: '46px' }).setOrigin(0.5);
     const label = this.add
       .text(0, 38, b.label, {
@@ -293,10 +295,17 @@ export abstract class RoomScene extends BaseScene {
       .setOrigin(0.5);
     c.add([g, icon, label]);
     c.setSize(w, 132).setInteractive({ useHandCursor: true });
-    c.on('pointerdown', () => c.setScale(0.94));
-    c.on('pointerout', () => c.setScale(1));
+    c.on('pointerdown', () => {
+      c.setScale(0.94);
+      bg.paint(0x54466b);
+    });
+    c.on('pointerout', () => {
+      c.setScale(1);
+      bg.paint(0x6b5a85);
+    });
     c.on('pointerup', () => {
       c.setScale(1);
+      bg.paint(0x6b5a85);
       b.run();
     });
     return c;

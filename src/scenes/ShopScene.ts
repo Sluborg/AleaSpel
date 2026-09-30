@@ -10,8 +10,10 @@ import { createButton } from '../ui/Button';
 import { ScrollList } from '../ui/ScrollList';
 import { BaseScene } from './BaseScene';
 
-const TILE_W = 300;
-const TILE_H = 300;
+const COLS = 3;
+const TILE_W = 212;
+const TILE_H = 290;
+const TILE_GAP = 14;
 const LIST_TOP = 350;
 
 // Butiken: spend medals on furniture (and clothes, when Visuals adds priced items).
@@ -79,11 +81,11 @@ export class ShopScene extends BaseScene {
     }
     this.list = new ScrollList(this, LIST_TOP, GAME_HEIGHT - 20);
     items.forEach((item, i) => {
-      const x = GAME_WIDTH / 2 + ((i % 2) - 0.5) * (TILE_W + 30);
-      const y = 20 + Math.floor(i / 2) * (TILE_H + 24) + TILE_H / 2;
+      const x = GAME_WIDTH / 2 + ((i % COLS) - (COLS - 1) / 2) * (TILE_W + TILE_GAP);
+      const y = 20 + Math.floor(i / COLS) * (TILE_H + TILE_GAP) + TILE_H / 2;
       this.list!.content.add(this.tile(x, y, item, this.count(item), save.medals));
     });
-    this.list.setContentHeight(20 + Math.ceil(items.length / 2) * (TILE_H + 24) + 20);
+    this.list.setContentHeight(20 + Math.ceil(items.length / COLS) * (TILE_H + TILE_GAP) + 20);
   }
 
   // Furniture can be bought again and again (it goes to the Förråd); clothes once.
@@ -111,28 +113,28 @@ export class ShopScene extends BaseScene {
     const artKey = def ? (furnitureArtKey(this, def) ?? '') : item.id;
     const art = hasArt(this, artKey);
     if (item.color !== undefined && !art) {
-      g.fillStyle(item.color, 1).fillRoundedRect(-60, -TILE_H / 2 + 22, 120, 70, 16);
+      g.fillStyle(item.color, 1).fillRoundedRect(-55, -TILE_H / 2 + 22, 110, 66, 16);
     }
     c.add(g);
     c.add(
       art
-        ? artImage(this, 0, -TILE_H / 2 + 62, artKey, 140, 100)
-        : this.add.text(0, -TILE_H / 2 + 57, item.icon, { fontSize: '44px' }).setOrigin(0.5),
+        ? artImage(this, 0, -TILE_H / 2 + 60, artKey, 150, 96)
+        : this.add.text(0, -TILE_H / 2 + 55, item.icon, { fontSize: '44px' }).setOrigin(0.5),
     );
     c.add(
       this.add
-        .text(0, 10, item.name, {
+        .text(0, -18, item.name, {
           fontFamily: FONT,
-          fontSize: '32px',
+          fontSize: '26px',
           color: COLORS.text,
           fontStyle: 'bold',
         })
         .setOrigin(0.5),
     );
     const afford = medals >= item.price;
-    const label = owned ? 'Köpt ✓' : `Köp  🏅${item.price}`;
-    const btn = createButton(this, 0, TILE_H / 2 - 70, label, () => this.buy(item), {
-      width: 250,
+    const label = owned ? 'Köpt ✓' : `🏅 ${item.price}`;
+    const btn = createButton(this, 0, TILE_H / 2 - 62, label, () => this.buy(item), {
+      width: 180,
       height: 84,
       fontSize: 30,
       color: owned ? 0x4f8a5f : afford ? COLORS.primary : 0x6b5a85,
@@ -142,13 +144,13 @@ export class ShopScene extends BaseScene {
     // How many the team already has (furniture can be bought again, extra ones go to the Förråd).
     if (item.kind === 'furniture' && have > 0) {
       const badge = this.add.graphics();
-      badge.fillStyle(0x4f8a5f, 1).fillRoundedRect(TILE_W / 2 - 96, -TILE_H / 2 + 12, 84, 44, 22);
+      badge.fillStyle(0x4f8a5f, 1).fillRoundedRect(TILE_W / 2 - 78, -TILE_H / 2 + 10, 68, 40, 20);
       c.add(badge);
       c.add(
         this.add
-          .text(TILE_W / 2 - 54, -TILE_H / 2 + 34, `×${have}`, {
+          .text(TILE_W / 2 - 44, -TILE_H / 2 + 30, `×${have}`, {
             fontFamily: FONT,
-            fontSize: '28px',
+            fontSize: '24px',
             color: COLORS.text,
             fontStyle: 'bold',
           })
@@ -158,9 +160,9 @@ export class ShopScene extends BaseScene {
     if (!owned && !afford) {
       c.add(
         this.add
-          .text(0, TILE_H / 2 - 18, `${item.price - medals} till`, {
+          .text(0, 16, `${item.price - medals} till`, {
             fontFamily: FONT,
-            fontSize: '22px',
+            fontSize: '20px',
             color: COLORS.textMuted,
           })
           .setOrigin(0.5),
