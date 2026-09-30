@@ -6,7 +6,7 @@ Take the first **Ready** batch **of your track** that you have not made yet (che
 
 | Batch | Track     | File     | What                                  | Images | Status |
 | ----- | --------- | -------- | ------------------------------------- | ------ | ------ |
-| B1    | faces     | -        | brows_soft (sent by hand)             | 1      | Sent   |
+| B1    | faces     | `B1.md`  | Soft brows                            | 1      | Ready  |
 | B2    | faces     | `B2.md`  | Face parts and make-up                | 7      | Done   |
 | B6    | clothes   | `B6.md`  | Clothes                               | 6      | Done   |
 | B3    | animals   | `B3.md`  | Pets (art request 10)                 | 6      | Done   |
