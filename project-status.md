@@ -32,7 +32,8 @@ eyes_wink`).
 
 ## Lead
 
-- In progress: nothing.
+- In progress: SaveData v5 (medals + personal bests per gymnast), gesture recognizer, first
+  minigame (Studsmatta), Tävlingar hub.
 - Next: pet feedback from Alea; then Klubbstugan + gym connection, or the first gymnastics
   minigame and medals.
 
