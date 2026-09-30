@@ -28,8 +28,9 @@ Updated 2026-09-30. Read this first when resuming ("continue from project-status
   interactions, secret personality discovered by playing. Save schema v4.
 - Tävlingar: pattern matcher (`services/Gesture.ts`, templates in `data/gestureShapes.ts`),
   Studsmatta minigame (5 jumps, draw the pattern shown on the card, accuracy percent and stars,
-  poses), Bom minigame (beam stations, wobble, dismount), medals (1 per star) and personal
-  bests. Save schema v5.
+  poses), Bom (beam stations, wobble, dismount), Barr (swing, giants, dismount) and Hopp
+  (run-up, table, landing) on the shared PatternGameScene engine; medals (1 per star) and
+  personal bests. Save schema v5.
   Medal count on the main menu.
 - Mitt lag: several gymnasts (up to 8), each with her own outfit and records; the shown one is
   active and competes. Save schema v7.
@@ -42,7 +43,7 @@ eyes_wink`).
 ## Lead
 
 - In progress: nothing. SaveData is at v7 (owned shop items, activeGymnastId).
-- Next: Klubbstugan + gym, or Barr and Hopp on the pattern engine, or Fredagspaket.
+- Next: Mitt gym (place equipment, tap to practise a game), then Klubbstugan.
 - Ask to Visuals: when a priced garment exists, list it in `src/data/shop.ts` `CLOTHES_PRICES`
   and hide unowned priced items in the wardrobe (`SaveService.get().owned`).
 
@@ -60,7 +61,6 @@ eyes_wink`).
 2. Wardrobe scroll for many items per tab (needed after about 7 items). [0.8]
 3. Hair: the bun is baked into the master. Decide approach (hair mask image to split hair into
    its own layer). [0.7]
-4. First gesture minigame (trampoline, swipe patterns). [0.7]
 
 ## Open questions
 

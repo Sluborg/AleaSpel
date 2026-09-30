@@ -26,6 +26,23 @@ export const MOVES: MoveDef[] = [
   { id: 'cartwheel', name: 'Hjul', shape: 'circle', difficulty: 2, pose: 'flip' },
   { id: 'beam_flip', name: 'Volt på bom', shape: 'heart', difficulty: 3, pose: 'flip' },
   { id: 'dismount', name: 'Avhopp', shape: 'star', difficulty: 3, pose: 'flip' },
+  // Bars
+  { id: 'swing', name: 'Sväng', shape: 'circle', difficulty: 1, pose: 'straight' },
+  { id: 'kip', name: 'Kipp', shape: 'v', difficulty: 2, pose: 'pike' },
+  { id: 'handstand', name: 'Handstående', shape: 'triangle', difficulty: 2, pose: 'straight' },
+  { id: 'bar_twist', name: 'Skruvsväng', shape: 's', difficulty: 2, pose: 'twist' },
+  { id: 'release', name: 'Släpp och fång', shape: 'zigzag', difficulty: 3, pose: 'straddle' },
+  { id: 'giant', name: 'Jättesväng', shape: 'heart', difficulty: 3, pose: 'flip' },
+  { id: 'bar_dismount', name: 'Avhopp', shape: 'star', difficulty: 3, pose: 'flip' },
+  // Vault
+  { id: 'frog', name: 'Grodhopp', shape: 'square', difficulty: 1, pose: 'tuck' },
+  { id: 'straight_vault', name: 'Raka hopp', shape: 'triangle', difficulty: 1, pose: 'straight' },
+  { id: 'pike_vault', name: 'Pikhopp', shape: 'v', difficulty: 2, pose: 'pike' },
+  { id: 'straddle_vault', name: 'Grenhopp', shape: 'zigzag', difficulty: 2, pose: 'straddle' },
+  { id: 'twist_vault', name: 'Skruvhopp', shape: 's', difficulty: 2, pose: 'twist' },
+  { id: 'handspring', name: 'Överslag', shape: 'circle', difficulty: 2, pose: 'flip' },
+  { id: 'vault_flip', name: 'Volt', shape: 'heart', difficulty: 3, pose: 'flip' },
+  { id: 'vault_star', name: 'Stjärnhopp', shape: 'star', difficulty: 3, pose: 'straddle' },
 ];
 
 export interface MinigameDef {
@@ -75,8 +92,33 @@ export const MINIGAMES: MinigameDef[] = [
     rounds: 5,
     available: true,
   },
-  { id: 'bars', name: 'Barr', icon: '🎽', scene: '', moves: [], rounds: 5, available: false },
-  { id: 'vault', name: 'Hopp', icon: '🏃', scene: '', moves: [], rounds: 5, available: false },
+  {
+    id: 'bars',
+    name: 'Barr',
+    icon: '🎽',
+    scene: 'Bars',
+    moves: ['swing', 'kip', 'handstand', 'bar_twist', 'release', 'giant', 'bar_dismount'],
+    rounds: 5,
+    available: true,
+  },
+  {
+    id: 'vault',
+    name: 'Hopp',
+    icon: '🏃',
+    scene: 'Vault',
+    moves: [
+      'frog',
+      'straight_vault',
+      'pike_vault',
+      'straddle_vault',
+      'twist_vault',
+      'handspring',
+      'vault_flip',
+      'vault_star',
+    ],
+    rounds: 5,
+    available: true,
+  },
 ];
 
 // Medals per star earned in a round.

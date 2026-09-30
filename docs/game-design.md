@@ -98,7 +98,11 @@ they were drawn (percent shown, stars by accuracy bands per difficulty).
   - **Studsmatta**: 5 jumps, draw while she is in the air, pose at the apex.
   - **Bom**: she walks to 5 stations on the beam and wobbles while you draw (3.8 s window); a
     miss makes her slip and catch herself; the last station is the dismount onto the mat.
-  - Tävlingar hub lists the games (Barr, Hopp as "Kommer snart") with the active gymnast's records.
+  - **Barr**: she swings under the high bar while you draw (3.6 s); a good pattern becomes a full
+    swing, a release move or a giant; the last round is a dismount onto the mat.
+  - **Hopp**: run-up, springboard, flight over the table; draw during the run and flight; stuck
+    landing on 2+ stars, a stumble otherwise.
+  - Tävlingar hub lists all four games with the active gymnast's records.
 - Scoring: 1 to 3 stars per move plus a total. Personal bests saved per gymnast per minigame.
 - Unlocks: practising a move unlocks the next one in that apparatus track.
 - **Tävlingsdag** (later): pick 3 gymnasts, each performs a short routine, judges show scores,

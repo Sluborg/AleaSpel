@@ -10,8 +10,10 @@ import { MinigameHubScene } from './scenes/MinigameHubScene';
 import { PetsScene } from './scenes/PetsScene';
 import { WardrobeScene } from './scenes/WardrobeScene';
 import { ShopScene } from './scenes/ShopScene';
+import { BarsScene } from './scenes/minigames/BarsScene';
 import { BeamScene } from './scenes/minigames/BeamScene';
 import { TrampolineScene } from './scenes/minigames/TrampolineScene';
+import { VaultScene } from './scenes/minigames/VaultScene';
 import { PreloadScene } from './scenes/PreloadScene';
 
 // Auto-update: a new deploy is picked up and the page reloads with it.
@@ -54,6 +56,8 @@ const game = new Phaser.Game({
     WardrobeScene,
     TrampolineScene,
     BeamScene,
+    BarsScene,
+    VaultScene,
     ShopScene,
   ],
 });
