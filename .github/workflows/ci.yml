@@ -1,0 +1,27 @@
+name: CI
+
+# Checks every pull request the same way the deploy does (lint, format, art rules, build),
+# so features can be reviewed on a branch before they reach main. Wake-bell PRs are skipped.
+on:
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    if: ${{ !endsWith(github.head_ref, '-wake') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run format:check
+      - run: npx tsc --noEmit
+      - run: npm run validate:art
+      - run: npm run build
