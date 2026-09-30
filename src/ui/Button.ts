@@ -30,6 +30,7 @@ export function createButton(
       fontSize: `${options.fontSize ?? 44}px`,
       color: COLORS.text,
       fontStyle: 'bold',
+      align: 'center',
     })
     .setOrigin(0.5);
 
@@ -73,7 +74,7 @@ export function buttonBackground(
 ): ButtonBackground {
   const webgl = scene.game.renderer.type === Phaser.WEBGL;
   // Near-square buttons (back, icons): the round art, since the pill caps would meet in a seam.
-  if (width < height * 1.4 && scene.textures.exists(ROUND_KEY)) {
+  if (width <= height * 1.15 && scene.textures.exists(ROUND_KEY)) {
     const disc = scene.add.image(0, 0, ROUND_KEY).setDisplaySize(width, height);
     return { object: disc, paint: (fill) => disc.setTint(fill) };
   }

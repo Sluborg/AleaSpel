@@ -127,7 +127,7 @@ export class WardrobeScene extends BaseScene {
           this,
           GAME_WIDTH / 2 + (i - (OCCASIONS.length - 1) / 2) * step,
           215,
-          `${o.icon} ${o.name}`,
+          `${o.icon}\n${o.name}`,
           () => {
             this.occasion = o.id;
             this.focusLayer = '';
