@@ -7,13 +7,14 @@ writes the tasks; ChatGPT fetches and does them; Visuals checks, extracts and sh
 
 Stefan runs one ChatGPT chat per track and tells it which one ("You are on animals").
 
-| Track     | Makes                                 | Batches in `NEXT.md` |
-| --------- | ------------------------------------- | -------------------- |
-| humans    | face parts, make-up, clothes, hair    | Track = humans       |
-| animals   | pets, pet food, pet toys              | Track = animals      |
-| furniture | furniture, gym equipment, house parts | Track = furniture    |
-| scenes    | backdrops and environments            | Track = scenes       |
-| ui        | icons and UI pieces                   | Track = ui           |
+| Track     | Makes                                 | Template (Drive `templates/`) |
+| --------- | ------------------------------------- | ----------------------------- |
+| faces     | eyes, brows, mouths, make-up          | `face_blank-raw.png`          |
+| clothes   | clothes, shoes, accessories, hair     | `master-raw.png`              |
+| animals   | pets, pet food, pet toys              | none                          |
+| furniture | furniture, gym equipment, house parts | none                          |
+| scenes    | backdrops and environments            | none                          |
+| ui        | icons and UI pieces                   | none                          |
 
 Only take batches and redo rows of your own track. Remember your track for the whole chat.
 Every chat also follows the shared house style in `art-tasks/STYLE.md` (read it once).
@@ -64,9 +65,10 @@ Fallbacks if Drive fails: upload the PNG to GitHub `art-inbox/<batch>/<id>.png`;
 large, as base64 text `art-inbox/<batch>/<id>.png.b64` (split into `.b64.001`, `.002`, ... if
 needed). Last resort: show the images in the chat, each labelled with its id.
 
-**Template images:** your GitHub tool may not be able to read PNGs. If you cannot fetch a
-template, ask Stefan to attach it once in the chat and reuse that attachment for the whole
-batch.
+**Template images** live in the Drive folder `AleaSpel art-inbox/templates/`
+(https://drive.google.com/drive/folders/1d4MRdBy1BtkN96LTQPo5obbuXt5wuOeq). Fetch the one your
+track needs from there once per chat and reuse it for every image. Only if Drive fails, ask
+Stefan to attach it.
 
 Visuals (the Claude art session) copies the Drive images into `art-inbox`, reviews them, ships
 good ones to the game, writes redo requests to `REDO.md` and sets batches to Done in `NEXT.md`.
