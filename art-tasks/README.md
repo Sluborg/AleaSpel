@@ -55,7 +55,11 @@ is picked up anyway.
   3. If your track has a template, fetch it from the Drive `templates` folder and keep it for
      the whole chat. If you cannot, say so and ask Stefan to attach it.
   4. Check that you can upload to the Drive folder and write to branch `art-inbox`.
-  5. Report in 3-5 lines (track, template ok, uploads ok, what comes next), then do "test".
+  5. Set up your wake-up watch (Bevakning), see "Wake-ups" above, unless this chat already has
+     one: watch pull request "AleaSpel art wake" (#2) in Sluborg/AleaSpel for opened, reopened
+     and new commits; when it fires, follow the "Wake-ups" section.
+  6. Report in 3-5 lines (track, template ok, uploads ok, watch active, what comes next), then
+     do "test".
 - **"test"**: make only the first item of your next batch, upload it as `test--<id>.png`, add a
   line to the upload log, report. It does not count as making the batch.
 - **"next"**: re-read `REDO.md`, `NEXT.md` and the upload log. Do open redo rows of your track
@@ -65,6 +69,7 @@ is picked up anyway.
 - **"run all"**: repeat "next" without waiting until nothing is left for your track, then report
   once. Stop and report if an upload fails.
 - **"status"**: what you made in this chat and what is left for your track.
+- **"watch"**: set up the wake-up watch now (step 5 of "start"), if this chat has none.
 
 ## Delivering
 
