@@ -18,3 +18,4 @@ test B10 | 2026-09-30T17:28:50.001Z | icon_medal | uploaded
 B5 | 2026-09-30T17:28:52.294Z | toy_ball, toy_plank, toy_box | uploaded
 B11 | 2026-09-30T17:34:55.845Z | ext_wall_1, ext_wall_2, ext_wall_3, ext_roof_1, ext_roof_2, ext_roof_3, ext_door_1, ext_door_2, ext_window_1, ext_window_2, ext_fence, garden_tree, garden_bush, garden_flowers, garden_path | uploaded
 B1 | 2026-09-30T18:35:34.252Z | brows_soft | uploaded
+B11 redo | 2026-09-30T18:36:48.506Z | ext_wall_2, ext_window_2 | uploaded
