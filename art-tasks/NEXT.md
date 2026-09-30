@@ -23,4 +23,4 @@ Take the first **Ready** batch **of your track** that you have not made yet (che
 | B15   | animals   | `B15.md` | Pet things (bed, bowl, brush, toys)                         | 6      | Done   |
 | B16   | ui        | `B16.md` | UI kit: buttons, panel, tile, badge, ribbon, logo, app icon | 8      | Ready  |
 | B17   | scenes    | `B17.md` | Welcome screen backdrop                                     | 1      | Ready  |
-| B18   | furniture | `B18.md` | Desk corner (wake-up test)                                  | 3      | Ready  |
+| B18   | furniture | `B18.md` | Desk corner (wake-up test)                                  | 3      | Done   |
