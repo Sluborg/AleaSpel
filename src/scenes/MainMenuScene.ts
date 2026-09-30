@@ -1,10 +1,16 @@
 import { COLORS, FONT, GAME_HEIGHT, GAME_WIDTH } from '../config';
-import { MENU_ENTRIES } from '../data/menu';
+import { MENU_ENTRIES, type MenuEntry } from '../data/menu';
 import { SaveService } from '../services/SaveService';
-import { medalLabel } from '../ui/art';
-import { createButton } from '../ui/Button';
+import { artImage, backdrop, hasArt, medalLabel } from '../ui/art';
 import { BaseScene } from './BaseScene';
 
+const COLS = 2;
+const TILE_W = 300;
+const TILE_H = 170;
+const GAP = 24;
+const GRID_TOP = 360;
+
+// Start screen: logo, medal count, and a grid of big tiles (icon + name) into the game.
 export class MainMenuScene extends BaseScene {
   constructor() {
     super('MainMenu');
@@ -12,7 +18,15 @@ export class MainMenuScene extends BaseScene {
 
   create(): void {
     this.cameras.main.setBackgroundColor(COLORS.background);
-    this.addTitle('AleaSpel', 220).setFontSize(96);
+    if (backdrop(this, 'bg_welcome')) {
+      this.add
+        .rectangle(0, 0, GAME_WIDTH, GAME_HEIGHT, COLORS.background, 0.35)
+        .setOrigin(0)
+        .setDepth(-50000);
+    }
+    if (hasArt(this, 'logo_aleaspel'))
+      artImage(this, GAME_WIDTH / 2, 210, 'logo_aleaspel', 520, 200);
+    else this.addTitle('AleaSpel', 210).setFontSize(96);
     medalLabel(
       this,
       GAME_WIDTH - 30,
@@ -22,12 +36,14 @@ export class MainMenuScene extends BaseScene {
       1,
     );
 
-    const startY = 385;
-    const gap = 126;
+    const rows = Math.ceil(MENU_ENTRIES.length / COLS);
     MENU_ENTRIES.forEach((entry, i) => {
-      createButton(this, GAME_WIDTH / 2, startY + i * gap, entry.label, () =>
-        this.scene.start(entry.scene),
-      );
+      const row = Math.floor(i / COLS);
+      const inRow = row === rows - 1 ? MENU_ENTRIES.length - row * COLS : COLS;
+      const col = i % COLS;
+      const x = GAME_WIDTH / 2 + (col - (inRow - 1) / 2) * (TILE_W + GAP);
+      const y = GRID_TOP + row * (TILE_H + GAP) + TILE_H / 2;
+      this.tile(x, y, entry, i);
     });
 
     this.add
@@ -37,5 +53,60 @@ export class MainMenuScene extends BaseScene {
         color: COLORS.textMuted,
       })
       .setOrigin(0.5);
+  }
+
+  private tile(x: number, y: number, entry: MenuEntry, i: number): void {
+    const c = this.add.container(x, y);
+    const g = this.add.graphics();
+    g.fillStyle(0x000000, 0.18).fillRoundedRect(
+      -TILE_W / 2 + 4,
+      -TILE_H / 2 + 8,
+      TILE_W,
+      TILE_H,
+      34,
+    );
+    g.fillStyle(entry.color, 1).fillRoundedRect(-TILE_W / 2, -TILE_H / 2, TILE_W, TILE_H, 34);
+    g.fillStyle(0xffffff, 0.25).fillRoundedRect(
+      -TILE_W / 2 + 12,
+      -TILE_H / 2 + 10,
+      TILE_W - 24,
+      40,
+      20,
+    );
+    const icon = this.add.text(0, -26, entry.icon, { fontSize: '68px' }).setOrigin(0.5);
+    const label = this.add
+      .text(0, 52, entry.label, {
+        fontFamily: FONT,
+        fontSize: '34px',
+        color: '#3a2a4a',
+        fontStyle: 'bold',
+      })
+      .setOrigin(0.5);
+    c.add([g, icon, label]);
+    c.setSize(TILE_W, TILE_H).setInteractive({ useHandCursor: true });
+    c.on('pointerdown', () => c.setScale(0.95));
+    c.on('pointerout', () => c.setScale(1));
+    c.on('pointerup', () => {
+      c.setScale(1);
+      this.scene.start(entry.scene);
+    });
+    // A little hello as the menu opens.
+    c.setScale(0.6).setAlpha(0);
+    this.tweens.add({
+      targets: c,
+      scale: 1,
+      alpha: 1,
+      duration: 260,
+      delay: 40 * i,
+      ease: 'Back.out',
+    });
+    this.tweens.add({
+      targets: icon,
+      angle: { from: -6, to: 6 },
+      duration: 1400 + i * 90,
+      yoyo: true,
+      repeat: -1,
+      ease: 'Sine.inOut',
+    });
   }
 }
