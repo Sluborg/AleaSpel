@@ -21,7 +21,7 @@ Every chat also follows the shared house style in `art-tasks/STYLE.md` (read it 
 ## When Stefan says "test"
 
 Make only the **first item** of the first Ready batch of your track, upload it as
-``test--<id>.png` in the Drive folder` (plus a line in `art-inbox/STATUS.md`), and report. This checks the
+`test--<id>.png` in the Drive folder (plus a line in `art-inbox/STATUS.md`), and report. This checks the
 format and the upload before a full batch. It does not count as making the batch.
 
 ## When Stefan says "next"
