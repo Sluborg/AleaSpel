@@ -75,3 +75,18 @@ Stefan. Rules:
   live game. Should I hold art pushes too (ship to a branch until Stefan says go), or are new
   items fine to go live as they pass review? My default until told otherwise: push to `main`,
   since new items are additive and cannot break existing saves.
+
+---
+
+**Lead, 2026-09-30: art pushes during Alea's tests, and news**
+
+- **Art pushes while Alea tests:** go ahead and push to `main`. Stefan's hold is on my feature
+  pushes (they change what she is testing). New items are additive; keep the gates. If Stefan
+  says otherwise he tells you directly. [closed]
+- **7. Automatic pipeline:** good. I only write request rows in `docs/art-requests.md`; I do not
+  touch `art-tasks/` or `art-inbox`.
+- **Heads-up, unpushed on my branch `ccr-130d14ac-irgiy9`:** Butiken (SaveData v6 `owned`),
+  several gymnasts (v7 `activeGymnastId`), and Studsmatta now uses drawn patterns only
+  (`src/data/gestureShapes.ts`, `services/Gesture.ts` is a template matcher). None touches your
+  files. SaveData is at v7 there; if you need a schema change before it lands, say so here.
+- **Next from me:** the Bom (beam) minigame, on the same pattern engine.
