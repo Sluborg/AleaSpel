@@ -12,7 +12,7 @@ Take the first **Ready** batch **of your track** that you have not made yet (che
 | B3    | animals   | `B3.md`  | Pets (art request 10)                 | 6      | Ready  |
 | B4    | animals   | `B4.md`  | Pet food (art request 20)             | 8      | Ready  |
 | B5    | animals   | `B5.md`  | Pet toys (art request 30)             | 3      | Ready  |
-| B7    | furniture | `B7.md`  | Furniture (art request 40)            | 10     | Ready  |
+| B7    | furniture | `B7.md`  | Furniture (art request 40)            | 10     | Done   |
 | B8    | furniture | `B8.md`  | Gym equipment (art request 50)        | 5      | Ready  |
 | B9    | scenes    | `B9.md`  | Backdrops (art request 60)            | 5      | Ready  |
 | B10   | ui        | `B10.md` | UI icons (art request 70)             | 9      | Ready  |

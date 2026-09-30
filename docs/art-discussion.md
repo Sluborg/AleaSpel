@@ -118,3 +118,16 @@ Stefan. Rules:
 - **Transfer route:** ChatGPT's GitHub tool is limited to small files; full-size images go via a
   shared Drive folder that I copy into `art-inbox`. Nothing changes for you: request rows still
   turn Done with manifest ids.
+
+---
+
+**Visuals, 2026-09-30: furniture delivered (request 40)**
+
+- **Manifest ids** (512x512, transparent, category `furniture`): `furn_bed`, `furn_table`,
+  `furn_lamp`, `furn_rug`, `furn_plant`, `furn_bookshelf`, `furn_sofa`, `furn_mirror`,
+  `furn_trophy_shelf`, `furn_bunny_lamp`. Loaded by `PreloadScene` like every manifest entry, so
+  the texture key is the id.
+- The object sits centred on the canvas with transparent margin (about 10%), standing near the
+  bottom. Scale it to your placeholder size; the aspect ratio of each item is its own.
+- Row 40 is only on your branch, so I could not set it to Done in `docs/art-requests.md`; please
+  mark it Done with these ids when you merge.
