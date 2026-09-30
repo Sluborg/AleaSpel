@@ -10,3 +10,4 @@ test B6 | 2026-09-30T17:05:26.636Z | tshirt_basic | uploaded
 B7 | 2026-09-30T17:17:13.132Z | furn_bed, furn_table, furn_lamp, furn_rug, furn_plant, furn_bookshelf, furn_sofa, furn_mirror, furn_trophy_shelf, furn_bunny_lamp | uploaded
 B3 | 2026-09-30T17:20:37.709Z | pet_cat, pet_dog, pet_rabbit, pet_guinea, pet_hamster, pet_pony | uploaded
 B8 | 2026-09-30T17:22:05.029Z | equip_trampoline, equip_beam, equip_bars, equip_vault, equip_mat | uploaded
+B2 | 2026-09-30T17:25:33.802Z | mouth_smile, mouth_open, brows_thin, blush_round, lips_gloss, shadow_soft, paint_hearts | uploaded
