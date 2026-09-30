@@ -21,7 +21,7 @@ Every chat also follows the shared house style in `art-tasks/STYLE.md` (read it 
 ## When Stefan says "test"
 
 Make only the **first item** of the first Ready batch of your track, upload it as
-`art-inbox/test/<id>.png` (plus a line in `art-inbox/STATUS.md`), and report. This checks the
+``test--<id>.png` in the Drive folder` (plus a line in `art-inbox/STATUS.md`), and report. This checks the
 format and the upload before a full batch. It does not count as making the batch.
 
 ## When Stefan says "next"
@@ -48,28 +48,29 @@ fails, stop and report.
 
 ## Delivering the images
 
-Write only to the branch `art-inbox`, never to `main`, and only inside the `art-inbox/` folder:
+**Images go to Google Drive** (full size, unchanged PNG, proven 2026-09-30):
 
-- Each image: `art-inbox/<batch>/<id>.png` (a redo: `art-inbox/<batch>/<id>.png` again, the new
-  file replaces the old one).
-- A short note per batch: `art-inbox/<batch>/DONE.md` with the ids you made and anything that
-  looked wrong.
+- Folder: **AleaSpel art-inbox** (https://drive.google.com/drive/folders/108WT-CO5kNPCo8yfW-zOHM2QO3DQtiAl).
+- File name: `<batch>--<id>.png`, for example `B2--mouth_smile.png`, `test--pet_cat.png`. A redo
+  uses the same name again (upload the new file; Visuals takes the newest).
+- Never resize, crop, convert to JPEG or recompress.
+
+**Notes go to GitHub**, branch `art-inbox` only (never `main`), text files only:
+
 - Append one line to `art-inbox/STATUS.md`: `<batch or redo id> | <date time> | <ids> | uploaded`.
+- Optional note per batch: `art-inbox/<batch>/DONE.md` (anything that looked wrong).
 
-**If a PNG upload fails or is too large for your GitHub tool:** upload the same PNG as base64
-text instead: `art-inbox/<batch>/<id>.png.b64`. If that is too large for one file, split the
-base64 text into parts `<id>.png.b64.001`, `<id>.png.b64.002`, ... (any size that works, in
-order, no headers). Visuals decodes them. Never resize, recompress to JPEG or crop to make an
-image smaller.
-
-**Last resort:** show the images in the chat, each labelled with its id; Stefan passes them on.
+Fallbacks if Drive fails: upload the PNG to GitHub `art-inbox/<batch>/<id>.png`; if that is too
+large, as base64 text `art-inbox/<batch>/<id>.png.b64` (split into `.b64.001`, `.002`, ... if
+needed). Last resort: show the images in the chat, each labelled with its id.
 
 **Template images:** your GitHub tool may not be able to read PNGs. If you cannot fetch a
 template, ask Stefan to attach it once in the chat and reuse that attachment for the whole
 batch.
 
-Visuals (the Claude art session) checks the inbox, ships good images to the game, writes redo
-requests to `REDO.md` and sets batches to Done in `NEXT.md`. Do not edit any other file.
+Visuals (the Claude art session) copies the Drive images into `art-inbox`, reviews them, ships
+good ones to the game, writes redo requests to `REDO.md` and sets batches to Done in `NEXT.md`.
+Do not edit any other file.
 
 ## Rules for every image
 
