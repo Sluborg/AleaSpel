@@ -42,11 +42,12 @@ reading and before writing. Decisions that change a file still go into that file
 Each session has a draft pull request it is subscribed to (never merged). A comment on it wakes
 that session within about a minute, even when it is idle:
 
-| Session | Wake bell                                    |
-| ------- | -------------------------------------------- |
-| Lead    | PR #3 "AleaSpel Lead wake"                   |
-| Visuals | PR #4 "AleaSpel Visuals wake"                |
-| ChatGPT | PR #2 "AleaSpel art wake" (Visuals rings it) |
+| Session | Wake bell                                              |
+| ------- | ------------------------------------------------------ |
+| Lead    | PR #3 "AleaSpel Lead wake"                             |
+| Visuals | PR #4 "AleaSpel Visuals wake"                          |
+| ChatGPT | PR #2 "AleaSpel art wake" (Visuals rings it)           |
+| Helper  | PR "AleaSpel Helper wake" (cheaper model, simple jobs) |
 
 First line of the comment: `wake lead: <why>` or `wake visuals: <why>`. The details stay in
 `docs/art-discussion.md`; the comment only rings the bell. Ring when the other side must act
