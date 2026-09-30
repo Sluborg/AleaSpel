@@ -1,6 +1,12 @@
 import Phaser from 'phaser';
 import { COLORS, FONT, GAME_WIDTH, MIN_TOUCH } from '../config';
-import { missingAssets, queueAssets } from '../services/AssetStream';
+import {
+  WaitFile,
+  missingAssets,
+  queueAssets,
+  streamDone,
+  streamState,
+} from '../services/AssetStream';
 import { createButton } from '../ui/Button';
 
 // Scenes that open with the core art only (the rest streams in the background).
@@ -12,8 +18,9 @@ export abstract class BaseScene extends Phaser.Scene {
   // still missing here, so the scene is built with its real art (not placeholders).
   preload(): void {
     if (NO_ART_WAIT.has(this.scene.key)) return;
+    const { streaming } = streamState();
     const missing = missingAssets(this);
-    if (!missing.length) return;
+    if (!streaming && !missing.length) return;
     const label = this.add
       .text(GAME_WIDTH / 2, 640, 'Laddar...', {
         fontFamily: FONT,
@@ -21,6 +28,20 @@ export abstract class BaseScene extends Phaser.Scene {
         color: COLORS.text,
       })
       .setOrigin(0.5);
+    if (streaming) {
+      // The background stream is already fetching everything: wait for it (no double download).
+      // Scene timers do not run while loading, so use a plain interval for the percentage.
+      const timer = window.setInterval(
+        () => label.setText(`Laddar... ${Math.round(streamState().progress * 100)}%`),
+        150,
+      );
+      this.load.addFile(new WaitFile(this.load, `stream-${this.scene.key}`, streamDone));
+      this.load.once('complete', () => {
+        window.clearInterval(timer);
+        label.destroy();
+      });
+      return;
+    }
     this.load.on('progress', (p: number) => label.setText(`Laddar... ${Math.round(p * 100)}%`));
     this.load.once('complete', () => label.destroy());
     queueAssets(this, missing);
