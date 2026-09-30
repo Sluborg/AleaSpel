@@ -5,23 +5,40 @@ writes the tasks; ChatGPT fetches and does them; Visuals checks, extracts and sh
 
 ## When Stefan says "next"
 
-1. Fetch `https://raw.githubusercontent.com/Sluborg/AleaSpel/main/art-tasks/NEXT.md` (add `?t=<anything>` if it looks stale).
-2. Take the first batch with status **Ready** that you have not already made in this
-   conversation. Fetch its file (for example `art-tasks/B2.md`).
-3. Fetch the template image named in the batch, if any. If you cannot fetch it, ask Stefan to
-   attach it. Never work from memory or from an image you edited earlier.
-4. Make every item in the batch as its own separate image, in order, each labelled with its id.
-   Follow the batch text exactly.
-5. Deliver (see below), then reply with a short report: batch id, which ids are done, which
-   failed or look wrong.
+1. Fetch `https://raw.githubusercontent.com/Sluborg/AleaSpel/main/art-tasks/REDO.md` and `https://raw.githubusercontent.com/Sluborg/AleaSpel/main/art-tasks/NEXT.md` (add `?t=<time>` so you get
+   the latest version).
+2. Also read `art-inbox/STATUS.md` on the branch `art-inbox` (your own log, see below).
+3. Pick the work, in this order:
+   - rows in `REDO.md` with status **Open** that are not in your STATUS log as redone;
+   - otherwise the first batch in `NEXT.md` with status **Ready** that is not in your STATUS
+     log.
+4. Fetch the batch file (for example `art-tasks/B2.md`) and the template image it names. If you
+   cannot fetch the template, stop and ask Stefan to attach it. Never work from memory or from
+   an image you edited earlier.
+5. Make every item as its own separate image, following the batch text exactly.
+6. Deliver (below), then reply with a short report: batch, ids uploaded, anything that looked
+   wrong to you.
+
+## When Stefan says "run all"
+
+Do "next" again and again without waiting, until `REDO.md` has no open rows for you and
+`NEXT.md` has no Ready batch left that is not in your STATUS log. Then report once. If an upload
+fails, stop and report.
 
 ## Delivering the images
 
-- **If you can write to the repo:** commit each image as `art-inbox/<batch>/<id>.png` on the
-  branch `art-inbox` (never on `main`), then say "uploaded".
-- **If you cannot:** show the images in the chat, each labelled with its id. Stefan passes them to
-  Visuals.
-- Do not edit any other file in the repo. Visuals updates `NEXT.md` and the batch status.
+Write only to the branch `art-inbox`, never to `main`, and only inside the `art-inbox/` folder:
+
+- Each image: `art-inbox/<batch>/<id>.png` (a redo: `art-inbox/<batch>/<id>.png` again, the new
+  file replaces the old one).
+- A short note per batch: `art-inbox/<batch>/DONE.md` with the ids you made and anything that
+  looked wrong.
+- Append one line to `art-inbox/STATUS.md`: `<batch or redo id> | <date time> | <ids> | uploaded`.
+
+If you cannot write to the repo, show the images in the chat instead, each labelled with its id.
+
+Visuals (the Claude art session) checks the inbox, ships good images to the game, writes redo
+requests to `REDO.md` and sets batches to Done in `NEXT.md`. Do not edit any other file.
 
 ## Rules for every image
 

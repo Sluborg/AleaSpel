@@ -43,8 +43,9 @@ eyes_wink`).
 
 ## Visuals
 
-- In progress: ChatGPT queue in `docs/image-prompts.md` (next: `brows_soft`, then mouth and
-  make-up, then the pet, food and toy requests from `docs/art-requests.md`).
+- In progress: automatic art pipeline. ChatGPT reads `art-tasks/` and uploads to branch
+  `art-inbox`; Visuals reviews (`scripts/art/inbox.mjs` + visual check), ships to `main`, writes
+  redos to `art-tasks/REDO.md`. Batches B2-B6 Ready; `brows_soft` sent by hand.
 - Next: brows and mouth layers (same pipeline as eyes), make-up layers.
 
 ## Backlog (pick one)

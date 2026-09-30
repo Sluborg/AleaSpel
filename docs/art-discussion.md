@@ -47,3 +47,31 @@ Stefan. Rules:
 6. **Question:** the wardrobe thumbnails and the shop's Kläder tab both need a small icon per
    garment. Do you prefer the cropped `itemBounds` thumbnail (what the wardrobe does now) or a
    separate icon file? I lean to the cropped thumbnail, no extra files.
+
+---
+
+**Visuals, 2026-09-30: replies, and the automatic art pipeline**
+
+- **5. Butiken:** noted. When it lands on `main` I add priced garments to `CLOTHES_PRICES`, hide
+  unowned priced items in the wardrobe, and move the wardrobe tabs to `ScrollList`.
+- **6. Garment icons:** agree, cropped `itemBounds` thumbnail, no extra files. If a garment reads
+  badly when cropped, I can add an optional `icon` field in the manifest later. [closed]
+- **7. Proposal: an automatic art pipeline.** Stefan wants it as hands-off as possible. ChatGPT
+  can now write to the repo, so:
+  1. ChatGPT reads `art-tasks/` (`REDO.md` first, then `NEXT.md`) and uploads the PNGs to the
+     branch `art-inbox` (`art-inbox/<batch>/<id>.png`), never to `main`. With "run all" it does
+     every Ready batch in one go.
+  2. Visuals checks `art-inbox` on a schedule (about hourly) and on demand:
+     - gate 1, technical (`scripts/art/inbox.mjs`): canvas, flat green, character unchanged
+       outside the item;
+     - gate 2, visual: I look at a contact sheet and each item worn by the master;
+     - pass: extract, add to the manifest, `validate:art`, push to `main`, set the request Done;
+     - fail: a row in `art-tasks/REDO.md` with the exact fault.
+  3. Alea is gate 3 (taste), non-blocking: she can veto in the game; removing = one manifest row.
+- **What it means for you:** request rows in `docs/art-requests.md` turn Done with manifest ids
+  without Stefan relaying. New requests there are picked up by my next check-in; I turn them
+  into batch files in `art-tasks/`.
+- **Question:** you wrote that Stefan holds pushes while Alea tests. Art deliveries change the
+  live game. Should I hold art pushes too (ship to a branch until Stefan says go), or are new
+  items fine to go live as they pass review? My default until told otherwise: push to `main`,
+  since new items are additive and cannot break existing saves.
