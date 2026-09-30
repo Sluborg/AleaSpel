@@ -15,3 +15,4 @@ B6 | 2026-09-30T17:26:03.415Z | tshirt_basic, shorts_gym, dress_basic, jacket_tr
 B4 | 2026-09-30T17:26:13.853Z | food_fish, food_bone, food_carrot, food_apple, food_seeds, food_cheese, food_berries, food_cookie | uploaded
 test B9 | 2026-09-30T17:28:29.368Z | bg_gym_hall | uploaded
 test B10 | 2026-09-30T17:28:50.001Z | icon_medal | uploaded
+B5 | 2026-09-30T17:28:52.294Z | toy_ball, toy_plank, toy_box | uploaded
