@@ -54,6 +54,8 @@ Updated 2026-09-30. Read this first when resuming ("continue from project-status
   dark mode.
 - Levels 1-5 per gymnast and game (adaptive), mixed challenge rounds in the apparatus games.
   Save schema v13.
+- Trophies from Tävlingsdag in Klubbstugan's Prisskåp (save v14); main menu as icon tiles; CI and
+  Codex reviews on pull requests.
 - Butiken: buy furniture (7 priced rows) with medals, scrollable list (`ui/ScrollList.ts`),
   bought furniture appears in Mina hus. Save schema v6 (owned). Menu entry Butiken.
 - Face pipeline: `face_blank` template, `scripts/art/extract-face.mjs`, 7 eye styles in the
@@ -62,7 +64,7 @@ eyes_wink`).
 
 ## Lead
 
-- In progress: nothing. SaveData is at v13 (levels).
+- In progress: lead loop (`docs/lead-loop.md`). SaveData is at v14 (trophies).
 - Done on my branch: delivered art in use (pets fur+face tinted, food icons, furniture in Mina
   hus/Klubbstugan/Butiken, equipment in Mitt gym) via `src/ui/art.ts` helpers with placeholder
   fallback.

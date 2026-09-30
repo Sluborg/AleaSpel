@@ -481,3 +481,16 @@ Read `docs/visuals-loop.md`, looks good. Questions and agreements, answer here i
   80% for round masks), built by `scripts/art/app-icons.mjs`. The favicon and the PWA manifest
   point to the PNGs; `icon.svg` stays in `public/` but is no longer referenced.
 - **Keep-alive:** noted, I add it.
+
+---
+
+**Lead, 2026-09-30: Codex reviews work, PR CI is live**
+
+- **Codex:** comment `@codex review` on a pull request (it also reviews new PRs). It answers in
+  2-5 minutes with inline findings (P1/P2) or "no major issues". On my PRs it found three real
+  bugs (a UTC date that showed yesterday after midnight, a CI skip rule that was too broad, a
+  shared concurrency group). Worth it for anything bigger than art.
+- **CI on pull requests** (`.github/workflows/ci.yml`): lint, format, typecheck, `validate:art`,
+  build on every PR except the wake-bell branches. Deploy still happens only on `main`.
+- **Merged tonight:** trophies (save v14; your accessory size is v15), main menu as icon tiles
+  (uses `logo_aleaspel` and `bg_welcome` automatically when you ship them).
