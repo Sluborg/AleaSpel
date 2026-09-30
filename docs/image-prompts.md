@@ -1,25 +1,32 @@
 # Image prompts for ChatGPT (AleaSpel)
 
-Instructions for the image generator. The person working with ChatGPT says, for example:
-"Read docs/image-prompts.md in Sluborg/AleaSpel and make the next image in the queue."
+Owned by the art session (see `docs/collaboration.md`). The art session writes each prompt from
+the templates below. When Stefan says "ny prompt", it gives him the next queued prompt, ready to
+paste into ChatGPT, together with the template image to attach (if any). Stefan pastes the image
+back with its id; the art session extracts it and updates this queue and `docs/art-requests.md`.
 
 ## Rules for every image
 
-- **Template image:** always start from the green master:
+- **Template image (character items):** start from the green master:
   https://raw.githubusercontent.com/Sluborg/AleaSpel/main/assets/source/base/master-raw.png
   For face parts and make-up use the blank-face template instead:
   https://raw.githubusercontent.com/Sluborg/AleaSpel/main/assets/source/face/face_blank-raw.png
   If the image is not attached in the chat, ask for it; do not work from memory or from a later
   edited image.
+- Pets, food and toys have no template image (standalone objects, see their templates below).
 - Keep EVERYTHING identical except the one change asked for: same girl, face, hair, skin, grey
   unitard, pose, size, position on the canvas, framing, lighting and flat green background.
   Do not move, resize, redraw or restyle the character.
-- Canvas exactly 1024x1536 pixels. Flat green background #00FF00, no shadow, no glow, no text.
+- Canvas exactly 1024x1536 pixels for character items, 1024x1024 for pets, food and toys. Flat
+  green background #00FF00, no shadow, no glow, no text.
 - One item per image.
 - Key colours, so the game code can cut the item out:
   - Clothes, shoes, accessories: solid bright pink **#FF4FA3**, no pattern.
   - Make-up and face paint: solid bright blue **#2F6BFF**.
   - Face parts (eyes, eyebrows, mouth): natural colours, drawn on the blank-face template.
+  - Pets: fur in light grey/white (the game tints it), eyes, nose and inner ears in natural
+    colours. The art session splits fur and face into two layers.
+  - Food and toys: natural full colours, no green in the object.
 
 ## Prompt template: clothes
 
@@ -58,6 +65,35 @@ position on the face. Nothing else on the face changes.
 Canvas exactly 1024x1536 pixels. Flat green background #00FF00, no shadow, no glow, no text.
 ```
 
+## Prompt template: pet (no template image)
+
+```
+Create one cute pet for a children's dress-up and pet-care game, in a soft, cute, slightly
+realistic 3D cartoon style like Avatar World: big shiny eyes, rounded shapes, soft fur.
+
+The pet: <PET>, <POSE>, seen straight from the front, centred, whole body visible, filling about
+70% of the canvas height, feet at about 92% of the canvas height.
+
+Fur colour: plain light grey to white with soft shading only, no spots, no pattern, no tint
+(the game colours the fur). Eyes, nose, mouth and inner ears in natural colours.
+
+Canvas exactly 1024x1024 pixels. Flat green background #00FF00, no floor, no shadow, no glow,
+no text, nothing green on the pet.
+```
+
+## Prompt template: food or toy (no template image)
+
+```
+Create one cute game icon for a children's pet-care game: <OBJECT>. Soft, cute 3D cartoon style
+like Avatar World, bright natural colours, rounded shapes, slightly glossy.
+
+Centred, seen from the front at a slight angle, filling about 80% of the canvas, whole object
+visible.
+
+Canvas exactly 1024x1024 pixels. Flat green background #00FF00, no shadow, no glow, no text,
+nothing green on the object.
+```
+
 ## Queue (next first)
 
 | Order | Id           | Template     | What to ask for                                                                                                                                             | Status |
@@ -76,8 +112,25 @@ Canvas exactly 1024x1536 pixels. Flat green background #00FF00, no shadow, no gl
 | 60    | lips_gloss   | blank face   | Make-up: lip gloss on the lips                                                                                                                              | Queued |
 | 70    | shadow_soft  | blank face   | Make-up: soft eyeshadow on both eyelids                                                                                                                     | Queued |
 | 80    | paint_hearts | blank face   | Make-up: two small hearts face paint on one cheek                                                                                                           | Queued |
-| 90    | tshirt_basic | green master | Clothes: a short-sleeved loose T-shirt                                                                                                                      | Queued |
-| 100   | shorts_gym   | green master | Clothes: short gymnastics shorts                                                                                                                            | Queued |
+| 90    | pet_cat      | none         | Pet (art request 10): a kitten, sitting                                                                                                                     | Queued |
+| 100   | pet_dog      | none         | Pet (art request 10): a puppy, sitting                                                                                                                      | Queued |
+| 110   | pet_rabbit   | none         | Pet (art request 10): a bunny with long ears, sitting                                                                                                       | Queued |
+| 120   | pet_guinea   | none         | Pet (art request 10): a guinea pig, sitting                                                                                                                 | Queued |
+| 130   | pet_hamster  | none         | Pet (art request 10): a hamster, sitting                                                                                                                    | Queued |
+| 140   | pet_pony     | none         | Pet (art request 10): a pony, standing, all four hooves on the ground                                                                                       | Queued |
+| 150   | food_fish    | none         | Food (art request 20): a small fish                                                                                                                         | Queued |
+| 160   | food_bone    | none         | Food (art request 20): a dog bone                                                                                                                           | Queued |
+| 170   | food_carrot  | none         | Food (art request 20): a carrot, no leaves                                                                                                                  | Queued |
+| 180   | food_apple   | none         | Food (art request 20): a red apple, no leaf                                                                                                                 | Queued |
+| 190   | food_seeds   | none         | Food (art request 20): a small pile of sunflower seeds                                                                                                      | Queued |
+| 200   | food_cheese  | none         | Food (art request 20): a wedge of cheese with holes                                                                                                         | Queued |
+| 210   | food_berries | none         | Food (art request 20): a small bunch of berries                                                                                                             | Queued |
+| 220   | food_cookie  | none         | Food (art request 20): a round cookie                                                                                                                       | Queued |
+| 230   | toy_ball     | none         | Toy (art request 30): a bouncy ball with a star                                                                                                             | Queued |
+| 240   | toy_plank    | none         | Toy (art request 30): a long wooden balance plank, horizontal, seen from the front                                                                          | Queued |
+| 250   | toy_box      | none         | Toy (art request 30): a cardboard hide box with a round door                                                                                                | Queued |
+| 260   | tshirt_basic | green master | Clothes: a short-sleeved loose T-shirt                                                                                                                      | Queued |
+| 270   | shorts_gym   | green master | Clothes: short gymnastics shorts                                                                                                                            | Queued |
 
 When an image is done, send it to Claude Code with its id. Claude Code extracts it, adds it to the
 game, and updates this queue. Face parts are extracted with `scripts/art/extract-face.mjs` (pixels

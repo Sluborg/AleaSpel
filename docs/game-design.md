@@ -39,7 +39,7 @@ out to place it in the scene, drag it back to put it away (Toca Boca's character
   - Each tab is a row of swatches; tap to apply. Colour dots under the selected part.
   - **Slumpa** (randomize) picks from curated palettes so every result looks good.
   - **Dräktdesigner**: leotard base colour, pattern (ränder, prickar, stjärnor, glitter), sleeves.
-- Avatar is layered: each part has a `layer` (body, eyes, hair-back, leotard, hair-front, ...).
+- Avatar is layered: each part has a `layer` (body, face, hair-back, leotard, hair-front, ...).
   Layers are data, so art can later replace placeholder shapes part by part.
 
 ## 4. Houses (Mina hus)

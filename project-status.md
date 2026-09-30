@@ -26,8 +26,9 @@ Updated 2026-09-30. Read this first when resuming ("continue from project-status
 - Verified on Alea's phone 2026-09-30: gymnast shows, rename works, clothes and colours work.
 - Lagets djur (pets belong to the team): adopt, name, feed 8 foods, brush, cuddle, 6 games with
   interactions, secret personality discovered by playing. Save schema v4.
-- Face pipeline started: `face_blank` template in `assets/source/face/` (eyes etc. queued in
-  `docs/image-prompts.md`).
+- Face pipeline: `face_blank` template, `scripts/art/extract-face.mjs`, 7 eye styles in the
+  Garderob tab Ögon (`eyes_round, eyes_almond, eyes_doe, eyes_blue, eyes_green, eyes_sleepy,
+eyes_wink`).
 
 ## Feature session
 
@@ -37,8 +38,9 @@ Updated 2026-09-30. Read this first when resuming ("continue from project-status
 
 ## Art session
 
-- In progress: face system (face_base, default face parts, Ansikte tab), ChatGPT queue.
-- Next: see `docs/image-prompts.md` and `docs/art-requests.md`.
+- In progress: ChatGPT queue in `docs/image-prompts.md` (next: `brows_soft`, then mouth and
+  make-up, then the pet, food and toy requests from `docs/art-requests.md`).
+- Next: brows and mouth layers (same pipeline as eyes), make-up layers.
 
 ## Backlog (pick one)
 
