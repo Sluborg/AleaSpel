@@ -30,13 +30,13 @@ Updated 2026-09-30. Read this first when resuming ("continue from project-status
   Garderob tab Ögon (`eyes_round, eyes_almond, eyes_doe, eyes_blue, eyes_green, eyes_sleepy,
 eyes_wink`).
 
-## Feature session
+## Lead
 
 - In progress: nothing.
 - Next: pet feedback from Alea; then Klubbstugan + gym connection, or the first gymnastics
   minigame and medals.
 
-## Art session
+## Visuals
 
 - In progress: ChatGPT queue in `docs/image-prompts.md` (next: `brows_soft`, then mouth and
   make-up, then the pet, food and toy requests from `docs/art-requests.md`).

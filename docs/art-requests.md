@@ -1,6 +1,6 @@
-# Art requests (feature session -> art session)
+# Art requests (Lead -> Visuals)
 
-See `docs/collaboration.md`. The feature session adds rows; the art session turns them into
+See `docs/collaboration.md`. Lead adds rows; Visuals turns them into
 ChatGPT prompts (`docs/image-prompts.md`), delivers manifest ids, and sets the status.
 
 | Order | Id          | What                                                                        | Used in                 | Format                                                                                                                                                                                                                                                                                                                                                         | Status |
@@ -12,10 +12,10 @@ ChatGPT prompts (`docs/image-prompts.md`), delivers manifest ids, and sets the s
 Placeholders in use until delivered: SVG pets from `src/ui/petSvg.ts`, emoji food icons, shapes
 for toys.
 
-Art session notes:
+Visuals notes:
 
 - Queued as image-prompts rows 90-140 (pets), 150-220 (food), 230-250 (toys), after the face items.
 - Pets are generated as one image on green (grey fur, natural face colours) and split into the
-  `_fur` and `_face` layers by the art session; the format above stays as requested.
+  `_fur` and `_face` layers by Visuals; the format above stays as requested.
 - Food and toys are generated at 1024x1024 and scaled to the requested sizes (the plank cropped
   to 512x128).
