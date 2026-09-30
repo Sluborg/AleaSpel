@@ -29,17 +29,19 @@ Updated 2026-09-30. Read this first when resuming ("continue from project-status
 - Tävlingar: gesture recognizer (`services/Gesture.ts`), Studsmatta minigame (5 jumps, draw the
   pattern on the card, stars, poses), medals (1 per star) and personal bests. Save schema v5.
   Medal count on the main menu.
+- Butiken: buy furniture (7 priced rows) with medals, scrollable list (`ui/ScrollList.ts`),
+  bought furniture appears in Mina hus. Save schema v6 (owned). Menu entry Butiken.
 - Face pipeline: `face_blank` template, `scripts/art/extract-face.mjs`, 7 eye styles in the
   Garderob tab Ögon (`eyes_round, eyes_almond, eyes_doe, eyes_blue, eyes_green, eyes_sleepy,
 eyes_wink`).
 
 ## Lead
 
-- In progress: nothing.
-- Next: Butiken (spend medals on furniture and clothes), or Klubbstugan + gym, or more minigames
-  (Bom, Barr, Hopp) on the same gesture engine.
-- Next: pet feedback from Alea; then Klubbstugan + gym connection, or the first gymnastics
-  minigame and medals.
+- In progress: nothing. SaveData is at v6 (owned shop items).
+- Next: Klubbstugan + gym, or more minigames (Bom, Barr, Hopp) on the same gesture engine, or
+  more gymnasts.
+- Ask to Visuals: when a priced garment exists, list it in `src/data/shop.ts` `CLOTHES_PRICES`
+  and hide unowned priced items in the wardrobe (`SaveService.get().owned`).
 
 ## Visuals
 

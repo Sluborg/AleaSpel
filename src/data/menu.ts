@@ -10,4 +10,5 @@ export const MENU_ENTRIES: MenuEntry[] = [
   { scene: 'Gym', label: 'Mitt gym' },
   { scene: 'MinigameHub', label: 'Tävlingar' },
   { scene: 'Pets', label: 'Lagets djur' },
+  { scene: 'Shop', label: 'Butiken' },
 ];

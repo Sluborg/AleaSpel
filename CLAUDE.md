@@ -35,12 +35,13 @@ src/
   config.ts          design resolution, colors, MIN_TOUCH
   scenes/            Boot, Preload, MainMenu, AvatarEditor (Mitt lag), Wardrobe (Garderob),
                      Pets (Lagets djur, games in scenes/pets/), Home, Gym,
-                     MinigameHub (Tävlingar), minigames/ (Trampoline)
+                     MinigameHub (Tävlingar), minigames/ (Trampoline), Shop (Butiken)
                      BaseScene (title, back button), PlaceholderScene (empty scenes)
   data/              game content as data (menu, furniture, wardrobe, pets, pet games/foods,
-                     minigames: gestures, moves, games)
+                     minigames: gestures, moves, games; shop)
   services/          SaveService, PetCare, Gesture (finger-pattern recognizer)
-  ui/                reusable UI (Button, GymnastView, NameInput, itemBounds, PetView, petSvg)
+  ui/                reusable UI (Button, GymnastView, NameInput, itemBounds, PetView, petSvg,
+                     ScrollList)
 public/
   assets/manifest.json   asset list, read by Preload and /preview
   assets/base/           shipped master + anchors.json

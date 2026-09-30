@@ -9,6 +9,7 @@ import { MainMenuScene } from './scenes/MainMenuScene';
 import { MinigameHubScene } from './scenes/MinigameHubScene';
 import { PetsScene } from './scenes/PetsScene';
 import { WardrobeScene } from './scenes/WardrobeScene';
+import { ShopScene } from './scenes/ShopScene';
 import { TrampolineScene } from './scenes/minigames/TrampolineScene';
 import { PreloadScene } from './scenes/PreloadScene';
 
@@ -51,6 +52,7 @@ const game = new Phaser.Game({
     PetsScene,
     WardrobeScene,
     TrampolineScene,
+    ShopScene,
   ],
 });
 

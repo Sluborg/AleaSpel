@@ -19,8 +19,9 @@ export class HomeScene extends BaseScene {
     this.addTitle('Mina hus');
     this.addBackButton();
 
-    const saved = SaveService.get().home.furniture;
-    for (const def of FURNITURE) {
+    const { home, owned } = SaveService.get();
+    const saved = home.furniture;
+    for (const def of FURNITURE.filter((f) => !f.price || owned.includes(f.id))) {
       const pos = saved[def.id] ?? { x: def.defaultX, y: def.defaultY };
       this.createFurniture(def, pos.x, pos.y);
     }
