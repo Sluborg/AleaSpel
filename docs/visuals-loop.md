@@ -22,10 +22,21 @@ pretty, cute, fun and easy for a 9-year-old. Every round follows this routine.
    - Nothing of Lead's broken (scenes still open, their fallbacks still work).
 6. **Push** to `main` (one topic per commit), then mark the item done here with one line.
 7. **Wake others only when needed:** ChatGPT via the art-wake pull request when new batches are
-   queued; Lead via `docs/art-discussion.md` (and a direct session nudge if Lead's work is blocked
-   on something of mine).
+   queued; Lead via `docs/art-discussion.md`, plus a comment on pull request #3 ("AleaSpel Lead
+   wake", first line `wake lead: <why>`) when Lead's work is blocked on something of mine. Lead
+   wakes Visuals the same way on pull request #4 ("AleaSpel Visuals wake"). Never merge #2-#4.
 8. **Log** one line per round in the "Round log" below. No message to Stefan unless something
    needs his decision; he reads this log in the morning.
+
+## Models (Stefan: simpler models for simple tasks)
+
+- **Sub-agent on a small model** (`Agent` with `model: haiku`) for mechanical work: screenshot
+  runs and smoke tests, the inbox check (download, `inbox.mjs`), release-name and deploy checks,
+  round-log and status-table edits.
+- **Mid model** (`model: sonnet`) for routine code with a clear spec: data rows, small UI tweaks,
+  doc updates.
+- **Main session** only for design calls, art review (looking at the pictures), shared-file
+  changes and the review before push.
 
 ## Safety rules
 
