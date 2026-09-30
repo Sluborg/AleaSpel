@@ -126,7 +126,8 @@ Built:
   Kurragömma: find the box); eight foods; a **secret personality** per pet (loves, likes or
   dislikes each game and food, species favourite foods always loved), discovered by trying and
   shown in "Om <namn>". Games and foods are data rows in `src/data/petActivities.ts`.
-- Placeholder art is SVG generated in code (`src/ui/petSvg.ts`); real art comes with the art pass.
+- Art: `pet_<species>_fur` (tinted with the pet colour) + `pet_<species>_face` from the manifest,
+  drawn by `src/ui/PetView.ts`; SVG placeholder (`src/ui/petSvg.ts`) when the ids are missing.
 
 - **Species** as data rows: katt, hund, kanin, marsvin, hamster, ponny (more later).
 - **Pet editor**: species, colour, pattern (fläckar, ränder, tabby), ears/tail variants, name,

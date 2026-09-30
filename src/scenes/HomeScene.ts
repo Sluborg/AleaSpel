@@ -1,6 +1,7 @@
 import { COLORS, FONT, GAME_HEIGHT, GAME_WIDTH } from '../config';
 import { FURNITURE, type FurnitureDef } from '../data/furniture';
 import { SaveService, type Position } from '../services/SaveService';
+import { artHeight, hasArt } from '../ui/art';
 import { RoomScene, type Placeable } from './RoomScene';
 
 const ROOM = { left: 20, top: 160, right: GAME_WIDTH - 20, bottom: GAME_HEIGHT - 20 };
@@ -32,10 +33,11 @@ export class HomeScene extends RoomScene {
       (f) => (f.room ?? 'house') === 'house' && (!f.price || owned.includes(f.id)),
     ).map((def) => {
       const pos = home.furniture[def.id] ?? { x: def.defaultX, y: def.defaultY };
+      const { width, height } = furnitureSize(this, def);
       return {
         id: def.id,
-        width: def.width,
-        height: def.height,
+        width,
+        height,
         x: pos.x,
         y: pos.y,
         build: () => furnitureShape(this, def),
@@ -50,11 +52,32 @@ export class HomeScene extends RoomScene {
   }
 }
 
-// Placeholder furniture: a shape with the name on it.
+// Delivered furniture art (`furn_<id>`) is scaled to the row's width, keeping its aspect ratio.
+export function furnitureArtKey(scene: Phaser.Scene, def: FurnitureDef): string | null {
+  const key = `furn_${def.id}`;
+  return hasArt(scene, key) ? key : null;
+}
+
+export function furnitureSize(
+  scene: Phaser.Scene,
+  def: FurnitureDef,
+): { width: number; height: number } {
+  const key = furnitureArtKey(scene, def);
+  return key
+    ? { width: def.width, height: artHeight(scene, key, def.width) }
+    : { width: def.width, height: def.height };
+}
+
+// Furniture as art when delivered, else a placeholder shape with the name on it.
 export function furnitureShape(
   scene: Phaser.Scene,
   def: FurnitureDef,
 ): Phaser.GameObjects.GameObject[] {
+  const key = furnitureArtKey(scene, def);
+  if (key) {
+    const img = scene.add.image(0, 0, key);
+    return [img.setScale(def.width / img.width)];
+  }
   const shape =
     def.shape === 'ellipse'
       ? scene.add.ellipse(0, 0, def.width, def.height, def.color)

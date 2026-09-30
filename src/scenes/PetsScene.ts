@@ -6,6 +6,7 @@ import { applyDecay, care, react, rollTraits, wish } from '../services/PetCare';
 import { SaveService, type Pet, type PetNeeds } from '../services/SaveService';
 import { createButton } from '../ui/Button';
 import { openNameInput } from '../ui/NameInput';
+import { artImage, hasArt } from '../ui/art';
 import { PetView } from '../ui/PetView';
 import { BaseScene } from './BaseScene';
 import { PET_GAME_RUNNERS } from './pets/petGames';
@@ -276,7 +277,13 @@ export class PetsScene extends BaseScene {
       .setAlpha(0);
     const g = this.add.graphics();
     g.fillStyle(0xff6fae, 1).fillEllipse(0, 0, 150, 50);
-    bowl.add([g, this.add.text(0, -30, food.icon, { fontSize: '56px' }).setOrigin(0.5)]);
+    const foodKey = `food_${food.id}`;
+    bowl.add([
+      g,
+      hasArt(this, foodKey)
+        ? artImage(this, 0, -34, foodKey, 90, 90)
+        : this.add.text(0, -30, food.icon, { fontSize: '56px' }).setOrigin(0.5),
+    ]);
     this.tweens.add({ targets: bowl, alpha: 1, duration: 200 });
     const liking = react(pet, food.id);
     const r = REACTIONS[liking];
@@ -410,7 +417,10 @@ export class PetsScene extends BaseScene {
       const y = 390 + Math.floor(i / perRow) * (h + 20);
       const g = this.add.graphics();
       g.fillStyle(0xf6e7d2, 1).fillRoundedRect(x - w / 2, y - h / 2, w, h, 26);
-      const icon = this.add.text(x, y - 25, row.icon, { fontSize: '72px' }).setOrigin(0.5);
+      const iconKey = `food_${row.id}`;
+      const icon = hasArt(this, iconKey)
+        ? artImage(this, x, y - 25, iconKey, 100, 100)
+        : this.add.text(x, y - 25, row.icon, { fontSize: '72px' }).setOrigin(0.5);
       const label = this.text(x, y + h / 2 - 32, row.name, 28, '#6b4a55');
       modal.add([g, icon, label]);
       if (pet.known.includes(row.id)) {

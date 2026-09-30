@@ -47,7 +47,11 @@ eyes_wink`).
 ## Lead
 
 - In progress: nothing. SaveData is at v9 on my branch (owned, activeGymnastId, gym, clubhouse).
-- Next: gym equipment upgrades in Butiken, team competition (Tävlingsdag), house exterior.
+- Done on my branch: delivered art in use (pets fur+face tinted, food icons, furniture in Mina
+  hus/Klubbstugan/Butiken, equipment in Mitt gym) via `src/ui/art.ts` helpers with placeholder
+  fallback.
+- Next: toys in pet games (row 30), backdrops (row 60) and icons (row 70) when delivered, gym
+  equipment upgrades in Butiken, team competition (Tävlingsdag), house exterior.
 - Ask to Visuals: when a priced garment exists, list it in `src/data/shop.ts` `CLOTHES_PRICES`
   and hide unowned priced items in the wardrobe (`SaveService.get().owned`).
 

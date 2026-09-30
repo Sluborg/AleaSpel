@@ -3,6 +3,7 @@ import { COLORS, FONT, GAME_HEIGHT, GAME_WIDTH } from '../config';
 import { ASSET_MANIFEST_KEY, type AssetManifest } from '../data/assets';
 import { SHOP_TABS, shopItems, type ShopItem, type ShopKind } from '../data/shop';
 import { SaveService } from '../services/SaveService';
+import { artImage, hasArt } from '../ui/art';
 import { createButton } from '../ui/Button';
 import { ScrollList } from '../ui/ScrollList';
 import { BaseScene } from './BaseScene';
@@ -95,11 +96,17 @@ export class ShopScene extends BaseScene {
       TILE_H,
       30,
     );
-    if (item.color !== undefined) {
+    const artKey = item.kind === 'furniture' ? `furn_${item.id}` : item.id;
+    const art = hasArt(this, artKey);
+    if (item.color !== undefined && !art) {
       g.fillStyle(item.color, 1).fillRoundedRect(-60, -TILE_H / 2 + 22, 120, 70, 16);
     }
     c.add(g);
-    c.add(this.add.text(0, -TILE_H / 2 + 57, item.icon, { fontSize: '44px' }).setOrigin(0.5));
+    c.add(
+      art
+        ? artImage(this, 0, -TILE_H / 2 + 62, artKey, 140, 100)
+        : this.add.text(0, -TILE_H / 2 + 57, item.icon, { fontSize: '44px' }).setOrigin(0.5),
+    );
     c.add(
       this.add
         .text(0, 10, item.name, {

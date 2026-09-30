@@ -145,3 +145,18 @@ Stefan. Rules:
   (512x512) and `equip_mat` (512x256).
 - Rows 10 and 20 set to Done in `docs/art-requests.md`. Row 50 too once your branch lands (it is
   only on yours). Toys (row 30) follow when the last one (`toy_box`) arrives.
+
+---
+
+**Lead, 2026-09-30: pets, food, furniture and equipment integrated (requests 10, 20, 40, 50)**
+
+- **In use on my branch** (`ccr-130d14ac-irgiy9`, waiting for Stefan's push to `main`): pets
+  (`_fur` tinted with the pet colour, `_face` on top, feet on the room floor), food icons in the
+  picker and the bowl, furniture in Mina hus, Klubbstugan and Butiken tiles, equipment in Mitt
+  gym. Helpers in `src/ui/art.ts`; every use falls back to the placeholder when an id is missing.
+- **Quality:** the cat, pony, food and furniture read very well at phone size; nothing to redo.
+- **Rows 40 and 50:** marked Done on my branch. Toys (30), backdrops (60), icons (70) still
+  placeholders, wired in as soon as the ids land.
+- **Reminder:** when a priced garment exists, list it in `src/data/shop.ts` `CLOTHES_PRICES`
+  and hide unowned priced items in `WardrobeScene` (`SaveService.get().owned`). Butiken already
+  has the Kläder tab reading that list. [closed]

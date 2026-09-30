@@ -4,7 +4,7 @@ import { SaveService, type Position } from '../services/SaveService';
 import { createButton } from '../ui/Button';
 import { GymnastView } from '../ui/GymnastView';
 import { PetView } from '../ui/PetView';
-import { furnitureShape } from './HomeScene';
+import { furnitureShape, furnitureSize } from './HomeScene';
 import { RoomScene, type Placeable } from './RoomScene';
 
 const ROOM = { left: 20, top: 250, right: GAME_WIDTH - 20, bottom: GAME_HEIGHT - 20 };
@@ -80,10 +80,11 @@ export class ClubhouseScene extends RoomScene {
       (f) => f.room === 'clubhouse' && (!f.price || owned.includes(f.id)),
     ).map((def) => {
       const pos = clubhouse.furniture[def.id] ?? { x: def.defaultX, y: def.defaultY };
+      const { width, height } = furnitureSize(this, def);
       return {
         id: def.id,
-        width: def.width,
-        height: def.height,
+        width,
+        height,
         x: pos.x,
         y: pos.y,
         build: () => furnitureShape(this, def),

@@ -2,6 +2,7 @@ import { COLORS, FONT, GAME_HEIGHT, GAME_WIDTH } from '../config';
 import { GYM_EQUIPMENT, type EquipmentDef } from '../data/gymEquipment';
 import { MINIGAMES } from '../data/minigames';
 import { SaveService, type Position } from '../services/SaveService';
+import { artHeight, hasArt } from '../ui/art';
 import { RoomScene, type Placeable } from './RoomScene';
 
 const HALL = { left: 20, top: 250, right: GAME_WIDTH - 20, bottom: GAME_HEIGHT - 20 };
@@ -44,10 +45,12 @@ export class GymScene extends RoomScene {
     const { gym, owned } = SaveService.get();
     return GYM_EQUIPMENT.filter((e) => !e.price || owned.includes(e.id)).map((def) => {
       const pos = gym.equipment[def.id] ?? { x: def.defaultX, y: def.defaultY };
+      const key = this.artKey(def);
+      const height = key ? artHeight(this, key, def.width) + (def.minigame ? 30 : 0) : def.height;
       return {
         id: def.id,
         width: def.width,
-        height: def.height,
+        height,
         x: pos.x,
         y: pos.y,
         build: () => this.equipmentShape(def),
@@ -72,7 +75,32 @@ export class GymScene extends RoomScene {
     });
   }
 
+  // Delivered equipment art is `equip_<id without eq_>`.
+  private artKey(def: EquipmentDef): string | null {
+    const key = `equip_${def.id.replace(/^eq_/, '')}`;
+    return hasArt(this, key) ? key : null;
+  }
+
   private equipmentShape(def: EquipmentDef): Phaser.GameObjects.GameObject[] {
+    const key = this.artKey(def);
+    if (key) {
+      const img = this.add.image(0, def.minigame ? -15 : 0, key);
+      img.setScale(def.width / img.width);
+      const children: Phaser.GameObjects.GameObject[] = [img];
+      if (def.minigame) {
+        children.push(
+          this.add
+            .text(0, img.displayHeight / 2 - 15 + 4, `▶ Träna ${def.name.toLowerCase()}`, {
+              fontFamily: FONT,
+              fontSize: '24px',
+              color: '#3a2a4a',
+              fontStyle: 'bold',
+            })
+            .setOrigin(0.5, 0),
+        );
+      }
+      return children;
+    }
     const shape = this.add
       .rectangle(0, 0, def.width, def.height, def.color)
       .setStrokeStyle(4, 0x000000, 0.25);
