@@ -84,8 +84,13 @@ draws the gesture during a routine and is scored on shape match and timing.
 | Hold two fingers + swipe | Kip / jättesväng  | Barr            |
 | Swipe down then up       | Hopp över bocken  | Hopp (vault)    |
 
-- Recognizer: a small point-cloud or direction-sequence matcher (for example the $1 unistroke
-  recognizer idea), no dependencies. Gestures are data, so new moves are new rows.
+- Recognizer: `src/services/Gesture.ts`, feature-based (swipe direction and straightness, turning
+  angle for circles, reversals for zigzag, V shape, tap), quality 0..1 per gesture kind, no
+  dependencies. Gestures, moves and minigames are data rows in `src/data/minigames.ts`.
+- Built: **Studsmatta** (`scenes/minigames/TrampolineScene.ts`): 5 jumps, a move card shows the
+  pattern, draw it while she is in the air, 1 to 3 stars per move by difficulty, pose animation
+  at the apex, result panel with medals (1 per star) and personal best. Tävlingar hub lists the
+  games (Bom, Barr, Hopp as "Kommer snart") with the active gymnast's records.
 - Scoring: 1 to 3 stars per move plus a total. Personal bests saved per gymnast per minigame.
 - Unlocks: practising a move unlocks the next one in that apparatus track.
 - **Tävlingsdag** (later): pick 3 gymnasts, each performs a short routine, judges show scores,

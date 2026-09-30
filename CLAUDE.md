@@ -34,10 +34,12 @@ src/
   main.ts            Phaser game config, SW registration, zoom/scroll blocking
   config.ts          design resolution, colors, MIN_TOUCH
   scenes/            Boot, Preload, MainMenu, AvatarEditor (Mitt lag), Wardrobe (Garderob),
-                     Pets (Lagets djur, games in scenes/pets/), Home, Gym, MinigameHub
+                     Pets (Lagets djur, games in scenes/pets/), Home, Gym,
+                     MinigameHub (Tävlingar), minigames/ (Trampoline)
                      BaseScene (title, back button), PlaceholderScene (empty scenes)
-  data/              game content as data (menu, furniture, wardrobe, pets, pet games/foods)
-  services/          SaveService, PetCare and other non-visual services
+  data/              game content as data (menu, furniture, wardrobe, pets, pet games/foods,
+                     minigames: gestures, moves, games)
+  services/          SaveService, PetCare, Gesture (finger-pattern recognizer)
   ui/                reusable UI (Button, GymnastView, NameInput, itemBounds, PetView, petSvg)
 public/
   assets/manifest.json   asset list, read by Preload and /preview

@@ -9,6 +9,7 @@ import { MainMenuScene } from './scenes/MainMenuScene';
 import { MinigameHubScene } from './scenes/MinigameHubScene';
 import { PetsScene } from './scenes/PetsScene';
 import { WardrobeScene } from './scenes/WardrobeScene';
+import { TrampolineScene } from './scenes/minigames/TrampolineScene';
 import { PreloadScene } from './scenes/PreloadScene';
 
 // Auto-update: a new deploy is picked up and the page reloads with it.
@@ -27,7 +28,7 @@ document.addEventListener('touchmove', (e) => e.touches.length > 1 && e.preventD
 });
 document.addEventListener('dblclick', prevent);
 
-new Phaser.Game({
+const game = new Phaser.Game({
   type: Phaser.AUTO,
   parent: 'game',
   backgroundColor: COLORS.background,
@@ -49,5 +50,12 @@ new Phaser.Game({
     MinigameHubScene,
     PetsScene,
     WardrobeScene,
+    TrampolineScene,
   ],
 });
+
+// Test hook: with ?debug in the URL the game object is reachable from the browser console and
+// from the headless test runner. Never used by game code.
+if (new URLSearchParams(location.search).has('debug')) {
+  (window as unknown as { __game: Phaser.Game }).__game = game;
+}

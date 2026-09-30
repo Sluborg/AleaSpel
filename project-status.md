@@ -26,14 +26,18 @@ Updated 2026-09-30. Read this first when resuming ("continue from project-status
 - Verified on Alea's phone 2026-09-30: gymnast shows, rename works, clothes and colours work.
 - Lagets djur (pets belong to the team): adopt, name, feed 8 foods, brush, cuddle, 6 games with
   interactions, secret personality discovered by playing. Save schema v4.
+- Tävlingar: gesture recognizer (`services/Gesture.ts`), Studsmatta minigame (5 jumps, draw the
+  pattern on the card, stars, poses), medals (1 per star) and personal bests. Save schema v5.
+  Medal count on the main menu.
 - Face pipeline: `face_blank` template, `scripts/art/extract-face.mjs`, 7 eye styles in the
   Garderob tab Ögon (`eyes_round, eyes_almond, eyes_doe, eyes_blue, eyes_green, eyes_sleepy,
 eyes_wink`).
 
 ## Lead
 
-- In progress: SaveData v5 (medals + personal bests per gymnast), gesture recognizer, first
-  minigame (Studsmatta), Tävlingar hub.
+- In progress: nothing.
+- Next: Butiken (spend medals on furniture and clothes), or Klubbstugan + gym, or more minigames
+  (Bom, Barr, Hopp) on the same gesture engine.
 - Next: pet feedback from Alea; then Klubbstugan + gym connection, or the first gymnastics
   minigame and medals.
 
