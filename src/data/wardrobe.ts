@@ -37,7 +37,10 @@ export const CATEGORY_TABS: WardrobeTab[] = [
   { label: 'Strumpor', categories: ['socks'] },
   { label: 'Skor', categories: ['shoes'] },
   { label: 'Hår', categories: ['hair_front'] },
-  { label: 'Pynt', categories: ['accessories'] },
+  {
+    label: 'Pynt',
+    categories: ['accessories', 'acc_head', 'acc_face', 'acc_neck', 'acc_wrist', 'acc_bag'],
+  },
 ];
 
 // Colours offered for tintable items.

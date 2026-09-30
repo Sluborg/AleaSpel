@@ -96,6 +96,17 @@
       "softEdges": true
     },
     {
+      "id": "socks",
+      "order": 30,
+      "region": {
+        "top": "kneeL.y-150",
+        "bottom": 1536,
+        "left": "hipL.x-40",
+        "right": "hipR.x+40"
+      },
+      "maxOutsideMask": 25
+    },
+    {
       "id": "facepaint",
       "order": 31,
       "region": {
@@ -106,17 +117,6 @@
       },
       "maxOutsideMask": 0,
       "softEdges": true
-    },
-    {
-      "id": "socks",
-      "order": 30,
-      "region": {
-        "top": "kneeL.y-150",
-        "bottom": 1536,
-        "left": "hipL.x-40",
-        "right": "hipR.x+40"
-      },
-      "maxOutsideMask": 25
     },
     {
       "id": "bottoms",
@@ -174,8 +174,63 @@
       "maxOutsideMask": 60
     },
     {
+      "id": "acc_bag",
+      "order": 86,
+      "region": {
+        "top": 0,
+        "bottom": 1536,
+        "left": 0,
+        "right": 1024
+      },
+      "maxOutsideMask": 400
+    },
+    {
+      "id": "acc_wrist",
+      "order": 87,
+      "region": {
+        "top": 0,
+        "bottom": 1536,
+        "left": 0,
+        "right": 1024
+      },
+      "maxOutsideMask": 400
+    },
+    {
+      "id": "acc_neck",
+      "order": 88,
+      "region": {
+        "top": 0,
+        "bottom": 1536,
+        "left": 0,
+        "right": 1024
+      },
+      "maxOutsideMask": 400
+    },
+    {
       "id": "accessories",
       "order": 90,
+      "region": {
+        "top": 0,
+        "bottom": 1536,
+        "left": 0,
+        "right": 1024
+      },
+      "maxOutsideMask": 400
+    },
+    {
+      "id": "acc_face",
+      "order": 91,
+      "region": {
+        "top": 0,
+        "bottom": 1536,
+        "left": 0,
+        "right": 1024
+      },
+      "maxOutsideMask": 400
+    },
+    {
+      "id": "acc_head",
+      "order": 92,
       "region": {
         "top": 0,
         "bottom": 1536,
@@ -264,6 +319,26 @@
     {
       "id": "accessories",
       "layer": "accessories"
+    },
+    {
+      "id": "acc_bag",
+      "layer": "acc_bag"
+    },
+    {
+      "id": "acc_wrist",
+      "layer": "acc_wrist"
+    },
+    {
+      "id": "acc_neck",
+      "layer": "acc_neck"
+    },
+    {
+      "id": "acc_face",
+      "layer": "acc_face"
+    },
+    {
+      "id": "acc_head",
+      "layer": "acc_head"
     }
   ]
 }
