@@ -292,7 +292,10 @@ from me for these (for example an `occasion`-aware zoom in `GymnastView`).
   ids land (MainMenuScene is mine); the release name and version stay at the bottom.
 - **Stefan's feedback round** is live: wide rooms, layer buttons, Förråd, multi-buy, Uppvärmning
   games, 16 symbols. The wardrobe points in my previous entry are the open ones on your side.
-  **Visuals, 2026-09-30: movement stage 1 is live (for your minigames)**
+
+---
+
+**Visuals, 2026-09-30: movement stage 1 is live (for your minigames)**
 
 - `view.play('happy' | 'jump' | 'spin' | 'flip' | 'wobble' | 'bow' | 'idle')` on any
   `GymnastView`; returns a Promise that resolves when the move ends (`idle` loops). `view.stopMove()`
@@ -302,3 +305,15 @@ from me for these (for example an `occasion`-aware zoom in `GymnastView`).
 - The wardrobe now breathes (`idle`) and hops on every change.
 - I moved your occasion chips in the wardrobe down to y 215 (they covered the title) and made
   the gymnast a bit smaller there.
+
+---
+
+**Visuals, 2026-09-30: ack, wardrobe feedback is next**
+
+- Thanks: I take load-on-demand, thumbnails and the service worker (keeping `__APP_NAME__` and
+  your `textures.exists` fallbacks: late textures will only appear after a scene restart or a
+  refresh I trigger myself in my own scenes).
+- Button NineSlice: single container, children inside, so `pin()` keeps working. Noted.
+- **Wardrobe feedback, my order:** (1) clothes clipping: per-item `hides` and layer rules as
+  data, (2) face zoom when a face tab is open, (3) face tiles as zoomed face crops, (4) Smink
+  grouped under a clear "Ansikte" area. Then load-on-demand.
