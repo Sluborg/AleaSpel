@@ -31,6 +31,8 @@ export abstract class PatternGameScene extends BaseScene {
   private total = 0;
   private maxTotal = 0;
   private done = false;
+  private practice = false; // from Mitt gym: no medals, records untouched
+  private returnTo = 'MinigameHub';
 
   // --- subclass hooks ------------------------------------------------------
 
@@ -42,9 +44,11 @@ export abstract class PatternGameScene extends BaseScene {
   // Reaction to the drawn pattern (called right after evaluation, with the stars earned).
   protected abstract onPattern(got: number): void;
 
-  create(data: { gymnastId?: string }): void {
+  create(data: { gymnastId?: string; practice?: boolean; returnTo?: string }): void {
     const gymnasts = SaveService.get().gymnasts;
     this.gymnast = gymnasts.find((g) => g.id === data.gymnastId) ?? SaveService.activeGymnast();
+    this.practice = data.practice ?? false;
+    this.returnTo = data.returnTo ?? 'MinigameHub';
     this.round = 0;
     this.total = 0;
     this.maxTotal = 0;
@@ -54,7 +58,7 @@ export abstract class PatternGameScene extends BaseScene {
     this.evaluated = false;
 
     this.drawWorld();
-    this.addBackButton('MinigameHub');
+    this.addBackButton(this.returnTo);
     const start = this.gymnastStart();
     this.view = new GymnastView(this, start.x, start.y, start.height, this.gymnast);
     this.trail = this.add.graphics().setDepth(200);
@@ -269,24 +273,31 @@ export abstract class PatternGameScene extends BaseScene {
   private finish(): void {
     if (this.done) return;
     this.done = true;
-    const earned = this.total * MEDALS_PER_STAR;
+    const earned = this.practice ? 0 : this.total * MEDALS_PER_STAR;
     const prev = this.gymnast.bests[this.def.id] ?? 0;
-    const record = this.total > prev;
-    SaveService.update((d) => {
-      d.medals += earned;
-      this.gymnast.bests[this.def.id] = Math.max(prev, this.total);
-    });
+    const record = !this.practice && this.total > prev;
+    if (!this.practice) {
+      SaveService.update((d) => {
+        d.medals += earned;
+        this.gymnast.bests[this.def.id] = Math.max(prev, this.total);
+      });
+    }
 
     const panel = this.add.container(0, 0).setDepth(300);
     const bg = this.add.graphics();
     bg.fillStyle(COLORS.background, 0.94).fillRoundedRect(40, 240, GAME_WIDTH - 80, 780, 40);
     const title = this.add
-      .text(GAME_WIDTH / 2, 330, record ? '🎉 Nytt rekord!' : 'Bra jobbat!', {
-        fontFamily: FONT,
-        fontSize: '60px',
-        color: COLORS.text,
-        fontStyle: 'bold',
-      })
+      .text(
+        GAME_WIDTH / 2,
+        330,
+        record ? '🎉 Nytt rekord!' : this.practice ? 'Bra tränat!' : 'Bra jobbat!',
+        {
+          fontFamily: FONT,
+          fontSize: '60px',
+          color: COLORS.text,
+          fontStyle: 'bold',
+        },
+      )
       .setOrigin(0.5);
     const score = this.add
       .text(GAME_WIDTH / 2, 470, `${this.total} av ${this.maxTotal} ⭐`, {
@@ -297,7 +308,7 @@ export abstract class PatternGameScene extends BaseScene {
       })
       .setOrigin(0.5);
     const medals = this.add
-      .text(GAME_WIDTH / 2, 590, `+${earned} 🏅`, {
+      .text(GAME_WIDTH / 2, 590, this.practice ? 'Träning ger inga medaljer' : `+${earned} 🏅`, {
         fontFamily: FONT,
         fontSize: '56px',
         color: COLORS.text,
@@ -315,7 +326,12 @@ export abstract class PatternGameScene extends BaseScene {
       GAME_WIDTH / 2 - 150,
       860,
       'Igen',
-      () => this.scene.restart({ gymnastId: this.gymnast.id }),
+      () =>
+        this.scene.restart({
+          gymnastId: this.gymnast.id,
+          practice: this.practice,
+          returnTo: this.returnTo,
+        }),
       {
         width: 260,
       },
@@ -325,7 +341,7 @@ export abstract class PatternGameScene extends BaseScene {
       GAME_WIDTH / 2 + 150,
       860,
       'Klar',
-      () => this.scene.start('MinigameHub'),
+      () => this.scene.start(this.returnTo),
       {
         width: 260,
         color: 0x6b5a85,

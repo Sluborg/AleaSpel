@@ -66,8 +66,9 @@ Decided with Alea (2026-09-30):
 
 ## 5. Gym (Mitt gym)
 
-- Built with the same placement system as rooms. Equipment is furniture with a `minigame` field.
-- Tap placed equipment in play mode to start its minigame with the selected gymnast.
+- Built: `scenes/GymScene.ts`, rows in `data/gymEquipment.ts` (trampoline, beam, bars, vault,
+  mat). Drag to move (positions in `SaveData.gym.equipment`, v8), tap to practise the apparatus'
+  minigame in practice mode: same game, no medals, records untouched, "Bra tränat!".
 - **Rekordtavla**: a board showing each gymnast's personal best per apparatus.
 
 ## 6. Minigames (Tävlingar)

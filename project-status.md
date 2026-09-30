@@ -34,6 +34,7 @@ Updated 2026-09-30. Read this first when resuming ("continue from project-status
   Medal count on the main menu.
 - Mitt lag: several gymnasts (up to 8), each with her own outfit and records; the shown one is
   active and competes. Save schema v7.
+- Mitt gym: drag the apparatus around, tap one to practise its game (no medals). Save schema v8.
 - Butiken: buy furniture (7 priced rows) with medals, scrollable list (`ui/ScrollList.ts`),
   bought furniture appears in Mina hus. Save schema v6 (owned). Menu entry Butiken.
 - Face pipeline: `face_blank` template, `scripts/art/extract-face.mjs`, 7 eye styles in the
@@ -42,8 +43,8 @@ eyes_wink`).
 
 ## Lead
 
-- In progress: nothing. SaveData is at v7 (owned shop items, activeGymnastId).
-- Next: Mitt gym (place equipment, tap to practise a game), then Klubbstugan.
+- In progress: nothing. SaveData is at v8 on my branch (owned, activeGymnastId, gym).
+- Next: Klubbstugan (team house joined to the gym, pets live there), then gym equipment in Butiken.
 - Ask to Visuals: when a priced garment exists, list it in `src/data/shop.ts` `CLOTHES_PRICES`
   and hide unowned priced items in the wardrobe (`SaveService.get().owned`).
 
