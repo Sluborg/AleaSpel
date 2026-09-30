@@ -28,6 +28,7 @@ const PANEL_BOTTOM = 1260;
 const TAB_ZONE_BOTTOM = PANEL_TOP + 140;
 const TILE = 140;
 const TILE_GAP = 20;
+const TILE_ART = 'ui_tile';
 const TAB_W = 190;
 const TAB_STEP = 205;
 const DRAG_THRESHOLD = 14;
@@ -259,9 +260,14 @@ export class WardrobeScene extends BaseScene {
 
   private tile(x: number, y: number, item: AssetEntry | null, selected: boolean, tint?: number) {
     const c = this.add.container(x, y);
+    // Tile art (ui_tile: white inside a soft lilac frame) with the drawn tile as fallback.
+    const art = this.textures.exists(TILE_ART);
+    if (art) c.add(this.add.image(0, 0, TILE_ART).setDisplaySize(TILE, TILE));
     const g = this.add.graphics();
-    g.fillStyle(0xf6eefc, 1);
-    g.fillRoundedRect(-TILE / 2, -TILE / 2, TILE, TILE, 24);
+    if (!art) {
+      g.fillStyle(0xf6eefc, 1);
+      g.fillRoundedRect(-TILE / 2, -TILE / 2, TILE, TILE, 24);
+    }
     if (selected) {
       g.lineStyle(8, COLORS.primary, 1);
       g.strokeRoundedRect(-TILE / 2, -TILE / 2, TILE, TILE, 24);
@@ -277,7 +283,8 @@ export class WardrobeScene extends BaseScene {
             layerOfCategory(item.category) ?? '',
             this.cache.json.get(ANCHORS_KEY) as Anchors,
           ));
-      const s = Math.min((TILE - 16) / r.w, (TILE - 16) / r.h);
+      const inner = art ? TILE - 34 : TILE - 16;
+      const s = Math.min(inner / r.w, inner / r.h);
       const layerImage = (key: string) =>
         this.add
           .image(-(r.x + r.w / 2) * s, -(r.y + r.h / 2) * s, key)
