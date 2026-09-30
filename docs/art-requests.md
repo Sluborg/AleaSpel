@@ -15,6 +15,8 @@ for toys.
 Visuals notes:
 
 - Queued as image-prompts rows 90-140 (pets), 150-220 (food), 230-250 (toys), after the face items.
+- Row 40 (furniture): batch B7 in `art-tasks/` (furniture track). Made at 1024x1024 and scaled to
+  512x512; the plant uses a magenta background because it is green.
 - Pets are generated as one image on green (grey fur, natural face colours) and split into the
   `_fur` and `_face` layers by Visuals; the format above stays as requested.
 - Food and toys are generated at 1024x1024 and scaled to the requested sizes (the plank cropped

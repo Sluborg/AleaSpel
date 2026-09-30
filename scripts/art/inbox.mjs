@@ -28,7 +28,9 @@ const KIND = [
 ];
 const kindOf = (id) => KIND.find(([re]) => re.test(id))?.[1] ?? { canvas: [1024, 1024] };
 
-const isGreen = (d, p) => d[p + 1] > 180 && d[p] < 90 && d[p + 2] < 90;
+// Background key: flat green, or flat magenta for green objects (plants).
+const isGreen = (d, p) =>
+  (d[p + 1] > 180 && d[p] < 90 && d[p + 2] < 90) || (d[p] > 180 && d[p + 2] > 180 && d[p + 1] < 90);
 const cache = {};
 const results = [];
 for (const file of readdirSync(dir)
@@ -50,7 +52,7 @@ for (const file of readdirSync(dir)
       if (isGreen(img.data, (y * img.width + x) * 4)) green++;
     }
   if (green / border < 0.98)
-    problems.push(`border only ${((green / border) * 100).toFixed(0)}% green`);
+    problems.push(`border only ${((green / border) * 100).toFixed(0)}% key colour`);
   // Template items: pixels far from the character's face/body centre must not change.
   if (kind.template && !problems.length) {
     const t = (cache[kind.template] ??= readPng(TEMPLATES[kind.template]));
