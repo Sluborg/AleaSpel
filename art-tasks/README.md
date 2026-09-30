@@ -53,7 +53,17 @@ Write only to the branch `art-inbox`, never to `main`, and only inside the `art-
   looked wrong.
 - Append one line to `art-inbox/STATUS.md`: `<batch or redo id> | <date time> | <ids> | uploaded`.
 
-If you cannot write to the repo, show the images in the chat instead, each labelled with its id.
+**If a PNG upload fails or is too large for your GitHub tool:** upload the same PNG as base64
+text instead: `art-inbox/<batch>/<id>.png.b64`. If that is too large for one file, split the
+base64 text into parts `<id>.png.b64.001`, `<id>.png.b64.002`, ... (any size that works, in
+order, no headers). Visuals decodes them. Never resize, recompress to JPEG or crop to make an
+image smaller.
+
+**Last resort:** show the images in the chat, each labelled with its id; Stefan passes them on.
+
+**Template images:** your GitHub tool may not be able to read PNGs. If you cannot fetch a
+template, ask Stefan to attach it once in the chat and reuse that attachment for the whole
+batch.
 
 Visuals (the Claude art session) checks the inbox, ships good images to the game, writes redo
 requests to `REDO.md` and sets batches to Done in `NEXT.md`. Do not edit any other file.

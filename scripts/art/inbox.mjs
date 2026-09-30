@@ -4,7 +4,7 @@
 //
 // Usage (after `git fetch origin art-inbox` and checking out its art-inbox/ folder):
 //   node scripts/art/inbox.mjs art-inbox/B2 [--sheet out.png]
-import { existsSync, readdirSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { readPng, writePng } from './lib.mjs';
 
 const dir = process.argv[2];
@@ -12,6 +12,22 @@ const sheetArg = process.argv.indexOf('--sheet');
 const sheetPath = sheetArg > 0 ? process.argv[sheetArg + 1] : null;
 if (!dir || !existsSync(dir))
   throw new Error('usage: inbox.mjs <art-inbox/batch> [--sheet out.png]');
+
+// Fallback upload format: base64 text, whole (`<id>.png.b64`) or in parts (`<id>.png.b64.001`,
+// `.002`, ...). Decode into `<id>.png` before checking.
+const parts = {};
+for (const f of readdirSync(dir)) {
+  const m = /^(.+\.png)\.b64(?:\.(\d+))?$/.exec(f);
+  if (m) (parts[m[1]] ??= []).push([Number(m[2] ?? 0), f]);
+}
+for (const [png, list] of Object.entries(parts)) {
+  const b64 = list
+    .sort((a, b) => a[0] - b[0])
+    .map(([, f]) => readFileSync(`${dir}/${f}`, 'utf-8').replace(/\s+/g, ''))
+    .join('');
+  writeFileSync(`${dir}/${png}`, Buffer.from(b64, 'base64'));
+  console.log(`decoded ${png} from ${list.length} base64 part(s)`);
+}
 
 const TEMPLATES = {
   face: 'assets/source/face/face_blank-raw.png',
