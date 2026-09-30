@@ -37,13 +37,15 @@ export class GardenScene extends RoomScene {
     super.create();
   }
 
-  // Saves from before the garden existed get its free pieces on the first visit.
+  // Saves from before the garden existed get its free pieces on the first visit. Checked per
+  // piece, so a bush bought in Butiken before that visit does not hold back the free ones.
   private giveStarterGarden(): void {
-    const garden = FURNITURE.filter((f) => f.room === 'garden');
+    const free = FURNITURE.filter((f) => f.room === 'garden' && !f.price);
     SaveService.update((d) => {
-      if (d.furniture.some((f) => garden.some((g) => g.id === f.def))) return;
-      for (const f of garden.filter((g) => !g.price))
+      for (const f of free) {
+        if (d.furniture.some((i) => i.def === f.id)) continue;
         d.furniture.push({ uid: newUid(), def: f.id, x: f.defaultX, y: f.defaultY });
+      }
     });
   }
 
