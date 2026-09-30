@@ -18,8 +18,13 @@ import { itemBounds } from '../ui/itemBounds';
 import { BaseScene } from './BaseScene';
 
 const PANEL_TOP = 770;
+const PANEL_BOTTOM = 1260;
+const TAB_ZONE_BOTTOM = PANEL_TOP + 140;
 const TILE = 140;
 const TILE_GAP = 20;
+const TAB_W = 190;
+const TAB_STEP = 205;
+const DRAG_THRESHOLD = 14;
 
 // Garderob: pick clothes per category and colour tintable items. Items come from the manifest.
 export class WardrobeScene extends BaseScene {
@@ -27,6 +32,16 @@ export class WardrobeScene extends BaseScene {
   private view!: GymnastView;
   private panel?: Phaser.GameObjects.Container;
   private tab = '';
+  // Drag scrolling: the tab strip scrolls sideways, the item grid up and down.
+  private tabStrip?: Phaser.GameObjects.Container;
+  private grid?: Phaser.GameObjects.Container;
+  private tabScroll = 0;
+  private gridScroll = 0;
+  private tabMin = 0;
+  private gridMin = 0;
+  private dragZone: 'tabs' | 'grid' | null = null;
+  private dragged = false;
+  private dragStart = { x: 0, y: 0, scroll: 0 };
 
   constructor() {
     super('Wardrobe');
@@ -43,6 +58,45 @@ export class WardrobeScene extends BaseScene {
     const tabs = this.tabs();
     this.tab = tabs[0]?.category ?? '';
     this.buildPanel();
+    this.setupDragScroll();
+  }
+
+  private setupDragScroll(): void {
+    this.input.on('pointerdown', (p: Phaser.Input.Pointer) => {
+      this.dragged = false;
+      this.dragZone =
+        p.y < PANEL_TOP || p.y > PANEL_BOTTOM ? null : p.y < TAB_ZONE_BOTTOM ? 'tabs' : 'grid';
+      const scroll = this.dragZone === 'tabs' ? this.tabScroll : this.gridScroll;
+      this.dragStart = { x: p.x, y: p.y, scroll };
+    });
+    this.input.on('pointermove', (p: Phaser.Input.Pointer) => {
+      if (!p.isDown || !this.dragZone) return;
+      const dx = p.x - this.dragStart.x;
+      const dy = p.y - this.dragStart.y;
+      if (!this.dragged && Math.hypot(dx, dy) < DRAG_THRESHOLD) return;
+      this.dragged = true;
+      if (this.dragZone === 'tabs') {
+        this.tabScroll = Phaser.Math.Clamp(this.dragStart.scroll + dx, this.tabMin, 0);
+        this.tabStrip?.setX(this.tabScroll);
+      } else {
+        this.gridScroll = Phaser.Math.Clamp(this.dragStart.scroll + dy, this.gridMin, 0);
+        this.grid?.setY(this.gridScroll);
+      }
+    });
+  }
+
+  // A tap counts only if it was not a drag and started in the zone the control belongs to.
+  private tap(zone: 'tabs' | 'grid', action: () => void): () => void {
+    return () => {
+      if (!this.dragged && this.dragZone === zone) action();
+    };
+  }
+
+  private maskRect(x: number, y: number, w: number, h: number) {
+    const g = this.make.graphics({}, false);
+    g.fillStyle(0xffffff, 1);
+    g.fillRect(x, y, w, h);
+    return g.createGeometryMask();
   }
 
   private items(): AssetEntry[] {
@@ -60,7 +114,7 @@ export class WardrobeScene extends BaseScene {
     this.panel = panel;
     const bg = this.add.graphics();
     bg.fillStyle(0x3a2752, 1);
-    bg.fillRoundedRect(20, PANEL_TOP, GAME_WIDTH - 40, 1280 - PANEL_TOP - 20, 36);
+    bg.fillRoundedRect(20, PANEL_TOP, GAME_WIDTH - 40, PANEL_BOTTOM - PANEL_TOP, 36);
     panel.add(bg);
 
     const tabs = this.tabs();
@@ -69,32 +123,39 @@ export class WardrobeScene extends BaseScene {
       return;
     }
 
-    // Category tabs, up to 3 per row.
+    // Category tabs: one row, drag sideways when there are more than fit.
+    const strip = this.add.container(this.tabScroll, 0);
+    this.tabStrip = strip;
     tabs.forEach((t, i) => {
-      const x = GAME_WIDTH / 2 + ((i % 3) - (Math.min(tabs.length, 3) - 1) / 2) * 215;
-      const y = PANEL_TOP + 70 + Math.floor(i / 3) * 120;
       const selected = t.category === this.tab;
-      panel.add(
+      strip.add(
         createButton(
           this,
-          x,
-          y,
+          40 + TAB_W / 2 + i * TAB_STEP,
+          PANEL_TOP + 70,
           t.label,
-          () => {
+          this.tap('tabs', () => {
             this.tab = t.category;
+            this.gridScroll = 0;
             this.buildPanel();
-          },
-          { width: 200, fontSize: 36, color: selected ? COLORS.primary : 0x6b5a85 },
+          }),
+          { width: TAB_W, fontSize: 32, color: selected ? COLORS.primary : 0x6b5a85 },
         ),
       );
     });
+    this.tabMin = Math.min(0, GAME_WIDTH - 40 - (40 + tabs.length * TAB_STEP - (TAB_STEP - TAB_W)));
+    this.tabScroll = Phaser.Math.Clamp(this.tabScroll, this.tabMin, 0);
+    strip.setX(this.tabScroll);
+    strip.setMask(this.maskRect(20, PANEL_TOP, GAME_WIDTH - 40, TAB_ZONE_BOTTOM - PANEL_TOP));
+    panel.add(strip);
 
     const layer = layerOfCategory(this.tab) ?? '';
     const worn = this.gymnast.outfit[layer];
-    const tabRows = Math.ceil(tabs.length / 3);
-    const rowY = PANEL_TOP + 70 + (tabRows - 1) * 120 + 145;
+    const rowY = TAB_ZONE_BOTTOM + 20 + TILE / 2;
 
-    // Item tiles: "none" first, then every item in this category.
+    // Item grid ("none" first, then every item in this category, then colours), drag up/down.
+    const grid = this.add.container(0, this.gridScroll);
+    this.grid = grid;
     const items = this.items().filter((i) => i.category === this.tab);
     const tiles: (AssetEntry | null)[] = [null, ...items];
     const perRow = 4;
@@ -104,8 +165,9 @@ export class WardrobeScene extends BaseScene {
       const x = startX + (i % perRow) * (TILE + TILE_GAP);
       const y = rowY + Math.floor(i / perRow) * (TILE + TILE_GAP);
       lastY = y;
-      panel.add(this.tile(x, y, item, item ? worn?.item === item.id : !worn, worn?.tint));
+      grid.add(this.tile(x, y, item, item ? worn?.item === item.id : !worn, worn?.tint));
     });
+    let contentBottom = lastY + TILE / 2;
 
     // Colour swatches for the worn item, when it can be coloured.
     const wornEntry = items.find((i) => i.id === worn?.item);
@@ -115,9 +177,17 @@ export class WardrobeScene extends BaseScene {
       PALETTE.forEach((color, i) => {
         const x = GAME_WIDTH / 2 + ((i % perSwRow) - (perSwRow - 1) / 2) * 104;
         const y = swY + Math.floor(i / perSwRow) * 100;
-        panel.add(this.swatch(x, y, color, worn?.tint === color, () => this.setTint(layer, color)));
+        contentBottom = y + 50;
+        grid.add(this.swatch(x, y, color, worn?.tint === color, () => this.setTint(layer, color)));
       });
     }
+    this.gridMin = Math.min(0, PANEL_BOTTOM - 20 - contentBottom);
+    this.gridScroll = Phaser.Math.Clamp(this.gridScroll, this.gridMin, 0);
+    grid.setY(this.gridScroll);
+    grid.setMask(
+      this.maskRect(20, TAB_ZONE_BOTTOM, GAME_WIDTH - 40, PANEL_BOTTOM - TAB_ZONE_BOTTOM),
+    );
+    panel.add(grid);
   }
 
   private tile(x: number, y: number, item: AssetEntry | null, selected: boolean, tint?: number) {
@@ -153,7 +223,10 @@ export class WardrobeScene extends BaseScene {
       );
     }
     c.setSize(TILE, TILE).setInteractive({ useHandCursor: true });
-    c.on('pointerup', () => this.wear(item));
+    c.on(
+      'pointerup',
+      this.tap('grid', () => this.wear(item)),
+    );
     return c;
   }
 
@@ -170,7 +243,7 @@ export class WardrobeScene extends BaseScene {
     g.strokeCircle(0, 0, 38);
     c.add(g);
     c.setSize(Math.max(100, MIN_TOUCH - 10), 100).setInteractive({ useHandCursor: true });
-    c.on('pointerup', onPick);
+    c.on('pointerup', this.tap('grid', onPick));
     return c;
   }
 
