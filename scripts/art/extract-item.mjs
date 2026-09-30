@@ -44,9 +44,17 @@ const fgMask = (img) => {
 };
 const fa = fgMask(raw);
 const fb = fgMask(src);
+// Pixels in the key colour are the garment itself (loose clothes cover background), so they are
+// left out of the comparison: only the rest of the character must match the master.
+const isKey = (p) =>
+  Math.abs(src.data[p] - K[0]) +
+    Math.abs(src.data[p + 1] - K[1]) +
+    Math.abs(src.data[p + 2] - K[2]) <
+  150;
 let inter = 0;
 let union = 0;
 for (let i = 0; i < fa.length; i++) {
+  if (isKey(i * 4)) continue;
   inter += fa[i] & fb[i];
   union += fa[i] | fb[i];
 }

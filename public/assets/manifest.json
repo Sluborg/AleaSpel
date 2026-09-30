@@ -396,6 +396,60 @@
       "tintable": false,
       "license": "Project-owned, AI-generated for AleaSpel",
       "source": "ChatGPT image generation 2026-09-30, batch B3 (assets/source/pets/pet_pony-raw.png), extracted by scripts/art/extract-object.mjs and split by scripts/art/split-pet.mjs"
+    },
+    {
+      "id": "tshirt_basic",
+      "category": "tops",
+      "layer": "tops",
+      "file": "wardrobe/tops/tshirt_basic_tint.png",
+      "tintable": true,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B6 (assets/source/wardrobe/tops/tshirt_basic-raw.png), extracted by scripts/art/extract-item.mjs"
+    },
+    {
+      "id": "shorts_gym",
+      "category": "bottoms",
+      "layer": "bottoms",
+      "file": "wardrobe/bottoms/shorts_gym_tint.png",
+      "tintable": true,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B6 (assets/source/wardrobe/bottoms/shorts_gym-raw.png), extracted by scripts/art/extract-item.mjs"
+    },
+    {
+      "id": "dress_basic",
+      "category": "onepiece",
+      "layer": "onepiece",
+      "file": "wardrobe/onepiece/dress_basic_tint.png",
+      "tintable": true,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B6 (assets/source/wardrobe/onepiece/dress_basic-raw.png), extracted by scripts/art/extract-item.mjs"
+    },
+    {
+      "id": "jacket_track",
+      "category": "outerwear",
+      "layer": "outerwear",
+      "file": "wardrobe/outerwear/jacket_track_tint.png",
+      "tintable": true,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B6 (assets/source/wardrobe/outerwear/jacket_track-raw.png), extracted by scripts/art/extract-item.mjs"
+    },
+    {
+      "id": "slippers_gym",
+      "category": "shoes",
+      "layer": "shoes",
+      "file": "wardrobe/shoes/slippers_gym_tint.png",
+      "tintable": true,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B6 (assets/source/wardrobe/shoes/slippers_gym-raw.png), extracted by scripts/art/extract-item.mjs"
+    },
+    {
+      "id": "socks_ankle",
+      "category": "socks",
+      "layer": "socks",
+      "file": "wardrobe/socks/socks_ankle_tint.png",
+      "tintable": true,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B6 (assets/source/wardrobe/socks/socks_ankle-raw.png), extracted by scripts/art/extract-item.mjs"
     }
   ]
 }

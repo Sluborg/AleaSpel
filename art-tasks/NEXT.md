@@ -8,7 +8,7 @@ Take the first **Ready** batch **of your track** that you have not made yet (che
 | ----- | --------- | -------- | ------------------------------------- | ------ | ------ |
 | B1    | faces     | -        | brows_soft (sent by hand)             | 1      | Sent   |
 | B2    | faces     | `B2.md`  | Face parts and make-up                | 7      | Ready  |
-| B6    | clothes   | `B6.md`  | Clothes                               | 6      | Ready  |
+| B6    | clothes   | `B6.md`  | Clothes                               | 6      | Done   |
 | B3    | animals   | `B3.md`  | Pets (art request 10)                 | 6      | Done   |
 | B4    | animals   | `B4.md`  | Pet food (art request 20)             | 8      | Done   |
 | B5    | animals   | `B5.md`  | Pet toys (art request 30)             | 3      | Ready  |
