@@ -32,6 +32,14 @@ Fetch repo files as `https://raw.githubusercontent.com/Sluborg/AleaSpel/main/<pa
 
 A chat works on one track for its whole life. Only take batches and redo rows of that track.
 
+## Wake-ups (automatic start)
+
+A draft pull request titled **AleaSpel art wake** (branch `art-wake`) is the wake-up bell. Visuals
+pushes a commit to it when there is new work; `art-wake/TRACKS.md` on that branch lists the tracks
+that have work. A chat with a watch (Bevakning) on that pull request: when it fires, read
+`art-wake/TRACKS.md` from the `art-wake` branch; if your track is listed, do "run all" for your
+track. If not, do nothing.
+
 ## Commands from Stefan
 
 - **"<track> start"** (for example "furniture start"):
