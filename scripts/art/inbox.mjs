@@ -57,8 +57,12 @@ for (const file of readdirSync(dir)
   const img = readPng(`${dir}/${file}`);
   const problems = [];
   const [cw, ch] = kind.canvas;
-  if (img.width !== cw || img.height !== ch)
-    problems.push(`canvas ${img.width}x${img.height}, expected ${cw}x${ch}`);
+  // Template items must match the template pixel for pixel. Standalone objects are scaled later,
+  // so any size with the right aspect ratio and at least the requested size is fine.
+  const exact = img.width === cw && img.height === ch;
+  const scalable =
+    !kind.template && img.width >= cw && Math.abs(img.width / img.height - cw / ch) < 0.01;
+  if (!exact && !scalable) problems.push(`canvas ${img.width}x${img.height}, expected ${cw}x${ch}`);
   // Background: the border must be flat green.
   let border = 0;
   let green = 0;

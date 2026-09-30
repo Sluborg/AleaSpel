@@ -67,8 +67,9 @@ A chat works on one track for its whole life. Only take batches and redo rows of
 ## Rules for every image
 
 - One item per image, nothing else in it. No text, no watermark, no shadow, no glow.
-- Flat background in the key colour the batch gives (green #00FF00 unless it says otherwise)
-  and the exact canvas size the batch gives.
+- Flat background in the key colour the batch gives (green #00FF00 unless it says otherwise).
+- Canvas: with a template, exactly the template size (1024x1536). Without a template, the aspect
+  ratio the batch gives at your normal output size (for example 1254x1254 for square is fine).
 - With a template: keep EVERYTHING identical except the one change asked for. Never move, resize,
   redraw or restyle the character. Never work from memory or from an image you edited earlier.
 - Follow `STYLE.md`.
