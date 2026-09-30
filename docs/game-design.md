@@ -198,6 +198,9 @@ Alea's wish: nicer furniture and clothes are bought with prizes from winning com
 - **Butiken**: nicer furniture, clothes, pet accessories. Every item row gets an optional `price`;
   no price = free from the start. Bought items are kept forever. Furniture can be bought again
   and again (goes to the Förråd, tiles show ×N); clothes once.
+- Built: **Gym tab** in Butiken: extra apparatus and mats (`price` rows in `data/gymEquipment.ts`),
+  bought once, they appear in Mitt gym. Colour variants reuse the apparatus art with a hue shift
+  (`hue` in the row): Rosa and Lila matta, Mintbom, Minitramp, Guldbock.
 - No real money, no timers, no loot boxes. Prices tuned so a new item comes every few games.
 - Built: **Butiken** (`scenes/ShopScene.ts`, data in `data/shop.ts`): tabs Möbler and Kläder,
   tiles with price, "Köp" when affordable, "Köpt" when owned, "N till" otherwise. Furniture rows

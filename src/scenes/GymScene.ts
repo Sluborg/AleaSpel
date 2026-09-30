@@ -1,8 +1,8 @@
 import { COLORS, FONT, GAME_HEIGHT, GAME_WIDTH } from '../config';
-import { GYM_EQUIPMENT, type EquipmentDef } from '../data/gymEquipment';
+import { GYM_EQUIPMENT, equipmentArtId, type EquipmentDef } from '../data/gymEquipment';
 import { MINIGAMES } from '../data/minigames';
 import { SaveService, type Position } from '../services/SaveService';
-import { artHeight, backdrop, hasArt, visibleBottom } from '../ui/art';
+import { applyHue, artHeight, backdrop, hasArt, visibleBottom } from '../ui/art';
 import { ROOM_WORLD_W, RoomScene, type Placeable } from './RoomScene';
 
 const HALL = { left: 20, top: 250, right: ROOM_WORLD_W - 20, bottom: GAME_HEIGHT - 20 };
@@ -84,7 +84,7 @@ export class GymScene extends RoomScene {
 
   // Delivered equipment art is `equip_<id without eq_>`.
   private artKey(def: EquipmentDef): string | null {
-    const key = `equip_${def.id.replace(/^eq_/, '')}`;
+    const key = equipmentArtId(def);
     return hasArt(this, key) ? key : null;
   }
 
@@ -93,6 +93,7 @@ export class GymScene extends RoomScene {
     if (key) {
       const img = this.add.image(0, def.minigame ? -15 : 0, key);
       img.setScale(def.width / img.width);
+      applyHue(img, def.hue);
       const children: Phaser.GameObjects.GameObject[] = [img];
       if (def.minigame) {
         children.push(

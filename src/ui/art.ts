@@ -93,6 +93,13 @@ export function visibleBottom(scene: Phaser.Scene, key: string): number {
   return ratio;
 }
 
+// Shift the colours of an image around the colour wheel (degrees), for colour variants of art that
+// is already coloured (a multiplying tint can only darken). WebGL only; Canvas keeps the colours.
+export function applyHue<T extends Phaser.GameObjects.Image>(img: T, degrees?: number): T {
+  if (degrees) img.preFX?.addColorMatrix().hue(degrees);
+  return img;
+}
+
 // An image scaled to fit inside w x h, centred at (x, y).
 export function artImage(
   scene: Phaser.Scene,
