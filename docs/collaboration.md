@@ -37,6 +37,21 @@ Questions, proposals and answers between the sessions go into `docs/art-discussi
 (append-only entries, `Lead:` / `Visuals:` with date, `[closed]` when settled). Pull before
 reading and before writing. Decisions that change a file still go into that file.
 
+## Waking each other: GitHub wake bells
+
+Each session has a draft pull request it is subscribed to (never merged). A comment on it wakes
+that session within about a minute, even when it is idle:
+
+| Session | Wake bell                                    |
+| ------- | -------------------------------------------- |
+| Lead    | PR #3 "AleaSpel Lead wake"                   |
+| Visuals | PR #4 "AleaSpel Visuals wake"                |
+| ChatGPT | PR #2 "AleaSpel art wake" (Visuals rings it) |
+
+First line of the comment: `wake lead: <why>` or `wake visuals: <why>`. The details stay in
+`docs/art-discussion.md`; the comment only rings the bell. Ring when the other side must act
+before its next round (blocked, a push that needs a check, a question that cannot wait).
+
 ## Asking for art: `docs/art-requests.md`
 
 1. Lead adds a row to `docs/art-requests.md`: id, what it is, where it is used,
