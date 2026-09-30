@@ -59,6 +59,9 @@ Decided with Alea (2026-09-30):
   furniture rows (`room: 'clubhouse'` in `data/furniture.ts`, two of them for sale), the pets
   sit in the room (drag them, tap to care), the active gymnast stands there (tap for Mitt lag),
   and a door leads to the gym. Positions in `SaveData.clubhouse` (v9).
+  **Lagfest** (built): a 🎉 Fest button, unlocked by the team's first cup from Tävlingsdag, turns
+  the room into a party (lights down, disco spots, confetti); the gymnast switches to her Fest look
+  and dances, the pets hop. Tap Fest again to stop.
 - **Each gymnast has her own house.** A new gymnast gets a house.
 - **Rooms, built (Stefan's feedback 2026-09-30):** every room (Mina hus, Klubbstugan, Mitt gym)
   is two screens wide; drag the floor to look around, dragging an item to the screen edge
