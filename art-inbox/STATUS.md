@@ -25,3 +25,4 @@ B12 | 2026-09-30T18:40:06.726Z | leotard_sleeveless, leotard_longsleeve, skirt_t
 B10 | 2026-09-30T18:41:45.823Z | icon_medal, icon_star, icon_heart, icon_pencil, icon_bin, icon_check, icon_back, icon_plus, icon_lock | uploaded
 B14 | 2026-09-30T18:44:56.052Z | eyes_hazel, eyes_violet, eyes_grey, brows_bold, mouth_grin, mouth_o, mouth_tongue | uploaded
 B13 | 2026-09-30T18:45:58.515Z | bow_hair, headband_basic, medal_gold, wristbands, glasses_round, bag_small | uploaded
+B13 redo | 2026-09-30T19:31:25.400Z | headband_basic | uploaded
