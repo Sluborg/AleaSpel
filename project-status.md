@@ -29,7 +29,18 @@ Updated 2026-09-30. Read this first when resuming ("continue from project-status
 - Face pipeline started: `face_blank` template in `assets/source/face/` (eyes etc. queued in
   `docs/image-prompts.md`).
 
-## Next actions (pick one)
+## Feature session
+
+- In progress: nothing.
+- Next: pet feedback from Alea; then Klubbstugan + gym connection, or the first gymnastics
+  minigame and medals.
+
+## Art session
+
+- In progress: face system (face_base, default face parts, Ansikte tab), ChatGPT queue.
+- Next: see `docs/image-prompts.md` and `docs/art-requests.md`.
+
+## Backlog (pick one)
 
 1. More clothes: one ChatGPT prompt per garment (template in `docs/asset-spec.md`, section 9).
    Suggested: T-shirt, shorts, dress, track jacket, gymnastics slippers, ankle socks. [0.85]

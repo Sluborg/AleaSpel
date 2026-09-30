@@ -5,6 +5,11 @@ avatar editor (a gymnast), own house and own gym with drag-and-drop, gymnastics 
 (beam, bars, vault, trampoline), practice in the gym and beat your best. Pets with their own
 minigames. Full design: `docs/game-design.md` (keep it updated when a design decision changes).
 
+## Working together
+
+Two Claude sessions build this game in parallel (feature session and art session). Read
+`docs/collaboration.md` first: roles, file ownership, art requests (`docs/art-requests.md`), git.
+
 ## Player
 
 - Alea, 9 years old, Swedish. All in-game text in Swedish, short and easy to read.
@@ -44,7 +49,9 @@ preview/index.html     wardrobe preview page (/preview/), code in src/preview/
 scripts/art/           key-master, derive-base, validate (Node + pngjs)
 docs/game-design.md    systems, data model, roadmap
 docs/asset-spec.md     character and wardrobe art rules
-docs/image-prompts.md  ChatGPT image prompts and the image queue
+docs/image-prompts.md  ChatGPT image prompts and the image queue (art session)
+docs/art-requests.md   art the features need (feature session -> art session)
+docs/collaboration.md  how the sessions work together
 research/              interviews with Alea, reference-game research
 .github/workflows/deploy.yml
 ```
