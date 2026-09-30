@@ -666,6 +666,24 @@
       "tintable": false,
       "license": "Project-owned, AI-generated for AleaSpel",
       "source": "ChatGPT image generation 2026-09-30, batch B1 on the face_blank template (assets/source/face/brows/brows_soft-raw.png), extracted by scripts/art/extract-face.mjs"
+    },
+    {
+      "id": "ext_wall_2",
+      "category": "exterior",
+      "layer": "house",
+      "file": "exterior/ext_wall_2.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B11 redo on magenta (assets/source/exterior/ext_wall_2-raw.png), extracted by scripts/art/extract-object.mjs"
+    },
+    {
+      "id": "ext_window_2",
+      "category": "exterior",
+      "layer": "house",
+      "file": "exterior/ext_window_2.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B11 redo on magenta (assets/source/exterior/ext_window_2-raw.png), extracted by scripts/art/extract-object.mjs"
     }
   ]
 }
