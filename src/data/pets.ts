@@ -13,6 +13,7 @@ export interface PetSpecies {
   bodyH: number; // body half-height
   snout: boolean;
   pose: 'sit' | 'stand';
+  roomSize: number; // drawn size in rooms, as a share of the gymnast's height
 }
 
 export const PET_SPECIES: PetSpecies[] = [
@@ -27,6 +28,7 @@ export const PET_SPECIES: PetSpecies[] = [
     bodyH: 70,
     snout: false,
     pose: 'sit',
+    roomSize: 0.36,
   },
   {
     id: 'dog',
@@ -39,6 +41,7 @@ export const PET_SPECIES: PetSpecies[] = [
     bodyH: 72,
     snout: true,
     pose: 'sit',
+    roomSize: 0.42,
   },
   {
     id: 'rabbit',
@@ -51,6 +54,7 @@ export const PET_SPECIES: PetSpecies[] = [
     bodyH: 74,
     snout: false,
     pose: 'sit',
+    roomSize: 0.36,
   },
   {
     id: 'guinea',
@@ -63,6 +67,7 @@ export const PET_SPECIES: PetSpecies[] = [
     bodyH: 70,
     snout: false,
     pose: 'sit',
+    roomSize: 0.3,
   },
   {
     id: 'hamster',
@@ -75,6 +80,7 @@ export const PET_SPECIES: PetSpecies[] = [
     bodyH: 80,
     snout: false,
     pose: 'sit',
+    roomSize: 0.24,
   },
   {
     id: 'pony',
@@ -87,6 +93,7 @@ export const PET_SPECIES: PetSpecies[] = [
     bodyH: 76,
     snout: true,
     pose: 'stand',
+    roomSize: 0.75,
   },
 ];
 

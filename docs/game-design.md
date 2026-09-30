@@ -60,6 +60,14 @@ Decided with Alea (2026-09-30):
   sit in the room (drag them, tap to care), the active gymnast stands there (tap for Mitt lag),
   and a door leads to the gym. Positions in `SaveData.clubhouse` (v9).
 - **Each gymnast has her own house.** A new gymnast gets a house.
+- **Rooms, built (Stefan's feedback 2026-09-30):** every room (Mina hus, Klubbstugan, Mitt gym)
+  is two screens wide; drag the floor to look around, dragging an item to the screen edge
+  scrolls along (‹ › arrows show there is more). Depth follows where things stand (lower on
+  screen = in front); flat things (rug, mat, pet bed, wall items: `flat: true`) are always
+  behind. Tap a piece of furniture for layer buttons (Närmast, Närmare, Längre bort, Längst
+  bort) and Förråd; a manual layer holds until the piece is dragged again. Furniture is a list
+  of pieces (`SaveData.furniture`, v12): several of a kind, each placed or stored. The 📦
+  Förråd button lists stored pieces of that room; tap one to put it in the middle of the view.
 
 - Every house has:
   - **Exterior**: wall colour, roof shape and colour, door, windows, fence. Parts are data rows.
@@ -162,7 +170,8 @@ Alea's wish: nicer furniture and clothes are bought with prizes from winning com
 
 - **Medaljer** (currency): won in Tävlingar (more for more stars) and in pet shows.
 - **Butiken**: nicer furniture, clothes, pet accessories. Every item row gets an optional `price`;
-  no price = free from the start. Bought items are kept forever.
+  no price = free from the start. Bought items are kept forever. Furniture can be bought again
+  and again (goes to the Förråd, tiles show ×N); clothes once.
 - No real money, no timers, no loot boxes. Prices tuned so a new item comes every few games.
 - Built: **Butiken** (`scenes/ShopScene.ts`, data in `data/shop.ts`): tabs Möbler and Kläder,
   tiles with price, "Köp" when affordable, "Köpt" when owned, "N till" otherwise. Furniture rows

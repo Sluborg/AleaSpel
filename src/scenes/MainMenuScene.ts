@@ -31,7 +31,7 @@ export class MainMenuScene extends BaseScene {
     });
 
     this.add
-      .text(GAME_WIDTH / 2, GAME_HEIGHT - 40, `v${__APP_VERSION__}`, {
+      .text(GAME_WIDTH / 2, GAME_HEIGHT - 40, `${__APP_NAME__} · v${__APP_VERSION__}`, {
         fontFamily: FONT,
         fontSize: '26px',
         color: COLORS.textMuted,

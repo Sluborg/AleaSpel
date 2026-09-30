@@ -16,6 +16,45 @@ function shortCommit(): string {
   }
 }
 
+// Every deploy gets a name, A to Z and round again, so Stefan can see which build is running.
+// The deploy workflow's run number picks it; run 61 was the first named build (Astrid).
+const RELEASE_NAMES = [
+  'Astrid',
+  'Bella',
+  'Cleo',
+  'Dixi',
+  'Elsa',
+  'Fia',
+  'Greta',
+  'Hilma',
+  'Idun',
+  'Juni',
+  'Kiki',
+  'Lova',
+  'Mimmi',
+  'Nova',
+  'Oda',
+  'Pippi',
+  'Quinny',
+  'Ronja',
+  'Saga',
+  'Tindra',
+  'Ulla',
+  'Vilda',
+  'Wilma',
+  'Xena',
+  'Ylva',
+  'Zelda',
+];
+const FIRST_NAMED_RUN = 61;
+
+function releaseName(): string {
+  const run = Number(process.env.GITHUB_RUN_NUMBER);
+  if (!Number.isFinite(run) || run <= 0) return 'Lokal';
+  const n = RELEASE_NAMES.length;
+  return RELEASE_NAMES[(((run - FIRST_NAMED_RUN) % n) + n) % n];
+}
+
 // BASE_PATH is set by the deploy workflow from GITHUB_REPOSITORY, e.g. "/AleaSpel/".
 const base = process.env.BASE_PATH ?? '/';
 
@@ -23,6 +62,7 @@ export default defineConfig({
   base,
   define: {
     __APP_VERSION__: JSON.stringify(`${pkg.version}+${shortCommit()}`),
+    __APP_NAME__: JSON.stringify(releaseName()),
   },
   build: {
     chunkSizeWarningLimit: 2000,

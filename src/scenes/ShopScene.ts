@@ -2,7 +2,9 @@ import Phaser from 'phaser';
 import { COLORS, FONT, GAME_HEIGHT, GAME_WIDTH } from '../config';
 import { ASSET_MANIFEST_KEY, type AssetManifest } from '../data/assets';
 import { SHOP_TABS, shopItems, type ShopItem, type ShopKind } from '../data/shop';
-import { SaveService } from '../services/SaveService';
+import { FURNITURE } from '../data/furniture';
+import { newUid, SaveService } from '../services/SaveService';
+import { furnitureArtKey } from '../ui/furnitureView';
 import { artImage, hasArt, medalLabel } from '../ui/art';
 import { createButton } from '../ui/Button';
 import { ScrollList } from '../ui/ScrollList';
@@ -79,12 +81,23 @@ export class ShopScene extends BaseScene {
     items.forEach((item, i) => {
       const x = GAME_WIDTH / 2 + ((i % 2) - 0.5) * (TILE_W + 30);
       const y = 20 + Math.floor(i / 2) * (TILE_H + 24) + TILE_H / 2;
-      this.list!.content.add(this.tile(x, y, item, save.owned.includes(item.id), save.medals));
+      this.list!.content.add(this.tile(x, y, item, this.count(item), save.medals));
     });
     this.list.setContentHeight(20 + Math.ceil(items.length / 2) * (TILE_H + 24) + 20);
   }
 
-  private tile(x: number, y: number, item: ShopItem, owned: boolean, medals: number) {
+  // Furniture can be bought again and again (it goes to the Förråd); clothes once.
+  private count(item: ShopItem): number {
+    const save = SaveService.get();
+    return item.kind === 'furniture'
+      ? save.furniture.filter((f) => f.def === item.id).length
+      : save.owned.includes(item.id)
+        ? 1
+        : 0;
+  }
+
+  private tile(x: number, y: number, item: ShopItem, have: number, medals: number) {
+    const owned = item.kind === 'clothes' && have > 0;
     const c = this.add.container(x, y);
     const g = this.add.graphics();
     g.fillStyle(owned ? 0x2f4a3a : 0x3a2752, 1).fillRoundedRect(
@@ -94,7 +107,8 @@ export class ShopScene extends BaseScene {
       TILE_H,
       30,
     );
-    const artKey = item.kind === 'furniture' ? `furn_${item.id}` : item.id;
+    const def = FURNITURE.find((f) => f.id === item.id);
+    const artKey = def ? (furnitureArtKey(this, def) ?? '') : item.id;
     const art = hasArt(this, artKey);
     if (item.color !== undefined && !art) {
       g.fillStyle(item.color, 1).fillRoundedRect(-60, -TILE_H / 2 + 22, 120, 70, 16);
@@ -125,6 +139,22 @@ export class ShopScene extends BaseScene {
     });
     if (owned || !afford) btn.disableInteractive();
     c.add(btn);
+    // How many the team already has (furniture can be bought again, extra ones go to the Förråd).
+    if (item.kind === 'furniture' && have > 0) {
+      const badge = this.add.graphics();
+      badge.fillStyle(0x4f8a5f, 1).fillRoundedRect(TILE_W / 2 - 96, -TILE_H / 2 + 12, 84, 44, 22);
+      c.add(badge);
+      c.add(
+        this.add
+          .text(TILE_W / 2 - 54, -TILE_H / 2 + 34, `×${have}`, {
+            fontFamily: FONT,
+            fontSize: '28px',
+            color: COLORS.text,
+            fontStyle: 'bold',
+          })
+          .setOrigin(0.5),
+      );
+    }
     if (!owned && !afford) {
       c.add(
         this.add
@@ -141,14 +171,17 @@ export class ShopScene extends BaseScene {
 
   private buy(item: ShopItem): void {
     const save = SaveService.get();
-    if (save.owned.includes(item.id) || save.medals < item.price) return;
+    if (save.medals < item.price) return;
+    if (item.kind === 'clothes' && save.owned.includes(item.id)) return;
+    const def = FURNITURE.find((f) => f.id === item.id);
     SaveService.update((d) => {
       d.medals -= item.price;
-      d.owned.push(item.id);
+      if (def) d.furniture.push({ uid: newUid(), def: def.id, x: 0, y: 0, stored: true });
+      else d.owned.push(item.id);
     });
     this.build();
     const t = this.add
-      .text(GAME_WIDTH / 2, 600, `🎉 ${item.name} är din!`, {
+      .text(GAME_WIDTH / 2, 600, def ? `📦 ${item.name} i förrådet!` : `🎉 ${item.name} är din!`, {
         fontFamily: FONT,
         fontSize: '52px',
         color: '#ffffff',

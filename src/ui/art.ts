@@ -13,25 +13,26 @@ export function artHeight(scene: Phaser.Scene, key: string, width: number): numb
   return Math.round((width * src.height) / src.width);
 }
 
-// A full-screen backdrop (720x1280 manifest id) behind everything, optionally cropped to a room
-// rectangle. Returns false when the id is missing so the caller draws its placeholder.
+// A backdrop (720x1280 manifest id) behind everything. Without `area` it fills the screen. With
+// a room rectangle it covers that rectangle's rows, tiled sideways (every other copy mirrored so
+// the seams match) when the room is wider than the screen. Returns false when the id is missing
+// so the caller draws its placeholder.
 export function backdrop(
   scene: Phaser.Scene,
   key: string,
-  crop?: { left: number; top: number; right: number; bottom: number },
+  area?: { left: number; top: number; right: number; bottom: number },
 ): boolean {
   if (!hasArt(scene, key)) return false;
-  const img = scene.add.image(0, 0, key).setOrigin(0).setDepth(-100);
-  img.setDisplaySize(GAME_WIDTH, GAME_HEIGHT);
-  if (crop) {
-    const sx = img.width / GAME_WIDTH;
+  const width = area ? area.right + area.left : GAME_WIDTH;
+  for (let i = 0; i * GAME_WIDTH < width; i++) {
+    const img = scene.add
+      .image(i * GAME_WIDTH, 0, key)
+      .setOrigin(0)
+      .setDepth(-100000)
+      .setFlipX(i % 2 === 1);
     const sy = img.height / GAME_HEIGHT;
-    img.setCrop(
-      crop.left * sx,
-      crop.top * sy,
-      (crop.right - crop.left) * sx,
-      (crop.bottom - crop.top) * sy,
-    );
+    img.setScale(GAME_WIDTH / img.width, 1 / sy);
+    if (area) img.setCrop(0, area.top * sy, img.width, (area.bottom - area.top) * sy);
   }
   return true;
 }

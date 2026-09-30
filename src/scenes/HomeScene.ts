@@ -1,15 +1,15 @@
-import { COLORS, FONT, GAME_HEIGHT, GAME_WIDTH } from '../config';
-import { FURNITURE, type FurnitureDef } from '../data/furniture';
-import { SaveService, type Position } from '../services/SaveService';
-import { artHeight, backdrop, hasArt } from '../ui/art';
-import { RoomScene, type Placeable } from './RoomScene';
+import { COLORS, GAME_HEIGHT } from '../config';
+import { backdrop } from '../ui/art';
+import { ROOM_WORLD_W, RoomScene, type Placeable } from './RoomScene';
 
-const ROOM = { left: 20, top: 160, right: GAME_WIDTH - 20, bottom: GAME_HEIGHT - 20 };
+const ROOM = { left: 20, top: 160, right: ROOM_WORLD_W - 20, bottom: GAME_HEIGHT - 20 };
 const FLOOR_Y = 620;
 
-// Mina hus: the gymnast's own room. Free and bought furniture, drag to move.
+// Mina hus: the gymnast's own room. Furniture pieces from the save (free ones, bought ones taken
+// out of the Förråd); drag to move, tap for layer buttons.
 export class HomeScene extends RoomScene {
   protected readonly title = 'Mina hus';
+  protected readonly furnitureRoom = 'house' as const;
 
   constructor() {
     super('Home');
@@ -29,63 +29,9 @@ export class HomeScene extends RoomScene {
   }
 
   protected placeables(): Placeable[] {
-    const { home, owned } = SaveService.get();
-    return FURNITURE.filter(
-      (f) => (f.room ?? 'house') === 'house' && (!f.price || owned.includes(f.id)),
-    ).map((def) => {
-      const pos = home.furniture[def.id] ?? { x: def.defaultX, y: def.defaultY };
-      const { width, height } = furnitureSize(this, def);
-      return {
-        id: def.id,
-        width,
-        height,
-        x: pos.x,
-        y: pos.y,
-        build: () => furnitureShape(this, def),
-      };
-    });
+    return [];
   }
 
-  protected savePosition(id: string, pos: Position): void {
-    SaveService.update((data) => {
-      data.home.furniture[id] = pos;
-    });
-  }
-}
-
-// Delivered furniture art (`furn_<id>`) is scaled to the row's width, keeping its aspect ratio.
-export function furnitureArtKey(scene: Phaser.Scene, def: FurnitureDef): string | null {
-  const key = def.art ?? `furn_${def.id}`;
-  return hasArt(scene, key) ? key : null;
-}
-
-export function furnitureSize(
-  scene: Phaser.Scene,
-  def: FurnitureDef,
-): { width: number; height: number } {
-  const key = furnitureArtKey(scene, def);
-  return key
-    ? { width: def.width, height: artHeight(scene, key, def.width) }
-    : { width: def.width, height: def.height };
-}
-
-// Furniture as art when delivered, else a placeholder shape with the name on it.
-export function furnitureShape(
-  scene: Phaser.Scene,
-  def: FurnitureDef,
-): Phaser.GameObjects.GameObject[] {
-  const key = furnitureArtKey(scene, def);
-  if (key) {
-    const img = scene.add.image(0, 0, key);
-    return [img.setScale(def.width / img.width)];
-  }
-  const shape =
-    def.shape === 'ellipse'
-      ? scene.add.ellipse(0, 0, def.width, def.height, def.color)
-      : scene.add.rectangle(0, 0, def.width, def.height, def.color);
-  shape.setStrokeStyle(4, 0x000000, 0.25);
-  const label = scene.add
-    .text(0, 0, def.name, { fontFamily: FONT, fontSize: '30px', color: '#3a2a4a' })
-    .setOrigin(0.5);
-  return [shape, label];
+  // Only furniture pieces live here; RoomScene saves those itself.
+  protected savePosition(): void {}
 }

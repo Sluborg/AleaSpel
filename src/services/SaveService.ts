@@ -1,14 +1,41 @@
+import { FURNITURE } from '../data/furniture';
 import { rollTraits } from './PetCare';
 
 // Versioned save data in localStorage.
 // To change the schema: bump SAVE_VERSION, update SaveData, add a migration from the previous version.
 
-export const SAVE_VERSION = 11;
+export const SAVE_VERSION = 12;
 const STORAGE_KEY = 'aleaspel.save';
 
 export interface Position {
   x: number;
   y: number;
+}
+
+// One piece of furniture the team owns. Several of the same kind are allowed. Stored pieces wait
+// in the room's Förråd (inventory); `z` is a manual layer set with the layer buttons (cleared when
+// the piece is dragged, so it sorts by where it stands again).
+export interface FurnitureItem {
+  uid: string;
+  def: string; // furniture id in data/furniture.ts
+  x: number;
+  y: number;
+  z?: number;
+  stored?: boolean;
+}
+
+export function newUid(): string {
+  return `f${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
+}
+
+// The free furniture every save starts with, placed at its default spot.
+function starterFurniture(extra: string[] = [], placed: Record<string, Position> = {}) {
+  return FURNITURE.filter((f) => !f.price || extra.includes(f.id)).map((f): FurnitureItem => ({
+    uid: newUid(),
+    def: f.id,
+    x: placed[f.id]?.x ?? f.defaultX,
+    y: placed[f.id]?.y ?? f.defaultY,
+  }));
 }
 
 // One worn item per wardrobe layer. tint is a 0xRRGGBB colour for tintable items.
@@ -45,19 +72,16 @@ export interface Pet {
 
 export interface SaveData {
   version: number;
-  home: {
-    furniture: Record<string, Position>;
-  };
+  furniture: FurnitureItem[]; // every piece in Mina hus and Klubbstugan, placed or stored
   gymnasts: Gymnast[];
   pets: Pet[];
   medals: number; // currency won in Tävlingar, spent in Butiken
-  owned: string[]; // shop item ids bought in Butiken
+  owned: string[]; // clothes ids bought in Butiken (furniture is counted in `furniture`)
   activeGymnastId: string; // the gymnast shown in Mitt lag and used in Tävlingar
   gym: {
     equipment: Record<string, Position>; // placed apparatus in Mitt gym
   };
   clubhouse: {
-    furniture: Record<string, Position>;
     pets: Record<string, Position>; // pet id -> where it sits in Klubbstugan
   };
   team: {
@@ -116,19 +140,35 @@ const MIGRATIONS: Record<number, Migration> = {
       },
     })),
   }),
+  // Furniture becomes a list of pieces (buy several, keep some in the Förråd).
+  11: (data) => {
+    const owned = (data.owned as string[]) ?? [];
+    const home = (data.home as { furniture?: Record<string, Position> })?.furniture ?? {};
+    const club = (data.clubhouse as { furniture?: Record<string, Position> })?.furniture ?? {};
+    const pets = (data.clubhouse as { pets?: Record<string, Position> })?.pets ?? {};
+    const rest = { ...data };
+    delete rest.home;
+    return {
+      ...rest,
+      version: 12,
+      furniture: starterFurniture(owned, { ...home, ...club }),
+      owned: owned.filter((id) => !FURNITURE.some((f) => f.id === id)),
+      clubhouse: { pets },
+    };
+  },
 };
 
 function createDefault(): SaveData {
   return {
     version: SAVE_VERSION,
-    home: { furniture: {} },
+    furniture: starterFurniture(),
     gymnasts: [createGymnast(1)],
     pets: [],
     medals: 0,
     owned: [],
     activeGymnastId: 'g1',
     gym: { equipment: {} },
-    clubhouse: { furniture: {}, pets: {} },
+    clubhouse: { pets: {} },
     team: { days: 0, wins: 0, podiums: 0 },
   };
 }

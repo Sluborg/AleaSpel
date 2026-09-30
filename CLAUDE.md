@@ -45,7 +45,7 @@ src/
                      clothing occasions)
   services/          SaveService, PetCare, Gesture (finger-pattern recognizer)
   ui/                reusable UI (Button, GymnastView, NameInput, itemBounds, PetView, petSvg,
-                     ScrollList)
+                     ScrollList, art helpers, furnitureView)
 public/
   assets/manifest.json   asset list, read by Preload and /preview
   assets/base/           shipped master + anchors.json
@@ -88,8 +88,8 @@ research/              interviews with Alea, reference-game research
   phone, above the 48px minimum).
 - No pinch zoom, double-tap zoom or page scroll (viewport meta, `touch-action: none`, listeners
   in `main.ts`).
-- Main menu shows the version: `package.json` version + short commit hash, injected at build time
-  as `__APP_VERSION__`.
+- Main menu shows the release name (A-Z per deploy, from the workflow run number, `__APP_NAME__`)
+  and the version: `package.json` version + short commit hash, `__APP_VERSION__`.
 - UI text in Swedish (the player is Swedish). Code, comments and docs in English.
 
 ## Deploy flow

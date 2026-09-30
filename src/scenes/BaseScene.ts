@@ -12,7 +12,8 @@ export abstract class BaseScene extends Phaser.Scene {
         color: COLORS.text,
         fontStyle: 'bold',
       })
-      .setOrigin(0.5);
+      .setOrigin(0.5)
+      .setScrollFactor(0);
   }
 
   protected addBackButton(target = 'MainMenu'): Phaser.GameObjects.Container {
@@ -24,6 +25,8 @@ export abstract class BaseScene extends Phaser.Scene {
       '←',
       () => this.scene.start(target),
       { width: MIN_TOUCH, height: MIN_TOUCH, fontSize: 56 },
-    ).setDepth(1000);
+    )
+      .setDepth(1000)
+      .setScrollFactor(0);
   }
 }

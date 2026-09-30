@@ -10,6 +10,7 @@ export interface EquipmentDef {
   defaultX: number;
   defaultY: number;
   price?: number; // medals; no price = free from the start
+  flat?: boolean; // lies on the floor: always behind standing apparatus
 }
 
 export const GYM_EQUIPMENT: EquipmentDef[] = [
@@ -62,5 +63,6 @@ export const GYM_EQUIPMENT: EquipmentDef[] = [
     color: 0x4f8fd0,
     defaultX: 250,
     defaultY: 1080,
+    flat: true,
   },
 ];

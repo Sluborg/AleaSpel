@@ -44,6 +44,9 @@ Updated 2026-09-30. Read this first when resuming ("continue from project-status
   minigame, medal icon, pet bowl/brush/bed/house; two new pet games (Fånga musen, Frisbee).
 - Clothing occasions in Garderob: Vardag, Träning, Tävling, Fest, Chill, one look each, shared
   face and hair; scenes dress the gymnast for the occasion. Save schema v11.
+- Rooms two screens wide (drag the floor), floor-aware layering, layer buttons, Förråd
+  (inventory), furniture bought several times; pets to scale in Klubbstugan. Save schema v12.
+- Release names: each deploy is named A-Z (Astrid, Bella, ...), shown on the main menu.
 - Butiken: buy furniture (7 priced rows) with medals, scrollable list (`ui/ScrollList.ts`),
   bought furniture appears in Mina hus. Save schema v6 (owned). Menu entry Butiken.
 - Face pipeline: `face_blank` template, `scripts/art/extract-face.mjs`, 7 eye styles in the
@@ -52,7 +55,8 @@ eyes_wink`).
 
 ## Lead
 
-- In progress: nothing. SaveData is at v11 (owned, activeGymnastId, gym, clubhouse, team, looks).
+- In progress: new minigames (numbers, letters, timing bar, colour memory) and more symbols.
+  SaveData is at v12 (furniture pieces).
 - Done on my branch: delivered art in use (pets fur+face tinted, food icons, furniture in Mina
   hus/Klubbstugan/Butiken, equipment in Mitt gym) via `src/ui/art.ts` helpers with placeholder
   fallback.

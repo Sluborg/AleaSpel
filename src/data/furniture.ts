@@ -16,6 +16,7 @@ export interface FurnitureDef {
   icon?: string; // shop tile icon (placeholder until art arrives)
   art?: string; // manifest id when it is not furn_<id>
   room?: 'house' | 'clubhouse'; // where it can stand; default house
+  flat?: boolean; // lies on the floor or hangs on the wall: always behind standing furniture
 }
 
 export const FURNITURE: FurnitureDef[] = [
@@ -60,6 +61,7 @@ export const FURNITURE: FurnitureDef[] = [
     defaultY: 1150,
     price: 4,
     icon: '🟣',
+    flat: true,
   },
   {
     id: 'plant',
@@ -108,6 +110,7 @@ export const FURNITURE: FurnitureDef[] = [
     defaultY: 420,
     price: 6,
     icon: '🪞',
+    flat: true,
   },
   {
     id: 'trophy_shelf',
@@ -178,6 +181,7 @@ export const FURNITURE: FurnitureDef[] = [
     defaultY: 1150,
     room: 'clubhouse',
     art: 'pet_bed',
+    flat: true,
   },
   {
     id: 'club_pethouse',
@@ -203,6 +207,7 @@ export const FURNITURE: FurnitureDef[] = [
     defaultX: 380,
     defaultY: 400,
     room: 'clubhouse',
+    flat: true,
   },
   {
     id: 'club_beanbag',

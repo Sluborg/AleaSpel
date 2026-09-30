@@ -1,21 +1,21 @@
 import { COLORS, FONT, GAME_HEIGHT, GAME_WIDTH } from '../config';
-import { FURNITURE } from '../data/furniture';
 import { SaveService, type Position } from '../services/SaveService';
 import { backdrop } from '../ui/art';
 import { createButton } from '../ui/Button';
 import { GymnastView } from '../ui/GymnastView';
 import { PetView } from '../ui/PetView';
-import { furnitureShape, furnitureSize } from './HomeScene';
-import { RoomScene, type Placeable } from './RoomScene';
+import { petSpecies } from '../data/pets';
+import { ROOM_WORLD_W, RoomScene, type Placeable } from './RoomScene';
 
-const ROOM = { left: 20, top: 250, right: GAME_WIDTH - 20, bottom: GAME_HEIGHT - 20 };
+const ROOM = { left: 20, top: 250, right: ROOM_WORLD_W - 20, bottom: GAME_HEIGHT - 20 };
 const FLOOR_Y = 700;
-const PET_SIZE = 180;
+const GYMNAST_H = 320; // pets are drawn to scale next to the gymnast (PetSpecies.roomSize)
 
 // Klubbstugan: the team's club house, joined to the gym. The team's pets live here (drag them
 // around, tap one to care for it), the active gymnast hangs out, and a door leads to the gym.
 export class ClubhouseScene extends RoomScene {
   protected readonly title = 'Klubbstugan';
+  protected readonly furnitureRoom = 'clubhouse' as const;
 
   constructor() {
     super('Clubhouse');
@@ -39,9 +39,10 @@ export class ClubhouseScene extends RoomScene {
       g.fillStyle(0xd9a27a, 1).fillRect(ROOM.left, FLOOR_Y, w, ROOM.bottom - FLOOR_Y);
       g.fillStyle(0xa86b3c, 1).fillRect(ROOM.left, FLOOR_Y - 12, w, 12);
     }
-    // Door to the gym on the right wall.
-    g.fillStyle(0x8fd36b, 1).fillRoundedRect(ROOM.right - 150, FLOOR_Y - 250, 120, 250, 12);
-    g.fillStyle(0x4a7a2a, 1).fillCircle(ROOM.right - 60, FLOOR_Y - 120, 8);
+    // Door to the gym on the right wall, over the backdrop.
+    const door = this.add.graphics();
+    door.fillStyle(0x8fd36b, 1).fillRoundedRect(ROOM.right - 150, FLOOR_Y - 250, 120, 250, 12);
+    door.fillStyle(0x4a7a2a, 1).fillCircle(ROOM.right - 60, FLOOR_Y - 120, 8);
   }
 
   protected afterBuild(): void {
@@ -78,37 +79,24 @@ export class ClubhouseScene extends RoomScene {
   }
 
   protected placeables(): Placeable[] {
-    const { clubhouse, owned, pets } = SaveService.get();
-    const furniture: Placeable[] = FURNITURE.filter(
-      (f) => f.room === 'clubhouse' && (!f.price || owned.includes(f.id)),
-    ).map((def) => {
-      const pos = clubhouse.furniture[def.id] ?? { x: def.defaultX, y: def.defaultY };
-      const { width, height } = furnitureSize(this, def);
-      return {
-        id: def.id,
-        width,
-        height,
-        x: pos.x,
-        y: pos.y,
-        build: () => furnitureShape(this, def),
-      };
-    });
-    const petItems: Placeable[] = pets.map((pet, i) => {
+    const { clubhouse, pets } = SaveService.get();
+    return pets.map((pet, i) => {
+      const size = Math.round(GYMNAST_H * petSpecies(pet.species).roomSize);
       const pos = clubhouse.pets[pet.id] ?? {
         x: 300 + (i % 3) * 140,
         y: 900 + Math.floor(i / 3) * 120,
       };
       return {
         id: `pet:${pet.id}`,
-        width: PET_SIZE * 0.7,
-        height: PET_SIZE * 0.8,
+        width: size * 0.7,
+        height: size * 0.9,
         x: pos.x,
         y: pos.y,
         build: () => {
-          const view = new PetView(this, 0, 0, PET_SIZE, pet.species, pet.color);
+          const view = new PetView(this, 0, 0, size, pet.species, pet.color);
           this.children.remove(view); // the room container owns it
           const name = this.add
-            .text(0, PET_SIZE * 0.42, pet.name, {
+            .text(0, size * 0.45 + 14, pet.name, {
               fontFamily: FONT,
               fontSize: '24px',
               color: '#3a2a4a',
@@ -120,13 +108,11 @@ export class ClubhouseScene extends RoomScene {
         onTap: () => this.scene.start('Pets', { petId: pet.id }),
       };
     });
-    return [...furniture, ...petItems];
   }
 
   protected savePosition(id: string, pos: Position): void {
     SaveService.update((data) => {
       if (id.startsWith('pet:')) data.clubhouse.pets[id.slice(4)] = pos;
-      else data.clubhouse.furniture[id] = pos;
     });
   }
 }
