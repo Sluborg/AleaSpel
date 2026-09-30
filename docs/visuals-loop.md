@@ -35,6 +35,10 @@ pretty, cute, fun and easy for a 9-year-old. Every round follows this routine.
   round-log and status-table edits.
 - **Mid model** (`model: sonnet`) for routine code with a clear spec: data rows, small UI tweaks,
   doc updates.
+- **Helper session** (Sonnet, its own container) for jobs that run outside my round: comment on
+  pull request #7 ("AleaSpel Helper wake") with first line `wake helper: <task>`; details in
+  `docs/art-discussion.md` if longer. Good fits: live-site smoke tests after a deploy, manifest and
+  license audits, status-table updates, CI log triage. Helper answers on #4 (`wake visuals:`).
 - **Main session** only for design calls, art review (looking at the pictures), shared-file
   changes and the review before push.
 
