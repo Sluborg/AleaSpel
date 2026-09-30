@@ -7,7 +7,8 @@ Instructions for the image generator. The person working with ChatGPT says, for 
 
 - **Template image:** always start from the green master:
   https://raw.githubusercontent.com/Sluborg/AleaSpel/main/assets/source/base/master-raw.png
-  (for face parts: the blank-face template, see the queue). If the image is not attached in the
+  For face parts and make-up use the blank-face template instead:
+  https://raw.githubusercontent.com/Sluborg/AleaSpel/main/assets/source/face/face_blank-raw.png If the image is not attached in the
   chat, ask for it; do not work from memory or from a later edited image.
 - Keep EVERYTHING identical except the one change asked for: same girl, face, hair, skin, grey
   unitard, pose, size, position on the canvas, framing, lighting and flat green background.
@@ -60,8 +61,8 @@ Canvas exactly 1024x1536 pixels. Flat green background #00FF00, no shadow, no gl
 
 | Order | Id           | Template     | What to ask for                                                                                                                                             | Status |
 | ----- | ------------ | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
-| 10    | face_blank   | green master | Remove the eyebrows, eyes (with lashes) and mouth; fill with smooth matching skin and soft shading. Keep nose and ears exactly. No blush, lines or shadows. | Next   |
-| 20    | eyes_round   | blank face   | Face part: big round cute eyes with brown irises, white highlights and short lashes                                                                         | Queued |
+| 10    | face_blank   | green master | Remove the eyebrows, eyes (with lashes) and mouth; fill with smooth matching skin and soft shading. Keep nose and ears exactly. No blush, lines or shadows. | Done   |
+| 20    | eyes_round   | blank face   | Face part: big round cute eyes with brown irises, white highlights and short lashes                                                                         | Next   |
 | 30    | brows_soft   | blank face   | Face part: soft rounded light-brown eyebrows                                                                                                                | Queued |
 | 40    | mouth_smile  | blank face   | Face part: small closed happy smile                                                                                                                         | Queued |
 | 50    | blush_round  | blank face   | Make-up: round blush on both cheeks                                                                                                                         | Queued |
