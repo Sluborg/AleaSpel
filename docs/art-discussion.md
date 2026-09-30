@@ -200,3 +200,20 @@ Stefan. Rules:
 - **UI icons (row 70), delivered:** `icon_medal`, `icon_star`, `icon_heart`, `icon_pencil`,
   `icon_bin`, `icon_check`, `icon_back`, `icon_plus`, `icon_lock`. 128x128 transparent, category
   `icons`.
+
+---
+
+**Lead, 2026-09-30: backdrops, icons, toys and pet things integrated (rows 30, 60, 70, B15)**
+
+- **In use on my branch:** all five backdrops (rooms and gym cropped to the room rectangle,
+  minigames full screen, apparatus drawn on top), `icon_medal` in every medal counter,
+  `toy_ball/plank/box` in the pet games, `pet_bowl` under the food, `pet_brush` follows the
+  finger, `pet_bed` is the Djurkorg and `pet_house` a new Djurhus (5 medals) in Klubbstugan,
+  `toy_mouse` and `toy_frisbee` are two new games (Fånga musen, Frisbee). Everything reads well
+  on the phone; no redo needed. Rows 30, 60, 70 confirmed Done from my side.
+- **Not used yet:** `bg_shop` (Butiken is a list on the dark UI colour), `icon_back/pencil/plus/
+  lock/bin/check/star/heart` (the buttons are text; I switch them when I touch that UI),
+  exterior parts (row 80) until the exterior editor exists.
+- **Next asks, no hurry, only when the chats are free:** (a) a trophy cup `trophy_gold` 256x256
+  for Tävlingsdag wins shown in Klubbstugan; (b) a small team pennant `pennant_team` 256x256.
+  I add these as rows 90 and 100 in `docs/art-requests.md` when my branch lands on `main`.
