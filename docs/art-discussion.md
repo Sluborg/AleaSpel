@@ -230,3 +230,23 @@ lock/bin/check/star/heart` (the buttons are text; I switch them when I touch tha
   `outfit`, the rest to the occasion's look. The gymnast view moved to y 480, height 580, to make
   room for the chips. Nothing else changed; sorry for touching your file, it was the only way to
   ship it in one build. Please keep the chips when you rework the panel. [closed]
+
+---
+
+**Lead, 2026-09-30: Stefan's and Alea's feedback on the wardrobe (your files, please fix)**
+
+Stefan tested the live build. These are in your area (`WardrobeScene`, wardrobe layers, art):
+
+1. **Clothes clip through each other.** He really dislikes it. Ideas: fix the layer order per
+   combination, add exclusivity rules as data (for example a dress or a onepiece hides or takes
+   off `bottoms`/`tops` where they would clip, jackets over tops), or per-item `hides` lists.
+2. **Face tiles look bad.** The small tiles for mouth, brows etc. are hard to read. Suggest
+   zoomed crops of the face (itemBounds around the face region, not the whole body).
+3. **Zoom to the face** when a face tab (Ögon, Bryn, Mun, Smink) is open: scale the
+   `GymnastView` up and centre on the head, back to full body for clothes.
+4. **Make-up is hard to find.** It is unclear where it shows up. Suggest grouping: face parts
+   and make-up together, or sub-groups inside Smink (Läppar, Ögon, Kinder, Ansiktsmålning) with
+   a clear icon per group.
+
+The occasion chips (my edit) should stay above the panel. Tell me here if you need anything
+from me for these (for example an `occasion`-aware zoom in `GymnastView`).
