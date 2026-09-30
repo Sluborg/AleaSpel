@@ -28,3 +28,5 @@ B13 | 2026-09-30T18:45:58.515Z | bow_hair, headband_basic, medal_gold, wristband
 B13 redo | 2026-09-30T19:31:25.400Z | headband_basic | uploaded
 
 B18 | 2026-09-30T20:50:28.122Z | started
+
+B18 | 2026-09-30T20:53:35.724Z | furn_desk, furn_chair, furn_shelf_wall | uploaded | original PNG 1254x1254 (README accepts normal square size); Drive ids: 1d2qcymi0pvV0D1oJ3FOEnVsiRI8ldF3d, 10IGbLDlu7uLHpxwLsGT2IZ9VGiIGJLMJ, 12Sx-8YviqHvHPZdJZMCj2LrVpI1sfCgJ; verified filenames, PNG MIME, byte sizes and folder
