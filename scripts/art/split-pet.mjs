@@ -69,6 +69,6 @@ for (let i = 0; i < W * H; i++) {
 }
 mkdirSync(args.dir, { recursive: true });
 const base = `${args.dir}/pet_${args.species}`;
-writePng(`${base}_fur.png`, { width: W, height: H, data: fur });
+writePng(`${base}_fur.png`, { width: W, height: H, data: fur }, { colorType: 4, deflateLevel: 9 });
 writePng(`${base}_face.png`, { width: W, height: H, data: face });
 console.log(`wrote ${base}_fur.png and _face.png (moved ${dx},${dy})`);

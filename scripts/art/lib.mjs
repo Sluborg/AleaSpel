@@ -9,10 +9,11 @@ export function readPng(path) {
   return { width: png.width, height: png.height, data: png.data, colorType: png.colorType };
 }
 
-export function writePng(path, { width, height, data }) {
+// options: pngjs write options, e.g. { colorType: 4 } for grayscale + alpha (smaller files).
+export function writePng(path, { width, height, data }, options = {}) {
   const png = new PNG({ width, height });
   png.data = Buffer.from(data);
-  writeFileSync(path, PNG.sync.write(png));
+  writeFileSync(path, PNG.sync.write(png, options));
 }
 
 export function alphaOf(img) {
