@@ -52,10 +52,7 @@ export const SHAPES: ShapeDef[] = [
     id: 's',
     name: 'S',
     closed: false,
-    points: param(40, (t) => [
-      0.5 + 0.5 * Math.cos(Math.PI / 2 + t * 2 * Math.PI) * (t < 0.5 ? 1 : -1),
-      t,
-    ]),
+    points: param(40, (t) => [0.5 - 0.5 * Math.sin(t * Math.PI * 2), t]),
   },
   {
     id: 'star',

@@ -93,10 +93,12 @@ they were drawn (percent shown, stars by accuracy bands per difficulty).
   point distance; direction and start point free, rotation not), accuracy 0..1, no dependencies.
   Shapes are point lists in `src/data/gestureShapes.ts` (drawn on the move card with a start
   dot); moves and minigames are rows in `src/data/minigames.ts`.
-- Built: **Studsmatta** (`scenes/minigames/TrampolineScene.ts`): 5 jumps, a move card shows the
-  pattern, draw it while she is in the air, 1 to 3 stars per move by difficulty, pose animation
-  at the apex, result panel with medals (1 per star) and personal best. Tävlingar hub lists the
-  games (Bom, Barr, Hopp as "Kommer snart") with the active gymnast's records.
+- Built: `scenes/minigames/PatternGameScene.ts` is the shared engine (card, drawing, accuracy,
+  stars, medals, records, result panel); each game adds its world and round animation.
+  - **Studsmatta**: 5 jumps, draw while she is in the air, pose at the apex.
+  - **Bom**: she walks to 5 stations on the beam and wobbles while you draw (3.8 s window); a
+    miss makes her slip and catch herself; the last station is the dismount onto the mat.
+  - Tävlingar hub lists the games (Barr, Hopp as "Kommer snart") with the active gymnast's records.
 - Scoring: 1 to 3 stars per move plus a total. Personal bests saved per gymnast per minigame.
 - Unlocks: practising a move unlocks the next one in that apparatus track.
 - **Tävlingsdag** (later): pick 3 gymnasts, each performs a short routine, judges show scores,

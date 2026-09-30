@@ -103,5 +103,6 @@ export function matchDistance(raw: Pt[], shapeId: string): number {
 // Stars 0..3 from accuracy; harder moves need more accuracy for full marks.
 export function stars(acc: number, difficulty: 1 | 2 | 3): number {
   const need = { 1: [0.25, 0.45, 0.65], 2: [0.3, 0.5, 0.72], 3: [0.35, 0.58, 0.78] }[difficulty];
-  return acc >= need[2] ? 3 : acc >= need[1] ? 2 : acc >= need[0] ? 1 : 0;
+  const n = acc >= need[2] ? 3 : acc >= need[1] ? 2 : acc >= need[0] ? 1 : 0;
+  return Math.min(n, difficulty);
 }

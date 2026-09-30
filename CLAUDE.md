@@ -35,7 +35,8 @@ src/
   config.ts          design resolution, colors, MIN_TOUCH
   scenes/            Boot, Preload, MainMenu, AvatarEditor (Mitt lag), Wardrobe (Garderob),
                      Pets (Lagets djur, games in scenes/pets/), Home, Gym,
-                     MinigameHub (Tävlingar), minigames/ (Trampoline), Shop (Butiken)
+                     MinigameHub (Tävlingar), minigames/ (PatternGameScene base,
+                     Trampoline, Beam), Shop (Butiken)
                      BaseScene (title, back button), PlaceholderScene (empty scenes)
   data/              game content as data (menu, furniture, wardrobe, pets, pet games/foods,
                      minigames: gestures, moves, games; shop)
