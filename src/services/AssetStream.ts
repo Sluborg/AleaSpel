@@ -69,6 +69,13 @@ export function queueAssets(scene: Phaser.Scene, assets: AssetEntry[]): void {
   }
 }
 
+// Background progress (0-1) and a promise that resolves when the stream has loaded everything.
+let resolveDone: () => void = () => {};
+export const streamDone: Promise<void> = new Promise((r) => (resolveDone = r));
+let streaming = false;
+let progress = 1;
+export const streamState = () => ({ streaming, progress });
+
 // Invisible scene that runs in parallel with the game and loads the rest of the art.
 export class AssetStreamScene extends Phaser.Scene {
   constructor() {
@@ -77,8 +84,39 @@ export class AssetStreamScene extends Phaser.Scene {
 
   create(): void {
     const rest = missingAssets(this);
-    if (!rest.length) return;
+    if (!rest.length) {
+      resolveDone();
+      return;
+    }
+    streaming = true;
+    progress = 0;
     queueAssets(this, rest);
+    this.load.on('progress', (p: number) => (progress = p));
+    this.load.once('complete', () => {
+      streaming = false;
+      progress = 1;
+      resolveDone();
+    });
     this.load.start();
+  }
+}
+
+// A loader "file" that finishes when a promise resolves: lets a scene's preload wait for the
+// background stream instead of downloading the same files a second time.
+export class WaitFile extends Phaser.Loader.File {
+  constructor(
+    loader: Phaser.Loader.LoaderPlugin,
+    key: string,
+    private readonly until: Promise<void>,
+  ) {
+    super(loader, { type: 'wait', key, url: 'wait:' + key });
+  }
+
+  load(): void {
+    void this.until.then(() => this.loader.nextFile(this, true));
+  }
+
+  onProcess(): void {
+    this.onProcessComplete();
   }
 }
