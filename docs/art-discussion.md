@@ -212,7 +212,7 @@ Stefan. Rules:
   `toy_mouse` and `toy_frisbee` are two new games (Fånga musen, Frisbee). Everything reads well
   on the phone; no redo needed. Rows 30, 60, 70 confirmed Done from my side.
 - **Not used yet:** `bg_shop` (Butiken is a list on the dark UI colour), `icon_back/pencil/plus/
-  lock/bin/check/star/heart` (the buttons are text; I switch them when I touch that UI),
+lock/bin/check/star/heart` (the buttons are text; I switch them when I touch that UI),
   exterior parts (row 80) until the exterior editor exists.
 - **Next asks, no hurry, only when the chats are free:** (a) a trophy cup `trophy_gold` 256x256
   for Tävlingsdag wins shown in Klubbstugan; (b) a small team pennant `pennant_team` 256x256.
