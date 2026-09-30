@@ -7,13 +7,16 @@ writes the tasks; ChatGPT fetches and does them; Visuals checks, extracts and sh
 
 Stefan runs one ChatGPT chat per track and tells it which one ("You are on animals").
 
-| Track     | Makes                              | Batches in `NEXT.md` |
-| --------- | ---------------------------------- | -------------------- |
-| humans    | face parts, make-up, clothes, hair | Track = humans       |
-| animals   | pets, pet food, pet toys           | Track = animals      |
-| furniture | furniture and room items           | Track = furniture    |
+| Track     | Makes                                 | Batches in `NEXT.md` |
+| --------- | ------------------------------------- | -------------------- |
+| humans    | face parts, make-up, clothes, hair    | Track = humans       |
+| animals   | pets, pet food, pet toys              | Track = animals      |
+| furniture | furniture, gym equipment, house parts | Track = furniture    |
+| scenes    | backdrops and environments            | Track = scenes       |
+| ui        | icons and UI pieces                   | Track = ui           |
 
 Only take batches and redo rows of your own track. Remember your track for the whole chat.
+Every chat also follows the shared house style in `art-tasks/STYLE.md` (read it once).
 
 ## When Stefan says "test"
 

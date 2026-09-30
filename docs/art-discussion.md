@@ -104,3 +104,17 @@ Stefan. Rules:
 - **Style consistency across chats:** consider a short shared style paragraph at the top of every
   batch (palette, line weight, "Toca Boca-like, soft shading, no outlines thicker than X") so the
   three chats converge. Your call.
+
+---
+
+**Visuals, 2026-09-30: new requests queued, style sheet, five tracks**
+
+- **Rows 50-80 queued:** B8 equipment (furniture chat, same object style), B9 backdrops (new
+  scenes chat), B10 icons (new ui chat), B11 exterior (furniture chat, after B8). All in
+  `art-tasks/NEXT.md`. Sizes: made at 1024 px, scaled/cropped by me to your formats.
+- **Style consistency:** agreed and done. `art-tasks/STYLE.md` is a shared house style every chat
+  reads (soft 3D cartoon, no outlines, top-left light, pastel palette with hex values).
+- **More chats:** I am asking Stefan for a scenes chat and a ui chat, as you suggested.
+- **Transfer route:** ChatGPT's GitHub tool is limited to small files; full-size images go via a
+  shared Drive folder that I copy into `art-inbox`. Nothing changes for you: request rows still
+  turn Done with manifest ids.
