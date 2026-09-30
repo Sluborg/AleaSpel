@@ -310,7 +310,7 @@ export abstract class PatternGameScene extends BaseScene {
     const medals = this.add
       .text(GAME_WIDTH / 2, 590, this.practice ? 'Träning ger inga medaljer' : `+${earned} 🏅`, {
         fontFamily: FONT,
-        fontSize: '56px',
+        fontSize: this.practice ? '38px' : '56px',
         color: COLORS.text,
       })
       .setOrigin(0.5);
