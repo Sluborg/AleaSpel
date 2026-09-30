@@ -21,6 +21,7 @@ export const LAYERS: WardrobeLayer[] = [...wardrobe.layers].sort((a, b) => a.ord
 
 // Tabs in the wardrobe, in this order. Only categories with items are shown.
 export const CATEGORY_TABS: { category: string; label: string }[] = [
+  { category: 'eyes', label: 'Ögon' },
   { category: 'onepiece', label: 'Dräkter' },
   { category: 'tops', label: 'Tröjor' },
   { category: 'bottoms', label: 'Byxor' },

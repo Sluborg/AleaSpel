@@ -18,6 +18,69 @@
       "tintable": true,
       "license": "Project-owned, AI-generated for AleaSpel",
       "source": "ChatGPT image generation 2026-09-30 (assets/source/wardrobe/onepiece/leotard_basic-raw.png), extracted by scripts/art/extract-item.mjs"
+    },
+    {
+      "id": "eyes_round",
+      "category": "eyes",
+      "layer": "eyes",
+      "file": "wardrobe/eyes/eyes_round.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30 on the face_blank template (assets/source/face/eyes/eyes_round-raw.png), extracted by scripts/art/extract-face.mjs"
+    },
+    {
+      "id": "eyes_almond",
+      "category": "eyes",
+      "layer": "eyes",
+      "file": "wardrobe/eyes/eyes_almond.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30 on the face_blank template (assets/source/face/eyes/eyes_almond-raw.png), extracted by scripts/art/extract-face.mjs"
+    },
+    {
+      "id": "eyes_doe",
+      "category": "eyes",
+      "layer": "eyes",
+      "file": "wardrobe/eyes/eyes_doe.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30 on the face_blank template (assets/source/face/eyes/eyes_doe-raw.png), extracted by scripts/art/extract-face.mjs"
+    },
+    {
+      "id": "eyes_blue",
+      "category": "eyes",
+      "layer": "eyes",
+      "file": "wardrobe/eyes/eyes_blue.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30 on the face_blank template (assets/source/face/eyes/eyes_blue-raw.png), extracted by scripts/art/extract-face.mjs"
+    },
+    {
+      "id": "eyes_green",
+      "category": "eyes",
+      "layer": "eyes",
+      "file": "wardrobe/eyes/eyes_green.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30 on the face_blank template (assets/source/face/eyes/eyes_green-raw.png), extracted by scripts/art/extract-face.mjs"
+    },
+    {
+      "id": "eyes_sleepy",
+      "category": "eyes",
+      "layer": "eyes",
+      "file": "wardrobe/eyes/eyes_sleepy.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30 on the face_blank template (assets/source/face/eyes/eyes_sleepy-raw.png), extracted by scripts/art/extract-face.mjs"
+    },
+    {
+      "id": "eyes_wink",
+      "category": "eyes",
+      "layer": "eyes",
+      "file": "wardrobe/eyes/eyes_wink.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30 on the face_blank template (assets/source/face/eyes/eyes_wink-raw.png), extracted by scripts/art/extract-face.mjs"
     }
   ]
 }

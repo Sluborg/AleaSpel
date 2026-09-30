@@ -97,12 +97,13 @@ function checkImage(id, entry, file) {
   const specks = sizes.slice(1).filter((s) => s < 16).length;
   if (specks) err(tag, `${specks} stray specks (<16 px islands)`);
   if (
+    !layers.get(entry.layer)?.softEdges &&
     report.haloPixels /
       Math.max(
         1,
         visible.reduce((s, v) => s + v, 0),
       ) >
-    0.02
+      0.02
   ) {
     warn(
       tag,

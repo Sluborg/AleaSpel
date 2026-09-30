@@ -63,8 +63,14 @@ Canvas exactly 1024x1536 pixels. Flat green background #00FF00, no shadow, no gl
 | Order | Id           | Template     | What to ask for                                                                                                                                             | Status |
 | ----- | ------------ | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
 | 10    | face_blank   | green master | Remove the eyebrows, eyes (with lashes) and mouth; fill with smooth matching skin and soft shading. Keep nose and ears exactly. No blush, lines or shadows. | Done   |
-| 20    | eyes_round   | blank face   | Face part: big round cute eyes with brown irises, white highlights and short lashes                                                                         | Next   |
-| 30    | brows_soft   | blank face   | Face part: soft rounded light-brown eyebrows                                                                                                                | Queued |
+| 20    | eyes_round   | blank face   | Face part: big round cute eyes with brown irises, white highlights and short lashes                                                                         | Done   |
+| 21    | eyes_almond  | blank face   | Face part: almond-shaped eyes with amber irises and a small wing                                                                                            | Done   |
+| 22    | eyes_doe     | blank face   | Face part: big doe eyes with brown irises and lower lashes                                                                                                  | Done   |
+| 23    | eyes_blue    | blank face   | Face part: big round eyes with blue irises                                                                                                                  | Done   |
+| 24    | eyes_green   | blank face   | Face part: big round eyes with green irises                                                                                                                 | Done   |
+| 25    | eyes_sleepy  | blank face   | Face part: sleepy half-closed eyes with brown irises                                                                                                        | Done   |
+| 26    | eyes_wink    | blank face   | Face part: winking eyes (image-right eye closed in a curved line)                                                                                           | Done   |
+| 30    | brows_soft   | blank face   | Face part: soft rounded light-brown eyebrows                                                                                                                | Next   |
 | 40    | mouth_smile  | blank face   | Face part: small closed happy smile                                                                                                                         | Queued |
 | 50    | blush_round  | blank face   | Make-up: round blush on both cheeks                                                                                                                         | Queued |
 | 60    | lips_gloss   | blank face   | Make-up: lip gloss on the lips                                                                                                                              | Queued |
@@ -74,4 +80,5 @@ Canvas exactly 1024x1536 pixels. Flat green background #00FF00, no shadow, no gl
 | 100   | shorts_gym   | green master | Clothes: short gymnastics shorts                                                                                                                            | Queued |
 
 When an image is done, send it to Claude Code with its id. Claude Code extracts it, adds it to the
-game, and updates this queue.
+game, and updates this queue. Face parts are extracted with `scripts/art/extract-face.mjs` (pixels
+that differ from the blank-face template, plus a skin patch that hides the master's own feature).

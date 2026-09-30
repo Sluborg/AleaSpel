@@ -14,8 +14,9 @@ Rules for every character and wardrobe image in AleaSpel. `scripts/art/validate.
 - Measured facts: canvas 1024x1536, character bbox x 263-760, y 125-1435 (125 px free above the
   head, 100 px below the feet), one solid component, no halo, 2.8% edge-antialiasing pixels.
 - Base outfit: a plain light grey full-length unitard (wrists to ankles), barefoot, hair in a low
-  bun. Facial features (eyes, brows, mouth) stay in the base for now. Face swaps (expressions,
-  blinking) come later as separate `face_*` layers if needed.
+  bun. The master keeps its own face (eyes, brows, mouth); it is what "no choice" shows.
+- Face parts replace a master feature with a layer drawn on top (section 10). Eyes are done;
+  brows and mouth follow the same way.
 
 ## 2. Derived technical data
 
@@ -49,6 +50,7 @@ hipL/R, crotch, wristL/R, handL/R, fingertipsL/R, kneeL/R, ankleL/R, cuffL/R, fo
 | ----- | ----------- | ------------------------------------------------------------- |
 | 10    | hair_back   | Hair behind the head and body (long hair, ponytail backs)     |
 | 20    | body        | The master (skin, face, base unitard, base bun)               |
+| 25    | eyes        | Eyes (with lashes), incl. a skin patch over the master's eyes |
 | 30    | socks       | Socks, tights, leg warmers                                    |
 | 40    | bottoms     | Shorts, skirts, trousers, leggings                            |
 | 50    | onepiece    | Leotards, dresses, jumpsuits (one-piece outfits)              |
@@ -78,7 +80,7 @@ public/assets/
 assets/source/                           source and derived files, not shipped
 ```
 
-- `<category>` is one of: `hair_back, hair_front, socks, bottoms, onepiece, tops, outerwear,
+- `<category>` is one of: `eyes, hair_back, hair_front, socks, bottoms, onepiece, tops, outerwear,
 shoes, accessories` (plus `base` for the master).
 - `<id>`: snake_case, unique across the manifest, English, descriptive:
   `leotard_star_sleeveless`, `hair_ponytail_high` (back and front files share the stem).
@@ -169,3 +171,15 @@ Limits of the key-colour method:
   pattern in a second key colour as a `_detail` file).
 - Items that hide skin or hair edges (hats, hair) need a check in the preview; the extractor only
   takes pink pixels, so anything the generator changed underneath is not carried over.
+
+## 10. Face parts
+
+- Made on the blank-face template (`assets/source/face/face_blank-raw.png`: the green master with
+  eyes, brows and mouth removed). Raw images: `assets/source/face/<category>/<id>-raw.png`.
+- `node scripts/art/extract-face.mjs --src <raw> --category eyes --id <id>` keeps every pixel that
+  differs from the template, adds template skin wherever the master has its own feature (so the
+  master's eyes never show through), clips to the layer region and the body, and colour-matches
+  the patch to the master's skin (seamless cloning). Output: `wardrobe/<category>/<id>.png`,
+  full colour, not tintable.
+- Face layers are marked `softEdges` in `src/data/wardrobe.json`: their feathered skin edge is
+  intended, so the soft-halo warning is skipped for them.
