@@ -63,7 +63,11 @@ export interface MinigameDef {
   kind?: 'apparatus' | 'warmup'; // warmup games are quick brain games, not in Tävlingsdag
   intro?: string; // warmup: how to play, shown before the first round
   variant?: string; // warmup: which version of a shared scene (numbers, letters)
+  // apparatus: what a round can be, picked at random each round ('pattern' = draw the move).
+  mix?: RoundKind[];
 }
+
+export type RoundKind = 'pattern' | 'numbers' | 'letters' | 'timing' | 'colors';
 
 export const MINIGAMES: MinigameDef[] = [
   {
@@ -71,6 +75,7 @@ export const MINIGAMES: MinigameDef[] = [
     name: 'Studsmatta',
     icon: '🤸',
     scene: 'Trampoline',
+    mix: ['pattern', 'pattern', 'pattern', 'timing', 'colors'],
     moves: [
       'straight_jump',
       'tuck',
@@ -91,6 +96,7 @@ export const MINIGAMES: MinigameDef[] = [
     name: 'Bom',
     icon: '🪵',
     scene: 'Beam',
+    mix: ['pattern', 'pattern', 'pattern', 'colors', 'timing'],
     moves: [
       'balance',
       'squat',
@@ -110,6 +116,7 @@ export const MINIGAMES: MinigameDef[] = [
     name: 'Barr',
     icon: '🎽',
     scene: 'Bars',
+    mix: ['pattern', 'pattern', 'pattern', 'numbers', 'timing'],
     moves: [
       'swing',
       'hip_circle',
@@ -129,6 +136,7 @@ export const MINIGAMES: MinigameDef[] = [
     name: 'Hopp',
     icon: '🏃',
     scene: 'Vault',
+    mix: ['pattern', 'pattern', 'pattern', 'timing', 'letters'],
     moves: [
       'frog',
       'straight_vault',

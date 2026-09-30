@@ -130,6 +130,19 @@ they were drawn (percent shown, stars by accuracy bands per difficulty).
     `data/minigames.ts` with `kind: 'warmup'`; Tävlingsdag uses the apparatus games only.
   - 16 symbols to draw (added Topp, U, L, M, Våg, Diamant, Hus, Åtta) and new moves using them
     (Ryggfall, Barani, Språng, Bukrullning, Flyaway, Rondat, Jurtjenko).
+  - **Mixed rounds** (Stefan 2026-09-30): each apparatus has a `mix` of round kinds in
+    `data/minigames.ts`; every round picks one at random (draw the move, or its challenge:
+    Studsmatta timing and colours, Bom colours and timing, Barr numbers and timing, Hopp timing
+    and letters; never the same challenge twice in a row). In a challenge round the gymnast waits,
+    then does her move well or badly by the stars. Challenges live in
+    `scenes/minigames/challenges.ts`, shared with the Uppvärmning games.
+  - **Levels** (`services/Difficulty.ts`, `Gymnast.levels`, save v13): each gymnast has a level
+    1-5 per game, starting at 1. 75 % of the stars or more moves her up, under 40 % down, so she
+    mostly wins but is challenged. Apparatus: lower levels play slower (time scale 0.7-1.1) and use
+    easier moves; Uppvärmning: longer rows, faster markers, longer colour rows. Practice in Mitt
+    gym does not change the level. Level shows on the cards, the intro and the result.
+  - Drawing: a stroke may start as soon as the card shows; stray taps (under 60 px) do not count
+    as an attempt.
 - Scoring: 1 to 3 stars per move plus a total. Personal bests saved per gymnast per minigame.
 - Unlocks: practising a move unlocks the next one in that apparatus track.
 - **Tävlingsdag** (built): every gymnast in the team performs one routine (apparatus rotate

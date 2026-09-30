@@ -5,6 +5,7 @@ import { SaveService, type Gymnast } from '../../services/SaveService';
 import { backdrop } from '../../ui/art';
 import { createButton } from '../../ui/Button';
 import { GymnastView } from '../../ui/GymnastView';
+import { adjustLevel, levelMessage, levelOf } from '../../services/Difficulty';
 import { BaseScene } from '../BaseScene';
 
 export const PLAY_TOP = 250; // the round's play area, between the header and the gymnast
@@ -19,6 +20,7 @@ export abstract class QuickGameScene extends BaseScene {
   protected def!: MinigameDef;
   protected gymnast!: Gymnast;
   protected roundNo = 0;
+  protected level = 1; // this gymnast's level in this game (1-5)
   protected layer!: Phaser.GameObjects.Container;
   private total = 0;
   private practice = false;
@@ -43,6 +45,7 @@ export abstract class QuickGameScene extends BaseScene {
     this.gymnast = gymnasts.find((g) => g.id === data.gymnastId) ?? SaveService.activeGymnast();
     this.practice = data.practice ?? false;
     this.returnTo = data.returnTo ?? 'MinigameHub';
+    this.level = levelOf(this.gymnast, this.def.id);
     this.roundNo = 0;
     this.total = 0;
     this.finished = false;
@@ -91,7 +94,7 @@ export abstract class QuickGameScene extends BaseScene {
     const bestText = this.text(
       GAME_WIDTH / 2,
       680,
-      best ? `Ditt rekord: ${best} ⭐` : 'Första gången!',
+      `Nivå ${this.level}   ·   ${best ? `Rekord: ${best} ⭐` : 'Första gången!'}`,
       32,
     );
     const go = createButton(this, GAME_WIDTH / 2, 820, 'Kör!', () => {
@@ -149,10 +152,15 @@ export abstract class QuickGameScene extends BaseScene {
     const earned = this.practice ? 0 : this.total * MEDALS_PER_STAR;
     const prev = this.gymnast.bests[this.def.id] ?? 0;
     const record = !this.practice && this.total > prev;
+    let levelLine = `Nivå ${this.level}`;
     if (!this.practice) {
       SaveService.update((d) => {
         d.medals += earned;
         this.gymnast.bests[this.def.id] = Math.max(prev, this.total);
+        levelLine = levelMessage(
+          this.level,
+          adjustLevel(this.gymnast, this.def.id, this.total, max),
+        );
       });
     }
     const panel = this.add.container(0, 0).setDepth(300);
@@ -171,7 +179,7 @@ export abstract class QuickGameScene extends BaseScene {
       this.text(
         GAME_WIDTH / 2,
         670,
-        `Du har ${SaveService.get().medals} medaljer`,
+        `${levelLine}   ·   ${SaveService.get().medals} 🏅`,
         32,
         COLORS.textMuted,
       ),

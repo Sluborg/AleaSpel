@@ -49,6 +49,11 @@ Updated 2026-09-30. Read this first when resuming ("continue from project-status
 - Release names: each deploy is named A-Z (Astrid, Bella, ...), shown on the main menu.
 - Uppvärmning in Tävlingar: Sifferhopp, Bokstavsjakt, Pricka rätt, Färgminne; 16 symbols to draw
   with new moves on every apparatus.
+- Stefan's phone test fixes: drawing no longer lost, depth by where art stands, tappable room
+  arrows, gymnast in the club's depth order, Färgminne grows like Simon, page opts out of browser
+  dark mode.
+- Levels 1-5 per gymnast and game (adaptive), mixed challenge rounds in the apparatus games.
+  Save schema v13.
 - Butiken: buy furniture (7 priced rows) with medals, scrollable list (`ui/ScrollList.ts`),
   bought furniture appears in Mina hus. Save schema v6 (owned). Menu entry Butiken.
 - Face pipeline: `face_blank` template, `scripts/art/extract-face.mjs`, 7 eye styles in the
@@ -57,7 +62,7 @@ eyes_wink`).
 
 ## Lead
 
-- In progress: nothing. SaveData is at v12 (furniture pieces).
+- In progress: nothing. SaveData is at v13 (levels).
 - Done on my branch: delivered art in use (pets fur+face tinted, food icons, furniture in Mina
   hus/Klubbstugan/Butiken, equipment in Mitt gym) via `src/ui/art.ts` helpers with placeholder
   fallback.

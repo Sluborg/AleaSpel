@@ -38,12 +38,13 @@ src/
                      Clubhouse (Klubbstugan) and Gym (Mitt gym, practice),
                      MinigameHub (Tävlingar), TeamCompetition (Tävlingsdag),
                      minigames/ (PatternGameScene base: Trampoline, Beam, Bars, Vault;
-                     QuickGameScene base: OrderGame, TimingGame, ColorMemory), Shop (Butiken)
+                     QuickGameScene base: OrderGame, TimingGame, ColorMemory; challenges.ts
+                     shared by both), Shop (Butiken)
                      BaseScene (title, back button), PlaceholderScene (empty scenes)
   data/              game content as data (menu, furniture, wardrobe, pets, pet games/foods,
                      minigames: shapes, moves, games; competition rivals; gym equipment; shop;
                      clothing occasions)
-  services/          SaveService, PetCare, Gesture (finger-pattern recognizer)
+  services/          SaveService, PetCare, Gesture (finger-pattern recognizer), Difficulty (levels)
   ui/                reusable UI (Button, GymnastView, NameInput, itemBounds, PetView, petSvg,
                      ScrollList, art helpers, furnitureView)
 public/

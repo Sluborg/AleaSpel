@@ -1,12 +1,20 @@
 import Phaser from 'phaser';
 import { COLORS, FONT, GAME_HEIGHT, GAME_WIDTH } from '../../config';
 import { shapeById, type Pt } from '../../data/gestureShapes';
-import { MEDALS_PER_STAR, moveById, type MinigameDef, type MoveDef } from '../../data/minigames';
+import {
+  MEDALS_PER_STAR,
+  moveById,
+  type MinigameDef,
+  type MoveDef,
+  type RoundKind,
+} from '../../data/minigames';
 import { accuracy, stars } from '../../services/Gesture';
 import { SaveService, type Gymnast } from '../../services/SaveService';
 import { createButton } from '../../ui/Button';
 import { GymnastView } from '../../ui/GymnastView';
+import { LEVEL_TIME_SCALE, adjustLevel, levelMessage, levelOf } from '../../services/Difficulty';
 import { BaseScene } from '../BaseScene';
+import { CHALLENGE_HINT, runChallenge, type ChallengeKind } from './challenges';
 
 // Shared engine for the pattern minigames: move card with the pattern, drawing, accuracy,
 // stars, medals, records and the result panel. A subclass draws its world, positions the
@@ -45,6 +53,10 @@ export abstract class PatternGameScene extends BaseScene {
   private practice = false; // from Mitt gym: no medals, records untouched
   private team = false; // from Tävlingsdag: stars go to the team, medals come from the placement
   private returnTo = 'MinigameHub';
+  protected level = 1; // this gymnast's level in this game (1-5)
+  private ending = false; // roundDone already ran for this round
+  private deferred?: number; // stars waiting for the window to open (early stroke or challenge)
+  private lastKind: RoundKind = 'pattern';
 
   // --- subclass hooks ------------------------------------------------------
 
@@ -76,6 +88,13 @@ export abstract class PatternGameScene extends BaseScene {
     this.evaluated = false;
     this.live = false;
     this.pending = false;
+    this.ending = false;
+    this.deferred = undefined;
+    this.lastKind = 'pattern';
+    this.level = levelOf(this.gymnast, this.def.id);
+    // Lower levels play slower: more time to read the card and draw.
+    this.time.timeScale = LEVEL_TIME_SCALE[this.level - 1];
+    this.tweens.timeScale = LEVEL_TIME_SCALE[this.level - 1];
 
     this.drawWorld();
     this.addBackButton(this.returnTo);
@@ -170,11 +189,16 @@ export abstract class PatternGameScene extends BaseScene {
       .setOrigin(0.5);
     const best = this.gymnast.bests[this.def.id];
     const bestText = this.add
-      .text(GAME_WIDTH / 2, 720, best ? `Ditt rekord: ${best} ⭐` : 'Första gången!', {
-        fontFamily: FONT,
-        fontSize: '34px',
-        color: COLORS.text,
-      })
+      .text(
+        GAME_WIDTH / 2,
+        720,
+        `Nivå ${this.level}   ·   ${best ? `Rekord: ${best} ⭐` : 'Första gången!'}`,
+        {
+          fontFamily: FONT,
+          fontSize: '34px',
+          color: COLORS.text,
+        },
+      )
       .setOrigin(0.5);
     const go = createButton(this, GAME_WIDTH / 2, 850, 'Kör!', () => {
       panel.destroy();
@@ -188,8 +212,11 @@ export abstract class PatternGameScene extends BaseScene {
   private nextRound(): void {
     if (this.round >= this.def.rounds) return this.finish();
     this.round++;
-    const pool = this.def.moves.map(moveById);
-    this.move = pool[Phaser.Math.Between(0, pool.length - 1)];
+    this.ending = false;
+    this.deferred = undefined;
+    this.move = this.pickMove();
+    const kind = this.pickKind();
+    if (kind !== 'pattern') return this.challengeRound(kind);
     this.maxTotal += this.move.difficulty;
     const shape = shapeById(this.move.shape);
     this.drawShapePreview(shape.points);
@@ -210,8 +237,108 @@ export abstract class PatternGameScene extends BaseScene {
 
   protected openWindow(): void {
     this.accepting = true;
-    // A pattern finished just before the window opened still counts.
-    if (this.pending && !this.evaluated) this.evaluate();
+    // A pattern finished just before the window opened, or a challenge round's stars, count now.
+    // Delivered a tick later so the subclass has set up its window timer first.
+    if (this.pending && !this.evaluated) this.time.delayedCall(0, () => this.evaluate());
+    else if (this.deferred !== undefined) {
+      const got = this.deferred;
+      this.deferred = undefined;
+      this.time.delayedCall(0, () => this.onPattern(got));
+    }
+  }
+
+  // Harder levels bring harder moves: level 1 only easy ones, level 4 and up all of them.
+  private pickMove(): MoveDef {
+    const all = this.def.moves.map(moveById);
+    const maxDiff = this.level <= 1 ? 1 : this.level <= 3 ? 2 : 3;
+    let pool = all.filter((m) => m.difficulty <= maxDiff);
+    if (this.level >= 5) pool = pool.filter((m) => m.difficulty >= 2);
+    if (!pool.length) pool = all;
+    return pool[Phaser.Math.Between(0, pool.length - 1)];
+  }
+
+  // Rounds mix patterns with the apparatus' challenges (`mix` in data), never the same challenge
+  // twice in a row, so she does not know what comes next.
+  private pickKind(): RoundKind {
+    const mix = this.def.mix ?? ['pattern'];
+    const options = mix.filter((k) => k === 'pattern' || k !== this.lastKind);
+    const kind = options[Phaser.Math.Between(0, options.length - 1)] ?? 'pattern';
+    this.lastKind = kind;
+    return kind;
+  }
+
+  // A challenge instead of a pattern: the gymnast waits while it is solved, then does her move
+  // (well with stars, badly with none). Worth up to 3 stars.
+  private challengeRound(kind: ChallengeKind): void {
+    this.maxTotal += 3;
+    this.card.setVisible(false);
+    this.progress.setText(`${this.round} / ${this.def.rounds}`);
+    this.stroke = [];
+    this.drawing = false;
+    this.trail.clear();
+    this.evaluated = true; // no drawing this round
+    this.accepting = false;
+    this.pending = false;
+    this.live = false;
+    const layer = this.add.container(0, 0).setDepth(150);
+    const bg = this.add.graphics();
+    bg.fillStyle(COLORS.background, 0.9).fillRoundedRect(24, 150, GAME_WIDTH - 48, 900, 40);
+    layer.add(bg);
+    if (CHALLENGE_HINT[kind])
+      layer.add(
+        this.add
+          .text(GAME_WIDTH / 2, 205, CHALLENGE_HINT[kind], {
+            fontFamily: FONT,
+            fontSize: '36px',
+            color: '#ffd84d',
+            fontStyle: 'bold',
+          })
+          .setOrigin(0.5),
+      );
+    const content = this.add.container(0, 0);
+    layer.add(content);
+    runChallenge(kind, {
+      scene: this,
+      layer: content,
+      level: this.level,
+      step: 1,
+      top: 250,
+      bottom: 1030,
+      done: (got) => {
+        const s = Phaser.Math.Clamp(got, 0, 3);
+        this.total += s;
+        this.popup(s ? `${'⭐'.repeat(s)} ${s === 3 ? 'Perfekt!' : 'Bra!'}` : 'Nästan!');
+        // The move's reaction uses the move's own scale (1 to its difficulty).
+        const d = this.move?.difficulty ?? 1;
+        this.deferred = s === 0 ? 0 : Math.max(1, Math.round((s * d) / 3));
+        this.time.delayedCall(700, () => {
+          layer.destroy();
+          this.playRound();
+        });
+      },
+    });
+  }
+
+  private popup(msg: string): void {
+    const t = this.add
+      .text(GAME_WIDTH / 2, 640, msg, {
+        fontFamily: FONT,
+        fontSize: '56px',
+        color: '#ffffff',
+        fontStyle: 'bold',
+        stroke: '#3a2a4a',
+        strokeThickness: 8,
+      })
+      .setOrigin(0.5)
+      .setDepth(250);
+    this.tweens.add({
+      targets: t,
+      y: 560,
+      alpha: 0,
+      duration: 1400,
+      delay: 500,
+      onComplete: () => t.destroy(),
+    });
   }
 
   // Ends the drawing window; evaluates what was drawn if the player has not lifted the finger.
@@ -226,6 +353,8 @@ export abstract class PatternGameScene extends BaseScene {
   }
 
   protected roundDone(): void {
+    if (this.ending) return; // once per round, however many timers end it
+    this.ending = true;
     this.closeWindow();
     this.live = false;
     this.time.delayedCall(900, () => {
@@ -319,10 +448,13 @@ export abstract class PatternGameScene extends BaseScene {
     const earned = this.practice || this.team ? 0 : this.total * MEDALS_PER_STAR;
     const prev = this.gymnast.bests[this.def.id] ?? 0;
     const record = !this.practice && this.total > prev;
+    let levelLine = `Nivå ${this.level}`;
     if (!this.practice) {
       SaveService.update((d) => {
         d.medals += earned;
         this.gymnast.bests[this.def.id] = Math.max(prev, this.total);
+        const after = adjustLevel(this.gymnast, this.def.id, this.total, this.maxTotal);
+        levelLine = levelMessage(this.level, after);
       });
     }
 
@@ -370,7 +502,9 @@ export abstract class PatternGameScene extends BaseScene {
       .text(
         GAME_WIDTH / 2,
         670,
-        this.team ? 'Laget väntar på dig' : `Du har ${SaveService.get().medals} medaljer`,
+        this.team
+          ? `${levelLine}   ·   Laget väntar på dig`
+          : `${levelLine}   ·   ${SaveService.get().medals} 🏅`,
         {
           fontFamily: FONT,
           fontSize: '32px',

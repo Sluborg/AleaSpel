@@ -4,7 +4,7 @@ import { rollTraits } from './PetCare';
 // Versioned save data in localStorage.
 // To change the schema: bump SAVE_VERSION, update SaveData, add a migration from the previous version.
 
-export const SAVE_VERSION = 12;
+export const SAVE_VERSION = 13;
 const STORAGE_KEY = 'aleaspel.save';
 
 export interface Position {
@@ -50,6 +50,7 @@ export interface Gymnast {
   outfit: Record<string, WornItem>; // key = wardrobe layer id; face and hair are shared here
   looks?: Record<string, Record<string, WornItem>>; // occasion id -> clothes per layer
   bests: Record<string, number>; // minigame id -> best score (stars)
+  levels?: Record<string, number>; // minigame id -> difficulty level 1-5 (services/Difficulty.ts)
 }
 
 export interface PetNeeds {
@@ -92,7 +93,14 @@ export interface SaveData {
 }
 
 export function createGymnast(index: number): Gymnast {
-  return { id: `g${index}`, name: `Gymnast ${index}`, outfit: {}, looks: {}, bests: {} };
+  return {
+    id: `g${index}`,
+    name: `Gymnast ${index}`,
+    outfit: {},
+    looks: {},
+    bests: {},
+    levels: {},
+  };
 }
 
 type Migration = (data: Record<string, unknown>) => Record<string, unknown>;
@@ -156,6 +164,12 @@ const MIGRATIONS: Record<number, Migration> = {
       clubhouse: { pets },
     };
   },
+  // Difficulty levels per gymnast and game; everyone starts at level 1.
+  12: (data) => ({
+    ...data,
+    version: 13,
+    gymnasts: ((data.gymnasts as Gymnast[]) ?? []).map((g) => ({ ...g, levels: {} })),
+  }),
 };
 
 function createDefault(): SaveData {

@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { COLORS, FONT, GAME_HEIGHT, GAME_WIDTH } from '../config';
 import { MINIGAMES, type MinigameDef } from '../data/minigames';
+import { levelOf } from '../services/Difficulty';
 import { SaveService } from '../services/SaveService';
 import { medalLabel } from '../ui/art';
 import { createButton } from '../ui/Button';
@@ -51,7 +52,9 @@ export class MinigameHubScene extends BaseScene {
       );
       y += 60;
       for (const game of games) {
-        list.content.add(this.card(game, y + CARD_H / 2, gymnast.bests[game.id], list));
+        const best = gymnast.bests[game.id];
+        const info = `Nivå ${levelOf(gymnast, game.id)} · ${best ? `Rekord ${best} ⭐` : 'Nytt spel'}`;
+        list.content.add(this.card(game, y + CARD_H / 2, info, list));
         y += CARD_H + GAP;
       }
       y += 10;
@@ -68,7 +71,7 @@ export class MinigameHubScene extends BaseScene {
     ).setDepth(10);
   }
 
-  private card(game: MinigameDef, y: number, best: number | undefined, list: ScrollList) {
+  private card(game: MinigameDef, y: number, info: string, list: ScrollList) {
     const c = this.add.container(0, y);
     const g = this.add.graphics();
     g.fillStyle(0x3a2752, 1).fillRoundedRect(40, -CARD_H / 2, GAME_WIDTH - 80, CARD_H, 36);
@@ -92,9 +95,9 @@ export class MinigameHubScene extends BaseScene {
         })
         .setOrigin(0, 0.5),
       this.add
-        .text(190, 32, best ? `Rekord: ${best} ⭐` : 'Inget rekord än', {
+        .text(190, 32, info, {
           fontFamily: FONT,
-          fontSize: '28px',
+          fontSize: '26px',
           color: COLORS.textMuted,
         })
         .setOrigin(0, 0.5),
