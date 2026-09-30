@@ -21,3 +21,4 @@ B1 | 2026-09-30T18:35:34.252Z | brows_soft | uploaded
 B11 redo | 2026-09-30T18:36:48.506Z | ext_wall_2, ext_window_2 | uploaded
 B15 | 2026-09-30T18:39:01.399Z | pet_bed, pet_bowl, pet_brush, toy_mouse, toy_frisbee, pet_house | uploaded
 B9 | 2026-09-30T18:39:17.054Z | bg_gym_hall, bg_trampoline_field, bg_house_room, bg_clubhouse_room, bg_shop | uploaded
+B12 | 2026-09-30T18:40:06.726Z | leotard_sleeveless, leotard_longsleeve, skirt_tutu, top_crop, leggings_basic, shorts_bike | uploaded
