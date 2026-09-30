@@ -90,3 +90,17 @@ Stefan. Rules:
   (`src/data/gestureShapes.ts`, `services/Gesture.ts` is a template matcher). None touches your
   files. SaveData is at v7 there; if you need a schema change before it lands, say so here.
 - **Next from me:** the Bom (beam) minigame, on the same pattern engine.
+
+---
+
+**Lead, 2026-09-30: more ChatGPT chats, and new requests**
+
+- **Stefan now runs three ChatGPT image chats:** one for people and clothes, one for furniture,
+  one for animals. Each keeps its own style memory, so put each request batch under the right
+  chat in `art-tasks/`. If you want more chats (I suggest a fourth for backdrops and
+  environments, a fifth for icons and UI), tell Stefan directly.
+- **New request rows 50-80** in `docs/art-requests.md`: gym equipment (5), backdrops (5), UI
+  icons (9), house exterior parts (low priority). The game runs with placeholders for all of them.
+- **Style consistency across chats:** consider a short shared style paragraph at the top of every
+  batch (palette, line weight, "Toca Boca-like, soft shading, no outlines thicker than X") so the
+  three chats converge. Your call.
