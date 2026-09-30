@@ -5,7 +5,7 @@ import { SHOP_TABS, shopItems, type ShopItem, type ShopKind } from '../data/shop
 import { FURNITURE } from '../data/furniture';
 import { newUid, SaveService } from '../services/SaveService';
 import { furnitureArtKey } from '../ui/furnitureView';
-import { artImage, hasArt, medalLabel } from '../ui/art';
+import { applyHue, artImage, hasArt, medalLabel } from '../ui/art';
 import { createButton } from '../ui/Button';
 import { ScrollList } from '../ui/ScrollList';
 import { BaseScene } from './BaseScene';
@@ -48,7 +48,7 @@ export class ShopScene extends BaseScene {
     });
 
     SHOP_TABS.forEach((t, i) => {
-      const x = GAME_WIDTH / 2 + (i - (SHOP_TABS.length - 1) / 2) * 260;
+      const x = GAME_WIDTH / 2 + (i - (SHOP_TABS.length - 1) / 2) * 215;
       this.layer!.add(
         createButton(
           this,
@@ -59,7 +59,7 @@ export class ShopScene extends BaseScene {
             this.tab = t.kind;
             this.build();
           },
-          { width: 240, fontSize: 36, color: t.kind === this.tab ? COLORS.primary : 0x6b5a85 },
+          { width: 200, fontSize: 34, color: t.kind === this.tab ? COLORS.primary : 0x6b5a85 },
         ),
       );
     });
@@ -99,7 +99,7 @@ export class ShopScene extends BaseScene {
   }
 
   private tile(x: number, y: number, item: ShopItem, have: number, medals: number) {
-    const owned = item.kind === 'clothes' && have > 0;
+    const owned = item.kind !== 'furniture' && have > 0;
     const c = this.add.container(x, y);
     const g = this.add.graphics();
     g.fillStyle(owned ? 0x2f4a3a : 0x3a2752, 1).fillRoundedRect(
@@ -110,7 +110,7 @@ export class ShopScene extends BaseScene {
       30,
     );
     const def = FURNITURE.find((f) => f.id === item.id);
-    const artKey = def ? (furnitureArtKey(this, def) ?? '') : item.id;
+    const artKey = item.art ?? (def ? (furnitureArtKey(this, def) ?? '') : item.id);
     const art = hasArt(this, artKey);
     if (item.color !== undefined && !art) {
       g.fillStyle(item.color, 1).fillRoundedRect(-55, -TILE_H / 2 + 22, 110, 66, 16);
@@ -118,7 +118,7 @@ export class ShopScene extends BaseScene {
     c.add(g);
     c.add(
       art
-        ? artImage(this, 0, -TILE_H / 2 + 60, artKey, 150, 96)
+        ? applyHue(artImage(this, 0, -TILE_H / 2 + 60, artKey, 150, 96), item.hue)
         : this.add.text(0, -TILE_H / 2 + 55, item.icon, { fontSize: '44px' }).setOrigin(0.5),
     );
     c.add(
@@ -174,7 +174,7 @@ export class ShopScene extends BaseScene {
   private buy(item: ShopItem): void {
     const save = SaveService.get();
     if (save.medals < item.price) return;
-    if (item.kind === 'clothes' && save.owned.includes(item.id)) return;
+    if (item.kind !== 'furniture' && save.owned.includes(item.id)) return;
     const def = FURNITURE.find((f) => f.id === item.id);
     SaveService.update((d) => {
       d.medals -= item.price;
@@ -183,14 +183,23 @@ export class ShopScene extends BaseScene {
     });
     this.build();
     const t = this.add
-      .text(GAME_WIDTH / 2, 600, def ? `📦 ${item.name} i förrådet!` : `🎉 ${item.name} är din!`, {
-        fontFamily: FONT,
-        fontSize: '52px',
-        color: '#ffffff',
-        fontStyle: 'bold',
-        stroke: '#3a2a4a',
-        strokeThickness: 8,
-      })
+      .text(
+        GAME_WIDTH / 2,
+        600,
+        def
+          ? `📦 ${item.name} i förrådet!`
+          : item.kind === 'gym'
+            ? `🎉 ${item.name} står i gymmet!`
+            : `🎉 ${item.name} är din!`,
+        {
+          fontFamily: FONT,
+          fontSize: '52px',
+          color: '#ffffff',
+          fontStyle: 'bold',
+          stroke: '#3a2a4a',
+          strokeThickness: 8,
+        },
+      )
       .setOrigin(0.5)
       .setDepth(500);
     this.tweens.add({

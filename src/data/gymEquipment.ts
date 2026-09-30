@@ -11,6 +11,12 @@ export interface EquipmentDef {
   defaultY: number;
   price?: number; // medals; no price = free from the start
   flat?: boolean; // lies on the floor: always behind standing apparatus
+  art?: string; // manifest id when it is not equip_<id without eq_>
+  hue?: number; // colour variant of the art: hue shift in degrees
+}
+
+export function equipmentArtId(def: EquipmentDef): string {
+  return def.art ?? `equip_${def.id.replace(/^eq_/, '')}`;
 }
 
 export const GYM_EQUIPMENT: EquipmentDef[] = [
@@ -64,5 +70,72 @@ export const GYM_EQUIPMENT: EquipmentDef[] = [
     defaultX: 250,
     defaultY: 1080,
     flat: true,
+  },
+  // Butiken (Gym tab): extra apparatus and mats, bought once with medals.
+  {
+    id: 'eq_mat_pink',
+    name: 'Rosa matta',
+    minigame: '',
+    width: 260,
+    height: 90,
+    color: 0xff9ad0,
+    defaultX: 900,
+    defaultY: 1080,
+    price: 3,
+    flat: true,
+    art: 'equip_mat',
+    hue: 100,
+  },
+  {
+    id: 'eq_mat_lilac',
+    name: 'Lila matta',
+    minigame: '',
+    width: 260,
+    height: 90,
+    color: 0xc9a2ff,
+    defaultX: 1200,
+    defaultY: 1080,
+    price: 3,
+    flat: true,
+    art: 'equip_mat',
+    hue: 45,
+  },
+  {
+    id: 'eq_minitramp',
+    name: 'Minitramp',
+    minigame: 'trampoline',
+    width: 170,
+    height: 80,
+    color: 0xff6fae,
+    defaultX: 950,
+    defaultY: 760,
+    price: 6,
+    art: 'equip_trampoline',
+  },
+  {
+    id: 'eq_beam_low',
+    name: 'Mintbom',
+    minigame: 'beam',
+    width: 240,
+    height: 60,
+    color: 0xffe4b5,
+    defaultX: 1200,
+    defaultY: 600,
+    price: 5,
+    art: 'equip_beam',
+    hue: 160,
+  },
+  {
+    id: 'eq_vault_gold',
+    name: 'Guldbock',
+    minigame: 'vault',
+    width: 200,
+    height: 120,
+    color: 0xffd84d,
+    defaultX: 1000,
+    defaultY: 950,
+    price: 9,
+    art: 'equip_vault',
+    hue: 25,
   },
 ];
