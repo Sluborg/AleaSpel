@@ -2,7 +2,7 @@ import { COLORS, FONT, GAME_HEIGHT, GAME_WIDTH } from '../config';
 import { GYM_EQUIPMENT, type EquipmentDef } from '../data/gymEquipment';
 import { MINIGAMES } from '../data/minigames';
 import { SaveService, type Position } from '../services/SaveService';
-import { artHeight, backdrop, hasArt } from '../ui/art';
+import { artHeight, backdrop, hasArt, visibleBottom } from '../ui/art';
 import { ROOM_WORLD_W, RoomScene, type Placeable } from './RoomScene';
 
 const HALL = { left: 20, top: 250, right: ROOM_WORLD_W - 20, bottom: GAME_HEIGHT - 20 };
@@ -58,6 +58,10 @@ export class GymScene extends RoomScene {
         build: () => this.equipmentShape(def),
         onTap: def.minigame ? () => this.practise(def.minigame) : undefined,
         flat: def.flat,
+        foot: key
+          ? (def.minigame ? -15 : 0) +
+            (visibleBottom(this, key) - 0.5) * artHeight(this, key, def.width)
+          : def.height / 2,
       };
     });
   }

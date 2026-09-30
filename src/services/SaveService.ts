@@ -82,7 +82,7 @@ export interface SaveData {
     equipment: Record<string, Position>; // placed apparatus in Mitt gym
   };
   clubhouse: {
-    pets: Record<string, Position>; // pet id -> where it sits in Klubbstugan
+    pets: Record<string, Position>; // pet id (or 'gymnast') -> where it sits in Klubbstugan
   };
   team: {
     days: number; // Tävlingsdag competitions completed

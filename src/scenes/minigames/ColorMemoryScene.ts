@@ -12,17 +12,26 @@ const SIZE = 250;
 const CENTER_Y = 640;
 const DIM = 0.45;
 
-// Färgminne: colours blink in a row; tap the same colours in the same order. Round N shows N + 1
-// colours. Stars: all right 3, else a share of the row that was right.
+// Färgminne: colours blink in a row; tap the same colours in the same order. Like Simon: the
+// row is kept and grows by one new colour every round. Stars: all right 3, else a share of the
+// row that was right.
 export class ColorMemoryScene extends QuickGameScene {
+  private seq: number[] = [];
+
   constructor() {
     super('ColorMemory');
   }
 
   protected playRound(roundNo: number): void {
-    const length = roundNo + 1;
-    const seq = Array.from({ length }, () => Phaser.Math.Between(0, PADS.length - 1));
-    const info = this.text(GAME_WIDTH / 2, 330, 'Titta!', 44);
+    if (roundNo === 1) this.seq = [Phaser.Math.Between(0, PADS.length - 1)];
+    this.seq.push(Phaser.Math.Between(0, PADS.length - 1));
+    const seq = this.seq;
+    const info = this.text(
+      GAME_WIDTH / 2,
+      330,
+      roundNo === 1 ? 'Titta!' : 'Titta! En färg till.',
+      44,
+    );
     this.layer.add(info);
     let accepting = false;
     let pos = 0;
@@ -39,23 +48,28 @@ export class ColorMemoryScene extends QuickGameScene {
         this.flash(pad);
         if (i === seq[pos]) {
           pos++;
+          info.setText(`${pos} / ${seq.length}`);
           if (pos === seq.length) {
             accepting = false;
-            this.roundDone(3);
+            // Let the last colour light up before the stars come.
+            this.time.delayedCall(550, () => {
+              info.setText('Rätt!');
+              this.roundDone(3);
+            });
           }
         } else {
           accepting = false;
           info.setText(`Det var ${PADS[seq[pos]].name.toLowerCase()}!`);
           this.flash(pads[seq[pos]], 3);
-          this.time.delayedCall(700, () => this.roundDone(Math.floor((3 * pos) / seq.length)));
+          this.time.delayedCall(900, () => this.roundDone(Math.floor((3 * pos) / seq.length)));
         }
       });
       this.layer.add(pad);
       return pad;
     });
-    const step = Math.max(380, 650 - roundNo * 50);
-    seq.forEach((p, k) => this.time.delayedCall(700 + k * step, () => this.flash(pads[p])));
-    this.time.delayedCall(700 + seq.length * step, () => {
+    const step = Math.max(420, 700 - roundNo * 50);
+    seq.forEach((p, k) => this.time.delayedCall(800 + k * step, () => this.flash(pads[p])));
+    this.time.delayedCall(800 + seq.length * step, () => {
       info.setText('Din tur!');
       accepting = true;
     });

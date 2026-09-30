@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import { FONT } from '../config';
 import type { FurnitureDef } from '../data/furniture';
-import { artHeight, hasArt } from './art';
+import { artHeight, hasArt, visibleBottom } from './art';
 
 // Delivered furniture art (`furn_<id>`, or `def.art`) is scaled to the row's width, keeping its
 // aspect ratio. Without art the piece is a placeholder shape with its name.
@@ -18,6 +18,13 @@ export function furnitureSize(
   return key
     ? { width: def.width, height: artHeight(scene, key, def.width) }
     : { width: def.width, height: def.height };
+}
+
+// Distance from the piece's centre down to where it stands (its visible bottom).
+export function furnitureFoot(scene: Phaser.Scene, def: FurnitureDef): number {
+  const key = furnitureArtKey(scene, def);
+  const { height } = furnitureSize(scene, def);
+  return key ? (visibleBottom(scene, key) - 0.5) * height : height / 2;
 }
 
 export function furnitureShape(

@@ -5,7 +5,7 @@ import { SaveService, type Position } from '../services/SaveService';
 import { artImage } from '../ui/art';
 import { ScrollList } from '../ui/ScrollList';
 import { BaseScene } from './BaseScene';
-import { furnitureArtKey, furnitureShape, furnitureSize } from '../ui/furnitureView';
+import { furnitureArtKey, furnitureFoot, furnitureShape, furnitureSize } from '../ui/furnitureView';
 
 export interface Bounds {
   left: number;
@@ -25,6 +25,7 @@ export interface Placeable {
   onTap?: () => void;
   flat?: boolean; // rugs, mats, wall items: always behind standing things
   z?: number; // manual layer (set with the layer buttons)
+  foot?: number; // distance from the centre down to where it stands; default height / 2
 }
 
 export type FurnitureRoom = 'house' | 'clubhouse';
@@ -86,10 +87,17 @@ export abstract class RoomScene extends BaseScene {
     this.outline = this.add.graphics().setDepth(STANDING * 3);
     this.afterBuild();
     if (this.furnitureRoom) this.addStoreButton();
-    this.arrows = [
-      this.fixedText(28, 700, '‹', 90).setAlpha(0.7),
-      this.fixedText(GAME_WIDTH - 28, 700, '›', 90).setAlpha(0.7),
-    ];
+    // Arrows at the edges: tap to slide most of a screen that way (dragging the floor works too).
+    this.arrows = [-1, 1].map((dir) => {
+      const t = this.fixedText(dir < 0 ? 40 : GAME_WIDTH - 40, 700, dir < 0 ? '‹' : '›', 110);
+      t.setAlpha(0.85).setStroke('#3a2a4a', 8);
+      t.setInteractive(
+        new Phaser.Geom.Rectangle(-30, -60, t.width + 60, t.height + 120),
+        Phaser.Geom.Rectangle.Contains,
+      );
+      t.on('pointerup', () => this.slide(dir));
+      return t;
+    });
     this.setupInput();
   }
 
@@ -106,6 +114,13 @@ export abstract class RoomScene extends BaseScene {
     this.arrows[0]?.setVisible(cam.scrollX > 4);
     this.arrows[1]?.setVisible(cam.scrollX < ROOM_WORLD_W - GAME_WIDTH - 4);
     if (this.selected && this.outline) this.drawOutline(this.selected);
+  }
+
+  private slide(dir: number): void {
+    const cam = this.cameras.main;
+    const max = ROOM_WORLD_W - GAME_WIDTH;
+    const to = Phaser.Math.Clamp(cam.scrollX + dir * GAME_WIDTH * 0.8, 0, max);
+    this.tweens.add({ targets: cam, scrollX: to, duration: 350, ease: 'Sine.inOut' });
   }
 
   private setupInput(): void {
@@ -177,6 +192,7 @@ export abstract class RoomScene extends BaseScene {
       onTap: item.onTap,
       flat: item.flat ?? false,
       z: item.z,
+      foot: item.foot ?? item.height / 2,
       selectable: item.id.startsWith('furn:'),
     });
     container.setInteractive({ draggable: true, useHandCursor: true });
@@ -186,7 +202,7 @@ export abstract class RoomScene extends BaseScene {
   // Standing things lower on screen are drawn in front; flat things (rugs, wall items) are
   // always behind them. A manual layer (`z`) wins until the item is dragged again.
   private autoDepth(obj: Phaser.GameObjects.Container): number {
-    return (obj.getData('flat') ? 0 : STANDING) + obj.y + obj.height / 2;
+    return (obj.getData('flat') ? 0 : STANDING) + obj.y + (obj.getData('foot') as number);
   }
 
   private depthOf(obj: Phaser.GameObjects.Container): number {
@@ -322,6 +338,7 @@ export abstract class RoomScene extends BaseScene {
           y: f.y,
           z: f.z,
           flat: def.flat,
+          foot: furnitureFoot(this, def),
           build: () => furnitureShape(this, def),
         };
       });
@@ -462,6 +479,7 @@ export abstract class RoomScene extends BaseScene {
       x,
       y,
       flat: def.flat,
+      foot: furnitureFoot(this, def),
       build: () => furnitureShape(this, def),
     });
     this.sortByDepth();

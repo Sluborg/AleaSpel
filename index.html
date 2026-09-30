@@ -7,12 +7,18 @@
       content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
     />
     <meta name="theme-color" content="#ff6fae" />
+    <!-- The game draws its own colours: opt out of browser dark mode (Chrome's auto-darkening
+         otherwise dims the whole canvas on phones set to dark theme). -->
+    <meta name="color-scheme" content="only light" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <link rel="icon" href="icon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
     <title>AleaSpel</title>
     <style>
+      :root {
+        color-scheme: only light;
+      }
       html,
       body {
         margin: 0;

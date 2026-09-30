@@ -11,6 +11,15 @@ import { BaseScene } from '../BaseScene';
 // Shared engine for the pattern minigames: move card with the pattern, drawing, accuracy,
 // stars, medals, records and the result panel. A subclass draws its world, positions the
 // gymnast and animates each round; it opens and closes the drawing window.
+const MIN_STROKE = 60; // design px: shorter strokes are taps, not patterns
+
+function strokeLength(pts: { x: number; y: number }[]): number {
+  let d = 0;
+  for (let i = 1; i < pts.length; i++)
+    d += Math.hypot(pts[i].x - pts[i - 1].x, pts[i].y - pts[i - 1].y);
+  return d;
+}
+
 export abstract class PatternGameScene extends BaseScene {
   protected abstract readonly def: MinigameDef;
   protected abstract readonly introText: string;
@@ -26,6 +35,8 @@ export abstract class PatternGameScene extends BaseScene {
   private progress!: Phaser.GameObjects.Text;
   private stroke: Pt[] = [];
   private drawing = false;
+  private live = false; // a round's card is showing: strokes may start
+  private pending = false; // a full stroke was drawn before the window opened
   private accepting = false;
   private evaluated = false;
   private total = 0;
@@ -63,6 +74,8 @@ export abstract class PatternGameScene extends BaseScene {
     this.drawing = false;
     this.accepting = false;
     this.evaluated = false;
+    this.live = false;
+    this.pending = false;
 
     this.drawWorld();
     this.addBackButton(this.returnTo);
@@ -190,11 +203,15 @@ export abstract class PatternGameScene extends BaseScene {
     this.trail.clear();
     this.evaluated = false;
     this.accepting = false;
+    this.pending = false;
+    this.live = true;
     this.playRound();
   }
 
   protected openWindow(): void {
     this.accepting = true;
+    // A pattern finished just before the window opened still counts.
+    if (this.pending && !this.evaluated) this.evaluate();
   }
 
   // Ends the drawing window; evaluates what was drawn if the player has not lifted the finger.
@@ -210,6 +227,7 @@ export abstract class PatternGameScene extends BaseScene {
 
   protected roundDone(): void {
     this.closeWindow();
+    this.live = false;
     this.time.delayedCall(900, () => {
       this.card.setVisible(false);
       this.trail.clear();
@@ -219,9 +237,13 @@ export abstract class PatternGameScene extends BaseScene {
 
   // --- drawing -----------------------------------------------------------------
 
+  // Drawing may start as soon as the card shows (not only once the window is open), so a quick
+  // player never loses a stroke. A stroke too short to be a pattern (a stray tap) is ignored and
+  // she can simply draw again.
   private onDown(p: Phaser.Input.Pointer): void {
-    if (!this.accepting || this.evaluated) return;
+    if (!this.live || this.evaluated) return;
     this.drawing = true;
+    this.pending = false;
     this.stroke = [{ x: p.x, y: p.y }];
     this.trail.clear();
   }
@@ -242,7 +264,14 @@ export abstract class PatternGameScene extends BaseScene {
   private onUp(): void {
     if (!this.drawing) return;
     this.drawing = false;
-    if (this.accepting && !this.evaluated) this.evaluate();
+    if (this.evaluated) return;
+    if (strokeLength(this.stroke) < MIN_STROKE) {
+      this.stroke = [];
+      this.trail.clear();
+      return;
+    }
+    if (this.accepting) this.evaluate();
+    else this.pending = true;
   }
 
   private evaluate(): void {

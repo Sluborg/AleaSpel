@@ -58,6 +58,41 @@ export function medalLabel(
   return c;
 }
 
+// Where the visible part of a texture ends, as a share of its height (0..1): the lowest row with
+// an opaque pixel. Art has transparent margins, so this is where furniture stands on the floor.
+const bottoms = new Map<string, number>();
+export function visibleBottom(scene: Phaser.Scene, key: string): number {
+  const known = bottoms.get(key);
+  if (known !== undefined) return known;
+  let ratio = 1;
+  try {
+    const src = scene.textures.get(key).getSourceImage() as CanvasImageSource & {
+      width: number;
+      height: number;
+    };
+    const canvas = document.createElement('canvas');
+    canvas.width = src.width;
+    canvas.height = src.height;
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+    if (ctx) {
+      ctx.drawImage(src, 0, 0);
+      const data = ctx.getImageData(0, 0, src.width, src.height).data;
+      scan: for (let y = src.height - 1; y >= 0; y--) {
+        for (let x = 0; x < src.width; x += 2) {
+          if (data[(y * src.width + x) * 4 + 3] > 40) {
+            ratio = (y + 1) / src.height;
+            break scan;
+          }
+        }
+      }
+    }
+  } catch {
+    ratio = 1;
+  }
+  bottoms.set(key, ratio);
+  return ratio;
+}
+
 // An image scaled to fit inside w x h, centred at (x, y).
 export function artImage(
   scene: Phaser.Scene,

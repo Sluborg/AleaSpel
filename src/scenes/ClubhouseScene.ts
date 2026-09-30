@@ -10,6 +10,7 @@ import { ROOM_WORLD_W, RoomScene, type Placeable } from './RoomScene';
 const ROOM = { left: 20, top: 250, right: ROOM_WORLD_W - 20, bottom: GAME_HEIGHT - 20 };
 const FLOOR_Y = 700;
 const GYMNAST_H = 320; // pets are drawn to scale next to the gymnast (PetSpecies.roomSize)
+const GYMNAST_KEY = 'gymnast'; // her spot is kept with the pets' spots
 
 // Klubbstugan: the team's club house, joined to the gym. The team's pets live here (drag them
 // around, tap one to care for it), the active gymnast hangs out, and a door leads to the gym.
@@ -58,11 +59,6 @@ export class ClubhouseScene extends RoomScene {
       .setInteractive({ useHandCursor: true });
     door.on('pointerup', () => this.scene.start('Gym'));
 
-    const gymnast = SaveService.activeGymnast();
-    const view = new GymnastView(this, 130, FLOOR_Y - 160, 320, gymnast, 'chill');
-    view.setSize(150, 320).setInteractive({ useHandCursor: true });
-    view.on('pointerup', () => this.scene.start('AvatarEditor'));
-
     if (!SaveService.get().pets.length) {
       this.add
         .text(GAME_WIDTH / 2, 1200, 'Laget har inget djur än', {
@@ -80,7 +76,24 @@ export class ClubhouseScene extends RoomScene {
 
   protected placeables(): Placeable[] {
     const { clubhouse, pets } = SaveService.get();
-    return pets.map((pet, i) => {
+    // The active gymnast hangs out here too: drag her, tap her for Mitt lag.
+    const gymnast = SaveService.activeGymnast();
+    const gPos = clubhouse.pets[GYMNAST_KEY] ?? { x: 130, y: FLOOR_Y + 60 };
+    const gymnastItem: Placeable = {
+      id: `pet:${GYMNAST_KEY}`,
+      width: 150,
+      height: GYMNAST_H,
+      x: gPos.x,
+      y: gPos.y,
+      foot: GYMNAST_H * 0.47,
+      build: () => {
+        const view = new GymnastView(this, 0, 0, GYMNAST_H, gymnast, 'chill');
+        this.children.remove(view); // the room container owns it
+        return [view];
+      },
+      onTap: () => this.scene.start('AvatarEditor'),
+    };
+    const petItems = pets.map((pet, i): Placeable => {
       const size = Math.round(GYMNAST_H * petSpecies(pet.species).roomSize);
       const pos = clubhouse.pets[pet.id] ?? {
         x: 300 + (i % 3) * 140,
@@ -105,9 +118,11 @@ export class ClubhouseScene extends RoomScene {
             .setOrigin(0.5);
           return [view, name];
         },
+        foot: size * 0.47,
         onTap: () => this.scene.start('Pets', { petId: pet.id }),
       };
     });
+    return [gymnastItem, ...petItems];
   }
 
   protected savePosition(id: string, pos: Position): void {

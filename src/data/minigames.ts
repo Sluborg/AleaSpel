@@ -189,7 +189,8 @@ export const MINIGAMES: MinigameDef[] = [
     rounds: 5,
     available: true,
     kind: 'warmup',
-    intro: 'Titta på färgerna som blinkar.\nTryck samma färger i samma ordning!',
+    intro:
+      'Titta på färgerna som blinkar.\nTryck samma färger i samma ordning!\nVarje runda kommer en färg till.',
   },
 ];
 
