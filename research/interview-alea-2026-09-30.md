@@ -45,3 +45,14 @@ moves._
 - **Multiple houses** with editable exterior, garden and interior.
 - **Gymnastics team**: several avatars, which affects the save schema (list of gymnasts, not one).
 - **Gesture-based minigames**: draw patterns / swipe sequences to perform moves.
+
+## Follow-up after testing Mitt lag and Garderob (same day)
+
+She tested on her phone: the gymnast shows, renaming works, changing clothes and colours works.
+
+Her next wishes:
+
+- Olika delar av ansiktet (different face parts: eyes, eyebrows, mouth and so on).
+- Smink (make-up).
+
+_Design note: facial features are baked into the master. Plan in `docs/asset-spec.md`, "Face"._
