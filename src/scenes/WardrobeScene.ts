@@ -3,9 +3,14 @@ import { COLORS, FONT, GAME_WIDTH, MIN_TOUCH } from '../config';
 import { ASSET_MANIFEST_KEY, type AssetEntry, type AssetManifest } from '../data/assets';
 import {
   ANCHORS_KEY,
+  BASE_BODY_ID,
   CATEGORY_TABS,
   DEFAULT_TINT,
+  FACE_CATEGORIES,
+  FACE_REGION,
+  HEAD_CENTRE_Y,
   PALETTE,
+  itemRule,
   layerOfCategory,
   layerRegion,
   wardrobeItems,
@@ -14,7 +19,7 @@ import {
 import { DEFAULT_OCCASION, OCCASIONS, lookTarget, outfitFor } from '../data/occasions';
 import { SaveService, type Gymnast } from '../services/SaveService';
 import { createButton } from '../ui/Button';
-import { GymnastView } from '../ui/GymnastView';
+import { GymnastView, MASTER_H } from '../ui/GymnastView';
 import { itemBounds } from '../ui/itemBounds';
 import { BaseScene } from './BaseScene';
 
@@ -26,6 +31,11 @@ const TILE_GAP = 20;
 const TAB_W = 190;
 const TAB_STEP = 205;
 const DRAG_THRESHOLD = 14;
+// Gymnast view: full body, or zoomed to the head for face tabs.
+const VIEW_Y = 520;
+const VIEW_H = 500;
+const FACE_ZOOM = 2.8;
+const FACE_HEAD_Y = 460;
 
 // Garderob: pick clothes per category and colour tintable items. Items come from the manifest.
 export class WardrobeScene extends BaseScene {
@@ -46,6 +56,7 @@ export class WardrobeScene extends BaseScene {
   private dragZone: 'tabs' | 'grid' | null = null;
   private dragged = false;
   private dragStart = { x: 0, y: 0, scroll: 0 };
+  private zoomed = false;
 
   constructor() {
     super('Wardrobe');
@@ -57,7 +68,12 @@ export class WardrobeScene extends BaseScene {
     this.gymnast = gymnasts.find((g) => g.id === data.gymnastId) ?? gymnasts[0];
     this.addTitle(this.gymnast.name);
     this.addBackButton('AvatarEditor');
-    this.view = new GymnastView(this, GAME_WIDTH / 2, 520, 500, this.gymnast, this.occasion);
+    this.view = new GymnastView(this, GAME_WIDTH / 2, VIEW_Y, VIEW_H, this.gymnast, this.occasion);
+    // Keep the zoomed gymnast out of the panel area.
+    const clip = this.make.graphics({}, false);
+    clip.fillStyle(0xffffff, 1);
+    clip.fillRect(0, 0, GAME_WIDTH, PANEL_TOP - 4);
+    this.view.setMask(clip.createGeometryMask());
     void this.view.play('idle');
     this.buildOccasions();
 
@@ -193,6 +209,7 @@ export class WardrobeScene extends BaseScene {
     panel.add(strip);
 
     const tab = this.currentTab();
+    this.setZoom(!!tab && tab.categories.every((c) => FACE_CATEGORIES.has(c)));
     const layers = (tab?.categories ?? []).map((c) => layerOfCategory(c) ?? c);
     const look = this.look();
     const wornIn = layers.filter((l) => look[l]);
@@ -251,24 +268,46 @@ export class WardrobeScene extends BaseScene {
     }
     c.add(g);
     if (item) {
-      const r =
-        itemBounds(this, item.id) ??
-        layerRegion(
-          layerOfCategory(item.category) ?? '',
-          this.cache.json.get(ANCHORS_KEY) as Anchors,
-        );
-      const s = Math.min((TILE - 24) / r.w, (TILE - 24) / r.h);
-      const img = this.add
-        .image(-(r.x + r.w / 2) * s, -(r.y + r.h / 2) * s, item.id)
-        .setOrigin(0)
-        .setCrop(r.x, r.y, r.w, r.h)
-        .setScale(s);
+      const face = FACE_CATEGORIES.has(item.category);
+      // Face parts: the same zoomed face crop for every tile, the part drawn on her face.
+      const r = face
+        ? FACE_REGION
+        : (itemBounds(this, item.id) ??
+          layerRegion(
+            layerOfCategory(item.category) ?? '',
+            this.cache.json.get(ANCHORS_KEY) as Anchors,
+          ));
+      const s = Math.min((TILE - 16) / r.w, (TILE - 16) / r.h);
+      const layerImage = (key: string) =>
+        this.add
+          .image(-(r.x + r.w / 2) * s, -(r.y + r.h / 2) * s, key)
+          .setOrigin(0)
+          .setCrop(r.x, r.y, r.w, r.h)
+          .setScale(s);
+      if (face && this.textures.exists(BASE_BODY_ID)) c.add(layerImage(BASE_BODY_ID));
+      const img = layerImage(item.id);
       if (item.tintable) img.setTint(selected && tint !== undefined ? tint : DEFAULT_TINT);
       c.add(img);
     } else {
       c.add(
         this.add
           .text(0, 0, '✕', { fontFamily: FONT, fontSize: '64px', color: '#9a86b8' })
+          .setOrigin(0.5),
+      );
+    }
+    if (selected) {
+      const b = this.add.graphics();
+      b.fillStyle(COLORS.primary, 1);
+      b.fillCircle(TILE / 2 - 14, -TILE / 2 + 14, 22);
+      c.add(b);
+      c.add(
+        this.add
+          .text(TILE / 2 - 14, -TILE / 2 + 14, '✓', {
+            fontFamily: FONT,
+            fontSize: '30px',
+            color: '#ffffff',
+            fontStyle: 'bold',
+          })
           .setOrigin(0.5),
       );
     }
@@ -295,6 +334,39 @@ export class WardrobeScene extends BaseScene {
     c.setSize(Math.max(100, MIN_TOUCH - 10), 100).setInteractive({ useHandCursor: true });
     c.on('pointerup', this.tap('grid', onPick));
     return c;
+  }
+
+  // Face tabs zoom the gymnast to her head; other tabs show the full body.
+  private setZoom(face: boolean): void {
+    if (face === this.zoomed) return;
+    this.zoomed = face;
+    const headOffset = ((HEAD_CENTRE_Y - MASTER_H / 2) * VIEW_H) / MASTER_H;
+    const scale = face ? FACE_ZOOM : 1;
+    const y = face ? FACE_HEAD_Y - headOffset * FACE_ZOOM : VIEW_Y;
+    this.tweens.add({ targets: this.view, scale, y, duration: 350, ease: 'Sine.easeInOut' });
+  }
+
+  // A few little stars when something is put on (instead of a hop).
+  private sparkle(): void {
+    const cx = GAME_WIDTH / 2;
+    const cy = this.zoomed ? FACE_HEAD_Y : VIEW_Y - 60;
+    for (let i = 0; i < 7; i++) {
+      const a = (i / 7) * Math.PI * 2 + Math.random() * 0.5;
+      const star = this.add
+        .text(cx, cy, '✦', { fontFamily: FONT, fontSize: '34px', color: '#fff3a8' })
+        .setOrigin(0.5)
+        .setAlpha(0.95);
+      this.tweens.add({
+        targets: star,
+        x: cx + Math.cos(a) * 170,
+        y: cy + Math.sin(a) * 150,
+        alpha: 0,
+        scale: 0.4,
+        duration: 650,
+        ease: 'Quad.easeOut',
+        onComplete: () => star.destroy(),
+      });
+    }
   }
 
   private label(x: number, y: number, text: string) {
@@ -326,6 +398,12 @@ export class WardrobeScene extends BaseScene {
       target[layer] = item.tintable
         ? { item: item.id, tint: prevTint ?? DEFAULT_TINT }
         : { item: item.id };
+      // Clipping rules: this item takes off what it excludes, and anything that excludes this
+      // layer comes off (a dress replaces tops and bottoms, a top takes off the dress).
+      for (const l of itemRule(item.id)?.excludes ?? []) delete lookTarget(g, this.occasion, l)[l];
+      for (const [l, w] of Object.entries(target)) {
+        if (l !== layer && itemRule(w.item)?.excludes?.includes(layer)) delete target[l];
+      }
     });
   }
 
@@ -340,8 +418,7 @@ export class WardrobeScene extends BaseScene {
   private save(change: (g: Gymnast) => void): void {
     SaveService.update(() => change(this.gymnast));
     this.view.refresh(this.gymnast, this.occasion);
-    // A little hop for every change, then back to breathing.
-    void this.view.play('happy').then(() => this.view.play('idle'));
+    this.sparkle();
     this.buildPanel();
   }
 }
