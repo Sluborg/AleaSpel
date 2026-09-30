@@ -69,3 +69,13 @@ _English: she wants to play with and care for the pets. Pets belong to the team.
 club house joined to the gym; each gymnast can live in her own house. Nicer furniture and clothes
 are bought with prizes from winning competitions. Recorded in `docs/game-design.md` (sections 4,
 7 and 8)._
+
+## Feedback on Lagets djur (same day)
+
+- Djuren ska se mer riktiga ut: djur som sitter där och är gulliga. (Real art comes with the art
+  pass; placeholder changed to a sitting pose.)
+- Bollen var bra. Fler lekar.
+- Hemlig personlighet: djuren gillar olika lekar, och man lär sig det, till exempel
+  "Azmodeus: + bolllek, - balanslek, + magkli".
+- Leken ska kräva en enkel interaktion: ett mönster eller klicka snabbt några gånger.
+- Olika sorters mat.

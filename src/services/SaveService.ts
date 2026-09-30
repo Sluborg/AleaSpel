@@ -1,7 +1,9 @@
+import { rollTraits } from './PetCare';
+
 // Versioned save data in localStorage.
 // To change the schema: bump SAVE_VERSION, update SaveData, add a migration from the previous version.
 
-export const SAVE_VERSION = 3;
+export const SAVE_VERSION = 4;
 const STORAGE_KEY = 'aleaspel.save';
 
 export interface Position {
@@ -35,6 +37,8 @@ export interface Pet {
   color: number;
   needs: PetNeeds;
   updatedAt: number; // ms timestamp of the last needs update
+  traits: Record<string, number>; // secret personality: game/food id -> -1, 0 or 1
+  known: string[]; // traits the player has discovered
 }
 
 export interface SaveData {
@@ -56,6 +60,15 @@ type Migration = (data: Record<string, unknown>) => Record<string, unknown>;
 const MIGRATIONS: Record<number, Migration> = {
   1: (data) => ({ ...data, version: 2, gymnasts: [createGymnast(1)] }),
   2: (data) => ({ ...data, version: 3, pets: [] }),
+  3: (data) => ({
+    ...data,
+    version: 4,
+    pets: ((data.pets as Pet[]) ?? []).map((p) => ({
+      ...p,
+      traits: rollTraits(p.species),
+      known: [],
+    })),
+  }),
 };
 
 function createDefault(): SaveData {

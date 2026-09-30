@@ -37,7 +37,7 @@ function ears(s: PetSpecies, layer: 'fur' | 'face'): string {
     }
     case 'rabbit': {
       const ear = (dir: number) =>
-        `<ellipse cx="${200 + dir * 34}" cy="${headY - r - 40}" rx="${inner ? 12 : 26}" ry="${inner ? 46 : 70}" transform="rotate(${dir * 8} ${200 + dir * 34} ${headY - r - 40})" ${fill}/>`;
+        `<ellipse cx="${200 + dir * 34}" cy="${headY - r - 22}" rx="${inner ? 12 : 26}" ry="${inner ? 40 : 58}" transform="rotate(${dir * 8} ${200 + dir * 34} ${headY - r - 22})" ${fill}/>`;
       return ear(-1) + ear(1);
     }
     case 'round': {
@@ -61,7 +61,9 @@ function ears(s: PetSpecies, layer: 'fur' | 'face'): string {
 }
 
 function tail(s: PetSpecies): string {
-  const { bodyY, bw } = geometry(s);
+  const g = geometry(s);
+  const bw = g.bw;
+  const bodyY = s.pose === 'sit' ? g.bodyY + g.bh * 0.9 : g.bodyY;
   const x = 200 + bw - 10;
   switch (s.tail) {
     case 'cat':
@@ -81,20 +83,38 @@ export function petSvg(s: PetSpecies, layer: 'fur' | 'face'): string {
   const { headY, bodyY, r, bw, bh } = geometry(s);
   let body: string;
   if (layer === 'fur') {
-    const legs = s.id === 'pony' ? 44 : 16;
-    const foot = (x: number) =>
-      `<rect x="${x - 20}" y="${bodyY + bh - 30}" width="40" height="${legs + 30}" rx="18" ${FUR}/>`;
-    body =
-      tail(s) +
-      foot(200 - bw * 0.6) +
-      foot(200 + bw * 0.6) +
-      foot(200 - bw * 0.2) +
-      foot(200 + bw * 0.2) +
-      `<ellipse cx="200" cy="${bodyY}" rx="${bw}" ry="${bh}" ${FUR}/>` +
-      ears(s, 'fur') +
-      `<circle cx="200" cy="${headY}" r="${r}" ${FUR}/>`;
-    if (s.id === 'pony') {
-      body += `<path d="M${200 - 30} ${headY - r + 6} q 30 -40 60 0 q -30 20 -60 0z" fill="#ffffff" ${OUTLINE}/>`;
+    if (s.pose === 'stand') {
+      const legs = 44;
+      const foot = (x: number) =>
+        `<rect x="${x - 20}" y="${bodyY + bh - 30}" width="40" height="${legs + 30}" rx="18" ${FUR}/>`;
+      body =
+        tail(s) +
+        foot(200 - bw * 0.6) +
+        foot(200 + bw * 0.6) +
+        foot(200 - bw * 0.2) +
+        foot(200 + bw * 0.2) +
+        `<ellipse cx="200" cy="${bodyY}" rx="${bw}" ry="${bh}" ${FUR}/>` +
+        ears(s, 'fur') +
+        `<circle cx="200" cy="${headY}" r="${r}" ${FUR}/>` +
+        `<path d="M${200 - 30} ${headY - r + 6} q 30 -40 60 0 q -30 20 -60 0z" fill="#ffffff" ${OUTLINE}/>`;
+    } else {
+      // Sitting: round body, haunches on the sides, front paws together, tail on the floor.
+      const sy = bodyY + 10;
+      const haunch = (dir: number) =>
+        `<ellipse cx="${200 + dir * bw * 0.62}" cy="${sy + bh * 0.55}" rx="${bw * 0.48}" ry="${bh * 0.62}" ${FUR}/>`;
+      const paw = (dir: number) =>
+        `<ellipse cx="${200 + dir * 30}" cy="${sy + bh * 1.02}" rx="30" ry="20" ${FUR}/>`;
+      body =
+        tail(s) +
+        haunch(-1) +
+        haunch(1) +
+        `<ellipse cx="200" cy="${sy}" rx="${bw * 0.82}" ry="${bh * 1.18}" ${FUR}/>` +
+        `<rect x="${200 - 46}" y="${sy + 10}" width="36" height="${bh * 0.95}" rx="18" ${FUR}/>` +
+        `<rect x="${200 + 10}" y="${sy + 10}" width="36" height="${bh * 0.95}" rx="18" ${FUR}/>` +
+        paw(-1) +
+        paw(1) +
+        ears(s, 'fur') +
+        `<circle cx="200" cy="${headY}" r="${r}" ${FUR}/>`;
     }
   } else {
     const ex = r * 0.4;
@@ -104,7 +124,12 @@ export function petSvg(s: PetSpecies, layer: 'fur' | 'face'): string {
     const snout = s.snout
       ? `<ellipse cx="200" cy="${headY + r * 0.45}" rx="${r * 0.46}" ry="${r * 0.32}" fill="#fff8f0" opacity="0.85"/>`
       : '';
+    const chest =
+      s.pose === 'sit'
+        ? `<ellipse cx="200" cy="${bodyY - 5}" rx="${bw * 0.42}" ry="${bh * 0.7}" fill="#fff8f0" opacity="0.55"/>`
+        : '';
     body =
+      chest +
       ears(s, 'face') +
       snout +
       eye(200 - ex) +

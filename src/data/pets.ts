@@ -12,6 +12,7 @@ export interface PetSpecies {
   bodyW: number; // body half-width
   bodyH: number; // body half-height
   snout: boolean;
+  pose: 'sit' | 'stand';
 }
 
 export const PET_SPECIES: PetSpecies[] = [
@@ -25,6 +26,7 @@ export const PET_SPECIES: PetSpecies[] = [
     bodyW: 92,
     bodyH: 70,
     snout: false,
+    pose: 'sit',
   },
   {
     id: 'dog',
@@ -36,6 +38,7 @@ export const PET_SPECIES: PetSpecies[] = [
     bodyW: 100,
     bodyH: 72,
     snout: true,
+    pose: 'sit',
   },
   {
     id: 'rabbit',
@@ -47,6 +50,7 @@ export const PET_SPECIES: PetSpecies[] = [
     bodyW: 90,
     bodyH: 74,
     snout: false,
+    pose: 'sit',
   },
   {
     id: 'guinea',
@@ -58,6 +62,7 @@ export const PET_SPECIES: PetSpecies[] = [
     bodyW: 118,
     bodyH: 70,
     snout: false,
+    pose: 'sit',
   },
   {
     id: 'hamster',
@@ -69,6 +74,7 @@ export const PET_SPECIES: PetSpecies[] = [
     bodyW: 96,
     bodyH: 80,
     snout: false,
+    pose: 'sit',
   },
   {
     id: 'pony',
@@ -80,6 +86,7 @@ export const PET_SPECIES: PetSpecies[] = [
     bodyW: 120,
     bodyH: 76,
     snout: true,
+    pose: 'stand',
   },
 ];
 

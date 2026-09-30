@@ -96,9 +96,15 @@ draws the gesture during a routine and is scored on shape match and timing.
 Requested by the parent; Alea (2026-09-30): she wants to play with the pets and take care of
 them, and **the pets belong to the team**, not to single gymnasts. They live in Klubbstugan.
 
-Built (step 1): Pets scene with adoption (species + colour + name), care (Mata, Borsta, Klappa,
-Leka) and gentle needs bars. Placeholder art is SVG generated in code (`src/ui/petSvg.ts`),
-species are data rows in `src/data/pets.ts`.
+Built:
+
+- Step 1: adoption (species + colour + name), care (Mata, Borsta, Klappa, Leka), gentle needs.
+- Step 2 (Alea's feedback): sitting placeholder pets; six games, each with a small interaction
+  (Boll: throw; Hopplek: tap fast; Trick: swipe the arrows; Balans: hold; Magkli: rub circles;
+  Kurragömma: find the box); eight foods; a **secret personality** per pet (loves, likes or
+  dislikes each game and food, species favourite foods always loved), discovered by trying and
+  shown in "Om <namn>". Games and foods are data rows in `src/data/petActivities.ts`.
+- Placeholder art is SVG generated in code (`src/ui/petSvg.ts`); real art comes with the art pass.
 
 - **Species** as data rows: katt, hund, kanin, marsvin, hamster, ponny (more later).
 - **Pet editor**: species, colour, pattern (fläckar, ränder, tabby), ears/tail variants, name,

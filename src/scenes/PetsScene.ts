@@ -1,17 +1,20 @@
 import Phaser from 'phaser';
 import { COLORS, FONT, GAME_HEIGHT, GAME_WIDTH, MIN_TOUCH } from '../config';
+import { PET_FOODS, PET_GAMES, type PetFood, type PetGame } from '../data/petActivities';
 import { PET_COLORS, PET_SPECIES, petSpecies } from '../data/pets';
-import { applyDecay, care, wish } from '../services/PetCare';
+import { applyDecay, care, react, rollTraits, wish } from '../services/PetCare';
 import { SaveService, type Pet, type PetNeeds } from '../services/SaveService';
 import { createButton } from '../ui/Button';
 import { openNameInput } from '../ui/NameInput';
 import { PetView } from '../ui/PetView';
 import { BaseScene } from './BaseScene';
+import { PET_GAME_RUNNERS } from './pets/petGames';
 
 const PET_X = GAME_WIDTH / 2;
-const PET_Y = 560;
+const PET_Y = 540;
 const PET_SIZE = 460;
 const FLOOR_Y = 760;
+const PANEL = 0x3a2752;
 
 const NEEDS: { key: keyof PetNeeds; label: string; color: number; wish: string }[] = [
   { key: 'food', label: 'Mat', color: 0xffa24c, wish: 'Jag är hungrig!' },
@@ -19,9 +22,19 @@ const NEEDS: { key: keyof PetNeeds; label: string; color: number; wish: string }
   { key: 'fun', label: 'Lek', color: 0x7ed957, wish: 'Vi leker!' },
 ];
 
-type Mode = 'idle' | 'brush' | 'play';
+// How a pet reacts to a game or food it loves (1), likes (0) or does not like (-1).
+const REACTIONS: Record<number, { text: string; symbol: string; game: number; food: number }> = {
+  1: { text: 'Älskar det!', symbol: '❤', game: 30, food: 45 },
+  0: { text: 'Kul!', symbol: '⭐', game: 15, food: 30 },
+  [-1]: { text: 'Nja...', symbol: '💤', game: 5, food: 15 },
+};
+const FOOD_TEXT: Record<number, string> = { 1: 'Mums!', 0: 'Gott!', [-1]: 'Nja...' };
+const MARK: Record<number, string> = { 1: '❤', 0: '🙂', [-1]: '✗' };
 
-// Lagets djur: the team's pets. Adopt, name, feed, brush, pet and play.
+type Mode = 'idle' | 'brush' | 'game';
+
+// Lagets djur: the team's pets. Adopt, name, feed, brush, cuddle and play games.
+// Every pet has a secret personality: it loves, likes or dislikes each game and food.
 export class PetsScene extends BaseScene {
   private index = 0;
   private mode: Mode = 'idle';
@@ -30,6 +43,7 @@ export class PetsScene extends BaseScene {
   private bars: Phaser.GameObjects.Graphics[] = [];
   private bubble?: Phaser.GameObjects.Container;
   private busy = false;
+  private cleanup?: () => void;
 
   constructor() {
     super('Pets');
@@ -43,6 +57,7 @@ export class PetsScene extends BaseScene {
     const pets = SaveService.get().pets;
     SaveService.update(() => pets.forEach((p) => applyDecay(p)));
     this.index = Math.min(this.index, Math.max(0, pets.length - 1));
+    this.events.once('shutdown', () => this.cleanup?.());
     this.build();
   }
 
@@ -56,6 +71,8 @@ export class PetsScene extends BaseScene {
 
   // Rebuilds everything below the title.
   private build(): void {
+    this.cleanup?.();
+    this.cleanup = undefined;
     this.layer?.destroy();
     this.layer = this.add.container(0, 0);
     this.bars = [];
@@ -79,7 +96,9 @@ export class PetsScene extends BaseScene {
     this.pet.setInteractive({ useHandCursor: true });
     this.pet.on('pointerdown', () => this.onPetTap());
     this.layer.add(this.pet);
-    this.idleBounce();
+    if (this.mode === 'idle') this.idleBounce();
+
+    if (this.mode !== 'idle') return;
 
     if (this.pets().length > 1) {
       const n = this.pets().length;
@@ -111,18 +130,19 @@ export class PetsScene extends BaseScene {
     });
     this.drawBars();
 
-    const action = (x: number, label: string, fn: () => void) =>
-      this.layer!.add(createButton(this, x, 1070, label, fn, { width: 200, fontSize: 38 }));
-    action(130, 'Mata', () => this.feed());
-    action(360, this.mode === 'brush' ? 'Klar' : 'Borsta', () => this.toggleBrush());
-    action(590, 'Leka', () => this.startPlay());
-    this.layer.add(
-      createButton(this, GAME_WIDTH / 2, 1200, '+ Nytt djur', () => this.openAdopt(), {
-        width: 320,
-        fontSize: 36,
-        color: 0x6b5a85,
-      }),
-    );
+    const action = (
+      x: number,
+      y: number,
+      label: string,
+      fn: () => void,
+      width = 200,
+      color?: number,
+    ) => this.layer!.add(createButton(this, x, y, label, fn, { width, fontSize: 36, color }));
+    action(130, 1070, 'Mata', () => this.openFoods());
+    action(360, 1070, 'Borsta', () => this.startBrush());
+    action(590, 1070, 'Leka', () => this.openGames());
+    action(215, 1200, 'Om mig', () => this.openAbout(), 290, 0x6b5a85);
+    action(505, 1200, '+ Nytt djur', () => this.openAdopt(), 290, 0x6b5a85);
     this.showWish();
   }
 
@@ -139,7 +159,7 @@ export class PetsScene extends BaseScene {
       const x = bar.getData('x') as number;
       const v = pet.needs[bar.getData('key') as keyof PetNeeds];
       bar.clear();
-      bar.fillStyle(0x3a2752, 1).fillRoundedRect(x, 960, 180, 28, 14);
+      bar.fillStyle(PANEL, 1).fillRoundedRect(x, 960, 180, 28, 14);
       bar
         .fillStyle(bar.getData('color') as number, 1)
         .fillRoundedRect(x, 960, Math.max(28, 1.8 * v), 28, 14);
@@ -169,7 +189,7 @@ export class PetsScene extends BaseScene {
     });
   }
 
-  private hearts(x: number, y: number, count = 4, symbol = '❤'): void {
+  private sparkle(x: number, y: number, symbol = '❤', count = 4): void {
     for (let i = 0; i < count; i++) {
       const h = this.add
         .text(x + Phaser.Math.Between(-80, 80), y, symbol, { fontSize: '44px', color: '#ff4f7b' })
@@ -186,11 +206,23 @@ export class PetsScene extends BaseScene {
     }
   }
 
+  private say(text: string): void {
+    const t = this.text(GAME_WIDTH / 2, 300, text, 52, '#6b4a55').setDepth(60);
+    this.tweens.add({
+      targets: t,
+      y: 260,
+      alpha: 0,
+      duration: 1600,
+      delay: 600,
+      onComplete: () => t.destroy(),
+    });
+  }
+
   private hop(onDone?: () => void, height = 60): void {
     if (!this.pet) return;
     this.tweens.add({
       targets: this.pet,
-      y: this.pet.y - height,
+      y: PET_Y - height,
       duration: 200,
       yoyo: true,
       ease: 'Quad.out',
@@ -206,7 +238,7 @@ export class PetsScene extends BaseScene {
     const w = wish(pet);
     if (!w) return;
     const text = NEEDS.find((n) => n.key === w)!.wish;
-    const bubble = this.add.container(GAME_WIDTH / 2 + 150, 270).setDepth(40);
+    const bubble = this.add.container(GAME_WIDTH / 2 + 150, 250).setDepth(40);
     const g = this.add.graphics();
     g.fillStyle(0xffffff, 1).fillRoundedRect(-150, -45, 300, 90, 40);
     g.fillCircle(-90, 60, 14).fillCircle(-115, 85, 8);
@@ -215,12 +247,12 @@ export class PetsScene extends BaseScene {
     this.layer?.add(bubble);
   }
 
-  // --- care actions ------------------------------------------------------
+  // --- care --------------------------------------------------------------
 
   private onPetTap(): void {
     const pet = this.current();
     if (!pet || this.mode !== 'idle') return;
-    this.hearts(PET_X, PET_Y - 120, 3);
+    this.sparkle(PET_X, PET_Y - 120, '❤', 3);
     this.tweens.add({
       targets: this.pet,
       angle: { from: -6, to: 6 },
@@ -232,109 +264,217 @@ export class PetsScene extends BaseScene {
     this.save(() => care(pet, 'fun', 4));
   }
 
-  private feed(): void {
+  private feed(food: PetFood): void {
     const pet = this.current();
-    if (!pet || this.busy || this.mode !== 'idle') return;
+    if (!pet || this.busy) return;
     this.busy = true;
-    const bowl = this.add.graphics().setDepth(30);
-    bowl.fillStyle(0xff6fae, 1).fillEllipse(0, 0, 150, 50);
-    bowl.fillStyle(0xa8743f, 1).fillEllipse(0, -16, 110, 26);
-    bowl.setPosition(PET_X + 60, FLOOR_Y + 10).setAlpha(0);
+    const bowl = this.add
+      .container(PET_X + 70, FLOOR_Y + 10)
+      .setDepth(30)
+      .setAlpha(0);
+    const g = this.add.graphics();
+    g.fillStyle(0xff6fae, 1).fillEllipse(0, 0, 150, 50);
+    bowl.add([g, this.add.text(0, -30, food.icon, { fontSize: '56px' }).setOrigin(0.5)]);
     this.tweens.add({ targets: bowl, alpha: 1, duration: 200 });
-    this.time.delayedCall(250, () =>
+    const liking = react(pet, food.id);
+    const r = REACTIONS[liking];
+    this.time.delayedCall(300, () =>
       this.hop(
         () =>
-          this.hop(
-            () =>
-              this.hop(() => {
-                this.hearts(PET_X, PET_Y - 120, 4, '😋');
-                this.tweens.add({
-                  targets: bowl,
-                  alpha: 0,
-                  duration: 400,
-                  delay: 400,
-                  onComplete: () => bowl.destroy(),
-                });
-                this.busy = false;
-                this.save(() => care(pet, 'food', 35));
-              }, 30),
-            30,
-          ),
+          this.hop(() => {
+            this.say(FOOD_TEXT[liking]);
+            this.sparkle(PET_X, PET_Y - 120, liking === 1 ? '😋' : r.symbol, liking === 1 ? 6 : 3);
+            this.tweens.add({
+              targets: bowl,
+              alpha: 0,
+              duration: 400,
+              delay: 500,
+              onComplete: () => bowl.destroy(),
+            });
+            this.busy = false;
+            this.save(() => care(pet, 'food', r.food));
+          }, 30),
         30,
       ),
     );
   }
 
-  private toggleBrush(): void {
+  private startBrush(): void {
     const pet = this.current();
     if (!pet) return;
-    this.mode = this.mode === 'brush' ? 'idle' : 'brush';
+    this.mode = 'brush';
     this.build();
-    if (this.mode !== 'brush') return;
     this.layer!.add(this.text(GAME_WIDTH / 2, 230, 'Dra fingret över djuret', 34, '#6b4a55'));
+    this.layer!.add(
+      createButton(this, GAME_WIDTH / 2, 1070, 'Klar', () => this.backToIdle(), { width: 240 }),
+    );
     let last: Phaser.Math.Vector2 | null = null;
     let dist = 0;
     const move = (p: Phaser.Input.Pointer) => {
-      if (!p.isDown || this.mode !== 'brush') return;
-      const onPet = Phaser.Math.Distance.Between(p.x, p.y, PET_X, PET_Y) < PET_SIZE * 0.42;
-      if (!onPet) return;
+      if (!p.isDown) return (last = null);
+      if (Phaser.Math.Distance.Between(p.x, p.y, PET_X, PET_Y) > PET_SIZE * 0.42) return;
       if (last) dist += Phaser.Math.Distance.Between(p.x, p.y, last.x, last.y);
       last = new Phaser.Math.Vector2(p.x, p.y);
       if (dist > 60) {
         dist = 0;
-        this.hearts(p.x, p.y, 1, '✨');
-        this.save(() => care(pet, 'clean', 4));
+        this.sparkle(p.x, p.y, '✨', 1);
+        SaveService.update(() => care(pet, 'clean', 4));
         if (pet.needs.clean >= 100) {
-          this.hearts(PET_X, PET_Y - 120, 5);
-          this.mode = 'idle';
-          this.input.off('pointermove', move);
-          this.time.delayedCall(600, () => this.build());
+          this.sparkle(PET_X, PET_Y - 120, '❤', 5);
+          this.say('Så fin!');
+          this.time.delayedCall(700, () => this.backToIdle());
         }
       }
     };
     this.input.on('pointermove', move);
-    this.input.once('pointerup', () => (last = null));
-    this.events.once('shutdown', () => this.input.off('pointermove', move));
+    this.cleanup = () => this.input.off('pointermove', move);
   }
 
-  private startPlay(): void {
+  private startGame(game: PetGame): void {
     const pet = this.current();
-    if (!pet || this.mode !== 'idle') return;
-    this.mode = 'play';
-    this.bubble?.destroy();
-    const hint = this.text(GAME_WIDTH / 2, 230, 'Dra bollen och släpp', 34, '#6b4a55');
+    if (!pet) return;
+    this.mode = 'game';
+    this.build();
+    const hint = this.text(GAME_WIDTH / 2, 215, '', 34, '#6b4a55');
     this.layer!.add(hint);
-    const ball = this.add
-      .circle(150, FLOOR_Y - 20, 36, 0xff4f7b)
-      .setStrokeStyle(6, 0xffffff)
-      .setDepth(35);
-    this.layer!.add(ball);
-    ball.setInteractive({ draggable: true, useHandCursor: true });
-    let throws = 0;
-    ball.on('drag', (_p: Phaser.Input.Pointer, x: number, y: number) => ball.setPosition(x, y));
-    ball.on('dragend', () => {
-      const tx = Phaser.Math.Clamp(ball.x, 120, GAME_WIDTH - 120);
-      this.tweens.add({ targets: ball, x: tx, y: FLOOR_Y - 20, duration: 350, ease: 'Bounce.out' });
-      this.tweens.add({
-        targets: this.pet,
-        x: tx,
-        duration: 450,
-        ease: 'Sine.inOut',
-        onComplete: () =>
-          this.hop(() => {
-            this.hearts(this.pet!.x, PET_Y - 120, 3, '⭐');
-            this.save(() => care(pet, 'fun', 15));
-            throws++;
-            this.tweens.add({ targets: this.pet, x: PET_X, duration: 450, delay: 200 });
-            if (throws >= 3 || pet.needs.fun >= 100) {
-              this.time.delayedCall(900, () => {
-                this.mode = 'idle';
-                this.build();
-              });
-            }
-          }, 90),
-      });
+    this.layer!.add(this.text(GAME_WIDTH / 2, 900, `${game.icon} ${game.name}`, 48, COLORS.text));
+    this.layer!.add(
+      createButton(this, GAME_WIDTH / 2, 1200, 'Sluta', () => this.backToIdle(), {
+        width: 240,
+        color: 0x6b5a85,
+      }),
+    );
+    let ended = false;
+    const finish = () => {
+      if (ended) return;
+      ended = true;
+      const liking = react(pet, game.id);
+      const r = REACTIONS[liking];
+      this.say(r.text);
+      this.sparkle(PET_X, PET_Y - 120, r.symbol, liking === 1 ? 6 : 3);
+      SaveService.update(() => care(pet, 'fun', r.game));
+      this.time.delayedCall(1400, () => this.backToIdle());
+    };
+    this.cleanup = PET_GAME_RUNNERS[game.kind]({
+      scene: this,
+      pet: this.pet!,
+      home: { x: PET_X, y: PET_Y },
+      floorY: FLOOR_Y,
+      width: GAME_WIDTH,
+      add: (obj) => this.layer?.add(obj),
+      hint: (t) => hint.setText(t),
+      sparkle: (x, y, symbol, count) => this.sparkle(x, y, symbol, count),
+      finish,
     });
+  }
+
+  private backToIdle(): void {
+    this.mode = 'idle';
+    this.build();
+  }
+
+  // --- pickers -----------------------------------------------------------
+
+  private modal(title: string): Phaser.GameObjects.Container {
+    const modal = this.add.container(0, 0).setDepth(1500);
+    const dim = this.add
+      .rectangle(0, 0, GAME_WIDTH, GAME_HEIGHT, 0x000000, 0.65)
+      .setOrigin(0)
+      .setInteractive();
+    const panel = this.add.graphics();
+    panel.fillStyle(COLORS.background, 1).fillRoundedRect(30, 150, GAME_WIDTH - 60, 1000, 36);
+    modal.add([dim, panel, this.text(GAME_WIDTH / 2, 220, title, 50, COLORS.text)]);
+    modal.add(
+      createButton(this, GAME_WIDTH / 2, 1060, 'Stäng', () => modal.destroy(), {
+        width: 280,
+        color: 0x6b5a85,
+      }),
+    );
+    return modal;
+  }
+
+  // Grid of icon tiles; known likes are marked so the player learns the personality.
+  private tiles(
+    modal: Phaser.GameObjects.Container,
+    rows: { id: string; icon: string; name: string }[],
+    perRow: number,
+    onPick: (id: string) => void,
+  ): void {
+    const pet = this.current()!;
+    const w = perRow === 2 ? 280 : 150;
+    const h = perRow === 2 ? 220 : 180;
+    rows.forEach((row, i) => {
+      const x = GAME_WIDTH / 2 + ((i % perRow) - (perRow - 1) / 2) * (w + 20);
+      const y = 390 + Math.floor(i / perRow) * (h + 20);
+      const g = this.add.graphics();
+      g.fillStyle(0xf6e7d2, 1).fillRoundedRect(x - w / 2, y - h / 2, w, h, 26);
+      const icon = this.add.text(x, y - 25, row.icon, { fontSize: '72px' }).setOrigin(0.5);
+      const label = this.text(x, y + h / 2 - 32, row.name, 28, '#6b4a55');
+      modal.add([g, icon, label]);
+      if (pet.known.includes(row.id)) {
+        modal.add(
+          this.text(x + w / 2 - 28, y - h / 2 + 28, MARK[pet.traits[row.id] ?? 0], 32, '#ff4f7b'),
+        );
+      }
+      const hit = this.add.zone(x, y, w, h).setInteractive({ useHandCursor: true });
+      hit.on('pointerup', () => {
+        modal.destroy();
+        onPick(row.id);
+      });
+      modal.add(hit);
+    });
+  }
+
+  private openFoods(): void {
+    const modal = this.modal('Vad vill du ge?');
+    this.tiles(modal, PET_FOODS, 4, (id) => this.feed(PET_FOODS.find((f) => f.id === id)!));
+  }
+
+  private openGames(): void {
+    const modal = this.modal('Vilken lek?');
+    this.tiles(modal, PET_GAMES, 2, (id) => this.startGame(PET_GAMES.find((g) => g.id === id)!));
+  }
+
+  private openAbout(): void {
+    const pet = this.current();
+    if (!pet) return;
+    const modal = this.modal(`Om ${pet.name}`);
+    const all = [...PET_GAMES, ...PET_FOODS];
+    const known = all.filter((a) => pet.known.includes(a.id));
+    const groups: { label: string; value: number }[] = [
+      { label: 'Älskar', value: 1 },
+      { label: 'Gillar', value: 0 },
+      { label: 'Gillar inte', value: -1 },
+    ];
+    let y = 320;
+    for (const grp of groups) {
+      const items = known.filter((a) => (pet.traits[a.id] ?? 0) === grp.value);
+      modal.add(
+        this.text(80, y, `${MARK[grp.value]} ${grp.label}`, 36, COLORS.text).setOrigin(0, 0.5),
+      );
+      y += 40;
+      const line = items.length ? items.map((a) => `${a.icon} ${a.name}`).join('   ') : '...';
+      const t = this.add
+        .text(80, y, line, {
+          fontFamily: FONT,
+          fontSize: '32px',
+          color: COLORS.textMuted,
+          wordWrap: { width: GAME_WIDTH - 160 },
+        })
+        .setOrigin(0, 0);
+      modal.add(t);
+      y += Math.max(90, t.height + 60);
+    }
+    const secrets = all.length - known.length;
+    modal.add(
+      this.text(
+        GAME_WIDTH / 2,
+        960,
+        secrets ? `🤫 ${secrets} hemligheter kvar att upptäcka` : '🎉 Du känner djuret helt!',
+        32,
+        COLORS.text,
+      ),
+    );
   }
 
   // --- adoption ----------------------------------------------------------
@@ -417,10 +557,12 @@ export class PetsScene extends BaseScene {
               color,
               needs: { food: 70, clean: 70, fun: 70 },
               updatedAt: now,
+              traits: rollTraits(species),
+              known: [],
             });
             this.index = pets.length - 1;
           }, true);
-          this.hearts(PET_X, PET_Y - 120, 6);
+          this.sparkle(PET_X, PET_Y - 120, '❤', 6);
         };
         openNameInput(this, sp.defaultName, adopt, {
           title: 'Vad heter djuret?',

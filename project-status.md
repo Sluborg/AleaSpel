@@ -24,6 +24,10 @@ Updated 2026-09-30. Read this first when resuming ("continue from project-status
 - Mitt lag + Garderob: Gymnast 1, rename, wear/remove clothes per category, 12 colours.
   Save schema v2 (gymnasts + outfits), v1 saves migrate.
 - Verified on Alea's phone 2026-09-30: gymnast shows, rename works, clothes and colours work.
+- Lagets djur (pets belong to the team): adopt, name, feed 8 foods, brush, cuddle, 6 games with
+  interactions, secret personality discovered by playing. Save schema v4.
+- Face pipeline started: `face_blank` template in `assets/source/face/` (eyes etc. queued in
+  `docs/image-prompts.md`).
 
 ## Next actions (pick one)
 
