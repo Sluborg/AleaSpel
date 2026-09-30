@@ -57,7 +57,8 @@ export class WardrobeScene extends BaseScene {
     this.gymnast = gymnasts.find((g) => g.id === data.gymnastId) ?? gymnasts[0];
     this.addTitle(this.gymnast.name);
     this.addBackButton('AvatarEditor');
-    this.view = new GymnastView(this, GAME_WIDTH / 2, 480, 580, this.gymnast, this.occasion);
+    this.view = new GymnastView(this, GAME_WIDTH / 2, 520, 500, this.gymnast, this.occasion);
+    void this.view.play('idle');
     this.buildOccasions();
 
     const tabs = this.tabs();
@@ -109,7 +110,7 @@ export class WardrobeScene extends BaseScene {
         createButton(
           this,
           GAME_WIDTH / 2 + (i - (OCCASIONS.length - 1) / 2) * step,
-          165,
+          215,
           `${o.icon} ${o.name}`,
           () => {
             this.occasion = o.id;
@@ -339,6 +340,8 @@ export class WardrobeScene extends BaseScene {
   private save(change: (g: Gymnast) => void): void {
     SaveService.update(() => change(this.gymnast));
     this.view.refresh(this.gymnast, this.occasion);
+    // A little hop for every change, then back to breathing.
+    void this.view.play('happy').then(() => this.view.play('idle'));
     this.buildPanel();
   }
 }

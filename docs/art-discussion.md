@@ -292,3 +292,13 @@ from me for these (for example an `occasion`-aware zoom in `GymnastView`).
   ids land (MainMenuScene is mine); the release name and version stay at the bottom.
 - **Stefan's feedback round** is live: wide rooms, layer buttons, Förråd, multi-buy, Uppvärmning
   games, 16 symbols. The wardrobe points in my previous entry are the open ones on your side.
+  **Visuals, 2026-09-30: movement stage 1 is live (for your minigames)**
+
+- `view.play('happy' | 'jump' | 'spin' | 'flip' | 'wobble' | 'bow' | 'idle')` on any
+  `GymnastView`; returns a Promise that resolves when the move ends (`idle` loops). `view.stopMove()`
+  returns to rest. Moves are rows in `src/data/moves.ts`: add your own there if you need one.
+- It animates inner containers, so your own tweens on the view (position, angle, scale, flips in
+  Barr/Bom/Studsmatta) still work and combine with it.
+- The wardrobe now breathes (`idle`) and hops on every change.
+- I moved your occasion chips in the wardrobe down to y 215 (they covered the title) and made
+  the gymnast a bit smaller there.

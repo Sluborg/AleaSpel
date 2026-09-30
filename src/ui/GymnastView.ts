@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { ASSET_MANIFEST_KEY, type AssetManifest } from '../data/assets';
 import { DEFAULT_OCCASION, outfitFor } from '../data/occasions';
+import { moveById } from '../data/moves';
 import { BASE_BODY_ID, layerOrder } from '../data/wardrobe';
 import type { Gymnast } from '../services/SaveService';
 
@@ -8,9 +9,21 @@ import type { Gymnast } from '../services/SaveService';
 export const MASTER_W = 1024;
 export const MASTER_H = 1536;
 
+// Feet of the master (image pixels, measured bbox bottom) and the canvas centre.
+const FEET_Y = 1436;
+const CENTRE_Y = MASTER_H / 2;
+const BODY_MID_Y = (124 + 1436) / 2;
+
 // Draws a gymnast (master + worn items in layer order) centred at (x, y), in the look of an
-// occasion (see data/occasions.ts).
+// occasion (see data/occasions.ts). play(move) animates the whole gymnast (data/moves.ts):
+//   feet    squash, stretch and lift, pivoting at the feet
+//   spinner rotation around the middle of the body
 export class GymnastView extends Phaser.GameObjects.Container {
+  private readonly feet: Phaser.GameObjects.Container;
+  private readonly spinner: Phaser.GameObjects.Container;
+  private tweenChain?: Phaser.Tweens.TweenChain;
+  private readonly scale0: number;
+
   constructor(
     scene: Phaser.Scene,
     x: number,
@@ -21,24 +34,80 @@ export class GymnastView extends Phaser.GameObjects.Container {
   ) {
     super(scene, x, y);
     scene.add.existing(this);
+    this.scale0 = viewHeight / MASTER_H;
+    const feetY = (FEET_Y - CENTRE_Y) * this.scale0;
+    const midY = (BODY_MID_Y - CENTRE_Y) * this.scale0;
+    this.feet = scene.add.container(0, feetY);
+    this.spinner = scene.add.container(0, midY - feetY);
+    this.feet.add(this.spinner);
+    this.add(this.feet);
     this.refresh(gymnast, occasion);
   }
 
+  // Plays a move from data/moves.ts. Resolves when it ends (never for looping moves).
+  play(moveId: string): Promise<void> {
+    const move = moveById(moveId);
+    this.stopMove();
+    if (!move) return Promise.resolve();
+    const h = this.viewHeight;
+    const feetY = this.feet.y;
+    const midY = this.spinner.y;
+    return new Promise((resolve) => {
+      const tweens = move.steps.map((s) => ({
+        targets: [this.feet, this.spinner],
+        duration: s.duration,
+        ease: s.ease ?? 'Sine.easeInOut',
+        props: {
+          ...(s.y !== undefined && {
+            y: {
+              getEnd: (t: unknown) => (t === this.feet ? feetY - s.y! * h : midY),
+            },
+          }),
+          ...(s.scaleX !== undefined && {
+            scaleX: { getEnd: (t: unknown) => (t === this.feet ? s.scaleX! : 1) },
+          }),
+          ...(s.scaleY !== undefined && {
+            scaleY: { getEnd: (t: unknown) => (t === this.feet ? s.scaleY! : 1) },
+          }),
+          ...(s.angle !== undefined && {
+            angle: { getEnd: (t: unknown) => (t === this.spinner ? s.angle! : 0) },
+          }),
+        },
+      }));
+      this.tweenChain = this.scene.tweens.chain({
+        tweens,
+        loop: move.loop ? -1 : 0,
+        onComplete: () => resolve(),
+      });
+    });
+  }
+
+  // Stops the current move and returns to the rest pose.
+  stopMove(): void {
+    this.tweenChain?.stop();
+    this.tweenChain = undefined;
+    const feetY = (FEET_Y - CENTRE_Y) * this.scale0;
+    this.feet.setPosition(0, feetY).setScale(1);
+    this.spinner.setAngle(0);
+  }
+
   refresh(gymnast: Gymnast, occasion = DEFAULT_OCCASION): void {
-    this.removeAll(true);
+    this.spinner.removeAll(true);
     const scale = this.viewHeight / MASTER_H;
+    // Layers sit at the canvas centre; the spinner is at the body middle, so offset them.
+    const offY = (CENTRE_Y - BODY_MID_Y) * scale;
     const manifest = this.scene.cache.json.get(ASSET_MANIFEST_KEY) as AssetManifest | undefined;
     const known = new Set((manifest?.assets ?? []).map((a) => a.id));
     const worn = Object.entries(outfitFor(gymnast, occasion))
       .filter(([, w]) => known.has(w.item) && this.scene.textures.exists(w.item))
       .sort(([a], [b]) => layerOrder(a) - layerOrder(b));
     if (this.scene.textures.exists(BASE_BODY_ID)) {
-      this.add(this.scene.add.image(0, 0, BASE_BODY_ID).setScale(scale));
+      this.spinner.add(this.scene.add.image(0, offY, BASE_BODY_ID).setScale(scale));
     }
     for (const [, w] of worn) {
-      const img = this.scene.add.image(0, 0, w.item).setScale(scale);
+      const img = this.scene.add.image(0, offY, w.item).setScale(scale);
       if (w.tint !== undefined) img.setTint(w.tint);
-      this.add(img);
+      this.spinner.add(img);
     }
   }
 }
