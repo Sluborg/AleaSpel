@@ -49,7 +49,23 @@ export class ClubhouseScene extends RoomScene {
     door.fillStyle(0x4a7a2a, 1).fillCircle(ROOM.right - 60, FLOOR_Y - 120, 8);
   }
 
+  private gymnastView?: GymnastView;
+  private party?: Phaser.GameObjects.Container;
+
   protected afterBuild(): void {
+    this.party = undefined;
+    // Lagfest: unlocked by the team's first cup from Tävlingsdag.
+    const unlocked = SaveService.get().team.trophies.length > 0;
+    const fest = createButton(
+      this,
+      GAME_WIDTH - 115,
+      GAME_HEIGHT - 80,
+      unlocked ? '🎉 Fest' : '🔒 Fest',
+      () => (unlocked ? this.toggleParty() : this.partyLocked()),
+      { width: 200, height: 110, fontSize: 34, color: unlocked ? 0xb06bff : 0x6b5a85 },
+    );
+    pin(fest).setDepth(40000);
+
     this.add
       .text(ROOM.right - 90, FLOOR_Y - 270, 'Gymmet', {
         fontFamily: FONT,
@@ -74,6 +90,125 @@ export class ClubhouseScene extends RoomScene {
         width: 320,
         fontSize: 34,
       });
+    }
+  }
+
+  private partyLocked(): void {
+    const t = this.add
+      .text(
+        GAME_WIDTH / 2,
+        GAME_HEIGHT - 190,
+        'Vinn en pokal i Tävlingsdag\nså får laget ha fest! 🏆',
+        {
+          fontFamily: FONT,
+          fontSize: '30px',
+          color: COLORS.text,
+          align: 'center',
+          stroke: '#3a2a4a',
+          strokeThickness: 6,
+        },
+      )
+      .setOrigin(0.5)
+      .setScrollFactor(0)
+      .setDepth(40001);
+    this.tweens.add({
+      targets: t,
+      alpha: 0,
+      delay: 1800,
+      duration: 400,
+      onComplete: () => t.destroy(),
+    });
+  }
+
+  // Lagfest: lights down, disco spots, confetti, the gymnast in her Fest look dances and the pets
+  // hop. Tap Fest again to stop.
+  private toggleParty(): void {
+    if (this.party) return this.endParty();
+    const gymnast = SaveService.activeGymnast();
+    this.gymnastView?.refresh(gymnast, 'fest');
+    const party = this.add.container(0, 0).setDepth(30000);
+    this.party = party;
+    const dark = this.add.rectangle(0, 0, GAME_WIDTH, GAME_HEIGHT, 0x1a0f2e, 0.45).setOrigin(0);
+    party.add(dark);
+    const colours = [0xff6fae, 0xffd84d, 0x7ec8ff, 0x9ad97a, 0xc9a2ff];
+    colours.forEach((c, i) => {
+      const spot = this.add.ellipse(120 + i * 120, 500, 220, 140, c, 0.28).setBlendMode('ADD');
+      party.add(spot);
+      this.tweens.add({
+        targets: spot,
+        x: { from: 80 + i * 60, to: GAME_WIDTH - 80 - i * 40 },
+        y: { from: 420 + (i % 2) * 300, to: 1100 - (i % 3) * 200 },
+        duration: 1200 + i * 250,
+        yoyo: true,
+        repeat: -1,
+        ease: 'Sine.inOut',
+      });
+    });
+    const confetti = this.time.addEvent({
+      delay: 120,
+      loop: true,
+      callback: () => {
+        const bit = this.add
+          .rectangle(
+            Phaser.Math.Between(20, GAME_WIDTH - 20),
+            150,
+            14,
+            22,
+            Phaser.Utils.Array.GetRandom(colours),
+          )
+          .setAngle(Phaser.Math.Between(0, 180));
+        party.add(bit);
+        this.tweens.add({
+          targets: bit,
+          y: GAME_HEIGHT + 30,
+          angle: '+=540',
+          duration: Phaser.Math.Between(1800, 2800),
+          onComplete: () => bit.destroy(),
+        });
+      },
+    });
+    party.setData('confetti', confetti);
+    pin(party);
+    // Dance: the gymnast cycles happy moves, pets hop to the beat.
+    const dance = ['happy', 'spin', 'jump', 'happy'];
+    let step = 0;
+    const next = (): void => {
+      if (!this.party || !this.gymnastView) return;
+      void this.gymnastView.play(dance[step++ % dance.length]).then(next);
+    };
+    next();
+    for (const obj of this.children.list) {
+      if (!(obj instanceof Phaser.GameObjects.Container)) continue;
+      const id = obj.getData('id') as string | undefined;
+      if (!id?.startsWith('pet:') || id === `pet:${GYMNAST_KEY}`) continue;
+      this.tweens.add({
+        targets: obj,
+        y: obj.y - 40,
+        duration: 260,
+        yoyo: true,
+        repeat: -1,
+        delay: Phaser.Math.Between(0, 250),
+        ease: 'Sine.out',
+      });
+      obj.setData('partyY', obj.y);
+    }
+  }
+
+  private endParty(): void {
+    const party = this.party;
+    this.party = undefined;
+    (party?.getData('confetti') as Phaser.Time.TimerEvent | undefined)?.remove();
+    // Looping disco and confetti tweens outlive their targets unless killed first.
+    if (party) this.tweens.killTweensOf(party.list);
+    party?.destroy();
+    this.gymnastView?.stopMove();
+    this.gymnastView?.refresh(SaveService.activeGymnast(), 'chill');
+    for (const obj of this.children.list) {
+      if (!(obj instanceof Phaser.GameObjects.Container)) continue;
+      const y = obj.getData('partyY') as number | undefined;
+      if (y === undefined) continue;
+      this.tweens.killTweensOf(obj);
+      obj.setY(y).setData('partyY', undefined);
     }
   }
 
@@ -182,6 +317,7 @@ export class ClubhouseScene extends RoomScene {
       foot: GYMNAST_H * 0.47,
       build: () => {
         const view = new GymnastView(this, 0, 0, GYMNAST_H, gymnast, 'chill');
+        this.gymnastView = view;
         this.children.remove(view); // the room container owns it
         return [view];
       },
