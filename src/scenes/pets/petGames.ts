@@ -2,6 +2,20 @@ import Phaser from 'phaser';
 import { COLORS, FONT } from '../../config';
 import type { GameKind } from '../../data/petActivities';
 import type { PetView } from '../../ui/PetView';
+import { artImage, hasArt } from '../../ui/art';
+
+// Toy art from the manifest (Visuals), or the placeholder shape when the id is missing.
+function toy(
+  scene: Phaser.Scene,
+  key: string,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  fallback: () => Phaser.GameObjects.Shape,
+): Phaser.GameObjects.Image | Phaser.GameObjects.Shape {
+  return hasArt(scene, key) ? artImage(scene, x, y, key, w, h) : fallback();
+}
 
 // Each pet game is a small interaction. It calls finish() once when done and returns a cleanup.
 export interface GameContext {
@@ -62,10 +76,9 @@ const spin = (ctx: GameContext, onDone?: () => void) =>
 // Boll: drag the ball and let go, the pet runs and jumps for it. Three throws.
 const ball: Runner = (ctx) => {
   ctx.hint('Dra bollen och släpp');
-  const b = ctx.scene.add
-    .circle(150, ctx.floorY - 20, 36, 0xff4f7b)
-    .setStrokeStyle(6, 0xffffff)
-    .setDepth(35);
+  const b = toy(ctx.scene, 'toy_ball', 150, ctx.floorY - 20, 90, 90, () =>
+    ctx.scene.add.circle(150, ctx.floorY - 20, 36, 0xff4f7b).setStrokeStyle(6, 0xffffff),
+  ).setDepth(35);
   ctx.add(b);
   b.setInteractive({ draggable: true, useHandCursor: true });
   let throws = 0;
@@ -178,7 +191,9 @@ const pattern: Runner = (ctx) => {
 // Balans: hold the finger on the pet for 2.5 seconds while it balances on a plank.
 const hold: Runner = (ctx) => {
   ctx.hint('Håll fingret på djuret');
-  const plank = ctx.scene.add.rectangle(ctx.home.x, ctx.floorY - 10, 380, 26, 0xb07a4a).setDepth(5);
+  const plank = toy(ctx.scene, 'toy_plank', ctx.home.x, ctx.floorY - 24, 420, 105, () =>
+    ctx.scene.add.rectangle(ctx.home.x, ctx.floorY - 10, 380, 26, 0xb07a4a),
+  ).setDepth(5);
   const ring = ctx.scene.add.graphics().setDepth(45);
   ctx.add(plank);
   ctx.add(ring);
@@ -270,10 +285,9 @@ const hide: Runner = (ctx) => {
   let found = false;
   const boxes = [0, 1, 2].map((i) => {
     const x = ctx.width / 2 + (i - 1) * 200;
-    const box = ctx.scene.add
-      .rectangle(x, ctx.floorY - 80, 160, 150, 0xc9955e)
-      .setStrokeStyle(6, 0x8a5a36)
-      .setDepth(20);
+    const box = toy(ctx.scene, 'toy_box', x, ctx.floorY - 90, 190, 190, () =>
+      ctx.scene.add.rectangle(x, ctx.floorY - 80, 160, 150, 0xc9955e).setStrokeStyle(6, 0x8a5a36),
+    ).setDepth(20);
     box.setInteractive({ useHandCursor: true });
     box.on('pointerup', () => {
       if (found) return;
