@@ -135,14 +135,37 @@ Errors fail CI (no deploy); warnings are printed.
    Tick items, pick tint colours, switch backgrounds (Rutor/Mörk/Ljus/Grön) to spot halos, and
    toggle anchor points. The URL keeps the selection, so it can be shared.
 
-## 9. Making items with an image generator (open)
+## 9. Making items with an image generator (proven 2026-09-30)
 
-Registration is the hard part: generators rarely keep the body pixel-identical. Options to test:
+Tested with ChatGPT image generation: given the green master as a template, it kept the character
+pixel-registered (same bbox, 0 px shift, 99.5% silhouette overlap). So each item is one prompt.
 
-- Generate the item alone on flat green, using the master as a size and position template, then
-  key the green in code (same method as `key-master.mjs`). Needs a manual alignment check in the
-  preview.
-- Generate the dressed character on green and subtract the master in code. Only works if the
-  body pixels stay identical, which is not guaranteed.
+1. In ChatGPT, attach `assets/source/base/master-raw.png` (the green master) and use the prompt
+   template below. The item is always drawn in the **key colour bright pink #FF4FA3**, solid, so code
+   can separate it from the grey unitard, skin and green.
+2. Save the result to `assets/source/wardrobe/<category>/<id>-raw.png`.
+3. Run `node scripts/art/extract-item.mjs --src <raw> --category <category> --id <id> --tint`.
+   It refuses the image if the character moved (overlap under 97% or bbox shift over 3 px), keeps
+   only key-coloured pixels inside the layer region, removes islands, extends edge colours (no
+   halo), and with `--tint` converts to light grayscale for tinting.
+4. Add the manifest entry, run `npm run validate:art`, push, check `/preview/` on the phone.
 
-A per-item extraction script is the next tooling step once the first real item is tried.
+Prompt template (replace the item line):
+
+```
+Use the attached image as an exact template. Keep EVERYTHING identical: the same girl, face,
+hair, skin, grey unitard, pose, size, position on the canvas, framing, lighting and the flat green
+background. Do not move, resize, redraw or restyle the character.
+
+Only change: add <ITEM DESCRIPTION>. The item is solid bright pink (#FF4FA3) with no pattern.
+It fits the body like real clothing. The grey unitard stays visible where the item does not cover it.
+
+Canvas exactly 1024x1536 pixels. Flat green background #00FF00, no shadow, no glow, no text.
+```
+
+Limits of the key-colour method:
+
+- One colour per file. Patterns and multi-colour items need a second pass (for example the
+  pattern in a second key colour as a `_detail` file).
+- Items that hide skin or hair edges (hats, hair) need a check in the preview; the extractor only
+  takes pink pixels, so anything the generator changed underneath is not carried over.

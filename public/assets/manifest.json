@@ -9,6 +9,15 @@
       "tintable": false,
       "license": "Project-owned, AI-generated for AleaSpel",
       "source": "ChatGPT image generation 2026-09-30, green removed by scripts/art/key-master.mjs (raw: assets/source/base/master-raw.png)"
+    },
+    {
+      "id": "leotard_basic",
+      "category": "onepiece",
+      "layer": "onepiece",
+      "file": "wardrobe/onepiece/leotard_basic_tint.png",
+      "tintable": true,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30 (assets/source/wardrobe/onepiece/leotard_basic-raw.png), extracted by scripts/art/extract-item.mjs"
     }
   ]
 }
