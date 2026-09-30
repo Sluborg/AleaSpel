@@ -47,6 +47,8 @@ Updated 2026-09-30. Read this first when resuming ("continue from project-status
 - Rooms two screens wide (drag the floor), floor-aware layering, layer buttons, Förråd
   (inventory), furniture bought several times; pets to scale in Klubbstugan. Save schema v12.
 - Release names: each deploy is named A-Z (Astrid, Bella, ...), shown on the main menu.
+- Uppvärmning in Tävlingar: Sifferhopp, Bokstavsjakt, Pricka rätt, Färgminne; 16 symbols to draw
+  with new moves on every apparatus.
 - Butiken: buy furniture (7 priced rows) with medals, scrollable list (`ui/ScrollList.ts`),
   bought furniture appears in Mina hus. Save schema v6 (owned). Menu entry Butiken.
 - Face pipeline: `face_blank` template, `scripts/art/extract-face.mjs`, 7 eye styles in the
@@ -55,13 +57,15 @@ eyes_wink`).
 
 ## Lead
 
-- In progress: new minigames (numbers, letters, timing bar, colour memory) and more symbols.
-  SaveData is at v12 (furniture pieces).
+- In progress: nothing. SaveData is at v12 (furniture pieces).
 - Done on my branch: delivered art in use (pets fur+face tinted, food icons, furniture in Mina
   hus/Klubbstugan/Butiken, equipment in Mitt gym) via `src/ui/art.ts` helpers with placeholder
   fallback.
-- Next: trophy in Klubbstugan per Tävlingsdag win, gym equipment upgrades in Butiken, house
-  exterior editor (art for row 80 is in), remaining icons (back, pencil, plus, lock) in the UI.
+- Next: trophy in Klubbstugan per Tävlingsdag win, more warm-up games (same base), gym
+  equipment upgrades in Butiken, house exterior editor (art for row 80 is in), club furniture
+  art (Anslagstavla, Prisskåp, Lagsoffa, Fikabord are still placeholders).
+- Waiting on Visuals: wardrobe fixes from Stefan (clipping, face tiles, face zoom, make-up
+  grouping), posted in `docs/art-discussion.md`.
 - Ask to Visuals: when a priced garment exists, list it in `src/data/shop.ts` `CLOTHES_PRICES`
   and hide unowned priced items in the wardrobe (`SaveService.get().owned`).
 

@@ -121,7 +121,15 @@ they were drawn (percent shown, stars by accuracy bands per difficulty).
     swing, a release move or a giant; the last round is a dismount onto the mat.
   - **Hopp**: run-up, springboard, flight over the table; draw during the run and flight; stuck
     landing on 2+ stars, a stumble otherwise.
-  - Tävlingar hub lists all four games with the active gymnast's records.
+  - Tävlingar hub lists all four games with the active gymnast's records, then the
+    **Uppvärmning** quick games (built after Stefan's feedback 2026-09-30) on
+    `scenes/minigames/QuickGameScene.ts` (intro, 5 rounds of 0-3 stars, medals, record):
+    Sifferhopp and Bokstavsjakt (`OrderGameScene`, tap 1, 2, 3 … or A, B, C … in order, Å Ä Ö
+    included), Pricka rätt (`TimingGameScene`, stop the sliding marker on the line), Färgminne
+    (`ColorMemoryScene`, repeat the blinking colours, one more each round). They are rows in
+    `data/minigames.ts` with `kind: 'warmup'`; Tävlingsdag uses the apparatus games only.
+  - 16 symbols to draw (added Topp, U, L, M, Våg, Diamant, Hus, Åtta) and new moves using them
+    (Ryggfall, Barani, Språng, Bukrullning, Flyaway, Rondat, Jurtjenko).
 - Scoring: 1 to 3 stars per move plus a total. Personal bests saved per gymnast per minigame.
 - Unlocks: practising a move unlocks the next one in that apparatus track.
 - **Tävlingsdag** (built): every gymnast in the team performs one routine (apparatus rotate

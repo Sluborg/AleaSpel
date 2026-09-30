@@ -71,6 +71,42 @@ export const SHAPES: ShapeDef[] = [
       return [0.5 + x / 34, 0.5 - y / 34];
     }),
   },
+  { id: 'peak', name: 'Topp', closed: false, points: poly([0, 1], [0.5, 0], [1, 1]) },
+  {
+    id: 'u',
+    name: 'U',
+    closed: false,
+    points: param(30, (t) => [0.5 - 0.5 * Math.cos(Math.PI * t), Math.sin(Math.PI * t)]),
+  },
+  { id: 'l', name: 'L', closed: false, points: poly([0, 0], [0, 1], [0.75, 1]) },
+  { id: 'm', name: 'M', closed: false, points: poly([0, 1], [0, 0], [0.5, 0.65], [1, 0], [1, 1]) },
+  {
+    id: 'wave',
+    name: 'Våg',
+    closed: false,
+    points: param(40, (t) => [t, 0.5 - 0.45 * Math.sin(t * Math.PI * 3)]),
+  },
+  {
+    id: 'diamond',
+    name: 'Diamant',
+    closed: true,
+    points: poly([0.5, 0], [1, 0.5], [0.5, 1], [0, 0.5], [0.5, 0]),
+  },
+  {
+    id: 'house',
+    name: 'Hus',
+    closed: false,
+    points: poly([0, 1], [0, 0.4], [0.5, 0], [1, 0.4], [1, 1]),
+  },
+  {
+    id: 'infinity',
+    name: 'Åtta',
+    closed: true,
+    points: param(48, (t) => {
+      const a = t * Math.PI * 2;
+      return [0.5 + 0.5 * Math.sin(a), 0.5 + 0.3 * Math.sin(2 * a)];
+    }),
+  },
 ];
 
 export const shapeById = (id: string) => SHAPES.find((s) => s.id === id) ?? SHAPES[0];

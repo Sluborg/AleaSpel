@@ -7,7 +7,7 @@ import {
   TEAM_NAME,
   type RivalTeam,
 } from '../data/competition';
-import { MINIGAMES } from '../data/minigames';
+import { APPARATUS_GAMES } from '../data/minigames';
 import { SaveService } from '../services/SaveService';
 import { createButton } from '../ui/Button';
 import { BaseScene } from './BaseScene';
@@ -51,7 +51,10 @@ export class TeamCompetitionScene extends BaseScene {
     this.registry.set(REGISTRY_KEY, day);
 
     const gymnasts = SaveService.get().gymnasts;
-    const lineup = gymnasts.map((g, i) => ({ gymnast: g, game: MINIGAMES[i % MINIGAMES.length] }));
+    const lineup = gymnasts.map((g, i) => ({
+      gymnast: g,
+      game: APPARATUS_GAMES[i % APPARATUS_GAMES.length],
+    }));
     const next = lineup.find((l) => !day.results.some((r) => r.gymnastId === l.gymnast.id));
 
     if (!next && !day.finished) {

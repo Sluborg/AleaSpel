@@ -37,8 +37,8 @@ src/
                      Pets (Lagets djur, games in scenes/pets/), RoomScene base for Home,
                      Clubhouse (Klubbstugan) and Gym (Mitt gym, practice),
                      MinigameHub (Tävlingar), TeamCompetition (Tävlingsdag),
-                     minigames/ (PatternGameScene base,
-                     Trampoline, Beam, Bars, Vault), Shop (Butiken)
+                     minigames/ (PatternGameScene base: Trampoline, Beam, Bars, Vault;
+                     QuickGameScene base: OrderGame, TimingGame, ColorMemory), Shop (Butiken)
                      BaseScene (title, back button), PlaceholderScene (empty scenes)
   data/              game content as data (menu, furniture, wardrobe, pets, pet games/foods,
                      minigames: shapes, moves, games; competition rivals; gym equipment; shop;
