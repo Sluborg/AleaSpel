@@ -1035,6 +1035,33 @@
       "tintable": true,
       "license": "Project-owned, AI-generated for AleaSpel",
       "source": "ChatGPT image generation 2026-09-30, batch B13 (assets/source/wardrobe/acc_head/headband_basic-raw.png), extracted by scripts/art/extract-item.mjs"
+    },
+    {
+      "id": "furn_chair",
+      "category": "furniture",
+      "layer": "room",
+      "file": "furniture/furn_chair.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B18 (assets/source/furniture/furn_chair-raw.png), extracted by scripts/art/extract-object.mjs"
+    },
+    {
+      "id": "furn_desk",
+      "category": "furniture",
+      "layer": "room",
+      "file": "furniture/furn_desk.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B18 (assets/source/furniture/furn_desk-raw.png), extracted by scripts/art/extract-object.mjs"
+    },
+    {
+      "id": "furn_shelf_wall",
+      "category": "furniture",
+      "layer": "room",
+      "file": "furniture/furn_shelf_wall.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B18 (assets/source/furniture/furn_shelf_wall-raw.png), extracted by scripts/art/extract-object.mjs"
     }
   ]
 }

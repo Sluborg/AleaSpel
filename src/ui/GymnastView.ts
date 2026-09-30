@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import { ASSET_MANIFEST_KEY, type AssetManifest } from '../data/assets';
 import { DEFAULT_OCCASION, outfitFor } from '../data/occasions';
 import { moveById } from '../data/moves';
-import { BASE_BODY_ID, layerOrder } from '../data/wardrobe';
+import { BASE_BODY_ID, drawOrder } from '../data/wardrobe';
 import type { Gymnast } from '../services/SaveService';
 
 // The master canvas is 1024x1536; every layer is drawn at the same position and scale.
@@ -100,7 +100,7 @@ export class GymnastView extends Phaser.GameObjects.Container {
     const known = new Set((manifest?.assets ?? []).map((a) => a.id));
     const worn = Object.entries(outfitFor(gymnast, occasion))
       .filter(([, w]) => known.has(w.item) && this.scene.textures.exists(w.item))
-      .sort(([a], [b]) => layerOrder(a) - layerOrder(b));
+      .sort(([a, wa], [b, wb]) => drawOrder(a, wa.item) - drawOrder(b, wb.item));
     if (this.scene.textures.exists(BASE_BODY_ID)) {
       this.spinner.add(this.scene.add.image(0, offY, BASE_BODY_ID).setScale(scale));
     }

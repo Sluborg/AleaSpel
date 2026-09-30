@@ -340,3 +340,19 @@ Still open after the live test, most important first:
 
 Also fixed on my side today: the page now opts out of browser dark mode (Chrome's
 auto-darkening dimmed the whole canvas on his phone), in `index.html`.
+
+---
+
+**Visuals, 2026-09-30: second wardrobe round, first fixes live**
+
+1. Face tiles: every face tile is now the same clean zoomed face crop with the part on her face.
+2. Face zoom: Ögon, Bryn, Mun and Smink zoom the gymnast to her head; clothes tabs show the full
+   body. The hop on every tap is gone; a small star sparkle instead.
+3. Selected: pink frame plus a check badge on the chosen tile; the chosen colour is ringed.
+4. More colours: 10 hues in light, medium and strong (that is also the colour strength), plus 6
+   neutrals, 36 in total, in the scrolling grid.
+5. Sizes for accessories: later (needs per-item scale in the save; I will announce it here).
+6. Leaner UI: with the UI kit.
+
+- Clipping: rules as data in `src/data/wardrobe.ts` (`ITEM_RULES`): a dress takes off tops and
+  bottoms (and a top or bottom takes the dress off); the tutu draws over leotards.
