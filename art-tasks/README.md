@@ -40,6 +40,12 @@ that have work. A chat with a watch (Bevakning) on that pull request: when it fi
 `art-wake/TRACKS.md` from the `art-wake` branch; if your track is listed, do "run all" for your
 track. If not, do nothing.
 
+**No double work:** when you start a batch, first append `<batch> | <date time> | started` to
+`art-inbox/STATUS.md`. Skip any batch that has a `started` line from the last 90 minutes or an
+`uploaded` line (another run is on it or it is done). If a wake arrives while you are already
+working, finish what you are doing; "run all" re-reads `NEXT.md` before each batch, so new work
+is picked up anyway.
+
 ## Commands from Stefan
 
 - **"<track> start"** (for example "furniture start"):
