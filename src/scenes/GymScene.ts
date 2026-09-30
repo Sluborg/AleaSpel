@@ -92,8 +92,10 @@ export class GymScene extends BaseScene {
     const shape = this.add
       .rectangle(0, 0, def.width, def.height, def.color)
       .setStrokeStyle(4, 0x000000, 0.25);
+    // Low equipment has room for one line only: the play mark goes into the name.
+    const low = def.height < 100;
     const label = this.add
-      .text(0, 0, def.name, {
+      .text(0, low ? 0 : -6, low && def.minigame ? `▶ ${def.name}` : def.name, {
         fontFamily: FONT,
         fontSize: '30px',
         color: '#ffffff',
@@ -101,7 +103,7 @@ export class GymScene extends BaseScene {
       })
       .setOrigin(0.5);
     const children: Phaser.GameObjects.GameObject[] = [shape, label];
-    if (def.minigame) {
+    if (def.minigame && !low) {
       children.push(
         this.add
           .text(0, def.height / 2 - 4, '▶ Träna', {
