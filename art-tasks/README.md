@@ -1,83 +1,81 @@
 # Art tasks for ChatGPT
 
-This folder is the task queue for the image generator (ChatGPT). Visuals (the Claude art session)
-writes the tasks; ChatGPT fetches and does them; Visuals checks, extracts and ships the images.
+This file is the complete manual for the image generator (ChatGPT). Everything you need is here
+or linked from here; it changes over time, so always fetch the latest version. Visuals (the Claude
+art session) writes the tasks; you generate and upload; Visuals reviews and ships to the game.
 
-## Tracks: one ChatGPT chat per track
+Fetch repo files as `https://raw.githubusercontent.com/Sluborg/AleaSpel/main/<path>?t=<current time>` (the `?t=` avoids stale copies).
 
-Stefan runs one ChatGPT chat per track and tells it which one ("You are on animals").
+## Where things are
 
-| Track     | Makes                                 | Template (Drive `templates/`) |
-| --------- | ------------------------------------- | ----------------------------- |
-| faces     | eyes, brows, mouths, make-up          | `face_blank-raw.png`          |
-| clothes   | clothes, shoes, accessories, hair     | `master-raw.png`              |
-| animals   | pets, pet food, pet toys              | none                          |
-| furniture | furniture, gym equipment, house parts | none                          |
-| scenes    | backdrops and environments            | none                          |
-| ui        | icons and UI pieces                   | none                          |
+| What                  | Where                                                                                                    |
+| --------------------- | -------------------------------------------------------------------------------------------------------- |
+| This manual           | `art-tasks/README.md`                                                                                    |
+| House style           | `art-tasks/STYLE.md` (every image, every chat)                                                           |
+| Batch list            | `art-tasks/NEXT.md` (batch, track, file, status)                                                         |
+| Redo requests         | `art-tasks/REDO.md` (do these first)                                                                     |
+| Batch tasks           | `art-tasks/B<n>.md` (items, canvas, key colour, template)                                                |
+| Upload folder (Drive) | "AleaSpel art-inbox": https://drive.google.com/drive/folders/108WT-CO5kNPCo8yfW-zOHM2QO3DQtiAl           |
+| Templates (Drive)     | "AleaSpel art-inbox/templates": https://drive.google.com/drive/folders/1d4MRdBy1BtkN96LTQPo5obbuXt5wuOeq |
+| Upload log (GitHub)   | `art-inbox/STATUS.md` on branch `art-inbox`                                                              |
 
-Only take batches and redo rows of your own track. Remember your track for the whole chat.
-Every chat also follows the shared house style in `art-tasks/STYLE.md` (read it once).
+## Tracks: one chat per track
 
-## When Stefan says "test"
+| Track     | Makes                                 | Template (from Drive `templates/`) |
+| --------- | ------------------------------------- | ---------------------------------- |
+| faces     | eyes, brows, mouths, make-up          | `face_blank-raw.png`               |
+| clothes   | clothes, shoes, accessories, hair     | `master-raw.png`                   |
+| animals   | pets, pet food, pet toys              | none                               |
+| furniture | furniture, gym equipment, house parts | none                               |
+| scenes    | backdrops and environments            | none                               |
+| ui        | icons and UI pieces                   | none                               |
 
-Make only the **first item** of the first Ready batch of your track, upload it as
-`test--<id>.png` in the Drive folder (plus a line in `art-inbox/STATUS.md`), and report. This checks the
-format and the upload before a full batch. It does not count as making the batch.
+A chat works on one track for its whole life. Only take batches and redo rows of that track.
 
-## When Stefan says "next"
+## Commands from Stefan
 
-1. Fetch `https://raw.githubusercontent.com/Sluborg/AleaSpel/main/art-tasks/REDO.md` and `https://raw.githubusercontent.com/Sluborg/AleaSpel/main/art-tasks/NEXT.md` (add `?t=<time>` so you get
-   the latest version).
-2. Also read `art-inbox/STATUS.md` on the branch `art-inbox` (your own log, see below).
-3. Pick the work, in this order:
-   - rows of your track in `REDO.md` with status **Open** that are not in your STATUS log as redone;
-   - otherwise the first batch of your track in `NEXT.md` with status **Ready** that is not in your STATUS
-     log.
-4. Fetch the batch file (for example `art-tasks/B2.md`) and the template image it names. If you
-   cannot fetch the template, stop and ask Stefan to attach it. Never work from memory or from
-   an image you edited earlier.
-5. Make every item as its own separate image, following the batch text exactly.
-6. Deliver (below), then reply with a short report: batch, ids uploaded, anything that looked
-   wrong to you.
+- **"<track> start"** (for example "furniture start"):
+  1. Remember the track for this chat.
+  2. Read `STYLE.md`, `NEXT.md` and `REDO.md`; note the Ready batches and open redo rows of
+     your track.
+  3. If your track has a template, fetch it from the Drive `templates` folder and keep it for
+     the whole chat. If you cannot, say so and ask Stefan to attach it.
+  4. Check that you can upload to the Drive folder and write to branch `art-inbox`.
+  5. Report in 3-5 lines (track, template ok, uploads ok, what comes next), then do "test".
+- **"test"**: make only the first item of your next batch, upload it as `test--<id>.png`, add a
+  line to the upload log, report. It does not count as making the batch.
+- **"next"**: re-read `REDO.md`, `NEXT.md` and the upload log. Do open redo rows of your track
+  first; otherwise the first **Ready** batch of your track that is not in the upload log. Fetch
+  its batch file, make every item as its own image, deliver, report (batch, ids, anything that
+  looked wrong).
+- **"run all"**: repeat "next" without waiting until nothing is left for your track, then report
+  once. Stop and report if an upload fails.
+- **"status"**: what you made in this chat and what is left for your track.
 
-## When Stefan says "run all"
+## Delivering
 
-Do "next" again and again without waiting, until `REDO.md` has no open rows for you and
-`NEXT.md` has no Ready batch left that is not in your STATUS log. Then report once. If an upload
-fails, stop and report.
-
-## Delivering the images
-
-**Images go to Google Drive** (full size, unchanged PNG, proven 2026-09-30):
-
-- Folder: **AleaSpel art-inbox** (https://drive.google.com/drive/folders/108WT-CO5kNPCo8yfW-zOHM2QO3DQtiAl).
-- File name: `<batch>--<id>.png`, for example `B2--mouth_smile.png`, `test--pet_cat.png`. A redo
-  uses the same name again (upload the new file; Visuals takes the newest).
-- Never resize, crop, convert to JPEG or recompress.
-
-**Notes go to GitHub**, branch `art-inbox` only (never `main`), text files only:
-
-- Append one line to `art-inbox/STATUS.md`: `<batch or redo id> | <date time> | <ids> | uploaded`.
-- Optional note per batch: `art-inbox/<batch>/DONE.md` (anything that looked wrong).
-
-Fallbacks if Drive fails: upload the PNG to GitHub `art-inbox/<batch>/<id>.png`; if that is too
-large, as base64 text `art-inbox/<batch>/<id>.png.b64` (split into `.b64.001`, `.002`, ... if
-needed). Last resort: show the images in the chat, each labelled with its id.
-
-**Template images** live in the Drive folder `AleaSpel art-inbox/templates/`
-(https://drive.google.com/drive/folders/1d4MRdBy1BtkN96LTQPo5obbuXt5wuOeq). Fetch the one your
-track needs from there once per chat and reuse it for every image. Only if Drive fails, ask
-Stefan to attach it.
-
-Visuals (the Claude art session) copies the Drive images into `art-inbox`, reviews them, ships
-good ones to the game, writes redo requests to `REDO.md` and sets batches to Done in `NEXT.md`.
-Do not edit any other file.
+- **Images:** unchanged PNG at the exact canvas size, uploaded to the Drive folder "AleaSpel
+  art-inbox" (not `templates`), named `<batch>--<id>.png` (for example `B2--mouth_smile.png`).
+  A redo uses the same name again. Never resize, crop, convert to JPEG or recompress.
+- **Upload log:** after each batch append one line to `art-inbox/STATUS.md` on branch
+  `art-inbox`: `<batch> | <date time> | <ids> | uploaded`. Optional note:
+  `art-inbox/<batch>/DONE.md`. Never write to `main`; never edit any other file.
+- **Fallbacks if Drive fails:** PNG to GitHub `art-inbox/<batch>/<id>.png`; if too large, base64
+  text `art-inbox/<batch>/<id>.png.b64` (split into `.b64.001`, `.002`, ... if needed). Last
+  resort: show the images in the chat, labelled with their ids.
 
 ## Rules for every image
 
 - One item per image, nothing else in it. No text, no watermark, no shadow, no glow.
 - Flat background in the key colour the batch gives (green #00FF00 unless it says otherwise)
   and the exact canvas size the batch gives.
-- With a template image: keep EVERYTHING identical except the one change asked for. Do not move,
-  resize, redraw or restyle the character.
+- With a template: keep EVERYTHING identical except the one change asked for. Never move, resize,
+  redraw or restyle the character. Never work from memory or from an image you edited earlier.
+- Follow `STYLE.md`.
+- If an item is unclear or impossible, make the rest, skip it, and say why.
+
+## What Visuals does
+
+Copies the Drive images into `art-inbox`, checks them (canvas, background, nothing moved),
+reviews them visually, ships good ones to the game, writes redo requests to `REDO.md` and sets
+batches to Done in `NEXT.md`.
