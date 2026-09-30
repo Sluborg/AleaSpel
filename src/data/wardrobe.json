@@ -29,8 +29,80 @@
       "region": {
         "top": "eyeL.y-1",
         "bottom": "eyeL.y+52",
-        "left": "eyeL.x-36",
-        "right": "eyeR.x+40"
+        "left": "eyeL.x-26",
+        "right": "eyeR.x+32"
+      },
+      "maxOutsideMask": 0,
+      "softEdges": true
+    },
+    {
+      "id": "brows",
+      "order": 26,
+      "region": {
+        "top": "eyeL.y-24",
+        "bottom": "eyeL.y+2",
+        "left": "eyeL.x-24",
+        "right": "eyeR.x+22"
+      },
+      "maxOutsideMask": 0,
+      "softEdges": true
+    },
+    {
+      "id": "mouth",
+      "order": 27,
+      "region": {
+        "top": "chin.y-32",
+        "bottom": "chin.y+9",
+        "left": "faceCenter.x-48",
+        "right": "faceCenter.x+42"
+      },
+      "maxOutsideMask": 0,
+      "softEdges": true
+    },
+    {
+      "id": "eyeshadow",
+      "order": 28,
+      "region": {
+        "top": "eyeL.y-40",
+        "bottom": "chin.y+10",
+        "left": "eyeL.x-80",
+        "right": "eyeR.x+80"
+      },
+      "maxOutsideMask": 0,
+      "softEdges": true
+    },
+    {
+      "id": "blush",
+      "order": 29,
+      "region": {
+        "top": "eyeL.y-40",
+        "bottom": "chin.y+10",
+        "left": "eyeL.x-80",
+        "right": "eyeR.x+80"
+      },
+      "maxOutsideMask": 0,
+      "softEdges": true
+    },
+    {
+      "id": "lips",
+      "order": 30,
+      "region": {
+        "top": "eyeL.y-40",
+        "bottom": "chin.y+10",
+        "left": "eyeL.x-80",
+        "right": "eyeR.x+80"
+      },
+      "maxOutsideMask": 0,
+      "softEdges": true
+    },
+    {
+      "id": "facepaint",
+      "order": 31,
+      "region": {
+        "top": "eyeL.y-40",
+        "bottom": "chin.y+10",
+        "left": "eyeL.x-80",
+        "right": "eyeR.x+80"
       },
       "maxOutsideMask": 0,
       "softEdges": true
@@ -132,6 +204,30 @@
     {
       "id": "eyes",
       "layer": "eyes"
+    },
+    {
+      "id": "brows",
+      "layer": "brows"
+    },
+    {
+      "id": "mouth",
+      "layer": "mouth"
+    },
+    {
+      "id": "eyeshadow",
+      "layer": "eyeshadow"
+    },
+    {
+      "id": "blush",
+      "layer": "blush"
+    },
+    {
+      "id": "lips",
+      "layer": "lips"
+    },
+    {
+      "id": "facepaint",
+      "layer": "facepaint"
     },
     {
       "id": "hair_back",

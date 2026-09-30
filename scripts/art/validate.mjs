@@ -86,7 +86,8 @@ function checkImage(id, entry, file) {
   }
   const report = alphaReport(img);
   if (!report.hasAlphaChannel) err(tag, 'PNG has no alpha channel');
-  if (report.transparentShare > 0.999) err(tag, 'image is empty');
+  // Empty = almost nothing visible (small face parts like face paint are only ~500 px).
+  if (report.opaquePixels + report.semiPixels < 50) err(tag, 'image is empty');
   if (report.transparentShare < 0.3) err(tag, 'less than 30% transparent, background not removed?');
   if (report.borderPixels > 0)
     err(tag, `${report.borderPixels} visible pixels on the canvas border`);

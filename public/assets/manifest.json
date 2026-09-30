@@ -450,6 +450,69 @@
       "tintable": true,
       "license": "Project-owned, AI-generated for AleaSpel",
       "source": "ChatGPT image generation 2026-09-30, batch B6 (assets/source/wardrobe/socks/socks_ankle-raw.png), extracted by scripts/art/extract-item.mjs"
+    },
+    {
+      "id": "brows_thin",
+      "category": "brows",
+      "layer": "brows",
+      "file": "wardrobe/brows/brows_thin.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B2 on the face_blank template (assets/source/face/brows/brows_thin-raw.png), extracted by scripts/art/extract-face.mjs"
+    },
+    {
+      "id": "mouth_smile",
+      "category": "mouth",
+      "layer": "mouth",
+      "file": "wardrobe/mouth/mouth_smile.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B2 on the face_blank template (assets/source/face/mouth/mouth_smile-raw.png), extracted by scripts/art/extract-face.mjs"
+    },
+    {
+      "id": "mouth_open",
+      "category": "mouth",
+      "layer": "mouth",
+      "file": "wardrobe/mouth/mouth_open.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B2 on the face_blank template (assets/source/face/mouth/mouth_open-raw.png), extracted by scripts/art/extract-face.mjs"
+    },
+    {
+      "id": "shadow_soft",
+      "category": "eyeshadow",
+      "layer": "eyeshadow",
+      "file": "wardrobe/eyeshadow/shadow_soft_tint.png",
+      "tintable": true,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B2 on the face_blank template (assets/source/face/makeup/shadow_soft-raw.png), extracted by scripts/art/extract-makeup.mjs"
+    },
+    {
+      "id": "blush_round",
+      "category": "blush",
+      "layer": "blush",
+      "file": "wardrobe/blush/blush_round_tint.png",
+      "tintable": true,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B2 on the face_blank template (assets/source/face/makeup/blush_round-raw.png), extracted by scripts/art/extract-makeup.mjs"
+    },
+    {
+      "id": "lips_gloss",
+      "category": "lips",
+      "layer": "lips",
+      "file": "wardrobe/lips/lips_gloss_tint.png",
+      "tintable": true,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B2 on the face_blank template (assets/source/face/makeup/lips_gloss-raw.png), extracted by scripts/art/extract-makeup.mjs"
+    },
+    {
+      "id": "paint_hearts",
+      "category": "facepaint",
+      "layer": "facepaint",
+      "file": "wardrobe/facepaint/paint_hearts_tint.png",
+      "tintable": true,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B2 on the face_blank template (assets/source/face/makeup/paint_hearts-raw.png), extracted by scripts/art/extract-makeup.mjs"
     }
   ]
 }

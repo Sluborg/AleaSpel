@@ -19,17 +19,25 @@ export interface WardrobeLayer {
 
 export const LAYERS: WardrobeLayer[] = [...wardrobe.layers].sort((a, b) => a.order - b.order);
 
-// Tabs in the wardrobe, in this order. Only categories with items are shown.
-export const CATEGORY_TABS: { category: string; label: string }[] = [
-  { category: 'eyes', label: 'Ögon' },
-  { category: 'onepiece', label: 'Dräkter' },
-  { category: 'tops', label: 'Tröjor' },
-  { category: 'bottoms', label: 'Byxor' },
-  { category: 'outerwear', label: 'Jackor' },
-  { category: 'socks', label: 'Strumpor' },
-  { category: 'shoes', label: 'Skor' },
-  { category: 'hair_front', label: 'Hår' },
-  { category: 'accessories', label: 'Pynt' },
+// Tabs in the wardrobe, in this order. Only tabs with items are shown. A tab can hold several
+// categories (Smink: one layer per kind of make-up, so they combine).
+export interface WardrobeTab {
+  label: string;
+  categories: string[];
+}
+export const CATEGORY_TABS: WardrobeTab[] = [
+  { label: 'Ögon', categories: ['eyes'] },
+  { label: 'Bryn', categories: ['brows'] },
+  { label: 'Mun', categories: ['mouth'] },
+  { label: 'Smink', categories: ['eyeshadow', 'blush', 'lips', 'facepaint'] },
+  { label: 'Dräkter', categories: ['onepiece'] },
+  { label: 'Tröjor', categories: ['tops'] },
+  { label: 'Byxor', categories: ['bottoms'] },
+  { label: 'Jackor', categories: ['outerwear'] },
+  { label: 'Strumpor', categories: ['socks'] },
+  { label: 'Skor', categories: ['shoes'] },
+  { label: 'Hår', categories: ['hair_front'] },
+  { label: 'Pynt', categories: ['accessories'] },
 ];
 
 // Colours offered for tintable items.

@@ -51,6 +51,12 @@ hipL/R, crotch, wristL/R, handL/R, fingertipsL/R, kneeL/R, ankleL/R, cuffL/R, fo
 | 10    | hair_back   | Hair behind the head and body (long hair, ponytail backs)     |
 | 20    | body        | The master (skin, face, base unitard, base bun)               |
 | 25    | eyes        | Eyes (with lashes), incl. a skin patch over the master's eyes |
+| 26    | brows       | Eyebrows, incl. a skin patch over the master's brows          |
+| 27    | mouth       | Mouth, incl. a skin patch over the master's mouth             |
+| 28    | eyeshadow   | Make-up (tintable), one layer per kind so they combine        |
+| 29    | blush       | Make-up (tintable)                                            |
+| 30    | lips        | Make-up (tintable)                                            |
+| 31    | facepaint   | Face paint (tintable)                                         |
 | 30    | socks       | Socks, tights, leg warmers                                    |
 | 40    | bottoms     | Shorts, skirts, trousers, leggings                            |
 | 50    | onepiece    | Leotards, dresses, jumpsuits (one-piece outfits)              |
@@ -80,7 +86,7 @@ public/assets/
 assets/source/                           source and derived files, not shipped
 ```
 
-- `<category>` is one of: `eyes, hair_back, hair_front, socks, bottoms, onepiece, tops, outerwear,
+- `<category>` is one of: `eyes, brows, mouth, eyeshadow, blush, lips, facepaint, hair_back, hair_front, socks, bottoms, onepiece, tops, outerwear,
 shoes, accessories` (plus `base` for the master).
 - `<id>`: snake_case, unique across the manifest, English, descriptive:
   `leotard_star_sleeveless`, `hair_ponytail_high` (back and front files share the stem).
@@ -183,3 +189,7 @@ Limits of the key-colour method:
   full colour, not tintable.
 - Face layers are marked `softEdges` in `src/data/wardrobe.json`: their feathered skin edge is
   intended, so the soft-halo warning is skipped for them.
+- Make-up is drawn in key blue (#2F6BFF) on the blank-face template and extracted with
+  `scripts/art/extract-makeup.mjs`: each pixel is unmixed against the template skin, so soft
+  gradients keep their softness. Output is tintable (`<id>_tint.png`).
+- The validator's "empty image" rule is "fewer than 50 visible pixels", so small face parts pass.
