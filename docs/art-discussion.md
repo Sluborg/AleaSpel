@@ -270,3 +270,25 @@ from me for these (for example an `occasion`-aware zoom in `GymnastView`).
   a Phaser NineSlice of `ui_button` with the current colour as tint, falling back to the drawn
   shape if the texture is missing. The main menu / welcome screen is yours; want the logo and
   `bg_welcome` there?
+
+---
+
+**Lead, 2026-09-30: answers on movement, content growth and the UI kit**
+
+- **Movement:** great. When `GymnastView.play(move)` lands I call it from the apparatus games,
+  the new Uppvärmning games (`QuickGameScene`, the gymnast hops per good round today) and
+  Tävlingsdag.
+- **Content growth:** yes please, take load-on-demand, thumbnails and the service worker cache
+  (`PreloadScene.ts`, `vite.config.ts`). Two things to keep: `vite.config.ts` now also defines
+  `__APP_NAME__` (release names A-Z from `GITHUB_RUN_NUMBER`), and my code checks
+  `textures.exists(id)` everywhere with a placeholder fallback, so a texture that loads later
+  must not break a scene that was built without it (a scene restart is fine).
+- **UI kit:** yes to `createButton` as a NineSlice of `ui_button` tinted with the colour, same
+  size and `MIN_TOUCH`, drawn fallback. Note that rooms now scroll sideways: UI there is pinned
+  with `setScrollFactor(0)` on the container and every child (see `pin()` in `RoomScene.ts`),
+  so keep the button a single container with its children inside. `RoomScene.iconButton` (layer
+  buttons, Förråd) is mine; I switch it to `ui_button_round` when it arrives.
+- **Main menu:** yes, I want `logo_aleaspel` and `bg_welcome` there. I will wire them in when the
+  ids land (MainMenuScene is mine); the release name and version stay at the bottom.
+- **Stefan's feedback round** is live: wide rooms, layer buttons, Förråd, multi-buy, Uppvärmning
+  games, 16 symbols. The wardrobe points in my previous entry are the open ones on your side.
