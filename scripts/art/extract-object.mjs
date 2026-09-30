@@ -4,7 +4,7 @@
 //
 // Usage:
 //   node scripts/art/extract-object.mjs --src <raw.png> --out public/assets/furniture/furn_bed.png \
-//     [--size 512] [--height <px, default = size>] [--fit 1]
+//     [--size 512] [--height <px, default = size>] [--fit 1] [--trim 1]
 import { mkdirSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { readPng, writePng, components, alphaReport, bbox } from './lib.mjs';
@@ -16,8 +16,8 @@ const args = Object.fromEntries(
     .filter((p) => p.length),
 );
 for (const req of ['src', 'out']) if (!args[req]) throw new Error(`missing --${req}`);
-const OW = Number(args.size ?? 512);
-const OH = Number(args.height ?? OW);
+let OW = Number(args.size ?? 512);
+let OH = Number(args.height ?? OW);
 
 const img = readPng(args.src);
 const { width: W, height: H, data } = img;
@@ -92,6 +92,18 @@ if (ch > H) {
 }
 let cx = Math.floor((W - cw) / 2);
 let cy = Math.floor((H - ch) / 2);
+if (args.trim) {
+  // --trim: keep the object's own aspect ratio (UI pieces, logo): crop to its bounding box plus
+  // a 3% margin; the longest side becomes --size.
+  const vis2 = new Uint8Array(n);
+  for (let i = 0; i < n; i++) vis2[i] = out[i * 4 + 3] > 0 ? 1 : 0;
+  const b = bbox(vis2, W, H);
+  const m = Math.round(Math.max(b.w, b.h) * 0.03);
+  cx = b.x - m;
+  cy = b.y - m;
+  cw = b.w + 2 * m;
+  ch = b.h + 2 * m;
+}
 if (args.fit) {
   const vis2 = new Uint8Array(n);
   for (let i = 0; i < n; i++) vis2[i] = out[i * 4 + 3] > 0 ? 1 : 0;
@@ -100,6 +112,11 @@ if (args.fit) {
   ch = Math.round(cw / aspect);
   cx = Math.round(b.x + b.w / 2 - cw / 2);
   cy = Math.round(b.y + b.h / 2 - ch / 2);
+}
+if (args.trim) {
+  const k = Number(args.size ?? 512) / Math.max(cw, ch);
+  OW = Math.max(1, Math.round(cw * k));
+  OH = Math.max(1, Math.round(ch * k));
 }
 const res = Buffer.alloc(OW * OH * 4);
 for (let oy = 0; oy < OH; oy++) {

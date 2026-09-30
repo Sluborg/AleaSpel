@@ -117,6 +117,30 @@ for (const file of readdirSync(dir)
     const p = raw(`wardrobe/${c}`);
     run('extract-item.mjs', ['--src', p, '--category', c, '--id', id, '--tint']);
     row(c, c, `wardrobe/${c}/${id}_tint.png`, true, source(p, 'extract-item.mjs'));
+  } else if (prefix === 'ui' || prefix === 'logo') {
+    // UI pieces and the logo keep their own shape: trimmed, longest side 512.
+    const p = raw('ui');
+    run('extract-object.mjs', [
+      '--src',
+      p,
+      '--out',
+      `public/assets/ui/${id}.png`,
+      '--size',
+      '512',
+      '--trim',
+      '1',
+    ]);
+    row(
+      'ui',
+      'ui',
+      `ui/${id}.png`,
+      id === 'ui_button' || id === 'ui_button_round',
+      source(p, 'extract-object.mjs'),
+    );
+  } else if (id === 'app_icon') {
+    // Full-bleed icon: no key. Kept as the source for public/icon*.png (scripts/gen-icons.mjs).
+    const p = raw('ui');
+    console.log(`app_icon saved to ${p}; update the app icons from it`);
   } else if (prefix === 'bg') {
     const p = raw('backdrops');
     run('extract-backdrop.mjs', ['--src', p, '--out', `public/assets/backdrops/${id}.png`]);
