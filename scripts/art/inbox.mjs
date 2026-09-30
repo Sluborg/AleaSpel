@@ -40,7 +40,10 @@ const KIND = [
     /^(tshirt|shorts|dress|jacket|hoodie|slippers|socks|leotard|skirt|top|leggings|shoes|bow|headband|glasses|medal|necklace|wristbands|bag)_?/,
     { canvas: [1024, 1536], template: 'master' },
   ],
-  [/^(pet|food|toy|furn|equip|ext|garden|icon|ui|logo)_/, { canvas: [1024, 1024], template: null }],
+  [
+    /^(pet|food|toy|furn|equip|ext|garden|icon|ui|logo|trophy)_/,
+    { canvas: [1024, 1024], template: null },
+  ],
   [/^app_icon/, { canvas: [1024, 1024], template: null, noKey: true }],
   // Backdrops fill the whole canvas: no key colour.
   [/^bg_/, { canvas: [1024, 1536], template: null, noKey: true }],

@@ -24,3 +24,4 @@ Take the first **Ready** batch **of your track** that you have not made yet (che
 | B16   | ui        | `B16.md` | UI kit: buttons, panel, tile, badge, ribbon, logo, app icon | 8      | Done   |
 | B17   | scenes    | `B17.md` | Welcome screen backdrop                                     | 1      | Done   |
 | B18   | furniture | `B18.md` | Desk corner (wake-up test)                                  | 3      | Done   |
+| B19   | ui        | `B19.md` | Trophy cups gold, silver, bronze (art request 90)           | 3      | Ready  |

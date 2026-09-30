@@ -45,6 +45,7 @@ const OBJECT = {
   toy: ['toys', 'icon', 256, 256],
   pet: ['petstuff', 'icon', 256, 256],
   icon: ['icons', 'ui', 128, 128],
+  trophy: ['trophies', 'icon', 256, 256],
 };
 const SIZE = { equip_mat: [512, 256], toy_plank: [512, 128] };
 const PETS = ['cat', 'dog', 'rabbit', 'guinea', 'hamster', 'pony'];
