@@ -44,6 +44,7 @@ preview/index.html     wardrobe preview page (/preview/), code in src/preview/
 scripts/art/           key-master, derive-base, validate (Node + pngjs)
 docs/game-design.md    systems, data model, roadmap
 docs/asset-spec.md     character and wardrobe art rules
+docs/image-prompts.md  ChatGPT image prompts and the image queue
 research/              interviews with Alea, reference-game research
 .github/workflows/deploy.yml
 ```
