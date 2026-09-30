@@ -918,6 +918,114 @@
       "tintable": false,
       "license": "Project-owned, AI-generated for AleaSpel",
       "source": "ChatGPT image generation 2026-09-30, batch B10 (assets/source/icons/icon_star-raw.png), extracted by scripts/art/extract-object.mjs"
+    },
+    {
+      "id": "brows_bold",
+      "category": "brows",
+      "layer": "brows",
+      "file": "wardrobe/brows/brows_bold.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B14 (assets/source/face/brows/brows_bold-raw.png), extracted by scripts/art/extract-face.mjs"
+    },
+    {
+      "id": "eyes_grey",
+      "category": "eyes",
+      "layer": "eyes",
+      "file": "wardrobe/eyes/eyes_grey.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B14 (assets/source/face/eyes/eyes_grey-raw.png), extracted by scripts/art/extract-face.mjs"
+    },
+    {
+      "id": "eyes_hazel",
+      "category": "eyes",
+      "layer": "eyes",
+      "file": "wardrobe/eyes/eyes_hazel.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B14 (assets/source/face/eyes/eyes_hazel-raw.png), extracted by scripts/art/extract-face.mjs"
+    },
+    {
+      "id": "eyes_violet",
+      "category": "eyes",
+      "layer": "eyes",
+      "file": "wardrobe/eyes/eyes_violet.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B14 (assets/source/face/eyes/eyes_violet-raw.png), extracted by scripts/art/extract-face.mjs"
+    },
+    {
+      "id": "mouth_grin",
+      "category": "mouth",
+      "layer": "mouth",
+      "file": "wardrobe/mouth/mouth_grin.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B14 (assets/source/face/mouth/mouth_grin-raw.png), extracted by scripts/art/extract-face.mjs"
+    },
+    {
+      "id": "mouth_o",
+      "category": "mouth",
+      "layer": "mouth",
+      "file": "wardrobe/mouth/mouth_o.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B14 (assets/source/face/mouth/mouth_o-raw.png), extracted by scripts/art/extract-face.mjs"
+    },
+    {
+      "id": "mouth_tongue",
+      "category": "mouth",
+      "layer": "mouth",
+      "file": "wardrobe/mouth/mouth_tongue.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B14 (assets/source/face/mouth/mouth_tongue-raw.png), extracted by scripts/art/extract-face.mjs"
+    },
+    {
+      "id": "bag_small",
+      "category": "acc_bag",
+      "layer": "acc_bag",
+      "file": "wardrobe/acc_bag/bag_small_tint.png",
+      "tintable": true,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B13 (assets/source/wardrobe/acc_bag/bag_small-raw.png), extracted by scripts/art/extract-item.mjs"
+    },
+    {
+      "id": "bow_hair",
+      "category": "acc_head",
+      "layer": "acc_head",
+      "file": "wardrobe/acc_head/bow_hair_tint.png",
+      "tintable": true,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B13 (assets/source/wardrobe/acc_head/bow_hair-raw.png), extracted by scripts/art/extract-item.mjs"
+    },
+    {
+      "id": "glasses_round",
+      "category": "acc_face",
+      "layer": "acc_face",
+      "file": "wardrobe/acc_face/glasses_round_tint.png",
+      "tintable": true,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B13 (assets/source/wardrobe/acc_face/glasses_round-raw.png), extracted by scripts/art/extract-item.mjs"
+    },
+    {
+      "id": "medal_gold",
+      "category": "acc_neck",
+      "layer": "acc_neck",
+      "file": "wardrobe/acc_neck/medal_gold_tint.png",
+      "tintable": true,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B13 (assets/source/wardrobe/acc_neck/medal_gold-raw.png), extracted by scripts/art/extract-item.mjs"
+    },
+    {
+      "id": "wristbands",
+      "category": "acc_wrist",
+      "layer": "acc_wrist",
+      "file": "wardrobe/acc_wrist/wristbands_tint.png",
+      "tintable": true,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-09-30, batch B13 (assets/source/wardrobe/acc_wrist/wristbands-raw.png), extracted by scripts/art/extract-item.mjs"
     }
   ]
 }
