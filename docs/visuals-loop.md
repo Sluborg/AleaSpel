@@ -53,4 +53,4 @@ pretty, cute, fun and easy for a 9-year-old. Every round follows this routine.
 | Time (UTC) | What happened                                                                                                                                                                                        |
 | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 21:17      | Round 1: woke ui+scenes chats (UI kit, welcome); fast start live: menu after ~4 s instead of ~14 s on a 12 Mbit phone connection (core art first, rest streams); fixed pet placeholder/art key clash |
-| 21:40      | Round 2 (release Vilda): shipped the UI kit, welcome picture and new app icon; menu and all buttons now use the soft pink pill art, round back button; round 1 was releases Saga and Ulla            |
+| 21:40      | Round 2 (releases Wilma and Xena): shipped the UI kit, welcome picture and new app icon; menu and all buttons now use the soft pink pill art, round back button; round 1 was releases Saga and Ulla  |
