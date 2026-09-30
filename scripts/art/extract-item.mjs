@@ -60,7 +60,10 @@ for (let i = 0; i < fa.length; i++) {
 }
 const iou = inter / union;
 const ba = bbox(fa, W, H);
-const bb = bbox(fb, W, H);
+// The item may stick out beyond the body (a headband above the head), so compare the character's
+// bounding box without the key-coloured pixels.
+const fbNoKey = fb.map((v, i) => (isKey(i * 4) ? 0 : v));
+const bb = bbox(fbNoKey, W, H);
 console.log(
   `registration: silhouette overlap ${(iou * 100).toFixed(1)}%, bbox master ${JSON.stringify(ba)} item ${JSON.stringify(bb)}`,
 );

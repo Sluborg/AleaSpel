@@ -18,6 +18,6 @@ Take the first **Ready** batch **of your track** that you have not made yet (che
 | B10   | ui        | `B10.md` | UI icons (art request 70)             | 9      | Done   |
 | B11   | furniture | `B11.md` | House exterior (art request 80), last | 15     | Done   |
 | B12   | clothes   | `B12.md` | Gymnastics outfits                    | 6      | Done   |
-| B13   | clothes   | `B13.md` | Accessories                           | 6      | Ready  |
-| B14   | faces     | `B14.md` | More eyes, brows, mouths              | 7      | Ready  |
+| B13   | clothes   | `B13.md` | Accessories                           | 6      | Done   |
+| B14   | faces     | `B14.md` | More eyes, brows, mouths              | 7      | Done   |
 | B15   | animals   | `B15.md` | Pet things (bed, bowl, brush, toys)   | 6      | Done   |
