@@ -4,7 +4,7 @@ import { rollTraits } from './PetCare';
 // Versioned save data in localStorage.
 // To change the schema: bump SAVE_VERSION, update SaveData, add a migration from the previous version.
 
-export const SAVE_VERSION = 13;
+export const SAVE_VERSION = 14;
 const STORAGE_KEY = 'aleaspel.save';
 
 export interface Position {
@@ -22,6 +22,11 @@ export interface FurnitureItem {
   y: number;
   z?: number;
   stored?: boolean;
+}
+
+export interface Trophy {
+  place: 1 | 2 | 3;
+  date: string; // YYYY-MM-DD
 }
 
 export function newUid(): string {
@@ -89,6 +94,7 @@ export interface SaveData {
     days: number; // Tävlingsdag competitions completed
     wins: number; // first places
     podiums: number; // top three places
+    trophies: Trophy[]; // one cup per top-three place, shown in Klubbstugan's Prisskåp
   };
 }
 
@@ -170,6 +176,24 @@ const MIGRATIONS: Record<number, Migration> = {
     version: 13,
     gymnasts: ((data.gymnasts as Gymnast[]) ?? []).map((g) => ({ ...g, levels: {} })),
   }),
+  // Trophies: earlier wins become gold cups, other top-three places silver (the exact place
+  // was not saved before v14).
+  13: (data) => {
+    const team = (data.team as { days: number; wins: number; podiums: number }) ?? {
+      days: 0,
+      wins: 0,
+      podiums: 0,
+    };
+    const today = new Date().toISOString().slice(0, 10);
+    const trophies: Trophy[] = [
+      ...Array.from({ length: team.wins }, (): Trophy => ({ place: 1, date: today })),
+      ...Array.from({ length: Math.max(0, team.podiums - team.wins) }, (): Trophy => ({
+        place: 2,
+        date: today,
+      })),
+    ];
+    return { ...data, version: 14, team: { ...team, trophies } };
+  },
 };
 
 function createDefault(): SaveData {
@@ -183,7 +207,7 @@ function createDefault(): SaveData {
     activeGymnastId: 'g1',
     gym: { equipment: {} },
     clubhouse: { pets: {} },
-    team: { days: 0, wins: 0, podiums: 0 },
+    team: { days: 0, wins: 0, podiums: 0, trophies: [] },
   };
 }
 

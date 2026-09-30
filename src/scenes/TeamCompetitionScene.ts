@@ -151,7 +151,13 @@ export class TeamCompetitionScene extends BaseScene {
         d.medals += reward;
         d.team.days += 1;
         if (place === 0) d.team.wins += 1;
-        if (place < 3) d.team.podiums += 1;
+        if (place < 3) {
+          d.team.podiums += 1;
+          d.team.trophies.push({
+            place: (place + 1) as 1 | 2 | 3,
+            date: new Date().toISOString().slice(0, 10),
+          });
+        }
       });
     }
 
@@ -203,7 +209,9 @@ export class TeamCompetitionScene extends BaseScene {
       .text(
         GAME_WIDTH / 2,
         870,
-        `Du har ${save.medals} medaljer · ${save.team.wins} vinster av ${save.team.days} tävlingar`,
+        place < 3
+          ? 'Ny pokal i Prisskåpet i Klubbstugan! 🏆'
+          : `Du har ${save.medals} medaljer · ${save.team.wins} vinster av ${save.team.days} tävlingar`,
         { fontFamily: FONT, fontSize: '28px', color: COLORS.textMuted },
       )
       .setOrigin(0.5);

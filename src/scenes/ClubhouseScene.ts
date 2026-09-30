@@ -1,3 +1,4 @@
+import Phaser from 'phaser';
 import { COLORS, FONT, GAME_HEIGHT, GAME_WIDTH } from '../config';
 import { SaveService, type Position } from '../services/SaveService';
 import { backdrop } from '../ui/art';
@@ -5,7 +6,9 @@ import { createButton } from '../ui/Button';
 import { GymnastView } from '../ui/GymnastView';
 import { PetView } from '../ui/PetView';
 import { petSpecies } from '../data/pets';
-import { ROOM_WORLD_W, RoomScene, type Placeable } from './RoomScene';
+import type { FurnitureDef } from '../data/furniture';
+import { trophyView } from '../ui/trophy';
+import { ROOM_WORLD_W, RoomScene, pin, type Placeable } from './RoomScene';
 
 const ROOM = { left: 20, top: 250, right: ROOM_WORLD_W - 20, bottom: GAME_HEIGHT - 20 };
 const FLOOR_Y = 700;
@@ -72,6 +75,97 @@ export class ClubhouseScene extends RoomScene {
         fontSize: 34,
       });
     }
+  }
+
+  // The Prisskåp shows how many cups the team has won and opens the trophy shelf.
+  protected furnitureExtras(def: FurnitureDef): Phaser.GameObjects.GameObject[] {
+    if (def.action !== 'trophies') return [];
+    const count = SaveService.get().team.trophies.length;
+    if (!count) return [];
+    const badge = this.add.graphics();
+    badge.fillStyle(COLORS.primary, 1).fillCircle(def.width / 2 - 14, -60, 26);
+    const text = this.add
+      .text(def.width / 2 - 14, -60, String(count), {
+        fontFamily: FONT,
+        fontSize: '28px',
+        color: COLORS.text,
+        fontStyle: 'bold',
+      })
+      .setOrigin(0.5);
+    return [badge, text];
+  }
+
+  protected furnitureAction(def: FurnitureDef) {
+    if (def.action !== 'trophies') return undefined;
+    return { label: '🏆 Visa pokaler', run: () => this.openTrophies() };
+  }
+
+  private openTrophies(): void {
+    this.deselect();
+    // Best first (gold, silver, bronze), newest first within each.
+    const trophies = [...SaveService.get().team.trophies]
+      .reverse()
+      .sort((a, b) => a.place - b.place);
+    const modal = this.add.container(0, 0).setDepth(60000);
+    const shade = this.add.rectangle(0, 0, GAME_WIDTH, GAME_HEIGHT, 0x000000, 0.5).setOrigin(0);
+    shade.setInteractive();
+    const bg = this.add.graphics();
+    bg.fillStyle(COLORS.background, 1).fillRoundedRect(30, 150, GAME_WIDTH - 60, 1000, 36);
+    const title = this.add
+      .text(GAME_WIDTH / 2, 215, 'Prisskåpet', {
+        fontFamily: FONT,
+        fontSize: '52px',
+        color: COLORS.text,
+        fontStyle: 'bold',
+      })
+      .setOrigin(0.5);
+    modal.add([shade, bg, title]);
+    if (!trophies.length) {
+      modal.add(
+        this.add
+          .text(GAME_WIDTH / 2, 560, 'Inga pokaler än.\nVinn en plats på pallen\ni Tävlingsdag!', {
+            fontFamily: FONT,
+            fontSize: '36px',
+            color: COLORS.textMuted,
+            align: 'center',
+          })
+          .setOrigin(0.5),
+      );
+    }
+    const perRow = 4;
+    const cell = (GAME_WIDTH - 120) / perRow;
+    trophies.slice(0, 16).forEach((t, i) => {
+      const x = 60 + cell * ((i % perRow) + 0.5);
+      const y = 360 + Math.floor(i / perRow) * 175;
+      modal.add(trophyView(this, x, y, 135, t.place));
+      modal.add(
+        this.add
+          .text(x, y + 82, t.date.slice(5), {
+            fontFamily: FONT,
+            fontSize: '22px',
+            color: COLORS.textMuted,
+          })
+          .setOrigin(0.5),
+      );
+    });
+    if (trophies.length > 16) {
+      modal.add(
+        this.add
+          .text(GAME_WIDTH / 2, 1000, `+ ${trophies.length - 16} till`, {
+            fontFamily: FONT,
+            fontSize: '28px',
+            color: COLORS.textMuted,
+          })
+          .setOrigin(0.5),
+      );
+    }
+    modal.add(
+      createButton(this, GAME_WIDTH / 2, 1080, 'Stäng', () => modal.destroy(), {
+        width: 260,
+        color: 0x6b5a85,
+      }),
+    );
+    pin(modal);
   }
 
   protected placeables(): Placeable[] {

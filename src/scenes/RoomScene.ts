@@ -3,6 +3,7 @@ import { COLORS, FONT, GAME_HEIGHT, GAME_WIDTH } from '../config';
 import { FURNITURE, type FurnitureDef } from '../data/furniture';
 import { SaveService, type Position } from '../services/SaveService';
 import { artImage } from '../ui/art';
+import { createButton } from '../ui/Button';
 import { ScrollList } from '../ui/ScrollList';
 import { BaseScene } from './BaseScene';
 import { furnitureArtKey, furnitureFoot, furnitureShape, furnitureSize } from '../ui/furnitureView';
@@ -26,6 +27,7 @@ export interface Placeable {
   flat?: boolean; // rugs, mats, wall items: always behind standing things
   z?: number; // manual layer (set with the layer buttons)
   foot?: number; // distance from the centre down to where it stands; default height / 2
+  def?: string; // furniture id, for pieces of furniture
 }
 
 export type FurnitureRoom = 'house' | 'clubhouse';
@@ -68,6 +70,16 @@ export abstract class RoomScene extends BaseScene {
   protected abstract savePosition(id: string, pos: Position): void;
   // Extra scene setup after the items exist (buttons, hints).
   protected afterBuild(): void {}
+  // Extra things drawn on a piece of furniture (for example the cup count on the Prisskåp).
+  protected furnitureExtras(def: FurnitureDef): Phaser.GameObjects.GameObject[] {
+    void def;
+    return [];
+  }
+  // An extra action shown above the layer buttons when a piece is tapped.
+  protected furnitureAction(def: FurnitureDef): { label: string; run: () => void } | undefined {
+    void def;
+    return undefined;
+  }
 
   create(): void {
     this.cameras.main.setBackgroundColor(COLORS.background);
@@ -194,6 +206,7 @@ export abstract class RoomScene extends BaseScene {
       z: item.z,
       foot: item.foot ?? item.height / 2,
       selectable: item.id.startsWith('furn:'),
+      def: item.def,
     });
     container.setInteractive({ draggable: true, useHandCursor: true });
     return container;
@@ -222,6 +235,11 @@ export abstract class RoomScene extends BaseScene {
 
   // --- selection and layer buttons ------------------------------------------------------
 
+  // Clears the selection and its buttons (for example before a panel opens).
+  protected deselect(): void {
+    this.select(undefined);
+  }
+
   private select(obj: Phaser.GameObjects.Container | undefined): void {
     this.selected = obj;
     this.bar?.destroy();
@@ -240,6 +258,16 @@ export abstract class RoomScene extends BaseScene {
       ...LAYER_BUTTONS.map((b) => ({ ...b, run: () => this.layer(obj, b.dir) })),
       ...(this.furnitureRoom ? [{ icon: '📦', label: 'Förråd', run: () => this.store(obj) }] : []),
     ];
+    const def = FURNITURE.find((f) => f.id === obj.getData('def'));
+    const action = def && this.furnitureAction(def);
+    if (action) {
+      bar.add(
+        createButton(this, GAME_WIDTH / 2, BAR_Y - 160, action.label, action.run, {
+          width: 420,
+          fontSize: 36,
+        }),
+      );
+    }
     const step = (GAME_WIDTH - 40) / buttons.length;
     buttons.forEach((b, i) => bar.add(this.iconButton(30 + step * (i + 0.5), BAR_Y, step - 10, b)));
     this.bar = pin(bar);
@@ -339,7 +367,8 @@ export abstract class RoomScene extends BaseScene {
           z: f.z,
           flat: def.flat,
           foot: furnitureFoot(this, def),
-          build: () => furnitureShape(this, def),
+          def: def.id,
+          build: () => [...furnitureShape(this, def), ...this.furnitureExtras(def)],
         };
       });
   }
@@ -480,7 +509,8 @@ export abstract class RoomScene extends BaseScene {
       y,
       flat: def.flat,
       foot: furnitureFoot(this, def),
-      build: () => furnitureShape(this, def),
+      def: def.id,
+      build: () => [...furnitureShape(this, def), ...this.furnitureExtras(def)],
     });
     this.sortByDepth();
     obj.setScale(0.3);
@@ -506,7 +536,7 @@ type SaveFurniture = ReturnType<typeof SaveService.get>['furniture'][number];
 
 // Fix a UI object and everything inside it to the screen. Input hit tests use each object's own
 // scroll factor, so children of a pinned container must be pinned too.
-function pin<T extends Phaser.GameObjects.GameObject>(obj: T): T {
+export function pin<T extends Phaser.GameObjects.GameObject>(obj: T): T {
   (obj as unknown as Phaser.GameObjects.Components.ScrollFactor).setScrollFactor?.(0);
   if (obj instanceof Phaser.GameObjects.Container) obj.list.forEach((c) => pin(c));
   return obj;

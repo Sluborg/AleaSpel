@@ -149,7 +149,9 @@ they were drawn (percent shown, stars by accuracy bands per difficulty).
   through the lineup) in team mode of the same minigame scenes (stars go to the team, no medals
   per routine). The total meets three rival clubs (`src/data/competition.ts`, random share of the
   same maximum), placement gives 12/8/5/2 medals. Wins and podiums are saved (`team`).
-  Later: pets as mascots, a trophy in Klubbstugan per win.
+  Every top-three place adds a cup (gold, silver, bronze) to `team.trophies` (save v14); the
+  Prisskåp in Klubbstugan shows the count and, when tapped, "🏆 Visa pokaler" opens the shelf.
+  Later: pets as mascots.
 
 ## 7. Pets (Mina djur)
 
