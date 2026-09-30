@@ -2,7 +2,8 @@
 
 Mobile web game for a child. Gymnastics theme, inspired by Avatar World and Toca Boca World:
 avatar editor (a gymnast), own house and own gym with drag-and-drop, gymnastics minigames
-(beam, bars, vault, trampoline), practice in the gym and beat your best.
+(beam, bars, vault, trampoline), practice in the gym and beat your best. Pets with their own
+minigames. Full design: `docs/game-design.md` (keep it updated when a design decision changes).
 
 ## Player
 
@@ -10,7 +11,8 @@ avatar editor (a gymnast), own house and own gym with drag-and-drop, gymnastics 
 - Her wishes and the game research live in `research/` (interviews, reference-game notes). Read
   them before designing a new feature. Save new interviews as `research/interview-alea-YYYY-MM-DD.md`.
 - Known wishes: very cute style, many items, great avatar maker, events with new cute things,
-  several houses (exterior, garden, interior), a small gymnastics team, gesture-based minigames.
+  several houses (exterior, garden, interior), a small gymnastics team, gesture-based minigames,
+  pets (with their own minigames).
 
 ## Stack
 
@@ -26,7 +28,7 @@ avatar editor (a gymnast), own house and own gym with drag-and-drop, gymnastics 
 src/
   main.ts            Phaser game config, SW registration, zoom/scroll blocking
   config.ts          design resolution, colors, MIN_TOUCH
-  scenes/            Boot, Preload, MainMenu, AvatarEditor, Home, Gym, MinigameHub
+  scenes/            Boot, Preload, MainMenu, AvatarEditor, Home, Gym, MinigameHub, Pets
                      BaseScene (title, back button), PlaceholderScene (empty scenes)
   data/              game content as data (menu, furniture, asset manifest types)
   services/          SaveService and other non-visual services
@@ -34,6 +36,7 @@ src/
 public/
   assets/manifest.json   asset list, read by Preload
   icon*.png, icon.svg    placeholder app icons (scripts/gen-icons.mjs)
+docs/game-design.md    systems, data model, roadmap
 research/              interviews with Alea, reference-game research
 .github/workflows/deploy.yml
 ```

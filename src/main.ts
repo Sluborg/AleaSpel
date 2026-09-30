@@ -7,6 +7,7 @@ import { GymScene } from './scenes/GymScene';
 import { HomeScene } from './scenes/HomeScene';
 import { MainMenuScene } from './scenes/MainMenuScene';
 import { MinigameHubScene } from './scenes/MinigameHubScene';
+import { PetsScene } from './scenes/PetsScene';
 import { PreloadScene } from './scenes/PreloadScene';
 
 // Auto-update: a new deploy is picked up and the page reloads with it.
@@ -44,5 +45,6 @@ new Phaser.Game({
     HomeScene,
     GymScene,
     MinigameHubScene,
+    PetsScene,
   ],
 });

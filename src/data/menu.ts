@@ -5,8 +5,9 @@ export interface MenuEntry {
 }
 
 export const MENU_ENTRIES: MenuEntry[] = [
-  { scene: 'AvatarEditor', label: 'Min gymnast' },
-  { scene: 'Home', label: 'Mitt hus' },
+  { scene: 'AvatarEditor', label: 'Mitt lag' },
+  { scene: 'Home', label: 'Mina hus' },
   { scene: 'Gym', label: 'Mitt gym' },
   { scene: 'MinigameHub', label: 'Tävlingar' },
+  { scene: 'Pets', label: 'Mina djur' },
 ];

@@ -12,8 +12,8 @@ export class MainMenuScene extends BaseScene {
     this.cameras.main.setBackgroundColor(COLORS.background);
     this.addTitle('AleaSpel', 220).setFontSize(96);
 
-    const startY = 480;
-    const gap = 160;
+    const startY = 440;
+    const gap = 150;
     MENU_ENTRIES.forEach((entry, i) => {
       createButton(this, GAME_WIDTH / 2, startY + i * gap, entry.label, () =>
         this.scene.start(entry.scene),

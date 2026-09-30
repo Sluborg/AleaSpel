@@ -16,7 +16,7 @@ export class HomeScene extends BaseScene {
   create(): void {
     this.cameras.main.setBackgroundColor(COLORS.background);
     this.drawRoom();
-    this.addTitle('Mitt hus');
+    this.addTitle('Mina hus');
     this.addBackButton();
 
     const saved = SaveService.get().home.furniture;
