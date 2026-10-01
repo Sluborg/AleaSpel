@@ -5,7 +5,7 @@ import { createButton } from '../../ui/Button';
 // Small brain challenges shared by the Uppvärmning games and the apparatus games (where a round
 // can be a challenge instead of a pattern). Each builds into `layer`, lasts one round and calls
 // `done(stars)` once with 0-3 stars. `level` (1-5) and `step` (round number) set how hard it is.
-export type ChallengeKind = 'numbers' | 'letters' | 'timing' | 'colors';
+export type ChallengeKind = 'numbers' | 'letters' | 'timing' | 'colors' | 'pairs';
 
 export interface ChallengeCtx {
   scene: Phaser.Scene;
@@ -22,11 +22,13 @@ export const CHALLENGE_HINT: Record<ChallengeKind, string> = {
   letters: 'Tryck bokstäverna i ordning!',
   timing: '', // the challenge shows its own instruction
   colors: 'Kom ihåg färgerna!',
+  pairs: 'Hitta paren!',
 };
 
 export function runChallenge(kind: ChallengeKind, ctx: ChallengeCtx, colorRow?: number[]): void {
   if (kind === 'numbers' || kind === 'letters') orderChallenge(ctx, kind);
   else if (kind === 'timing') timingChallenge(ctx);
+  else if (kind === 'pairs') pairsChallenge(ctx);
   else colorChallenge(ctx, colorRow);
 }
 
@@ -257,4 +259,107 @@ function flash(scene: Phaser.Scene, pad: Phaser.GameObjects.Rectangle, times = 1
     repeat: times - 1,
     onComplete: () => pad.setAlpha(DIM).setScale(1),
   });
+}
+
+// --- find the pairs --------------------------------------------------------------------------
+
+const PAIR_ICONS = ['🤸', '🏅', '🏆', '⭐', '🎀', '🦄', '🐰', '🌸', '💖', '🌈', '🐱', '🍓'];
+const CARD_W = 140;
+const CARD_H = 160;
+
+// Memory: cards lie face down; turn two at a time to find matching pairs. On low levels all
+// cards are shown for a moment first. Stars: 3 with few wrong turns, then 2, then 1.
+function pairsChallenge(ctx: ChallengeCtx): void {
+  const { scene, layer } = ctx;
+  const pairs = Math.min(8, 2 + ctx.level + Math.floor(ctx.step / 2));
+  const icons = Phaser.Utils.Array.Shuffle([...PAIR_ICONS]).slice(0, pairs);
+  const deck = Phaser.Utils.Array.Shuffle([...icons, ...icons]);
+  const cols = deck.length > 12 ? 4 : deck.length > 6 ? 4 : 3;
+  const rows = Math.ceil(deck.length / cols);
+  const info = text(scene, GAME_WIDTH / 2, ctx.top + 20, 'Hitta paren!', 36);
+  layer.add(info);
+  const gapX = (GAME_WIDTH - 60 - cols * CARD_W) / (cols - 1 || 1);
+  const areaH = ctx.bottom - ctx.top - 80;
+  const gapY = Math.min(24, (areaH - rows * CARD_H) / Math.max(1, rows - 1));
+  const startY = ctx.top + 80 + (areaH - (rows * CARD_H + (rows - 1) * gapY)) / 2 + CARD_H / 2;
+  let open: { icon: string; card: Phaser.GameObjects.Container }[] = [];
+  let found = 0;
+  let wrong = 0;
+  let busy = true;
+  const cards = deck.map((icon, i) => {
+    const x = 30 + CARD_W / 2 + (i % cols) * (CARD_W + gapX);
+    const y = startY + Math.floor(i / cols) * (CARD_H + gapY);
+    const c = scene.add.container(x, y);
+    const back = scene.add.graphics();
+    back.fillStyle(0xb06bff, 1).fillRoundedRect(-CARD_W / 2, -CARD_H / 2, CARD_W, CARD_H, 22);
+    back.lineStyle(5, 0xffffff, 1).strokeRoundedRect(-CARD_W / 2, -CARD_H / 2, CARD_W, CARD_H, 22);
+    back.fillStyle(0xffffff, 0.35).fillCircle(0, 0, 26);
+    const face = scene.add.container(0, 0);
+    const fg = scene.add.graphics();
+    fg.fillStyle(0xfff6e6, 1).fillRoundedRect(-CARD_W / 2, -CARD_H / 2, CARD_W, CARD_H, 22);
+    fg.lineStyle(5, 0xffc2dc, 1).strokeRoundedRect(-CARD_W / 2, -CARD_H / 2, CARD_W, CARD_H, 22);
+    face.add([fg, scene.add.text(0, 0, icon, { fontSize: '76px' }).setOrigin(0.5)]);
+    c.add([back, face]);
+    c.setData('face', face).setData('back', back);
+    c.setSize(CARD_W, CARD_H).setInteractive({ useHandCursor: true });
+    c.on('pointerdown', () => {
+      if (busy || open.some((o) => o.card === c) || !c.input?.enabled) return;
+      turn(c, true);
+      open.push({ icon, card: c });
+      if (open.length < 2) return;
+      const [a, b] = open;
+      open = [];
+      if (a.icon === b.icon) {
+        found++;
+        [a.card, b.card].forEach((k) => {
+          k.disableInteractive();
+          scene.tweens.add({ targets: k, scale: 1.12, duration: 140, yoyo: true });
+        });
+        info.setText(found < pairs ? `${found} / ${pairs}` : 'Alla par!');
+        if (found === pairs) {
+          busy = true;
+          const stars = wrong <= pairs / 2 ? 3 : wrong <= pairs ? 2 : 1;
+          scene.time.delayedCall(500, () => ctx.done(stars));
+        }
+      } else {
+        wrong++;
+        busy = true;
+        scene.time.delayedCall(700, () => {
+          turn(a.card, false);
+          turn(b.card, false);
+          busy = false;
+        });
+      }
+    });
+    c.setScale(0);
+    scene.tweens.add({ targets: c, scale: 1, duration: 220, delay: i * 40, ease: 'Back.out' });
+    layer.add(c);
+    return c;
+  });
+  const peek = ctx.level <= 2 ? 1600 : 0;
+  cards.forEach((c) => turn(c, peek > 0, true));
+  scene.time.delayedCall(400 + deck.length * 40 + peek, () => {
+    if (peek) cards.forEach((c) => turn(c, false));
+    busy = false;
+  });
+
+  function turn(card: Phaser.GameObjects.Container, up: boolean, instant = false): void {
+    const face = card.getData('face') as Phaser.GameObjects.Container;
+    const back = card.getData('back') as Phaser.GameObjects.Graphics;
+    if (instant) {
+      face.setVisible(up);
+      back.setVisible(!up);
+      return;
+    }
+    scene.tweens.add({
+      targets: card,
+      scaleX: 0,
+      duration: 90,
+      yoyo: true,
+      onYoyo: () => {
+        face.setVisible(up);
+        back.setVisible(!up);
+      },
+    });
+  }
 }

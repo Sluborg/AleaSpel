@@ -62,12 +62,12 @@ export interface MinigameDef {
   available: boolean; // false = "Kommer snart"
   kind?: 'apparatus' | 'warmup'; // warmup games are quick brain games, not in Tävlingsdag
   intro?: string; // warmup: how to play, shown before the first round
-  variant?: string; // warmup: which version of a shared scene (numbers, letters)
+  variant?: string; // warmup: which challenge the OrderGame scene runs (numbers, letters, pairs)
   // apparatus: what a round can be, picked at random each round ('pattern' = draw the move).
   mix?: RoundKind[];
 }
 
-export type RoundKind = 'pattern' | 'numbers' | 'letters' | 'timing' | 'colors';
+export type RoundKind = 'pattern' | 'numbers' | 'letters' | 'timing' | 'colors' | 'pairs';
 
 export const MINIGAMES: MinigameDef[] = [
   {
@@ -199,6 +199,18 @@ export const MINIGAMES: MinigameDef[] = [
     kind: 'warmup',
     intro:
       'Titta på färgerna som blinkar.\nTryck samma färger i samma ordning!\nVarje runda kommer en färg till.',
+  },
+  {
+    id: 'pairs',
+    name: 'Para ihop',
+    icon: '🃏',
+    scene: 'OrderGame',
+    moves: [],
+    rounds: 5,
+    available: true,
+    kind: 'warmup',
+    variant: 'pairs',
+    intro: 'Vänd två kort i taget.\nHitta alla par som är lika!',
   },
 ];
 

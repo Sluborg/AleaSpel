@@ -139,7 +139,9 @@ they were drawn (percent shown, stars by accuracy bands per difficulty).
     `scenes/minigames/QuickGameScene.ts` (intro, 5 rounds of 0-3 stars, medals, record):
     Sifferhopp and Bokstavsjakt (`OrderGameScene`, tap 1, 2, 3 … or A, B, C … in order, Å Ä Ö
     included), Pricka rätt (`TimingGameScene`, stop the sliding marker on the line), Färgminne
-    (`ColorMemoryScene`, repeat the blinking colours, one more each round). They are rows in
+    (`ColorMemoryScene`, repeat the blinking colours, one more each round), Para ihop
+    (`OrderGameScene` with `variant: 'pairs'`, a memory card game; 3 to 8 pairs by level and
+    round, levels 1-2 show all cards for a moment first). They are rows in
     `data/minigames.ts` with `kind: 'warmup'`; Tävlingsdag uses the apparatus games only.
   - 16 symbols to draw (added Topp, U, L, M, Våg, Diamant, Hus, Åtta) and new moves using them
     (Ryggfall, Barani, Språng, Bukrullning, Flyaway, Rondat, Jurtjenko).
