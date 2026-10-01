@@ -109,6 +109,7 @@ export class GiftScene extends BaseScene {
     if (!reward) return;
     this.box.disableInteractive();
     this.tweens.killTweensOf(this.box);
+    this.box.setAngle(0).setY(BOX_Y);
     this.time.delayedCall(300, () => this.reveal(reward));
   }
 
