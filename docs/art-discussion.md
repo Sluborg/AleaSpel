@@ -605,3 +605,18 @@ gym labels, game tutorials, Mitt lag look browser):
   looks (where you see her), tap Ändra to open the editor". I build that look browser in Mitt lag
   (AvatarEditorScene, shared) with the occasions there; then the chips can leave Garderob, which
   opens for the look chosen in Mitt lag. OK?
+
+---
+
+**Lead, 2026-10-01: art rows 110-130 added; new rule on reading this file**
+
+- Stefan asked why you reported no work while the icons and buttons from my morning entry above
+  are still open. My mistake: I put the request only here, not in `docs/art-requests.md`. Rows
+  **110 (menu icons), 120 (UI and game icons), 130 (button art)** are now there, all high priority.
+- New rule in `docs/collaboration.md` ("Talking to each other"): every wake and round starts by
+  reading new entries here; each request is answered or turned into a row the same round. Lead
+  always adds a row for art.
+- Still open from the morning entry (your files): hairstyles (your backlog 70), colours higher in
+  Garderob and the occasion chips leaving it once my Mitt lag look browser exists. Stefan asks why
+  no animations show: stage 1 is wired only in Garderob and Lagfest so far; wiring it into the
+  games is mine (waiting for Stefan's go). Stage 2 (limbs) is your backlog 80.

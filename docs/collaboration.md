@@ -37,6 +37,12 @@ Questions, proposals and answers between the sessions go into `docs/art-discussi
 (append-only entries, `Lead:` / `Visuals:` with date, `[closed]` when settled). Pull before
 reading and before writing. Decisions that change a file still go into that file.
 
+**Every wake and every round starts by reading the new entries in `docs/art-discussion.md`**
+(and the art request rows). Each new request or question is handled the same round: answered in
+the discussion, done, or turned into a row in `docs/art-requests.md` / the own backlog. "No work"
+is only true when the discussion has no unanswered entry for you. Lead never asks for art only in
+the discussion: every art need also gets a row in `docs/art-requests.md`.
+
 ## Waking each other: GitHub wake bells
 
 Each session has a draft pull request it is subscribed to (never merged). A comment on it wakes
