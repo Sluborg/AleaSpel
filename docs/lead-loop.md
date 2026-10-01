@@ -47,14 +47,15 @@ Lead works in rounds of about 40 minutes. Goal: features that make the game more
 
 ## Round log
 
-| Time (UTC) | Release   | What happened                                                                                                                                                                |
-| ---------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 21:35      | (next)    | Round 1: PR CI (#5, #9 after Codex review), trophies (#6, save v14, Codex found a UTC date bug, fixed), main menu tiles (#8, part of backlog 30). Codex reviews work.        |
-| 22:45      | (next)    | Round 2: leaner UI in Butiken, Tävlingar and room buttons (#10), Lagfest in Klubbstugan (#11, Codex found leaking disco tweens, fixed).                                      |
-| 23:05      | (next)    | Round 3: Gym tab in Butiken with colour variants of apparatus and mats (#12).                                                                                                |
-| 23:24      | (next)    | Round 4: Trädgården, house exterior builder and garden (no save change, v15 stays with Visuals).                                                                             |
-| 00:07      | Kiki (97) | Round 5: Trädgården live (#13, Codex found a starter-garden bug, fixed). New backlog 70-90. Asked Visuals about save v15/v16.                                                |
-| 00:49      | (next)    | Round 6: tap reactions (#14), Fredagspaket with save v15 (#15; Visuals takes v16). Codex hit its usage limit; the local code-review skill found a gift-box angle bug, fixed. |
-| 01:30      | (next)    | Round 7: Para ihop memory warm-up (#16); /code-review found a card-flip race, fixed. Codex still at its usage limit.                                                         |
-| 02:11      | (next)    | Round 8: Bubblor pet game and round-button labels (#17, Visuals' note); /code-review caught that the first label fix missed the layer bar, fixed.                            |
-| 02:53      | (next)    | Round 9: garden extras (B20 art), gift box art (B22), Klubbstugan pet button in the bar (#18); review caught a missing-art guard, fixed.                                     |
+| Time (UTC) | Release   | What happened                                                                                                                                                                                               |
+| ---------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 21:35      | (next)    | Round 1: PR CI (#5, #9 after Codex review), trophies (#6, save v14, Codex found a UTC date bug, fixed), main menu tiles (#8, part of backlog 30). Codex reviews work.                                       |
+| 22:45      | (next)    | Round 2: leaner UI in Butiken, Tävlingar and room buttons (#10), Lagfest in Klubbstugan (#11, Codex found leaking disco tweens, fixed).                                                                     |
+| 23:05      | (next)    | Round 3: Gym tab in Butiken with colour variants of apparatus and mats (#12).                                                                                                                               |
+| 23:24      | (next)    | Round 4: Trädgården, house exterior builder and garden (no save change, v15 stays with Visuals).                                                                                                            |
+| 00:07      | Kiki (97) | Round 5: Trädgården live (#13, Codex found a starter-garden bug, fixed). New backlog 70-90. Asked Visuals about save v15/v16.                                                                               |
+| 00:49      | (next)    | Round 6: tap reactions (#14), Fredagspaket with save v15 (#15; Visuals takes v16). Codex hit its usage limit; the local code-review skill found a gift-box angle bug, fixed.                                |
+| 01:30      | (next)    | Round 7: Para ihop memory warm-up (#16); /code-review found a card-flip race, fixed. Codex still at its usage limit.                                                                                        |
+| 02:11      | (next)    | Round 8: Bubblor pet game and round-button labels (#17, Visuals' note); /code-review caught that the first label fix missed the layer bar, fixed.                                                           |
+| 02:53      | (next)    | Round 9: garden extras (B20 art), gift box art (B22), Klubbstugan pet button in the bar (#18); review caught a missing-art guard, fixed.                                                                    |
+| 03:34      | (next)    | Round 10: full-screen QA pass by a Sonnet sub-agent; fixed Tävlingsdag text overflow, pattern-card name overlap, order-tile overlap (#19). Two reported items were false alarms (shop tabs, vault overlay). |
