@@ -266,6 +266,7 @@ function flash(scene: Phaser.Scene, pad: Phaser.GameObjects.Rectangle, times = 1
 const PAIR_ICONS = ['🤸', '🏅', '🏆', '⭐', '🎀', '🦄', '🐰', '🌸', '💖', '🌈', '🐱', '🍓'];
 const CARD_W = 140;
 const CARD_H = 160;
+const FLIP_MS = 90; // half a card flip
 
 // Memory: cards lie face down; turn two at a time to find matching pairs. On low levels all
 // cards are shown for a moment first. Stars: 3 with few wrong turns, then 2, then 1.
@@ -313,7 +314,14 @@ function pairsChallenge(ctx: ChallengeCtx): void {
         found++;
         [a.card, b.card].forEach((k) => {
           k.disableInteractive();
-          scene.tweens.add({ targets: k, scale: 1.12, duration: 140, yoyo: true });
+          // After the flip, so the pop starts from a full-width card.
+          scene.tweens.add({
+            targets: k,
+            scale: 1.12,
+            duration: 140,
+            yoyo: true,
+            delay: FLIP_MS * 2 + 20,
+          });
         });
         info.setText(found < pairs ? `${found} / ${pairs}` : 'Alla par!');
         if (found === pairs) {
@@ -327,7 +335,7 @@ function pairsChallenge(ctx: ChallengeCtx): void {
         scene.time.delayedCall(700, () => {
           turn(a.card, false);
           turn(b.card, false);
-          busy = false;
+          scene.time.delayedCall(FLIP_MS * 2 + 20, () => (busy = false));
         });
       }
     });
@@ -340,7 +348,7 @@ function pairsChallenge(ctx: ChallengeCtx): void {
   cards.forEach((c) => turn(c, peek > 0, true));
   scene.time.delayedCall(400 + deck.length * 40 + peek, () => {
     if (peek) cards.forEach((c) => turn(c, false));
-    busy = false;
+    scene.time.delayedCall(peek ? FLIP_MS * 2 + 20 : 0, () => (busy = false));
   });
 
   function turn(card: Phaser.GameObjects.Container, up: boolean, instant = false): void {
@@ -351,10 +359,13 @@ function pairsChallenge(ctx: ChallengeCtx): void {
       back.setVisible(!up);
       return;
     }
+    // A new flip replaces any running one, so a card never ends half-turned.
+    scene.tweens.killTweensOf(card);
+    card.setScale(1);
     scene.tweens.add({
       targets: card,
       scaleX: 0,
-      duration: 90,
+      duration: FLIP_MS,
       yoyo: true,
       onYoyo: () => {
         face.setVisible(up);
