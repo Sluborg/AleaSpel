@@ -70,10 +70,11 @@ export class TeamCompetitionScene extends BaseScene {
     }
 
     this.add
-      .text(GAME_WIDTH / 2, 175, `${TEAM_NAME} mot ${RIVAL_TEAMS.length} andra lag`, {
+      .text(GAME_WIDTH / 2, 175, `Du möter ${RIVAL_TEAMS.length} lag!`, {
         fontFamily: FONT,
-        fontSize: '32px',
-        color: COLORS.textMuted,
+        fontSize: '36px',
+        color: '#ffd84d',
+        fontStyle: 'bold',
       })
       .setOrigin(0.5);
     this.add
@@ -113,21 +114,62 @@ export class TeamCompetitionScene extends BaseScene {
         .setOrigin(1, 0.5);
     });
 
+    this.rivals(ROW_Y + lineup.length * ROW_H + 30);
+
     if (next) {
       createButton(
         this,
         GAME_WIDTH / 2,
         1170,
-        `${next.game.icon} Kör!`,
+        'Kör!',
         () =>
           this.scene.start(next.game.scene, {
             gymnastId: next.gymnast.id,
             team: true,
             returnTo: 'TeamCompetition',
           }),
-        { width: 560 },
+        { width: 560, icon: `icon_game_${next.game.id}`, emoji: next.game.icon },
       );
     }
+  }
+
+  // The rival clubs as badges, so a small team still has something to look at. Skipped when a
+  // big team's line-up leaves no room above the Kör! button.
+  private rivals(top: number): void {
+    if (top + 230 > 1090) return;
+    this.add
+      .text(GAME_WIDTH / 2, top, 'Dagens motståndare', {
+        fontFamily: FONT,
+        fontSize: '30px',
+        color: COLORS.textMuted,
+      })
+      .setOrigin(0.5);
+    RIVAL_TEAMS.forEach((t, i) => {
+      const x = GAME_WIDTH / 2 + (i - (RIVAL_TEAMS.length - 1) / 2) * 215;
+      const y = top + 110;
+      const badge = this.add.container(x, y);
+      badge.add([
+        this.add.circle(0, 0, 62, t.color),
+        this.add.circle(0, 0, 62).setStrokeStyle(6, 0xffffff, 0.8),
+        this.add.text(0, 2, t.icon, { fontSize: '56px' }).setOrigin(0.5),
+        this.add
+          .text(0, 92, t.name, {
+            fontFamily: FONT,
+            fontSize: '26px',
+            color: COLORS.text,
+            fontStyle: 'bold',
+          })
+          .setOrigin(0.5),
+      ]);
+      this.tweens.add({
+        targets: badge,
+        y: y - 8,
+        duration: 900 + i * 150,
+        yoyo: true,
+        repeat: -1,
+        ease: 'Sine.inOut',
+      });
+    });
   }
 
   // Standings: rivals draw a random share of the same maximum. Rewards are saved once.

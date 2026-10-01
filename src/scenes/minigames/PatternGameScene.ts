@@ -277,6 +277,38 @@ export abstract class PatternGameScene extends BaseScene {
     return pool[Phaser.Math.Between(0, pool.length - 1)];
   }
 
+  // During a challenge the gymnast steps aside: small, in the bottom corner below the panel, so
+  // she stays in the picture and cheers. Returns a function that brings her back, then calls on.
+  private gymnastAside(): (then: () => void) => void {
+    const v = this.view;
+    const home = { x: v.x, y: v.y, scale: v.scale, depth: v.depth };
+    const b = v.getBounds();
+    const s = (230 / b.height) * home.scale;
+    const k = s / home.scale;
+    v.setDepth(160);
+    this.tweens.add({
+      targets: v,
+      x: 110 + (v.x - b.centerX) * k,
+      y: 1250 - (b.bottom - v.y) * k,
+      scale: s,
+      duration: 300,
+      ease: 'Sine.inOut',
+    });
+    return (then) =>
+      this.tweens.add({
+        targets: v,
+        x: home.x,
+        y: home.y,
+        scale: home.scale,
+        duration: 300,
+        ease: 'Sine.inOut',
+        onComplete: () => {
+          v.setDepth(home.depth);
+          then();
+        },
+      });
+  }
+
   // Rounds mix patterns with the apparatus' challenges (`mix` in data), never the same challenge
   // twice in a row, so she does not know what comes next.
   private pickKind(): RoundKind {
@@ -302,12 +334,22 @@ export abstract class PatternGameScene extends BaseScene {
     this.live = false;
     const layer = this.add.container(0, 0).setDepth(150);
     const bg = this.add.graphics();
-    bg.fillStyle(COLORS.background, 0.9).fillRoundedRect(24, 150, GAME_WIDTH - 48, 900, 40);
+    bg.fillStyle(COLORS.background, 0.9).fillRoundedRect(24, 130, GAME_WIDTH - 48, 870, 40);
     layer.add(bg);
+    layer.add(
+      this.add
+        .text(GAME_WIDTH / 2, 180, '✨ Extra uppgift!', {
+          fontFamily: FONT,
+          fontSize: '40px',
+          color: COLORS.text,
+          fontStyle: 'bold',
+        })
+        .setOrigin(0.5),
+    );
     if (CHALLENGE_HINT[kind])
       layer.add(
         this.add
-          .text(GAME_WIDTH / 2, 205, CHALLENGE_HINT[kind], {
+          .text(GAME_WIDTH / 2, 235, CHALLENGE_HINT[kind], {
             fontFamily: FONT,
             fontSize: '36px',
             color: '#ffd84d',
@@ -317,14 +359,14 @@ export abstract class PatternGameScene extends BaseScene {
       );
     const content = this.add.container(0, 0);
     layer.add(content);
-    this.popup('✨ Extra uppgift!');
+    const back = this.gymnastAside();
     runChallenge(kind, {
       scene: this,
       layer: content,
       level: this.level,
       step: 1,
-      top: 250,
-      bottom: 1030,
+      top: 270,
+      bottom: 990,
       done: (got) => {
         const s = Phaser.Math.Clamp(got, 0, 3);
         this.total += s;
@@ -333,9 +375,10 @@ export abstract class PatternGameScene extends BaseScene {
         // The move's reaction uses the move's own scale (1 to its difficulty).
         const d = this.move?.difficulty ?? 1;
         this.deferred = s === 0 ? 0 : Math.max(1, Math.round((s * d) / 3));
+        void this.view.play(s ? 'happy' : 'wobble');
         this.time.delayedCall(700, () => {
           layer.destroy();
-          this.playRound();
+          back(() => this.playRound());
         });
       },
     });

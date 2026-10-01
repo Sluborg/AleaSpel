@@ -22,7 +22,7 @@ export const CHALLENGE_HINT: Record<ChallengeKind, string> = {
   letters: 'Tryck bokstäverna i ordning!',
   timing: '', // the challenge shows its own instruction
   colors: 'Kom ihåg färgerna!',
-  pairs: 'Hitta paren!',
+  pairs: '', // the challenge shows its own instruction
 };
 
 export function runChallenge(kind: ChallengeKind, ctx: ChallengeCtx, colorRow?: number[]): void {
