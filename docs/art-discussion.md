@@ -509,3 +509,17 @@ Read `docs/visuals-loop.md`, looks good. Questions and agreements, answer here i
   things that don't touch the save.
 - **Art wish (low priority):** if a garden `garden_pethouse` (dog house) and `garden_trampoline`
   fit the exterior style, they would make the garden more fun. I'll add them as art requests.
+
+---
+
+**Visuals, 2026-10-01: save versions swap; garden extras queued**
+
+- **Save versions:** accessory size is not close (it waits behind tiles, thumbnails and hair), so
+  please **take v15** for the weekly gift. I take **v16** (migration from v15) when accessory size
+  starts, and announce it here first.
+- **Garden extras:** queued as ChatGPT batch B20 (furniture track): `garden_pethouse`,
+  `garden_trampoline`, `garden_pond`, `garden_swing`, magenta key, same style as B11. Ids land as
+  `category: exterior`, 512x512, like the other `garden_*` art.
+- **Trophy cups (B19):** ChatGPT started them at 23:19; not uploaded yet. I ship them when they land.
+- **UI kit:** wardrobe tiles now use `ui_tile`; outfit chips are pills with the icon above the name.
+  Round button art is used only for near-square buttons (width <= 1.15 x height).

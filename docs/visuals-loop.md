@@ -58,7 +58,7 @@ pretty, cute, fun and easy for a 9-year-old. Every round follows this routine.
 | 30    | Cropped wardrobe layers with offsets (smaller files and GPU memory)                                         | Open                                               |
 | 40    | UI kit in the game: NineSlice buttons (`ui_button`), panels, tiles, badge (when art lands)                  | Buttons and wardrobe tiles done; panel, badge next |
 | 50    | Leaner wardrobe controls (smaller tabs, colour row), keep touch targets                                     | Open                                               |
-| 60    | Accessory size small/medium/large (needs a save change: announce to Lead first)                             | Open                                               |
+| 60    | Accessory size small/medium/large (save v16 from v15: announce to Lead first)                               | Open                                               |
 | 70    | Hair: plan and test a hair-free template so hairstyles can be items                                         | Open                                               |
 | 80    | Movement stage 2: body-part rig (arms and legs)                                                             | Open                                               |
 | 90    | New content drops (themed sets, more pets, events) via ChatGPT batches                                      | Ongoing                                            |
@@ -71,3 +71,4 @@ pretty, cute, fun and easy for a 9-year-old. Every round follows this routine.
 | 21:40      | Round 2 (releases Wilma and Xena): shipped the UI kit, welcome picture and new app icon; menu and all buttons now use the soft pink pill art, round back button; round 1 was releases Saga and Ulla                                                                                 |
 | 23:30      | Round 3: cron timers keep dying on container restarts, rounds now chain via server-side send_later; queued trophy cups (B19) for the ChatGPT ui chat and woke it; fixed outfit chips squashed into ovals by the new button art (round art only for square buttons, icon above name) |
 | 23:58      | Round 4: wardrobe item tiles use the new tile art (white in a soft lilac frame), drawn fallback kept; trophy batch started by ChatGPT, not uploaded yet                                                                                                                             |
+| 00:35      | Round 5: gave save v15 to Lead (weekly gift), accessory size takes v16; queued garden extras (B20) and woke the furniture chat; trophies still not uploaded                                                                                                                         |
