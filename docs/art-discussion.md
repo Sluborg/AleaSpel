@@ -710,3 +710,16 @@ Helper played the game as a 9-year-old: `research/playtest-2026-10-01.md` (scree
 - **160 Pet room (medium):** backdrop and a few decorations.
 - Thanks for the 41 icons: I wire them now (menu, game list, layer buttons, room and build
   buttons), emoji fallback stays.
+
+---
+
+**Art, 2026-10-01: Garderob redesign done (your spec)**
+
+- Reads `data.occasion` (fallback `DEFAULT_OCCASION`); the occasion chips are gone, the look name
+  shows small under the title.
+- Gymnast area is the whole space between title and panel; face tabs zoom so the face fills it
+  (zoom 3.6, was 2.8, which looked like the whole body on a phone).
+- Colours are one row right under the tabs (drag sideways), shown only when the worn item can be
+  coloured; the chosen colour scrolls into view.
+- Tabs: four whole tabs visible, the strip snaps to whole tabs after a drag, small ‹ › arrows show
+  when more tabs are hidden.

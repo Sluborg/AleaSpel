@@ -23,20 +23,29 @@ import { GymnastView, MASTER_H } from '../ui/GymnastView';
 import { itemBounds } from '../ui/itemBounds';
 import { BaseScene } from './BaseScene';
 
-const PANEL_TOP = 770;
+// Layout, top to bottom: title and look name, the gymnast, then the panel: tab row, colour row
+// (only when the worn item can be coloured), item grid.
+const PANEL_TOP = 720;
 const PANEL_BOTTOM = 1260;
-const TAB_ZONE_BOTTOM = PANEL_TOP + 140;
+const TAB_Y = PANEL_TOP + 65;
+const TAB_ZONE_BOTTOM = PANEL_TOP + 130;
+const COLOR_ROW_H = 112;
+const SWATCH_STEP = 100;
 const TILE = 140;
 const TILE_GAP = 20;
 const TILE_ART = 'ui_tile';
-const TAB_W = 190;
-const TAB_STEP = 205;
+// Four whole tabs fit the panel; the strip snaps to whole tabs after a drag.
+const TAB_X0 = 40;
+const TAB_W = 148;
+const TAB_STEP = 160;
 const DRAG_THRESHOLD = 14;
 // Gymnast view: full body, or zoomed to the head for face tabs.
-const VIEW_Y = 520;
+const VIEW_Y = 455;
 const VIEW_H = 500;
-const FACE_ZOOM = 2.8;
-const FACE_HEAD_Y = 460;
+const FACE_ZOOM = 3.6;
+const FACE_HEAD_Y = 440;
+
+type Zone = 'tabs' | 'colors' | 'grid';
 
 // Garderob: pick clothes per category and colour tintable items. Items come from the manifest.
 export class WardrobeScene extends BaseScene {
@@ -45,16 +54,19 @@ export class WardrobeScene extends BaseScene {
   private panel?: Phaser.GameObjects.Container;
   private tab = ''; // tab label
   private occasion = DEFAULT_OCCASION; // which look is being dressed
-  private chips?: Phaser.GameObjects.Container;
   private focusLayer = ''; // layer the colour swatches apply to
   // Drag scrolling: the tab strip scrolls sideways, the item grid up and down.
   private tabStrip?: Phaser.GameObjects.Container;
   private grid?: Phaser.GameObjects.Container;
+  private colorStrip?: Phaser.GameObjects.Container;
   private tabScroll = 0;
   private gridScroll = 0;
+  private colorScroll = 0;
   private tabMin = 0;
   private gridMin = 0;
-  private dragZone: 'tabs' | 'grid' | null = null;
+  private colorMin = 0;
+  private colorBottom = TAB_ZONE_BOTTOM; // bottom of the colour row (= its top when hidden)
+  private dragZone: Zone | null = null;
   private dragged = false;
   private dragStart = { x: 0, y: 0, scroll: 0 };
   private zoomed = false;
@@ -63,11 +75,27 @@ export class WardrobeScene extends BaseScene {
     super('Wardrobe');
   }
 
-  create(data: { gymnastId?: string }): void {
+  // Mitt lag chooses the gymnast and the look (occasion) and opens Garderob for it.
+  create(data: { gymnastId?: string; occasion?: string }): void {
     this.cameras.main.setBackgroundColor(COLORS.background);
     const gymnasts = SaveService.get().gymnasts;
     this.gymnast = gymnasts.find((g) => g.id === data.gymnastId) ?? gymnasts[0];
+    this.occasion = OCCASIONS.some((o) => o.id === data.occasion)
+      ? (data.occasion as string)
+      : DEFAULT_OCCASION;
+    this.zoomed = false;
+    this.tabScroll = 0;
+    this.gridScroll = 0;
+    this.colorScroll = 0;
     this.addTitle(this.gymnast.name);
+    const occ = OCCASIONS.find((o) => o.id === this.occasion);
+    this.add
+      .text(GAME_WIDTH / 2, 150, occ?.name ?? '', {
+        fontFamily: FONT,
+        fontSize: '30px',
+        color: COLORS.textMuted,
+      })
+      .setOrigin(0.5);
     this.addBackButton('AvatarEditor');
     this.view = new GymnastView(this, GAME_WIDTH / 2, VIEW_Y, VIEW_H, this.gymnast, this.occasion);
     // Keep the zoomed gymnast out of the panel area.
@@ -76,7 +104,6 @@ export class WardrobeScene extends BaseScene {
     clip.fillRect(0, 0, GAME_WIDTH, PANEL_TOP - 4);
     this.view.setMask(clip.createGeometryMask());
     void this.view.play('idle');
-    this.buildOccasions();
 
     const tabs = this.tabs();
     this.tab = tabs[0]?.label ?? '';
@@ -88,8 +115,19 @@ export class WardrobeScene extends BaseScene {
     this.input.on('pointerdown', (p: Phaser.Input.Pointer) => {
       this.dragged = false;
       this.dragZone =
-        p.y < PANEL_TOP || p.y > PANEL_BOTTOM ? null : p.y < TAB_ZONE_BOTTOM ? 'tabs' : 'grid';
-      const scroll = this.dragZone === 'tabs' ? this.tabScroll : this.gridScroll;
+        p.y < PANEL_TOP || p.y > PANEL_BOTTOM
+          ? null
+          : p.y < TAB_ZONE_BOTTOM
+            ? 'tabs'
+            : p.y < this.colorBottom
+              ? 'colors'
+              : 'grid';
+      const scroll =
+        this.dragZone === 'tabs'
+          ? this.tabScroll
+          : this.dragZone === 'colors'
+            ? this.colorScroll
+            : this.gridScroll;
       this.dragStart = { x: p.x, y: p.y, scroll };
     });
     this.input.on('pointermove', (p: Phaser.Input.Pointer) => {
@@ -101,45 +139,32 @@ export class WardrobeScene extends BaseScene {
       if (this.dragZone === 'tabs') {
         this.tabScroll = Phaser.Math.Clamp(this.dragStart.scroll + dx, this.tabMin, 0);
         this.tabStrip?.setX(this.tabScroll);
+      } else if (this.dragZone === 'colors') {
+        this.colorScroll = Phaser.Math.Clamp(this.dragStart.scroll + dx, this.colorMin, 0);
+        this.colorStrip?.setX(this.colorScroll);
       } else {
         this.gridScroll = Phaser.Math.Clamp(this.dragStart.scroll + dy, this.gridMin, 0);
         this.grid?.setY(this.gridScroll);
       }
     });
+    // After a sideways drag the tab strip settles on whole tabs, so none is cut in half.
+    this.input.on('pointerup', () => {
+      if (this.dragZone !== 'tabs' || !this.dragged || !this.tabStrip) return;
+      const snapped = Phaser.Math.Clamp(
+        Math.round(this.tabScroll / TAB_STEP) * TAB_STEP,
+        this.tabMin,
+        0,
+      );
+      this.tabScroll = snapped;
+      this.tweens.add({ targets: this.tabStrip, x: snapped, duration: 160, ease: 'Sine.easeOut' });
+    });
   }
 
   // A tap counts only if it was not a drag and started in the zone the control belongs to.
-  private tap(zone: 'tabs' | 'grid', action: () => void): () => void {
+  private tap(zone: Zone, action: () => void): () => void {
     return () => {
       if (!this.dragged && this.dragZone === zone) action();
     };
-  }
-
-  // Occasion chips under the title: each occasion has its own look (face and hair are shared).
-  private buildOccasions(): void {
-    this.chips?.destroy();
-    const chips = this.add.container(0, 0);
-    this.chips = chips;
-    const step = 138;
-    OCCASIONS.forEach((o, i) => {
-      const selected = o.id === this.occasion;
-      chips.add(
-        createButton(
-          this,
-          GAME_WIDTH / 2 + (i - (OCCASIONS.length - 1) / 2) * step,
-          215,
-          `${o.icon}\n${o.name}`,
-          () => {
-            this.occasion = o.id;
-            this.focusLayer = '';
-            this.view.refresh(this.gymnast, this.occasion);
-            this.buildOccasions();
-            this.buildPanel();
-          },
-          { width: step - 6, fontSize: 22, color: selected ? COLORS.primary : 0x6b5a85 },
-        ),
-      );
-    });
   }
 
   // The outfit shown and edited: shared face and hair plus the current occasion's look.
@@ -190,24 +215,31 @@ export class WardrobeScene extends BaseScene {
       strip.add(
         createButton(
           this,
-          40 + TAB_W / 2 + i * TAB_STEP,
-          PANEL_TOP + 70,
+          TAB_X0 + TAB_W / 2 + i * TAB_STEP,
+          TAB_Y,
           t.label,
           this.tap('tabs', () => {
             this.tab = t.label;
             this.focusLayer = '';
             this.gridScroll = 0;
+            this.colorScroll = 0;
             this.buildPanel();
           }),
-          { width: TAB_W, fontSize: 32, color: selected ? COLORS.primary : 0x6b5a85 },
+          { width: TAB_W, fontSize: 26, color: selected ? COLORS.primary : 0x6b5a85 },
         ),
       );
     });
-    this.tabMin = Math.min(0, GAME_WIDTH - 40 - (40 + tabs.length * TAB_STEP - (TAB_STEP - TAB_W)));
+    const visibleTabs = Math.floor((GAME_WIDTH - 2 * TAB_X0 + (TAB_STEP - TAB_W)) / TAB_STEP);
+    this.tabMin = -Math.max(0, tabs.length - visibleTabs) * TAB_STEP;
     this.tabScroll = Phaser.Math.Clamp(this.tabScroll, this.tabMin, 0);
     strip.setX(this.tabScroll);
-    strip.setMask(this.maskRect(20, PANEL_TOP, GAME_WIDTH - 40, TAB_ZONE_BOTTOM - PANEL_TOP));
+    // Clip to whole tabs only, so no tab shows half at the edge.
+    const clipW = visibleTabs * TAB_STEP - (TAB_STEP - TAB_W) + 12;
+    strip.setMask(this.maskRect(TAB_X0 - 6, PANEL_TOP, clipW, TAB_ZONE_BOTTOM - PANEL_TOP));
     panel.add(strip);
+    // Small arrows at the panel edges show that more tabs are hidden on that side.
+    if (this.tabScroll < 0) panel.add(this.edgeHint(TAB_X0 - 14, '‹'));
+    if (this.tabScroll > this.tabMin) panel.add(this.edgeHint(GAME_WIDTH - TAB_X0 + 10, '›'));
 
     const tab = this.currentTab();
     this.setZoom(!!tab && tab.categories.every((c) => FACE_CATEGORIES.has(c)));
@@ -215,12 +247,47 @@ export class WardrobeScene extends BaseScene {
     const look = this.look();
     const wornIn = layers.filter((l) => look[l]);
     if (!wornIn.includes(this.focusLayer)) this.focusLayer = wornIn[0] ?? '';
-    const rowY = TAB_ZONE_BOTTOM + 20 + TILE / 2;
+    const items = this.items().filter((i) => tab?.categories.includes(i.category));
 
-    // Item grid ("none" first, then every item in the tab, then colours), drag up/down.
+    // Colour row right under the tabs, for the worn item when it can be coloured; drag sideways.
+    const worn = look[this.focusLayer];
+    const layer = this.focusLayer;
+    const wornEntry = items.find((i) => i.id === worn?.item);
+    this.colorBottom = TAB_ZONE_BOTTOM;
+    this.colorStrip = undefined;
+    if (wornEntry?.tintable) {
+      this.colorBottom = TAB_ZONE_BOTTOM + COLOR_ROW_H;
+      const rowY = TAB_ZONE_BOTTOM + COLOR_ROW_H / 2;
+      const colors = this.add.container(0, 0);
+      this.colorStrip = colors;
+      const x0 = TAB_X0 + SWATCH_STEP / 2;
+      PALETTE.forEach((color, i) => {
+        colors.add(
+          this.swatch(x0 + i * SWATCH_STEP, rowY, color, worn?.tint === color, () =>
+            this.setTint(layer, color),
+          ),
+        );
+      });
+      const visible = GAME_WIDTH - 2 * TAB_X0;
+      this.colorMin = Math.min(0, visible - PALETTE.length * SWATCH_STEP);
+      // Keep the chosen colour in view.
+      const sel = PALETTE.findIndex((c) => c === worn?.tint);
+      if (sel >= 0) {
+        const left = sel * SWATCH_STEP + this.colorScroll;
+        if (left < 0 || left > visible - SWATCH_STEP)
+          this.colorScroll = -(sel * SWATCH_STEP - visible / 2 + SWATCH_STEP / 2);
+      }
+      this.colorScroll = Phaser.Math.Clamp(this.colorScroll, this.colorMin, 0);
+      colors.setX(this.colorScroll);
+      colors.setMask(this.maskRect(20, TAB_ZONE_BOTTOM, GAME_WIDTH - 40, COLOR_ROW_H));
+      panel.add(colors);
+    }
+
+    // Item grid ("none" first, then every item in the tab), drag up/down.
+    const gridTop = this.colorBottom;
+    const rowY = gridTop + 16 + TILE / 2;
     const grid = this.add.container(0, this.gridScroll);
     this.grid = grid;
-    const items = this.items().filter((i) => tab?.categories.includes(i.category));
     const tiles: (AssetEntry | null)[] = [null, ...items];
     const perRow = 4;
     const startX = GAME_WIDTH / 2 - ((perRow - 1) * (TILE + TILE_GAP)) / 2;
@@ -233,29 +300,24 @@ export class WardrobeScene extends BaseScene {
       const selected = item ? w?.item === item.id : wornIn.length === 0;
       grid.add(this.tile(x, y, item, selected, w?.tint));
     });
-    let contentBottom = lastY + TILE / 2;
-
-    // Colour swatches for the worn item, when it can be coloured.
-    const worn = look[this.focusLayer];
-    const layer = this.focusLayer;
-    const wornEntry = items.find((i) => i.id === worn?.item);
-    if (wornEntry?.tintable) {
-      const swY = lastY + TILE / 2 + 62;
-      const perSwRow = 6;
-      PALETTE.forEach((color, i) => {
-        const x = GAME_WIDTH / 2 + ((i % perSwRow) - (perSwRow - 1) / 2) * 104;
-        const y = swY + Math.floor(i / perSwRow) * 100;
-        contentBottom = y + 50;
-        grid.add(this.swatch(x, y, color, worn?.tint === color, () => this.setTint(layer, color)));
-      });
-    }
+    const contentBottom = lastY + TILE / 2;
     this.gridMin = Math.min(0, PANEL_BOTTOM - 20 - contentBottom);
     this.gridScroll = Phaser.Math.Clamp(this.gridScroll, this.gridMin, 0);
     grid.setY(this.gridScroll);
-    grid.setMask(
-      this.maskRect(20, TAB_ZONE_BOTTOM, GAME_WIDTH - 40, PANEL_BOTTOM - TAB_ZONE_BOTTOM),
-    );
+    grid.setMask(this.maskRect(20, gridTop, GAME_WIDTH - 40, PANEL_BOTTOM - gridTop));
     panel.add(grid);
+  }
+
+  private edgeHint(x: number, arrow: string) {
+    return this.add
+      .text(x, TAB_Y, arrow, {
+        fontFamily: FONT,
+        fontSize: '44px',
+        color: '#ffffff',
+        fontStyle: 'bold',
+      })
+      .setOrigin(0.5)
+      .setAlpha(0.8);
   }
 
   private tile(x: number, y: number, item: AssetEntry | null, selected: boolean, tint?: number) {
@@ -339,7 +401,7 @@ export class WardrobeScene extends BaseScene {
     g.strokeCircle(0, 0, 38);
     c.add(g);
     c.setSize(Math.max(100, MIN_TOUCH - 10), 100).setInteractive({ useHandCursor: true });
-    c.on('pointerup', this.tap('grid', onPick));
+    c.on('pointerup', this.tap('colors', onPick));
     return c;
   }
 
