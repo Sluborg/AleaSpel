@@ -168,10 +168,11 @@ export class GiftScene extends BaseScene {
     this.add
       .text(GAME_WIDTH / 2, 940, `${name}\n${where}`, {
         fontFamily: FONT,
-        fontSize: '42px',
+        fontSize: '38px',
         color: COLORS.text,
         fontStyle: 'bold',
         align: 'center',
+        wordWrap: { width: GAME_WIDTH - 80 },
       })
       .setOrigin(0.5);
     medalLabel(this, GAME_WIDTH / 2, 1040, `+${reward.medals}`, {
