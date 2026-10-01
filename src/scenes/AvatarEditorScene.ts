@@ -40,6 +40,8 @@ export class AvatarEditorScene extends BaseScene {
     const view = new GymnastView(this, GAME_WIDTH / 2, 540, 660, gymnast);
     view.setSize(400, 620).setInteractive({ useHandCursor: true });
     view.on('pointerup', () => this.openWardrobe(gymnast.id));
+    // She breathes, and waves hello with a little hop when the screen opens.
+    void view.play('happy').then(() => view.play('idle'));
     layer.add(view);
 
     layer.add(

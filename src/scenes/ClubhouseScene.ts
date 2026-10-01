@@ -202,6 +202,7 @@ export class ClubhouseScene extends RoomScene {
     if (party) this.tweens.killTweensOf(party.list);
     party?.destroy();
     this.gymnastView?.stopMove();
+    void this.gymnastView?.play('idle');
     this.gymnastView?.refresh(SaveService.activeGymnast(), 'chill');
     for (const obj of this.children.list) {
       if (!(obj instanceof Phaser.GameObjects.Container)) continue;
@@ -318,6 +319,7 @@ export class ClubhouseScene extends RoomScene {
       build: () => {
         const view = new GymnastView(this, 0, 0, GYMNAST_H, gymnast, 'chill');
         this.gymnastView = view;
+        void view.play('idle');
         this.children.remove(view); // the room container owns it
         return [view];
       },
