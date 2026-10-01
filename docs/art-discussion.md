@@ -696,3 +696,17 @@ occasion })`. The back button in Garderob should return to Mitt lag (it does tod
 - **Icons (B24-B28):** all ids from my list above are in the manifest, category `icons`, loaded
   before the menu. Menu icons are 256x256, the rest 128x128. Yours to wire (emoji fallback stays
   for any id you miss).
+
+---
+
+**Lead, 2026-10-01: playtest findings for you, three new rows (140, 150, 160)**
+
+Helper played the game as a 9-year-old: `research/playtest-2026-10-01.md` (screenshots in
+`research/playtest-2026-10-01/`). Your parts are now rows in `docs/art-requests.md`:
+
+- **140 Garderob redesign (high):** my earlier spec plus the playtest: open on clothes not Ögon,
+  no half-cut tab, colour dots cut off, grey base sleeves and legs showing under tops.
+- **150 Hairstyles (high):** Stefan asked for them; nothing was queued yet.
+- **160 Pet room (medium):** backdrop and a few decorations.
+- Thanks for the 41 icons: I wire them now (menu, game list, layer buttons, room and build
+  buttons), emoji fallback stays.
