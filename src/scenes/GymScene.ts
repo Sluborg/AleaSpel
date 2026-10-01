@@ -48,7 +48,7 @@ export class GymScene extends RoomScene {
     return GYM_EQUIPMENT.filter((e) => !e.price || owned.includes(e.id)).map((def) => {
       const pos = gym.equipment[def.id] ?? { x: def.defaultX, y: def.defaultY };
       const key = this.artKey(def);
-      const height = key ? artHeight(this, key, def.width) + (def.minigame ? 30 : 0) : def.height;
+      const height = key ? artHeight(this, key, def.width) + (def.minigame ? 50 : 0) : def.height;
       return {
         id: def.id,
         width: def.width,
@@ -96,16 +96,9 @@ export class GymScene extends RoomScene {
       applyHue(img, def.hue);
       const children: Phaser.GameObjects.GameObject[] = [img];
       if (def.minigame) {
-        children.push(
-          this.add
-            .text(0, img.displayHeight / 2 - 15 + 4, `▶ Träna ${def.name.toLowerCase()}`, {
-              fontFamily: FONT,
-              fontSize: '24px',
-              color: '#3a2a4a',
-              fontStyle: 'bold',
-            })
-            .setOrigin(0.5, 0),
-        );
+        // A small pink "Träna" pill just under the apparatus' visible bottom.
+        const bottom = img.y + (visibleBottom(this, key) - 0.5) * img.displayHeight;
+        children.push(...this.practicePill(bottom + 6));
       }
       return children;
     }
@@ -135,5 +128,24 @@ export class GymScene extends RoomScene {
       );
     }
     return children;
+  }
+
+  private practicePill(top: number): Phaser.GameObjects.GameObject[] {
+    const label = this.add
+      .text(10, top + 20, 'Träna', {
+        fontFamily: FONT,
+        fontSize: '24px',
+        color: '#ffffff',
+        fontStyle: 'bold',
+      })
+      .setOrigin(0.5);
+    const w = label.width + 56;
+    const g = this.add.graphics();
+    g.fillStyle(0x000000, 0.15).fillRoundedRect(-w / 2, top + 3, w, 40, 20);
+    g.fillStyle(0xff6fae, 1).fillRoundedRect(-w / 2, top, w, 40, 20);
+    g.lineStyle(3, 0xffffff, 0.9).strokeRoundedRect(-w / 2, top, w, 40, 20);
+    const x = -w / 2 + 20;
+    g.fillStyle(0xffffff, 1).fillTriangle(x, top + 11, x, top + 29, x + 14, top + 20);
+    return [g, label];
   }
 }

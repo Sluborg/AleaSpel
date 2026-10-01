@@ -20,7 +20,7 @@ export interface FurnitureDef {
   action?: 'trophies'; // extra button when tapped (Prisskåp shows the team's cups)
   reaction?: string; // emoji that floats up when the piece is tapped (Toca-style surprise)
   hue?: number; // colour shift of the art in degrees (colour variants share one picture)
-  giftOnly?: boolean; // only from Fredagspaket: never in Butiken, not given at start
+  giftOnly?: boolean; // only from Daglig present: never in Butiken, not given at start
 }
 
 export const FURNITURE: FurnitureDef[] = [
@@ -405,7 +405,7 @@ function giftVariant(baseId: string, id: string, name: string, hue: number): Fur
   };
 }
 
-// Fredagspaket surprises: things that cannot be bought. Adding one = one line.
+// Daglig present surprises: things that cannot be bought. Adding one = one line.
 FURNITURE.push(
   giftVariant('bed', 'bed_mint', 'Mintsäng', 120),
   giftVariant('sofa', 'sofa_blue', 'Blå soffa', 310),

@@ -3,7 +3,7 @@ import { COLORS, FONT, GAME_HEIGHT, GAME_WIDTH } from '../config';
 import { ASSET_MANIFEST_KEY, type AssetManifest } from '../data/assets';
 import { FURNITURE } from '../data/furniture';
 import type { ShopItem } from '../data/shop';
-import { daysToFriday, openGift, waitingGifts, type GiftReward } from '../services/Gifts';
+import { openGift, waitingGifts, type GiftReward } from '../services/Gifts';
 import { applyHue, artImage, backdrop, hasArt, medalLabel } from '../ui/art';
 import { createButton } from '../ui/Button';
 import { furnitureArtKey } from '../ui/furnitureView';
@@ -18,7 +18,7 @@ const WHERE: Record<ShopItem['kind'], string> = {
   clothes: 'Den finns i garderoben.',
 };
 
-// Fredagspaket: tap the box a few times, it opens with confetti and shows what was inside.
+// Daglig present: tap the box a few times, it opens with confetti and shows what was inside.
 export class GiftScene extends BaseScene {
   private box?: Phaser.GameObjects.Container;
   private lid?: Phaser.GameObjects.Container;
@@ -37,21 +37,16 @@ export class GiftScene extends BaseScene {
         .setOrigin(0)
         .setDepth(-50000);
     }
-    this.addTitle('Fredagspaket');
+    this.addTitle('Daglig present');
     this.addBackButton();
     this.taps = 0;
     const waiting = waitingGifts();
     this.drawBox(waiting > 0);
     if (!waiting) {
-      const days = daysToFriday();
-      this.say(
-        days === 7
-          ? 'Nästa paket kommer\nnästa fredag! 🎁'
-          : `Nästa paket kommer\nom ${days} ${days === 1 ? 'dag' : 'dagar'}! 🎁`,
-      );
+      this.say('Nästa present kommer\ni morgon! 🎁');
       return;
     }
-    this.say(waiting > 1 ? `${waiting} paket väntar!\nTryck på paketet!` : 'Tryck på paketet!');
+    this.say(waiting > 1 ? `${waiting} presenter väntar!\nTryck på paketet!` : 'Tryck på paketet!');
   }
 
   private say(text: string): Phaser.GameObjects.Text {

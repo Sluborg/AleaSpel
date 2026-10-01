@@ -27,6 +27,7 @@ export interface Placeable {
   flat?: boolean; // rugs, mats, wall items: always behind standing things
   z?: number; // manual layer (set with the layer buttons)
   foot?: number; // distance from the centre down to where it stands; default height / 2
+  lift?: number; // extra depth for small pieces (drawn in front of big ones nearby)
   def?: string; // furniture id, for pieces of furniture
 }
 
@@ -35,10 +36,14 @@ export type FurnitureRoom = 'house' | 'clubhouse' | 'garden';
 // Rooms are wider than the screen: drag the floor to look around, like Toca Boca.
 export const ROOM_WORLD_W = GAME_WIDTH * 2;
 
-const TAP_DISTANCE = 14; // a drag shorter than this counts as a tap
+const TAP_DISTANCE = 36; // a drag shorter than this counts as a tap (fingers wobble on phones)
 const EDGE = 80; // dragging an item this close to the screen edge scrolls the room
 const EDGE_SPEED = 14;
 const STANDING = 10000; // depth offset of standing things over flat ones
+// Small pieces (lamps, plants) usually stand on or next to bigger ones: sort them as if they stood
+// this much further forward, so a lamp by the bed is drawn in front of it.
+const SMALL_WIDTH = 120;
+const SMALL_LIFT = 140;
 const BAR_Y = GAME_HEIGHT - 95;
 
 const LAYER_BUTTONS = [
@@ -208,6 +213,7 @@ export abstract class RoomScene extends BaseScene {
       flat: item.flat ?? false,
       z: item.z,
       foot: item.foot ?? item.height / 2,
+      lift: item.lift ?? 0,
       selectable: item.id.startsWith('furn:'),
       def: item.def,
     });
@@ -218,7 +224,12 @@ export abstract class RoomScene extends BaseScene {
   // Standing things lower on screen are drawn in front; flat things (rugs, wall items) are
   // always behind them. A manual layer (`z`) wins until the item is dragged again.
   private autoDepth(obj: Phaser.GameObjects.Container): number {
-    return (obj.getData('flat') ? 0 : STANDING) + obj.y + (obj.getData('foot') as number);
+    return (
+      (obj.getData('flat') ? 0 : STANDING) +
+      obj.y +
+      (obj.getData('foot') as number) +
+      (obj.getData('lift') as number)
+    );
   }
 
   private depthOf(obj: Phaser.GameObjects.Container): number {
@@ -414,6 +425,7 @@ export abstract class RoomScene extends BaseScene {
           z: f.z,
           flat: def.flat,
           foot: furnitureFoot(this, def),
+          lift: smallLift(def),
           def: def.id,
           build: () => [...furnitureShape(this, def), ...this.furnitureExtras(def)],
         };
@@ -556,6 +568,7 @@ export abstract class RoomScene extends BaseScene {
       y,
       flat: def.flat,
       foot: furnitureFoot(this, def),
+      lift: smallLift(def),
       def: def.id,
       build: () => [...furnitureShape(this, def), ...this.furnitureExtras(def)],
     });
@@ -587,4 +600,8 @@ export function pin<T extends Phaser.GameObjects.GameObject>(obj: T): T {
   (obj as unknown as Phaser.GameObjects.Components.ScrollFactor).setScrollFactor?.(0);
   if (obj instanceof Phaser.GameObjects.Container) obj.list.forEach((c) => pin(c));
   return obj;
+}
+
+function smallLift(def: FurnitureDef): number {
+  return !def.flat && def.width <= SMALL_WIDTH ? SMALL_LIFT : 0;
 }
