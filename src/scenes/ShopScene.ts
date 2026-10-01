@@ -193,7 +193,9 @@ export class ShopScene extends BaseScene {
             : `🎉 ${item.name} är din!`,
         {
           fontFamily: FONT,
-          fontSize: '52px',
+          fontSize: '44px',
+          align: 'center',
+          wordWrap: { width: GAME_WIDTH - 80 },
           color: '#ffffff',
           fontStyle: 'bold',
           stroke: '#3a2a4a',

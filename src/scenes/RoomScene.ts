@@ -253,10 +253,12 @@ export abstract class RoomScene extends BaseScene {
     const bar = this.add
       .container(0, 0)
       .setScrollFactor(0)
-      .setDepth(STANDING * 4);
+      .setDepth(STANDING * 4 + 10); // above the room's own bottom buttons (Ute, Fest, Bygg)
     const bg = this.add.graphics();
     bg.fillStyle(COLORS.background, 0.92).fillRoundedRect(10, BAR_Y - 80, GAME_WIDTH - 20, 160, 30);
-    bar.add(bg);
+    // Taps on the bar never fall through to buttons hidden under it.
+    const shield = this.add.zone(GAME_WIDTH / 2, BAR_Y, GAME_WIDTH - 20, 160).setInteractive();
+    bar.add([shield, bg]);
     const buttons = [
       ...LAYER_BUTTONS.map((b) => ({ ...b, run: () => this.layer(obj, b.dir) })),
       ...(this.furnitureRoom ? [{ icon: '📦', label: 'Förråd', run: () => this.store(obj) }] : []),
