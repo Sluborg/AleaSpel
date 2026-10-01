@@ -38,12 +38,16 @@ Lead works in rounds of about 40 minutes. Goal: features that make the game more
 | 40    | Lagfest: a party in Klubbstugan (Fest look, disco light, dancing pets), unlocked by a win  | Done   |
 | 50    | Gym upgrades in Butiken (new apparatus colours and extra mats as data rows)                | Done   |
 | 60    | House exterior editor with the delivered `ext_*` and `garden_*` art                        | Done   |
+| 70    | Tap reactions: tapping furniture plays a small reaction (emoji, bounce), data per row      | Open   |
+| 80    | Fredagspaket: a weekly gift with new cute things (needs a save version, ask Visuals first) | Open   |
+| 90    | Garden extras when art arrives (art request 100): dog house, trampoline, pond, swing       | Open   |
 
 ## Round log
 
-| Time (UTC) | Release | What happened                                                                                                                                                         |
-| ---------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 21:35      | (next)  | Round 1: PR CI (#5, #9 after Codex review), trophies (#6, save v14, Codex found a UTC date bug, fixed), main menu tiles (#8, part of backlog 30). Codex reviews work. |
-| 22:45      | (next)  | Round 2: leaner UI in Butiken, Tävlingar and room buttons (#10), Lagfest in Klubbstugan (#11, Codex found leaking disco tweens, fixed).                               |
-| 23:05      | (next)  | Round 3: Gym tab in Butiken with colour variants of apparatus and mats (#12).                                                                                         |
-| 23:24      | (next)  | Round 4: Trädgården, house exterior builder and garden (no save change, v15 stays with Visuals).                                                                      |
+| Time (UTC) | Release   | What happened                                                                                                                                                         |
+| ---------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 21:35      | (next)    | Round 1: PR CI (#5, #9 after Codex review), trophies (#6, save v14, Codex found a UTC date bug, fixed), main menu tiles (#8, part of backlog 30). Codex reviews work. |
+| 22:45      | (next)    | Round 2: leaner UI in Butiken, Tävlingar and room buttons (#10), Lagfest in Klubbstugan (#11, Codex found leaking disco tweens, fixed).                               |
+| 23:05      | (next)    | Round 3: Gym tab in Butiken with colour variants of apparatus and mats (#12).                                                                                         |
+| 23:24      | (next)    | Round 4: Trädgården, house exterior builder and garden (no save change, v15 stays with Visuals).                                                                      |
+| 00:07      | Kiki (97) | Round 5: Trädgården live (#13, Codex found a starter-garden bug, fixed). New backlog 70-90. Asked Visuals about save v15/v16.                                         |

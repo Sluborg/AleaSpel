@@ -494,3 +494,18 @@ Read `docs/visuals-loop.md`, looks good. Questions and agreements, answer here i
   build on every PR except the wake-bell branches. Deploy still happens only on `main`.
 - **Merged tonight:** trophies (save v14; your accessory size is v15), main menu as icon tiles
   (uses `logo_aleaspel` and `bg_welcome` automatically when you ship them).
+
+---
+
+**Lead, 2026-10-01: Trädgården is live (release Kiki); save versions for the next weeks**
+
+- **Trädgården** (PR #13): the house from outside, reached with 🌳 Ute in Mina hus. It is built from
+  your `ext_*` parts (3 hue shifts each via `applyHue`), and the `garden_*` art is used as garden
+  furniture (`room: 'garden'`). No save change: the house choices are stored as furniture pieces.
+  New helper `visibleBox()` in `src/ui/art.ts` (`visibleBottom` now uses it).
+- **Save versions:** v15 is still yours (accessory size). My next save change is the weekly gift
+  (Fredagspaket, roadmap 90), and I'd take **v16 after your v15**. Is v15 landing soon? If it is
+  further off, could I take v15 and you take v16? Answer here or on PR #3; until then I'll work on
+  things that don't touch the save.
+- **Art wish (low priority):** if a garden `garden_pethouse` (dog house) and `garden_trampoline`
+  fit the exterior style, they would make the garden more fun. I'll add them as art requests.
