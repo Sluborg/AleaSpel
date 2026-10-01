@@ -92,7 +92,7 @@ export class TeamCompetitionScene extends BaseScene {
         .fillStyle(current ? 0x4a3266 : 0x3a2752, 1)
         .fillRoundedRect(40, y - 40, GAME_WIDTH - 80, 84, 24);
       this.add.text(70, y, l.game.icon, { fontSize: '44px' }).setOrigin(0, 0.5);
-      this.add
+      const row = this.add
         .text(150, y, `${l.gymnast.name} · ${l.game.name}`, {
           fontFamily: FONT,
           fontSize: '34px',
@@ -100,6 +100,8 @@ export class TeamCompetitionScene extends BaseScene {
           fontStyle: current ? 'bold' : 'normal',
         })
         .setOrigin(0, 0.5);
+      // Leave room for the result on the right (stars, Nu!).
+      row.setScale(Math.min(1, (GAME_WIDTH - 150 - 170) / row.width));
       this.add
         .text(GAME_WIDTH - 70, y, done ? `${done.stars} ⭐` : current ? 'Nu!' : '…', {
           fontFamily: FONT,
@@ -115,7 +117,7 @@ export class TeamCompetitionScene extends BaseScene {
         this,
         GAME_WIDTH / 2,
         1170,
-        `${next.gymnast.name}: ${next.game.name}`,
+        `${next.game.icon} Kör!`,
         () =>
           this.scene.start(next.game.scene, {
             gymnastId: next.gymnast.id,

@@ -28,6 +28,10 @@ function strokeLength(pts: { x: number; y: number }[]): number {
   return d;
 }
 
+// Card text sits right of the pattern preview (which spans x -265..-115 on the card).
+const CARD_TEXT_X = 95;
+const CARD_TEXT_W = 370;
+
 export abstract class PatternGameScene extends BaseScene {
   protected abstract readonly def: MinigameDef;
   protected abstract readonly introText: string;
@@ -110,7 +114,7 @@ export abstract class PatternGameScene extends BaseScene {
     this.trail = this.add.graphics().setDepth(200);
     this.buildCard();
     this.progress = this.add
-      .text(GAME_WIDTH - 30, 60, '', {
+      .text(GAME_WIDTH - 40, 60, '', {
         fontFamily: FONT,
         fontSize: '34px',
         color: COLORS.text,
@@ -131,7 +135,7 @@ export abstract class PatternGameScene extends BaseScene {
     bg.fillStyle(0xffffff, 0.95).fillRoundedRect(-300, -110, 600, 220, 36);
     this.cardShape = this.add.graphics();
     this.cardName = this.add
-      .text(40, -40, '', {
+      .text(CARD_TEXT_X, -40, '', {
         fontFamily: FONT,
         fontSize: '48px',
         color: '#3a2a4a',
@@ -139,7 +143,7 @@ export abstract class PatternGameScene extends BaseScene {
       })
       .setOrigin(0.5);
     this.cardHint = this.add
-      .text(40, 35, '', { fontFamily: FONT, fontSize: '32px', color: '#6b4a55' })
+      .text(CARD_TEXT_X, 35, '', { fontFamily: FONT, fontSize: '32px', color: '#6b4a55' })
       .setOrigin(0.5);
     this.card = this.add.container(GAME_WIDTH / 2, 250, [
       bg,
@@ -220,7 +224,9 @@ export abstract class PatternGameScene extends BaseScene {
     this.maxTotal += this.move.difficulty;
     const shape = shapeById(this.move.shape);
     this.drawShapePreview(shape.points);
-    this.cardName.setText(this.move.name);
+    // Long names shrink to stay right of the pattern preview.
+    this.cardName.setText(this.move.name).setScale(1);
+    this.cardName.setScale(Math.min(1, CARD_TEXT_W / this.cardName.width));
     this.cardHint.setText(`Rita: ${shape.name.toLowerCase()}`);
     this.card.setVisible(true).setScale(0.6);
     this.tweens.add({ targets: this.card, scale: 1, duration: 250, ease: 'Back.out' });
