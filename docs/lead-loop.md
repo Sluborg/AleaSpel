@@ -17,7 +17,8 @@ New in the game overnight (all merged via PR + CI, tested at phone size):
 - **Para ihop** (#16): memory card warm-up in Tävlingar.
 - **Bubblor** (#17): new pet game in Lagets djur (pop soap bubbles).
 - **Fixes** (#17, #19): button labels inside round buttons, Tävlingsdag text overflow, long move
-  names on the pattern card, overlapping number tiles, the pet button in Klubbstugan.
+  names on the pattern card, overlapping number tiles, the pet button in Klubbstugan; long
+  toasts wrap, the selection bar blocks taps beneath it (#21, from a first-time playthrough).
 
 Worth testing with Alea: open the gift, build the house outside, try Para ihop and Bubblor.
 Open questions for Alea: which garden things she wants next; whether the gift surprises feel
@@ -84,3 +85,4 @@ model. Save v16 is reserved for Visuals (accessory size); Samlarboken (backlog 1
 | 02:53      | (next)    | Round 9: garden extras (B20 art), gift box art (B22), Klubbstugan pet button in the bar (#18); review caught a missing-art guard, fixed.                                                                    |
 | 03:34      | (next)    | Round 10: full-screen QA pass by a Sonnet sub-agent; fixed Tävlingsdag text overflow, pattern-card name overlap, order-tile overlap (#19). Two reported items were false alarms (shop tabs, vault overlay). |
 | 04:16      | (next)    | Round 11: Fredagspaket surprises, six gift-only furniture colour variants (#20).                                                                                                                            |
+| 04:57      | (next)    | Round 12: morning summary for Stefan; first-time playthrough QA (Sonnet sub-agent) found two bugs, fixed in #21.                                                                                            |
