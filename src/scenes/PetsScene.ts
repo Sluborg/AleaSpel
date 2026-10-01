@@ -6,7 +6,7 @@ import { applyDecay, care, react, rollTraits, wish } from '../services/PetCare';
 import { SaveService, type Pet, type PetNeeds } from '../services/SaveService';
 import { createButton } from '../ui/Button';
 import { openNameInput } from '../ui/NameInput';
-import { artImage, hasArt } from '../ui/art';
+import { artImage, hasArt, iconOrEmoji } from '../ui/art';
 import { PetView } from '../ui/PetView';
 import { BaseScene } from './BaseScene';
 import { PET_GAME_RUNNERS } from './pets/petGames';
@@ -125,9 +125,9 @@ export class PetsScene extends BaseScene {
 
     NEEDS.forEach((need, i) => {
       const x = 130 + i * 230;
-      this.layer!.add(this.text(x - 60, 930, need.label, 30, COLORS.textMuted).setOrigin(0, 0.5));
+      this.layer!.add(this.text(x - 90, 930, need.label, 30, COLORS.textMuted).setOrigin(0, 0.5));
       const bar = this.add.graphics();
-      bar.setData({ x: x - 60, key: need.key, color: need.color });
+      bar.setData({ x: x - 90, key: need.key, color: need.color });
       this.bars.push(bar);
       this.layer!.add(bar);
     });
@@ -411,9 +411,10 @@ export class PetsScene extends BaseScene {
   // Grid of icon tiles; known likes are marked so the player learns the personality.
   private tiles(
     modal: Phaser.GameObjects.Container,
-    rows: { id: string; icon: string; name: string }[],
+    rows: { id: string; icon: string; name: string; art?: string }[],
     perRow: number,
     onPick: (id: string) => void,
+    artKey: (row: { id: string; art?: string }) => string,
   ): void {
     const pet = this.current()!;
     const w = perRow === 3 ? 205 : 150;
@@ -423,10 +424,7 @@ export class PetsScene extends BaseScene {
       const y = 390 + Math.floor(i / perRow) * (h + 20);
       const g = this.add.graphics();
       g.fillStyle(0xf6e7d2, 1).fillRoundedRect(x - w / 2, y - h / 2, w, h, 26);
-      const iconKey = `food_${row.id}`;
-      const icon = hasArt(this, iconKey)
-        ? artImage(this, x, y - 25, iconKey, 100, 100)
-        : this.add.text(x, y - 25, row.icon, { fontSize: '72px' }).setOrigin(0.5);
+      const icon = iconOrEmoji(this, x, y - 25, artKey(row), row.icon, 100);
       const label = this.text(x, y + h / 2 - 32, row.name, perRow === 3 ? 25 : 28, '#6b4a55');
       modal.add([g, icon, label]);
       if (pet.known.includes(row.id)) {
@@ -445,12 +443,24 @@ export class PetsScene extends BaseScene {
 
   private openFoods(): void {
     const modal = this.modal('Vad vill du ge?');
-    this.tiles(modal, PET_FOODS, 4, (id) => this.feed(PET_FOODS.find((f) => f.id === id)!));
+    this.tiles(
+      modal,
+      PET_FOODS,
+      4,
+      (id) => this.feed(PET_FOODS.find((f) => f.id === id)!),
+      (row) => `food_${row.id}`,
+    );
   }
 
   private openGames(): void {
     const modal = this.modal('Vilken lek?');
-    this.tiles(modal, PET_GAMES, 3, (id) => this.startGame(PET_GAMES.find((g) => g.id === id)!));
+    this.tiles(
+      modal,
+      PET_GAMES,
+      3,
+      (id) => this.startGame(PET_GAMES.find((g) => g.id === id)!),
+      (row) => row.art ?? `icon_pet_${row.id}`,
+    );
   }
 
   private openAbout(): void {

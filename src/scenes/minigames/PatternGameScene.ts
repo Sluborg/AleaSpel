@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import { COLORS, FONT, GAME_HEIGHT, GAME_WIDTH } from '../../config';
 import { shapeById, type Pt } from '../../data/gestureShapes';
 import {
-  MEDALS_PER_STAR,
+  medalsFor,
   moveById,
   type MinigameDef,
   type MoveDef,
@@ -54,6 +54,7 @@ export abstract class PatternGameScene extends BaseScene {
   private total = 0;
   private maxTotal = 0;
   private done = false;
+  private lastPopup?: Phaser.GameObjects.Text;
   private practice = false; // from Mitt gym: no medals, records untouched
   private team = false; // from Tävlingsdag: stars go to the team, medals come from the placement
   private returnTo = 'MinigameHub';
@@ -192,6 +193,15 @@ export abstract class PatternGameScene extends BaseScene {
         lineSpacing: 12,
       })
       .setOrigin(0.5);
+    const extra = this.add
+      .text(GAME_WIDTH / 2, 662, 'Ibland kommer en extra uppgift!', {
+        fontFamily: FONT,
+        fontSize: '28px',
+        color: '#ffd84d',
+        fontStyle: 'bold',
+      })
+      .setOrigin(0.5)
+      .setVisible(!!this.def.mix?.some((k) => k !== 'pattern'));
     const best = this.gymnast.bests[this.def.id];
     const bestText = this.add
       .text(
@@ -209,12 +219,15 @@ export abstract class PatternGameScene extends BaseScene {
       panel.destroy();
       this.time.delayedCall(300, () => this.nextRound());
     });
-    panel.add([bg, title, text, bestText, go]);
+    panel.add([bg, title, text, extra, bestText, go]);
   }
 
   // --- rounds ------------------------------------------------------------------
 
   private nextRound(): void {
+    // Last round's "⭐ Bra!" must not linger over the new round.
+    this.lastPopup?.destroy();
+    this.lastPopup = undefined;
     if (this.round >= this.def.rounds) return this.finish();
     this.round++;
     this.ending = false;
@@ -304,6 +317,7 @@ export abstract class PatternGameScene extends BaseScene {
       );
     const content = this.add.container(0, 0);
     layer.add(content);
+    this.popup('✨ Extra uppgift!');
     runChallenge(kind, {
       scene: this,
       layer: content,
@@ -328,6 +342,7 @@ export abstract class PatternGameScene extends BaseScene {
   }
 
   private popup(msg: string): void {
+    this.lastPopup?.destroy();
     const t = this.add
       .text(GAME_WIDTH / 2, 640, msg, {
         fontFamily: FONT,
@@ -347,6 +362,7 @@ export abstract class PatternGameScene extends BaseScene {
       delay: 500,
       onComplete: () => t.destroy(),
     });
+    this.lastPopup = t;
   }
 
   // Ends the drawing window; evaluates what was drawn if the player has not lifted the finger.
@@ -457,7 +473,7 @@ export abstract class PatternGameScene extends BaseScene {
   private finish(): void {
     if (this.done) return;
     this.done = true;
-    const earned = this.practice || this.team ? 0 : this.total * MEDALS_PER_STAR;
+    const earned = this.practice || this.team ? 0 : medalsFor(this.def, this.total);
     const prev = this.gymnast.bests[this.def.id] ?? 0;
     const record = !this.practice && this.total > prev;
     let levelLine = `Nivå ${this.level}`;
@@ -478,7 +494,13 @@ export abstract class PatternGameScene extends BaseScene {
       .text(
         GAME_WIDTH / 2,
         330,
-        record ? '🎉 Nytt rekord!' : this.practice ? 'Bra tränat!' : 'Bra jobbat!',
+        record
+          ? '🎉 Nytt rekord!'
+          : !this.total
+            ? 'Försök igen!'
+            : this.practice
+              ? 'Bra tränat!'
+              : 'Bra jobbat!',
         {
           fontFamily: FONT,
           fontSize: '60px',
@@ -517,7 +539,7 @@ export abstract class PatternGameScene extends BaseScene {
         670,
         this.team
           ? `${levelLine}   ·   Laget väntar på dig`
-          : `${levelLine}   ·   ${SaveService.get().medals} 🏅`,
+          : `${levelLine}   ·   Du har ${SaveService.get().medals} 🏅`,
         {
           fontFamily: FONT,
           fontSize: '32px',

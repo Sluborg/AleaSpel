@@ -46,7 +46,11 @@ export class GiftScene extends BaseScene {
       this.say('Nästa present kommer\ni morgon! 🎁');
       return;
     }
-    this.say(waiting > 1 ? `${waiting} presenter väntar!\nTryck på paketet!` : 'Tryck på paketet!');
+    this.say(
+      waiting > 1
+        ? `${waiting} presenter väntar!\nTryck ${TAPS_TO_OPEN} gånger på paketet!`
+        : `Tryck ${TAPS_TO_OPEN} gånger\npå paketet!`,
+    );
   }
 
   private say(text: string): Phaser.GameObjects.Text {

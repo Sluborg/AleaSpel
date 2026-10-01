@@ -2,7 +2,7 @@ import { COLORS, FONT, GAME_HEIGHT, GAME_WIDTH, MIN_TOUCH } from '../config';
 import { MENU_ENTRIES, type MenuEntry } from '../data/menu';
 import { waitingGifts } from '../services/Gifts';
 import { SaveService } from '../services/SaveService';
-import { artImage, backdrop, hasArt, medalLabel } from '../ui/art';
+import { artImage, backdrop, hasArt, iconOrEmoji, medalLabel } from '../ui/art';
 import { BaseScene } from './BaseScene';
 
 const COLS = 2;
@@ -63,7 +63,7 @@ export class MainMenuScene extends BaseScene {
     const waiting = waitingGifts();
     const c = this.add.container(75, 70);
     const bg = this.add.circle(0, 0, 52, waiting ? 0xff6fae : 0x6b5a85);
-    const icon = this.add.text(0, 2, '🎁', { fontSize: '54px' }).setOrigin(0.5);
+    const icon = iconOrEmoji(this, 0, 2, 'icon_menu_gift', '🎁', 80);
     c.add([bg, icon]);
     if (waiting) {
       c.add(this.add.circle(38, -36, 22, 0xffd84d));
@@ -108,7 +108,7 @@ export class MainMenuScene extends BaseScene {
       40,
       20,
     );
-    const icon = this.add.text(0, -26, entry.icon, { fontSize: '68px' }).setOrigin(0.5);
+    const icon = iconOrEmoji(this, 0, -26, entry.art, entry.icon, 100);
     const label = this.add
       .text(0, 52, entry.label, {
         fontFamily: FONT,

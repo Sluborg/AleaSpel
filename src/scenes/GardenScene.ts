@@ -77,7 +77,9 @@ export class GardenScene extends RoomScene {
 
   protected afterBuild(): void {
     this.drawHouse();
-    const build = createButton(this, 150, GAME_HEIGHT - 80, '🎨 Bygg', () => this.openBuilder(), {
+    const build = createButton(this, 150, GAME_HEIGHT - 80, 'Bygg', () => this.openBuilder(), {
+      icon: 'icon_build',
+      emoji: '🎨',
       width: 240,
       height: 110,
       fontSize: 34,
@@ -87,9 +89,9 @@ export class GardenScene extends RoomScene {
       this,
       GAME_WIDTH - 115,
       GAME_HEIGHT - 80,
-      '🚪 In',
+      'In',
       () => this.scene.start('Home'),
-      { width: 200, height: 110, fontSize: 34, color: 0xffb36b },
+      { width: 200, height: 110, fontSize: 34, color: 0xffb36b, icon: 'icon_door', emoji: '🚪' },
     );
     pin(build).setDepth(40000);
     pin(inside).setDepth(40000);

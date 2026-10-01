@@ -3,7 +3,7 @@ import { COLORS, FONT, GAME_HEIGHT, GAME_WIDTH } from '../config';
 import { MINIGAMES, type MinigameDef } from '../data/minigames';
 import { levelOf } from '../services/Difficulty';
 import { SaveService } from '../services/SaveService';
-import { medalLabel } from '../ui/art';
+import { iconOrEmoji, medalLabel } from '../ui/art';
 import { createButton } from '../ui/Button';
 import { ScrollList } from '../ui/ScrollList';
 import { BaseScene } from './BaseScene';
@@ -34,7 +34,7 @@ export class MinigameHubScene extends BaseScene {
 
     const list = new ScrollList(this, LIST_TOP, LIST_BOTTOM);
     const sections: [string, MinigameDef[]][] = [
-      ['Grenar', MINIGAMES.filter((g) => (g.kind ?? 'apparatus') === 'apparatus')],
+      ['Redskap', MINIGAMES.filter((g) => (g.kind ?? 'apparatus') === 'apparatus')],
       ['Uppvärmning', MINIGAMES.filter((g) => g.kind === 'warmup')],
     ];
     let y = 10;
@@ -85,7 +85,7 @@ export class MinigameHubScene extends BaseScene {
     });
     c.add([
       g,
-      this.add.text(70, 0, game.icon, { fontSize: '56px' }).setOrigin(0, 0.5),
+      iconOrEmoji(this, 110, 0, `icon_game_${game.id}`, game.icon, 80),
       this.add
         .text(160, -22, game.name, {
           fontFamily: FONT,

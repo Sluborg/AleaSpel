@@ -19,7 +19,7 @@ const READ_MS = 500;
 // the flight; the pattern decides what she does in the air and how she lands.
 export class VaultScene extends PatternGameScene {
   protected readonly def = MINIGAMES.find((g) => g.id === 'vault')!;
-  protected readonly introText = `{name} springer mot bocken.\nRita mönstret innan\nhon landar!`;
+  protected readonly introText = `{name} springer mot hoppbordet.\nRita mönstret innan\nhon landar!`;
   private gotStars = 0;
 
   constructor() {

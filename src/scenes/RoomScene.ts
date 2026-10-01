@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import { COLORS, FONT, GAME_HEIGHT, GAME_WIDTH } from '../config';
 import { FURNITURE, type FurnitureDef } from '../data/furniture';
 import { SaveService, type Position } from '../services/SaveService';
-import { applyHue, artImage } from '../ui/art';
+import { applyHue, artImage, iconOrEmoji } from '../ui/art';
 import { buttonBackground, createButton } from '../ui/Button';
 import { ScrollList } from '../ui/ScrollList';
 import { BaseScene } from './BaseScene';
@@ -47,10 +47,10 @@ const SMALL_LIFT = 140;
 const BAR_Y = GAME_HEIGHT - 95;
 
 const LAYER_BUTTONS = [
-  { icon: '⏫', label: 'Närmast', dir: 'front' },
-  { icon: '🔼', label: 'Närmare', dir: 'forward' },
-  { icon: '🔽', label: 'Längre bort', dir: 'backward' },
-  { icon: '⏬', label: 'Längst bort', dir: 'back' },
+  { icon: '⏫', art: 'icon_layer_front', label: 'Längst fram', dir: 'front' },
+  { icon: '🔼', art: 'icon_layer_forward', label: 'Fram', dir: 'forward' },
+  { icon: '🔽', art: 'icon_layer_backward', label: 'Bak', dir: 'backward' },
+  { icon: '⏬', art: 'icon_layer_back', label: 'Längst bak', dir: 'back' },
 ] as const;
 type LayerDir = (typeof LAYER_BUTTONS)[number]['dir'];
 
@@ -130,7 +130,13 @@ export abstract class RoomScene extends BaseScene {
     }
     this.arrows[0]?.setVisible(cam.scrollX > 4);
     this.arrows[1]?.setVisible(cam.scrollX < ROOM_WORLD_W - GAME_WIDTH - 4);
-    if (this.selected && this.outline) this.drawOutline(this.selected);
+    if (this.selected && this.outline) {
+      // The piece scrolled out of view (arrows or a pan): let go of it so the bar never points
+      // at something she cannot see.
+      const sx = this.selected.x - cam.scrollX;
+      if (!this.dragging && (sx < -40 || sx > GAME_WIDTH + 40)) this.select(undefined);
+      else this.drawOutline(this.selected);
+    }
   }
 
   private slide(dir: number): void {
@@ -272,7 +278,9 @@ export abstract class RoomScene extends BaseScene {
     bar.add([shield, bg]);
     const buttons = [
       ...LAYER_BUTTONS.map((b) => ({ ...b, run: () => this.layer(obj, b.dir) })),
-      ...(this.furnitureRoom ? [{ icon: '📦', label: 'Förråd', run: () => this.store(obj) }] : []),
+      ...(this.furnitureRoom
+        ? [{ icon: '📦', art: 'icon_storage', label: 'Lådan', run: () => this.store(obj) }]
+        : []),
     ];
     const def = FURNITURE.find((f) => f.id === obj.getData('def'));
     const action = def && this.furnitureAction(def);
@@ -293,14 +301,14 @@ export abstract class RoomScene extends BaseScene {
     x: number,
     y: number,
     w: number,
-    b: { icon: string; label: string; run: () => void },
+    b: { icon: string; art?: string; label: string; run: () => void },
   ): Phaser.GameObjects.Container {
     const c = this.add.container(x, y);
     // UI kit art (ui_button_round, tinted) like createButton, drawn shape as fallback.
     const bg = buttonBackground(this, w, 132);
     bg.paint(0x6b5a85);
     const g = bg.object;
-    const icon = this.add.text(0, -18, b.icon, { fontSize: '46px' }).setOrigin(0.5);
+    const icon = iconOrEmoji(this, 0, -18, b.art, b.icon, 58);
     // Near-square buttons use the round art (see buttonBackground): a smaller label, shrunk
     // further if needed, so it stays inside the circle.
     const round = w <= 132 * 1.15;
@@ -460,7 +468,8 @@ export abstract class RoomScene extends BaseScene {
   private addStoreButton(): void {
     const c = this.iconButton(GAME_WIDTH - 75, 85, 110, {
       icon: '📦',
-      label: 'Förråd',
+      art: 'icon_storage',
+      label: 'Lådan',
       run: () => this.openStore(),
     });
     pin(c).setDepth(STANDING * 4);
@@ -476,7 +485,7 @@ export abstract class RoomScene extends BaseScene {
     shade.setInteractive(); // swallow taps behind the panel
     const bg = this.add.graphics();
     bg.fillStyle(COLORS.background, 1).fillRoundedRect(30, 150, GAME_WIDTH - 60, 1060, 36);
-    const title = this.fixedText(GAME_WIDTH / 2, 215, 'Förråd', 52);
+    const title = this.fixedText(GAME_WIDTH / 2, 215, 'Lådan', 52);
     modal.add([shade, bg, title]);
 
     const defs = new Map(this.roomDefs().map((d) => [d.id, d]));
@@ -492,7 +501,7 @@ export abstract class RoomScene extends BaseScene {
     let list: ScrollList | undefined;
     if (!groups.length) {
       modal.add(
-        this.fixedText(GAME_WIDTH / 2, 560, 'Förrådet är tomt.\nKöp saker i Butiken!', 36).setAlign(
+        this.fixedText(GAME_WIDTH / 2, 560, 'Lådan är tom.\nKöp saker i Butiken!', 36).setAlign(
           'center',
         ),
       );

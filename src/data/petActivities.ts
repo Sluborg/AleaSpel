@@ -8,6 +8,7 @@ export interface PetGame {
   name: string; // Swedish
   icon: string;
   kind: GameKind;
+  art?: string; // icon manifest id, default icon_pet_<id>
 }
 
 export const PET_GAMES: PetGame[] = [
@@ -15,7 +16,7 @@ export const PET_GAMES: PetGame[] = [
   { id: 'jump', name: 'Hopplek', icon: '🐾', kind: 'tapfast' },
   { id: 'trick', name: 'Trick', icon: '🌀', kind: 'pattern' },
   { id: 'balance', name: 'Balans', icon: '🪵', kind: 'hold' },
-  { id: 'belly', name: 'Magkli', icon: '🤲', kind: 'rub' },
+  { id: 'belly', name: 'Magkli', icon: '🤲', kind: 'rub', art: 'icon_pet_bellyrub' },
   { id: 'hide', name: 'Kurragömma', icon: '📦', kind: 'hide' },
   { id: 'mouse', name: 'Fånga musen', icon: '🐭', kind: 'mouse' },
   { id: 'frisbee', name: 'Frisbee', icon: '🥏', kind: 'frisbee' },
