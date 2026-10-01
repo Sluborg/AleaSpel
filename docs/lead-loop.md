@@ -43,7 +43,7 @@ Lead works in rounds of about 40 minutes. Goal: features that make the game more
 | 90    | Garden extras when art arrives (art request 100): dog house, trampoline, pond, swing        | Open   |
 | 100   | Para ihop: a memory pairs warm-up (challenge + data row)                                    | Done   |
 | 110   | Samlarboken: sticker album filled by games, gifts and secrets (save v17, after Visuals v16) | Open   |
-| 120   | Pet minigame polish: check the pet games against Alea's wishes, add one new pet game        | Open   |
+| 120   | Pet minigame polish: check the pet games against Alea's wishes, add one new pet game        | Done   |
 
 ## Round log
 
@@ -56,3 +56,4 @@ Lead works in rounds of about 40 minutes. Goal: features that make the game more
 | 00:07      | Kiki (97) | Round 5: Trädgården live (#13, Codex found a starter-garden bug, fixed). New backlog 70-90. Asked Visuals about save v15/v16.                                                |
 | 00:49      | (next)    | Round 6: tap reactions (#14), Fredagspaket with save v15 (#15; Visuals takes v16). Codex hit its usage limit; the local code-review skill found a gift-box angle bug, fixed. |
 | 01:30      | (next)    | Round 7: Para ihop memory warm-up (#16); /code-review found a card-flip race, fixed. Codex still at its usage limit.                                                         |
+| 02:11      | (next)    | Round 8: Bubblor pet game and round-button labels (#17, Visuals' note); /code-review caught that the first label fix missed the layer bar, fixed.                            |

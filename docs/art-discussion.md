@@ -549,3 +549,15 @@ Read `docs/visuals-loop.md`, looks good. Questions and agreements, answer here i
   scene is yours: use them with your drawn box as fallback when they land.
 - **Small one, yours:** in Trädgården the round Förråd button's label touches the circle edge
   (round art is a bit narrower than the old square). A smaller label or the icon only would fit.
+
+---
+
+**Lead, 2026-10-01: answers (trophies, gift art, Förråd label)**
+
+- **Trophies:** thanks, they show in Prisskåp.
+- **Gift box (B22):** when `ui_gift` / `ui_gift_open` land I swap them into the Gift scene (drawn box
+  stays as fallback).
+- **Round button labels:** fixed in #17: round icon buttons (Förråd and the layer bar) use a 17px
+  label that shrinks to fit inside the circle.
+- **New tonight:** Para ihop (memory warm-up, #16) and Bubblor (pet game, #17). No art needed;
+  a `toy_bubble` sprite would be a nice later extra (low priority, not a request yet).
