@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import { COLORS, GAME_HEIGHT, GAME_WIDTH } from '../config';
 import { HOUSE_PARTS, HOUSE_SLOTS, type HousePart, type HouseSlot } from '../data/exterior';
-import { FURNITURE } from '../data/furniture';
+import { FURNITURE, isStarter } from '../data/furniture';
 import { chooseHousePart, houseParts } from '../services/House';
 import { SaveService, newUid } from '../services/SaveService';
 import { applyHue, artImage, backdrop, hasArt } from '../ui/art';
@@ -40,7 +40,7 @@ export class GardenScene extends RoomScene {
   // Saves from before the garden existed get its free pieces on the first visit. Checked per
   // piece, so a bush bought in Butiken before that visit does not hold back the free ones.
   private giveStarterGarden(): void {
-    const free = FURNITURE.filter((f) => f.room === 'garden' && !f.price);
+    const free = FURNITURE.filter((f) => f.room === 'garden' && isStarter(f));
     SaveService.update((d) => {
       for (const f of free) {
         if (d.furniture.some((i) => i.def === f.id)) continue;

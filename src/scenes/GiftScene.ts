@@ -155,7 +155,10 @@ export class GiftScene extends BaseScene {
     this.tweens.add({ targets: c, scale: 1, duration: 500, delay: 250, ease: 'Back.out' });
     this.tweens.add({ targets: glow, scale: 1.15, duration: 700, yoyo: true, repeat: -1 });
 
-    const name = reward.item ? `Du fick: ${reward.item.name}!` : 'Du fick medaljer!';
+    const special = FURNITURE.find((f) => f.id === reward.item?.id)?.giftOnly;
+    const name = reward.item
+      ? `${special ? '✨ ' : ''}Du fick: ${reward.item.name}!`
+      : 'Du fick medaljer!';
     const garden = FURNITURE.find((f) => f.id === reward.item?.id)?.room === 'garden';
     const where = garden
       ? 'Den ligger i trädgårdens förråd.'

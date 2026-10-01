@@ -19,6 +19,8 @@ export interface FurnitureDef {
   flat?: boolean; // lies on the floor or hangs on the wall: always behind standing furniture
   action?: 'trophies'; // extra button when tapped (Prisskåp shows the team's cups)
   reaction?: string; // emoji that floats up when the piece is tapped (Toca-style surprise)
+  hue?: number; // colour shift of the art in degrees (colour variants share one picture)
+  giftOnly?: boolean; // only from Fredagspaket: never in Butiken, not given at start
 }
 
 export const FURNITURE: FurnitureDef[] = [
@@ -387,3 +389,31 @@ export const FURNITURE: FurnitureDef[] = [
     icon: '🌳',
   },
 ];
+
+// A gift-only colour variant of a row: same art and size, another hue and name.
+function giftVariant(baseId: string, id: string, name: string, hue: number): FurnitureDef {
+  const base = FURNITURE.find((f) => f.id === baseId)!;
+  return {
+    ...base,
+    id,
+    name,
+    hue,
+    art: base.art ?? `furn_${base.id}`,
+    price: undefined,
+    icon: undefined,
+    giftOnly: true,
+  };
+}
+
+// Fredagspaket surprises: things that cannot be bought. Adding one = one line.
+FURNITURE.push(
+  giftVariant('bed', 'bed_mint', 'Mintsäng', 120),
+  giftVariant('sofa', 'sofa_blue', 'Blå soffa', 310),
+  giftVariant('bunny_lamp', 'bunny_lamp_lilac', 'Lila kaninlampa', 300),
+  giftVariant('plant', 'plant_lilac', 'Lila växt', 200),
+  giftVariant('garden_tree', 'garden_tree_pink', 'Rosa träd', 200),
+  giftVariant('club_sofa', 'club_sofa_mint', 'Mintsoffa', 150),
+);
+
+// Free from the start (no price and not a gift).
+export const isStarter = (f: FurnitureDef) => !f.price && !f.giftOnly;
