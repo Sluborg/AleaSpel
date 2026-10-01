@@ -58,7 +58,7 @@ export class MainMenuScene extends BaseScene {
       .setOrigin(0.5);
   }
 
-  // Fredagspaket: a gift box in the corner, bouncing with a count when gifts wait.
+  // Daglig present: a gift box in the corner, bouncing with a count when gifts wait.
   private giftButton(): void {
     const waiting = waitingGifts();
     const c = this.add.container(75, 70);

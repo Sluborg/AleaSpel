@@ -48,7 +48,7 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   protected addTitle(title: string, y = 90): Phaser.GameObjects.Text {
-    return this.add
+    const text = this.add
       .text(GAME_WIDTH / 2, y, title, {
         fontFamily: FONT,
         fontSize: '56px',
@@ -57,19 +57,26 @@ export abstract class BaseScene extends Phaser.Scene {
       })
       .setOrigin(0.5)
       .setScrollFactor(0);
+    // Long titles shrink so they never touch the back button or the right-hand corner button.
+    return text.setScale(Math.min(1, (GAME_WIDTH - 2 * 160) / text.width));
   }
 
   protected addBackButton(target = 'MainMenu'): Phaser.GameObjects.Container {
     const pad = 20;
-    return createButton(
+    const button = createButton(
       this,
       pad + MIN_TOUCH / 2,
       pad + MIN_TOUCH / 2,
-      '←',
+      '',
       () => this.scene.start(target),
-      { width: MIN_TOUCH, height: MIN_TOUCH, fontSize: 56 },
-    )
-      .setDepth(1000)
-      .setScrollFactor(0);
+      { width: MIN_TOUCH, height: MIN_TOUCH },
+    );
+    // A drawn arrow sits exactly in the middle (the ← glyph's font metrics put it off-centre).
+    const arrow = this.add.graphics();
+    arrow.fillStyle(0xffffff, 1);
+    arrow.fillRoundedRect(-8, -6, 28, 12, 6);
+    arrow.fillTriangle(-22, 0, -4, -18, -4, 18);
+    button.add(arrow);
+    return button.setDepth(1000).setScrollFactor(0);
   }
 }

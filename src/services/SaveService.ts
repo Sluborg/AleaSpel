@@ -103,7 +103,7 @@ export interface SaveData {
     trophies: Trophy[]; // one cup per top-three place, shown in Klubbstugan's Prisskåp
   };
   gifts: {
-    claimed: string; // the Friday (YYYY-MM-DD) of the last opened Fredagspaket; '' = none yet
+    claimed: string; // the day (YYYY-MM-DD) of the last opened Daglig present; '' = none yet
   };
 }
 
@@ -203,7 +203,7 @@ const MIGRATIONS: Record<number, Migration> = {
     ];
     return { ...data, version: 14, team: { ...team, trophies } };
   },
-  // Fredagspaket: no gift opened yet, so a welcome gift waits.
+  // Daglig present: no gift opened yet, so a welcome gift waits.
   14: (data) => ({ ...data, version: 15, gifts: { claimed: '' } }),
 };
 

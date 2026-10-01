@@ -222,10 +222,10 @@ Alea's wish: nicer furniture and clothes are bought with prizes from winning com
 
 ## 9. Retention without pressure
 
-- **Fredagspaket** (built, save v15): every Friday (local calendar) a gift waits; the 🎁 button
-  in the main menu wiggles with a count. Tap the box three times, it opens with confetti and gives
+- **Daglig present** (built, save v15; was Fredagspaket): every day (local calendar) a gift waits;
+  the 🎁 button in the main menu wiggles with a count. Tap the box three times, it opens with confetti and gives
   one random thing from Butiken (clothes and apparatus only if not owned) plus 5 medals. The first
-  gift waits from the start. Up to 3 unopened gifts stack (`gifts.claimed` = last opened Friday).
+  gift waits from the start. Up to 3 unopened gifts stack (`gifts.claimed` = last opened day).
   Half of the gifts are **gift-only surprises** while any are left: colour variants of furniture
   (`giftOnly` + `hue` rows in `furniture.ts`, e.g. Mintsäng, Blå soffa, Rosa träd) that Butiken
   never sells.

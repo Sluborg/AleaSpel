@@ -3,11 +3,10 @@ import { FURNITURE } from '../data/furniture';
 import { shopItems, type ShopItem } from '../data/shop';
 import { SaveService, localDate, newUid } from './SaveService';
 
-// Fredagspaket: a gift every Friday (the player's own calendar). Unopened gifts wait, up to
+// Daglig present: a gift every day (the player's own calendar). Unopened gifts wait, up to
 // MAX_WAITING. The first gift is waiting from the start. A gift holds one thing from Butiken
 // (clothes and apparatus only if the team does not have them) or, half of the time, a gift-only
 // surprise from furniture.ts (`giftOnly`), and a few medals.
-const FRIDAY = 5;
 const MAX_WAITING = 3;
 const DAY_MS = 24 * 60 * 60 * 1000;
 export const GIFT_MEDALS = 5;
@@ -28,27 +27,19 @@ function addDays(key: string, days: number): string {
   return localDate(d);
 }
 
-// The most recent Friday, today included.
-export function latestFriday(now = new Date()): string {
-  const d = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  d.setDate(d.getDate() - ((d.getDay() - FRIDAY + 7) % 7));
-  return localDate(d);
+function today(now: Date): string {
+  return localDate(now);
 }
 
-// Days until the next Friday (1-7).
-export function daysToFriday(now = new Date()): number {
-  return (FRIDAY - now.getDay() + 7) % 7 || 7;
-}
-
-function weeksSince(claimed: string, now: Date): number {
-  const diff = parseDay(latestFriday(now)).getTime() - parseDay(claimed).getTime();
-  return Math.max(0, Math.round(diff / (7 * DAY_MS)));
+function daysSince(claimed: string, now: Date): number {
+  const diff = parseDay(today(now)).getTime() - parseDay(claimed).getTime();
+  return Math.max(0, Math.round(diff / DAY_MS));
 }
 
 export function waitingGifts(now = new Date()): number {
   const { claimed } = SaveService.get().gifts;
   if (!claimed) return 1;
-  return Math.min(MAX_WAITING, weeksSince(claimed, now));
+  return Math.min(MAX_WAITING, daysSince(claimed, now));
 }
 
 // Opens one waiting gift: picks the reward, puts it in the save and returns it.
@@ -67,13 +58,13 @@ export function openGift(manifest: AssetManifest | undefined, now = new Date()):
   const medals = item ? GIFT_MEDALS : GIFT_MEDALS * 2;
   SaveService.update((d) => {
     const { claimed } = d.gifts;
-    const weeks = claimed ? weeksSince(claimed, now) : 0;
-    // Mark one Friday as opened; gifts beyond MAX_WAITING are dropped.
+    const days = claimed ? daysSince(claimed, now) : 0;
+    // Mark one day as opened; gifts beyond MAX_WAITING are dropped.
     d.gifts.claimed = !claimed
-      ? latestFriday(now)
-      : weeks > MAX_WAITING
-        ? addDays(latestFriday(now), -7 * (MAX_WAITING - 1))
-        : addDays(claimed, 7);
+      ? today(now)
+      : days > MAX_WAITING
+        ? addDays(today(now), -(MAX_WAITING - 1))
+        : addDays(claimed, 1);
     d.medals += medals;
     if (item?.kind === 'furniture')
       d.furniture.push({ uid: newUid(), def: item.id, x: 0, y: 0, stored: true });
