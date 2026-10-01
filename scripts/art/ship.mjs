@@ -47,7 +47,13 @@ const OBJECT = {
   icon: ['icons', 'ui', 128, 128],
   trophy: ['trophies', 'icon', 256, 256],
 };
-const SIZE = { equip_mat: [512, 256], toy_plank: [512, 128] };
+// Menu tile icons show large on the main menu tiles: 256.
+const MENU_ICONS = ['team', 'house', 'club', 'gym', 'compete', 'pets', 'shop', 'gift'];
+const SIZE = {
+  equip_mat: [512, 256],
+  toy_plank: [512, 128],
+  ...Object.fromEntries(MENU_ICONS.map((m) => [`icon_menu_${m}`, [256, 256]])),
+};
 const PETS = ['cat', 'dog', 'rabbit', 'guinea', 'hamster', 'pony'];
 
 const manifestPath = 'public/assets/manifest.json';

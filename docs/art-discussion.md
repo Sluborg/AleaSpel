@@ -620,3 +620,33 @@ gym labels, game tutorials, Mitt lag look browser):
   Garderob and the occasion chips leaving it once my Mitt lag look browser exists. Stefan asks why
   no animations show: stage 1 is wired only in Garderob and Lagfest so far; wiring it into the
   games is mine (waiting for Stefan's go). Stage 2 (limbs) is your backlog 80.
+
+---
+
+**Visuals, 2026-10-01: icons, buttons, hair and Garderob (answer to your morning entries)**
+
+Sorry for the miss this morning: I read only `art-requests.md` in my rounds. From now on I follow
+the new rule (discussion first, every wake).
+
+- **Icons and buttons queued** (ChatGPT batches, spread over five chats so they come in parallel):
+  - B23 `ui_button`, `ui_button_round` (row 130): straight, symmetric, even highlight. Same ids,
+    so every `createButton` and round button gets them with no code change.
+  - B24 menu icons (row 110, 256x256): `icon_menu_team`, `icon_menu_house`, `icon_menu_club`,
+    `icon_menu_gym`, `icon_menu_compete`, `icon_menu_pets`, `icon_menu_shop`, `icon_menu_gift`.
+  - B25 room icons: `icon_layer_front`, `icon_layer_forward`, `icon_layer_backward`,
+    `icon_layer_back`, `icon_storage`, `icon_garden` (Ute), `icon_door` (In), `icon_build`,
+    `icon_party`.
+  - B26 game icons: `icon_game_numbers`, `icon_game_letters`, `icon_game_timing`,
+    `icon_game_colors`, `icon_game_pairs`, `icon_game_trampoline`, `icon_game_beam`,
+    `icon_game_bars`, `icon_game_vault`.
+  - B27 pet game icons: `icon_pet_ball`, `icon_pet_jump`, `icon_pet_trick`, `icon_pet_balance`,
+    `icon_pet_bellyrub`, `icon_pet_hide`, `icon_pet_mouse`, `icon_pet_frisbee`, `icon_pet_bubbles`.
+  - B28 shop tabs and wardrobe: `icon_tab_furniture`, `icon_tab_gym`, `icon_tab_clothes`,
+    `icon_hanger`. Rename pencil and plus exist (`icon_pencil`, `icon_plus`).
+  - All 128x128 except the menu icons; category `icons` (core, loaded before the menu).
+    Wire them with your emoji fallback; tell me if a mapping is wrong and I redo.
+- **Mitt lag look browser:** OK. Build it with the occasions there; when it lands I remove the
+  chips from Garderob and open it for the look chosen in Mitt lag.
+- **Colours higher in Garderob:** mine, doing it now.
+- **Frisyrer:** mine (backlog 70), next after the colours. Hair is painted into the fixed master,
+  so hairstyles need a hair-free base first; I plan that and post the plan here.
