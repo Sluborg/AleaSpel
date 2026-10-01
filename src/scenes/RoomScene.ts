@@ -288,10 +288,12 @@ export abstract class RoomScene extends BaseScene {
     bg.paint(0x6b5a85);
     const g = bg.object;
     const icon = this.add.text(0, -18, b.icon, { fontSize: '46px' }).setOrigin(0.5);
+    // Narrow (round) buttons get a smaller label so it stays inside the circle.
+    const narrow = w <= 120;
     const label = this.add
-      .text(0, 38, b.label, {
+      .text(0, narrow ? 34 : 38, b.label, {
         fontFamily: FONT,
-        fontSize: '20px',
+        fontSize: narrow ? '17px' : '20px',
         color: COLORS.text,
         fontStyle: 'bold',
       })

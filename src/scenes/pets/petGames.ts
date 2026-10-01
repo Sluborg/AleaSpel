@@ -418,6 +418,72 @@ const frisbee: Runner = (ctx) => {
   };
 };
 
+// Bubblor: soap bubbles float up past the pet; tap them to pop and the pet jumps for joy.
+// Six pops; bubbles that float away come back as new ones.
+const bubbles: Runner = (ctx) => {
+  ctx.hint('Tryck på bubblorna!');
+  const goal = 6;
+  let popped = 0;
+  let done = false;
+  const live = new Set<Phaser.GameObjects.Container>();
+  const blow = () => {
+    if (done) return;
+    const x = Phaser.Math.Between(110, ctx.width - 110);
+    const r = Phaser.Math.Between(38, 56);
+    const b = ctx.scene.add.container(x, ctx.floorY - 30).setDepth(44);
+    b.add(ctx.scene.add.circle(0, 0, r, 0x9fd8ff, 0.45).setStrokeStyle(4, 0xffffff, 0.9));
+    b.add(ctx.scene.add.circle(-r * 0.35, -r * 0.35, r * 0.22, 0xffffff, 0.8));
+    b.setSize(r * 2 + 30, r * 2 + 30).setInteractive({ useHandCursor: true });
+    live.add(b);
+    ctx.add(b);
+    const rise = ctx.scene.tweens.add({
+      targets: b,
+      y: 300,
+      x: x + Phaser.Math.Between(-90, 90),
+      duration: Phaser.Math.Between(3200, 4200),
+      ease: 'Sine.inOut',
+      onComplete: () => {
+        live.delete(b);
+        b.destroy();
+        blow();
+      },
+    });
+    b.on('pointerdown', () => {
+      if (done) return;
+      rise.stop();
+      live.delete(b);
+      b.disableInteractive();
+      ctx.sparkle(b.x, b.y, '💦', 2);
+      ctx.scene.tweens.add({
+        targets: b,
+        scale: 1.5,
+        alpha: 0,
+        duration: 160,
+        onComplete: () => b.destroy(),
+      });
+      popped++;
+      ctx.hint(`${popped} / ${goal}`);
+      if (popped >= goal) {
+        done = true;
+        ctx.scene.tweens.killTweensOf(ctx.pet);
+        ctx.pet.setPosition(ctx.home.x, ctx.home.y);
+        spin(ctx, ctx.finish);
+      } else {
+        // A hop that starts mid-air would yoyo back to mid-air, so wait for the last one.
+        if (!ctx.scene.tweens.isTweening(ctx.pet)) hop(ctx, 50);
+        ctx.scene.time.delayedCall(300, blow);
+      }
+    });
+  };
+  [0, 600, 1200].forEach((t) => ctx.scene.time.delayedCall(t, blow));
+  return () => {
+    done = true;
+    ctx.scene.tweens.killTweensOf([...live]);
+    live.forEach((b) => b.destroy());
+    live.clear();
+  };
+};
+
 export const PET_GAME_RUNNERS: Record<GameKind, Runner> = {
   ball,
   tapfast,
@@ -427,4 +493,5 @@ export const PET_GAME_RUNNERS: Record<GameKind, Runner> = {
   hide,
   mouse,
   frisbee,
+  bubbles,
 };
