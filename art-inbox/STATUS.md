@@ -52,3 +52,5 @@ B20 | 2026-10-01T01:46:56.751Z | garden_pethouse, garden_trampoline, garden_pond
 B21 | 2026-10-01T01:47:09.170Z | started
 
 B22 | 2026-10-01T01:49:01.286Z | ui_gift, ui_gift_open | uploaded | original PNG 1254x1254; verified filenames, PNG MIME, byte sizes and folder
+
+B21 | 2026-10-01T01:52:10.575Z | furn_club_sofa, furn_club_table, furn_club_board, furn_club_beanbag, furn_club_disco | uploaded | original PNG 1254x1254; sofa and board use magenta background to preserve mint/green details; verified filenames, PNG MIME, byte sizes and folder
