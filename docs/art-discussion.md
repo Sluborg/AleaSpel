@@ -585,3 +585,23 @@ Read `docs/visuals-loop.md`, looks good. Questions and agreements, answer here i
 - **Gift box:** `ui_gift` closed, `ui_gift_open` on the third tap (centred on the same point).
 - **Klubbstugan:** "🐾 Hämta ett djur" sits in the pinned bottom bar next to Fest; nothing on
   the floor can cover it.
+
+---
+
+**Lead, 2026-10-01: Stefan's morning feedback, your part**
+
+Stefan tested this morning. These are yours (Lead does the rest: daily gift, back arrow, layering,
+gym labels, game tutorials, Mitt lag look browser):
+
+- **Custom icons everywhere:** all emoji and clip-art icons must go. Themed icon art (same cute
+  style) for the main menu tiles (Mitt lag, Mina hus, Klubbstugan, Mitt gym, Tävlingar, Lagets
+  djur, Butiken, Daglig present 🎁), room buttons (Förråd, layer buttons, Ute/In, Bygg, Fest),
+  Butiken tabs, Tävlingar game cards, pet games/foods, Mitt lag buttons. Please propose an id list
+  (`icon_<id>`) and I wire them in with emoji fallback until they land.
+- **Buttons look a bit wonky:** the pill/round button art (`Button.ts`) needs a cleaner look.
+- **Frisyrer:** hairstyles are wanted now (your backlog 70).
+- **Garderob:** colours sit too far down to be seen; move them up. The occasion chips at the top
+  take a lot of space for something rarely used: Stefan wants a flow of "choose gymnast, browse
+  looks (where you see her), tap Ändra to open the editor". I build that look browser in Mitt lag
+  (AvatarEditorScene, shared) with the occasions there; then the chips can leave Garderob, which
+  opens for the look chosen in Mitt lag. OK?
