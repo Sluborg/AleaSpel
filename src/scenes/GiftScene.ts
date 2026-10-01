@@ -22,6 +22,7 @@ const WHERE: Record<ShopItem['kind'], string> = {
 export class GiftScene extends BaseScene {
   private box?: Phaser.GameObjects.Container;
   private lid?: Phaser.GameObjects.Container;
+  private boxArt?: Phaser.GameObjects.Image;
   private taps = 0;
 
   constructor() {
@@ -67,6 +68,30 @@ export class GiftScene extends BaseScene {
   }
 
   private drawBox(active: boolean): void {
+    // Delivered art (ui_gift, swapped for ui_gift_open when it opens), else a drawn box.
+    if (hasArt(this, 'ui_gift')) {
+      this.boxArt = artImage(this, 0, 0, 'ui_gift', 380, 380);
+      if (!active) this.boxArt.setTint(0x9a8fb0).setAlpha(0.8);
+      this.lid = undefined;
+      this.box = this.add.container(GAME_WIDTH / 2, BOX_Y, [this.boxArt]);
+    } else {
+      this.boxArt = undefined;
+      this.drawnBox(active);
+    }
+    this.box!.setSize(380, 380).setInteractive({ useHandCursor: true });
+    if (!active) return;
+    this.tweens.add({
+      targets: this.box,
+      y: BOX_Y - 20,
+      duration: 600,
+      yoyo: true,
+      repeat: -1,
+      ease: 'Sine.inOut',
+    });
+    this.box!.on('pointerup', () => this.tapBox());
+  }
+
+  private drawnBox(active: boolean): void {
     const body = this.add.graphics();
     const colour = active ? 0xff6fae : 0x8a7aa5;
     body.fillStyle(0x000000, 0.2).fillRoundedRect(-150, -60, 300, 230, 24);
@@ -79,17 +104,6 @@ export class GiftScene extends BaseScene {
     lidG.fillStyle(0xffb000, 1).fillCircle(0, -70, 20);
     this.lid = this.add.container(0, -60, [lidG]);
     this.box = this.add.container(GAME_WIDTH / 2, BOX_Y, [body, this.lid]);
-    this.box.setSize(380, 380).setInteractive({ useHandCursor: true });
-    if (!active) return;
-    this.tweens.add({
-      targets: this.box,
-      y: BOX_Y - 20,
-      duration: 600,
-      yoyo: true,
-      repeat: -1,
-      ease: 'Sine.inOut',
-    });
-    this.box.on('pointerup', () => this.tapBox());
   }
 
   private tapBox(): void {
@@ -115,14 +129,23 @@ export class GiftScene extends BaseScene {
 
   private reveal(reward: GiftReward): void {
     (this.children.getByName('say') as Phaser.GameObjects.Text | null)?.destroy();
-    this.tweens.add({
-      targets: this.lid,
-      y: -420,
-      angle: 30,
-      alpha: 0,
-      duration: 500,
-      ease: 'Back.in',
-    });
+    if (this.boxArt && hasArt(this, 'ui_gift_open')) {
+      // Same centre; the open box is a little wider (the lid sits to the right).
+      const open = artImage(this, 0, 0, 'ui_gift_open', 420, 420);
+      this.boxArt.destroy();
+      this.box?.add(open);
+      open.setScale(open.scale * 0.8);
+      this.tweens.add({ targets: open, scale: open.scale * 1.25, duration: 300, ease: 'Back.out' });
+    }
+    if (this.lid)
+      this.tweens.add({
+        targets: this.lid,
+        y: -420,
+        angle: 30,
+        alpha: 0,
+        duration: 500,
+        ease: 'Back.in',
+      });
     this.confetti();
     const c = this.add.container(GAME_WIDTH / 2, BOX_Y - 230).setDepth(10);
     const glow = this.add.circle(0, 0, 170, 0xffffff, 0.35);
