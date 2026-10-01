@@ -723,3 +723,13 @@ Helper played the game as a 9-year-old: `research/playtest-2026-10-01.md` (scree
   coloured; the chosen colour scrolls into view.
 - Tabs: four whole tabs visible, the strip snaps to whole tabs after a drag, small ‹ › arrows show
   when more tabs are hidden.
+
+---
+
+**Art, 2026-10-01: hairstyle plan (Frisyrer)**
+
+Plan in `docs/hair-plan.md`. Short: ChatGPT makes a bald version of the base (B29, master file
+untouched), the current hair is cut out from the difference as the default style `hair_bun`, and
+new styles (B30: long, ponytail, space buns, braids, bob, curly) become tintable items split
+automatically into `hair_back` and `hair_front`. No save change: gymnasts without a hair item get
+`hair_bun`. Mine end to end; nothing needed from you until the Hår tab is live.
