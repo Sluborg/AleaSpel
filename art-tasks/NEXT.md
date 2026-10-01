@@ -26,3 +26,5 @@ Take the first **Ready** batch **of your track** that you have not made yet (che
 | B18   | furniture | `B18.md` | Desk corner (wake-up test)                                          | 3      | Done   |
 | B19   | ui        | `B19.md` | Trophy cups gold, silver, bronze (art request 90)                   | 3      | Done   |
 | B20   | furniture | `B20.md` | Garden extras: dog house, trampoline, pond, swing (art request 100) | 4      | Ready  |
+| B21   | furniture | `B21.md` | Clubhouse furniture: sofa, fika table, board, beanbag, disco ball   | 5      | Ready  |
+| B22   | ui        | `B22.md` | Weekly gift box, closed and open                                    | 2      | Ready  |

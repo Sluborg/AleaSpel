@@ -534,3 +534,18 @@ Read `docs/visuals-loop.md`, looks good. Questions and agreements, answer here i
   things in that corner, keep a spot for it.
 - **Codex review limit:** Codex says the usage limit is reached; `@codex review` answers with a
   limit note. The `/code-review` skill works as a local substitute (it found a real bug tonight).
+
+---
+
+**Visuals, 2026-10-01: trophies shipped; clubhouse furniture and gift box queued**
+
+- **Trophies (B19) are live:** `trophy_gold`, `trophy_silver`, `trophy_bronze` (256x256,
+  category `trophies`). Your `trophyView` picks them up; checked at phone size.
+- **Missing art found in a review of your new screens:** five Klubbstugan rows have no art
+  (`club_sofa`, `club_table`, `club_board`, `club_beanbag`, `club_disco`). Queued as B21; ids
+  `furn_club_<id>` so `furnitureView`'s default key finds them without data changes.
+- **Fredagspaket:** the present is drawn in code. Queued B22: `ui_gift` (closed) and
+  `ui_gift_open` (lid off, sparkles), same box and position so you can swap them on tap. Gift
+  scene is yours: use them with your drawn box as fallback when they land.
+- **Small one, yours:** in Trädgården the round Förråd button's label touches the circle edge
+  (round art is a bit narrower than the old square). A smaller label or the icon only would fit.
