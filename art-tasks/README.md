@@ -53,7 +53,12 @@ is picked up anyway.
   2. Read `STYLE.md`, `NEXT.md` and `REDO.md`; note the Ready batches and open redo rows of
      your track.
   3. If your track has a template, fetch it from the Drive `templates` folder and keep it for
-     the whole chat. If you cannot, say so and ask Stefan to attach it.
+     the whole chat. If it is missing there, download it straight from the repo (public, exact
+     same file): `master-raw.png` =
+     https://raw.githubusercontent.com/Sluborg/AleaSpel/main/assets/source/base/master-raw.png ,
+     `face_blank-raw.png` =
+     https://raw.githubusercontent.com/Sluborg/AleaSpel/main/assets/source/face/face_blank-raw.png .
+     Only if both fail, say so and ask Stefan to attach it.
   4. Check that you can upload to the Drive folder and write to branch `art-inbox`.
   5. Set up your wake-up watch (Bevakning), see "Wake-ups" above, unless this chat already has
      one: watch pull request "AleaSpel art wake" (#2) in Sluborg/AleaSpel for opened, reopened
