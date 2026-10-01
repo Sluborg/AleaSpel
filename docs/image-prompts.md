@@ -99,7 +99,7 @@ nothing green on the object.
 Paste-ready batch tasks live in `art-tasks/` (`NEXT.md` lists them). ChatGPT can fetch them itself
 when Stefan says "next"; see `art-tasks/README.md`.
 
-ChatGPT can make several images in one reply (7 eyes worked). Visuals sends one prompt per
+ChatGPT can make several images in one reply (7 eyes worked). Art sends one prompt per
 batch: the shared rules once, then a numbered list of items, one separate image each, each
 labelled with its id. Items in a batch share a template. Stefan pastes all images back with
 their ids; a failed item is redone alone or moved to a later batch.

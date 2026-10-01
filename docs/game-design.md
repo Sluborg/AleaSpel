@@ -217,7 +217,7 @@ Alea's wish: nicer furniture and clothes are bought with prizes from winning com
 - Built: **Butiken** (`scenes/ShopScene.ts`, data in `data/shop.ts`): tabs Möbler and Kläder,
   tiles with price, "Köp" when affordable, "Köpt" when owned, "N till" otherwise. Furniture rows
   with a `price` in `data/furniture.ts` are for sale and appear in Mina hus once bought. Clothes
-  for sale are manifest ids in `CLOTHES_PRICES` (empty until Visuals adds priced clothes; the
+  for sale are manifest ids in `CLOTHES_PRICES` (empty until Art adds priced clothes; the
   wardrobe must hide them until owned). Owned ids in `SaveData.owned` (v6).
 
 ## 9. Retention without pressure

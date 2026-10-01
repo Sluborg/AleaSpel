@@ -1,6 +1,6 @@
 # Movement plan (poses and animation)
 
-Owner: Visuals (character system: `GymnastView`, rig, art). Lead uses the moves in scenes and
+Owner: Art (character system: `GymnastView`, rig, art). Lead uses the moves in scenes and
 minigames. Goal: the gymnast moves and poses while every custom item (clothes, face, accessories)
 keeps working, without redrawing items per pose.
 
@@ -51,6 +51,6 @@ in these moments. Used only for short minigame highlights.
 
 ## Order and effort
 
-1. Stage 1 now (Visuals, small). Lead can call `play()` right away.
+1. Stage 1 now (Art, small). Lead can call `play()` right away.
 2. Stage 2 after hair is decided (hair splits across head/back), about one focused session.
 3. Stage 3 per minigame need, via art requests.

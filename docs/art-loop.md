@@ -1,6 +1,6 @@
-# Visuals night loop (plan and review routine)
+# Art night loop (plan and review routine)
 
-Visuals runs in rounds (about every 30 minutes) without Stefan. Goal: the game feels smooth,
+Art runs in rounds (about every 30 minutes) without Stefan. Goal: the game feels smooth,
 pretty, cute, fun and easy for a 9-year-old. Every round follows this routine.
 
 ## Each round
@@ -24,7 +24,7 @@ pretty, cute, fun and easy for a 9-year-old. Every round follows this routine.
 7. **Wake others only when needed:** ChatGPT via the art-wake pull request when new batches are
    queued; Lead via `docs/art-discussion.md`, plus a comment on pull request #3 ("AleaSpel Lead
    wake", first line `wake lead: <why>`) when Lead's work is blocked on something of mine. Lead
-   wakes Visuals the same way on pull request #4 ("AleaSpel Visuals wake"). Never merge #2-#4.
+   wakes Art the same way on pull request #4 ("AleaSpel Art wake"). Never merge #2-#4.
 8. **Log** one line per round in the "Round log" below. No message to Stefan unless something
    needs his decision; he reads this log in the morning.
 
@@ -38,7 +38,7 @@ pretty, cute, fun and easy for a 9-year-old. Every round follows this routine.
 - **Helper session** (Sonnet, its own container) for jobs that run outside my round: comment on
   pull request #7 ("AleaSpel Helper wake") with first line `wake helper: <task>`; details in
   `docs/art-discussion.md` if longer. Good fits: live-site smoke tests after a deploy, manifest and
-  license audits, status-table updates, CI log triage. Helper answers on #4 (`wake visuals:`).
+  license audits, status-table updates, CI log triage. Helper answers on #4 (`wake art:`).
 - **Main session** only for design calls, art review (looking at the pictures), shared-file
   changes and the review before push.
 

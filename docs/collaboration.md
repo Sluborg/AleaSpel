@@ -1,6 +1,6 @@
 # How the Claude sessions work together
 
-Two Claude Code sessions build AleaSpel at the same time: **Lead** (features, game design, coordination) and **Visuals** (art and the character systems). Stefan (the parent) relays between them
+Two Claude Code sessions build AleaSpel at the same time: **Lead** (features, game design, coordination) and **Art** (art and the character systems; called "Visuals" before 2026-10-01). Stefan (the parent) relays between them
 and ChatGPT. Every session reads this file at start and follows it.
 
 ## Roles
@@ -8,17 +8,17 @@ and ChatGPT. Every session reads this file at start and follows it.
 | Session          | Owns                                                                                | Talks to            |
 | ---------------- | ----------------------------------------------------------------------------------- | ------------------- |
 | Lead             | Game features: pets, houses and club house, gym, minigames, medals and shop, menus  | Stefan              |
-| Visuals          | All image assets, the art pipeline, the character systems (wardrobe, face, preview) | Stefan, via ChatGPT |
-| ChatGPT (images) | Generates images from prompts Visuals writes                                        | Stefan              |
+| Art              | All image assets, the art pipeline, the character systems (wardrobe, face, preview) | Stefan, via ChatGPT |
+| ChatGPT (images) | Generates images from prompts Art writes                                            | Stefan              |
 
-Visuals writes the ChatGPT prompts itself. Stefan only pastes prompts into ChatGPT and
-pastes the images back to Visuals with their id.
+Art writes the ChatGPT prompts itself. Stefan only pastes prompts into ChatGPT and
+pastes the images back to Art with their id.
 
 ## File ownership
 
 Only the owner edits these. The other session asks through `docs/art-requests.md` or Stefan.
 
-- **Visuals:** `assets/`, `public/assets/`, `scripts/art/`, `docs/asset-spec.md`,
+- **Art:** `assets/`, `public/assets/`, `scripts/art/`, `docs/asset-spec.md`,
   `docs/image-prompts.md`, `src/data/wardrobe.ts`, `src/data/wardrobe.json`,
   `src/scenes/WardrobeScene.ts`, `src/ui/GymnastView.ts`, `src/ui/itemBounds.ts`,
   `src/preview/`, `preview/`.
@@ -29,12 +29,12 @@ Only the owner edits these. The other session asks through `docs/art-requests.md
 - **Shared, small careful commits:** `src/services/SaveService.ts`, `src/main.ts`,
   `src/scenes/PreloadScene.ts`, `src/scenes/AvatarEditorScene.ts`, `src/ui/Button.ts`,
   `src/ui/NameInput.ts`, `src/config.ts`, `CLAUDE.md`, `project-status.md`, `docs/art-requests.md`,
-  `docs/art-discussion.md` (append-only), `art-tasks/` is Visuals' (ChatGPT fetches it).
+  `docs/art-discussion.md` (append-only), `art-tasks/` is Art's (ChatGPT fetches it).
 
 ## Talking to each other: `docs/art-discussion.md`
 
 Questions, proposals and answers between the sessions go into `docs/art-discussion.md`
-(append-only entries, `Lead:` / `Visuals:` with date, `[closed]` when settled). Pull before
+(append-only entries, `Lead:` / `Art:` with date, `[closed]` when settled). Pull before
 reading and before writing. Decisions that change a file still go into that file.
 
 **Every wake and every round starts by reading the new entries in `docs/art-discussion.md`**
@@ -48,13 +48,13 @@ the discussion: every art need also gets a row in `docs/art-requests.md`.
 Each session has a draft pull request it is subscribed to (never merged). A comment on it wakes
 that session within about a minute, even when it is idle:
 
-| Session | Wake bell                                    |
-| ------- | -------------------------------------------- |
-| Lead    | PR #3 "AleaSpel Lead wake"                   |
-| Visuals | PR #4 "AleaSpel Visuals wake"                |
-| ChatGPT | PR #2 "AleaSpel art wake" (Visuals rings it) |
+| Session | Wake bell                                |
+| ------- | ---------------------------------------- |
+| Lead    | PR #3 "AleaSpel Lead wake"               |
+| Art     | PR #4 "AleaSpel Art wake"                |
+| ChatGPT | PR #2 "AleaSpel art wake" (Art rings it) |
 
-First line of the comment: `wake lead: <why>` or `wake visuals: <why>`. The details stay in
+First line of the comment: `wake lead: <why>` or `wake art: <why>` (`wake visuals:` still works). The details stay in
 `docs/art-discussion.md`; the comment only rings the bell. Ring when the other side must act
 before its next round (blocked, a push that needs a check, a question that cannot wait).
 
@@ -63,9 +63,9 @@ before its next round (blocked, a push that needs a check, a question that canno
 1. Lead adds a row to `docs/art-requests.md`: id, what it is, where it is used,
    and the technical format it needs (canvas, pose, layers, tint or full colour). The game keeps
    working with placeholders until the art arrives.
-2. Visuals turns the request into ChatGPT prompts, adds them to the queue in
+2. Art turns the request into ChatGPT prompts, adds them to the queue in
    `docs/image-prompts.md`, and gives Stefan the next prompt when he asks ("ny prompt").
-3. When the image arrives, Visuals checks it, extracts it, adds it to
+3. When the image arrives, Art checks it, extracts it, adds it to
    `public/assets/manifest.json`, validates, pushes, and sets the request to Done with the
    manifest ids.
 4. Lead switches from the placeholder to the manifest ids. Code must fall back to
@@ -76,7 +76,7 @@ before its next round (blocked, a push that needs a check, a question that canno
 - **Manifest ids are the interface.** Lead never reads art files directly; it uses
   texture keys = manifest ids, loaded by `PreloadScene`.
 - **Formats** are defined in `docs/asset-spec.md` (characters and wardrobe) and in each request
-  (pets, furniture, icons). Visuals may improve a format; it tells Lead
+  (pets, furniture, icons). Art may improve a format; it tells Lead
   through the request row.
 - **Save schema:** whoever changes `SaveData` bumps `SAVE_VERSION`, adds a migration, and pulls
   first. Never two schema changes in parallel: announce it in `project-status.md` under
@@ -92,5 +92,5 @@ before its next round (blocked, a push that needs a check, a question that canno
 
 ## Status
 
-`project-status.md` has one section per session ("Lead", "Visuals") with "In
+`project-status.md` has one section per session ("Lead", "Art") with "In
 progress" and "Next". Each session edits only its own section, plus the shared "Done" list.

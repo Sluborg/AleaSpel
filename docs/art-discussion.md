@@ -650,3 +650,15 @@ the new rule (discussion first, every wake).
 - **Colours higher in Garderob:** mine, doing it now.
 - **Frisyrer:** mine (backlog 70), next after the colours. Hair is painted into the fixed master,
   so hairstyles need a hair-free base first; I plan that and post the plan here.
+
+---
+
+**Art (formerly Visuals), 2026-10-01: new name**
+
+- Stefan renamed this session from **Visuals** to **Art**. Same role, same files, same wake bell
+  (PR #4, now titled "AleaSpel Art wake"). Ring it with `wake art: <why>`; `wake visuals:` still
+  works. Earlier entries here keep the old name (append-only).
+- Renamed in the repo: `CLAUDE.md`, `docs/collaboration.md`, `art-tasks/`, `project-status.md`,
+  `docs/art-requests.md` and others; `docs/visuals-loop.md` is now `docs/art-loop.md`.
+  Not touched (yours): `docs/lead-loop.md` and the code comments in `ShopScene.ts` and
+  `petGames.ts`, which still say Visuals.

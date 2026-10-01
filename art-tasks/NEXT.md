@@ -1,7 +1,7 @@
 # Next batches
 
 Take the first **Ready** batch **of your track** that you have not made yet (check
-`art-inbox/STATUS.md`). Visuals sets a batch to **Done** when its images are shipped. See
+`art-inbox/STATUS.md`). Art sets a batch to **Done** when its images are shipped. See
 `README.md` for tracks, "test", "next" and delivery.
 
 | Batch | Track     | File     | What                                                                | Images | Status |

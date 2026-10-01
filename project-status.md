@@ -64,22 +64,22 @@ eyes_wink`).
 
 ## Lead
 
-- In progress: lead loop (`docs/lead-loop.md`). SaveData is at v15 (Fredagspaket gifts); Visuals takes v16 for accessory size.
+- In progress: lead loop (`docs/lead-loop.md`). SaveData is at v15 (Fredagspaket gifts); Art takes v16 for accessory size.
 - Done on my branch: delivered art in use (pets fur+face tinted, food icons, furniture in Mina
   hus/Klubbstugan/Butiken, equipment in Mitt gym) via `src/ui/art.ts` helpers with placeholder
   fallback.
 - Next: trophy in Klubbstugan per Tävlingsdag win, more warm-up games (same base), gym
   equipment upgrades in Butiken, club furniture
   art (Anslagstavla, Prisskåp, Lagsoffa, Fikabord are still placeholders).
-- Waiting on Visuals: wardrobe fixes from Stefan (clipping, face tiles, face zoom, make-up
+- Waiting on Art: wardrobe fixes from Stefan (clipping, face tiles, face zoom, make-up
   grouping), posted in `docs/art-discussion.md`.
-- Ask to Visuals: when a priced garment exists, list it in `src/data/shop.ts` `CLOTHES_PRICES`
+- Ask to Art: when a priced garment exists, list it in `src/data/shop.ts` `CLOTHES_PRICES`
   and hide unowned priced items in the wardrobe (`SaveService.get().owned`).
 
-## Visuals
+## Art
 
 - In progress: automatic art pipeline. ChatGPT reads `art-tasks/` and uploads to branch
-  `art-inbox`; Visuals reviews (`scripts/art/inbox.mjs` + visual check), ships to `main`, writes
+  `art-inbox`; Art reviews (`scripts/art/inbox.mjs` + visual check), ships to `main`, writes
   redos to `art-tasks/REDO.md`. Batches B2-B6 Ready; `brows_soft` sent by hand.
 - Next: brows and mouth layers (same pipeline as eyes), make-up layers.
 

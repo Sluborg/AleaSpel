@@ -7,7 +7,7 @@ minigames. Full design: `docs/game-design.md` (keep it updated when a design dec
 
 ## Working together
 
-Two Claude sessions build this game in parallel (Lead and Visuals). Read
+Two Claude sessions build this game in parallel (Lead and Art). Read
 `docs/collaboration.md` first: roles, file ownership, art requests (`docs/art-requests.md`), git.
 
 ## Player
@@ -59,11 +59,11 @@ preview/index.html     wardrobe preview page (/preview/), code in src/preview/
 scripts/art/           key-master, derive-base, validate (Node + pngjs)
 docs/game-design.md    systems, data model, roadmap
 docs/asset-spec.md     character and wardrobe art rules
-docs/image-prompts.md  ChatGPT image prompts and the image queue (Visuals)
-docs/art-requests.md   art the features need (Lead -> Visuals)
+docs/image-prompts.md  ChatGPT image prompts and the image queue (Art)
+docs/art-requests.md   art the features need (Lead -> Art)
 docs/collaboration.md  how the sessions work together
-docs/art-discussion.md Lead <-> Visuals thread (append-only)
-art-tasks/             ChatGPT task queue (Visuals)
+docs/art-discussion.md Lead <-> Art thread (append-only)
+art-tasks/             ChatGPT task queue (Art)
 research/              interviews with Alea, reference-game research
 .github/workflows/deploy.yml
 ```

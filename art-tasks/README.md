@@ -1,8 +1,8 @@
 # Art tasks for ChatGPT
 
 This file is the complete manual for the image generator (ChatGPT). Everything you need is here
-or linked from here; it changes over time, so always fetch the latest version. Visuals (the Claude
-art session) writes the tasks; you generate and upload; Visuals reviews and ships to the game.
+or linked from here; it changes over time, so always fetch the latest version. Art (the Claude
+art session) writes the tasks; you generate and upload; Art reviews and ships to the game.
 
 Fetch repo files as `https://raw.githubusercontent.com/Sluborg/AleaSpel/main/<path>?t=<current time>` (the `?t=` avoids stale copies).
 
@@ -34,7 +34,7 @@ A chat works on one track for its whole life. Only take batches and redo rows of
 
 ## Wake-ups (automatic start)
 
-A draft pull request titled **AleaSpel art wake** (branch `art-wake`) is the wake-up bell. Visuals
+A draft pull request titled **AleaSpel art wake** (branch `art-wake`) is the wake-up bell. Art
 pushes a commit to it when there is new work; `art-wake/TRACKS.md` on that branch lists the tracks
 that have work. A chat with a watch (Bevakning) on that pull request: when it fires, read
 `art-wake/TRACKS.md` from the `art-wake` branch; if your track is listed, do "run all" for your
@@ -87,7 +87,7 @@ is picked up anyway.
 
 - One item per image, nothing else in it. No text, no watermark, no shadow, no glow.
 - Flat background in the key colour the batch gives (green #00FF00 unless it says otherwise).
-  Your normal output is close enough (for example RGB 0,254,1); Visuals keys with a tolerance.
+  Your normal output is close enough (for example RGB 0,254,1); Art keys with a tolerance.
   Do not try to fix it afterwards.
 - **Green or mint in the object** (leaves, plants, mint paint): use a flat magenta #FF00FF
   background instead of green, even if the batch says green. Otherwise those parts are lost.
@@ -98,7 +98,7 @@ is picked up anyway.
 - Follow `STYLE.md`.
 - If an item is unclear or impossible, make the rest, skip it, and say why.
 
-## What Visuals does
+## What Art does
 
 Copies the Drive images into `art-inbox`, checks them (canvas, background, nothing moved),
 reviews them visually, ships good ones to the game, writes redo requests to `REDO.md` and sets
