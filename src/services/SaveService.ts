@@ -4,7 +4,7 @@ import { rollTraits } from './PetCare';
 // Versioned save data in localStorage.
 // To change the schema: bump SAVE_VERSION, update SaveData, add a migration from the previous version.
 
-export const SAVE_VERSION = 14;
+export const SAVE_VERSION = 15;
 const STORAGE_KEY = 'aleaspel.save';
 
 export interface Position {
@@ -101,6 +101,9 @@ export interface SaveData {
     wins: number; // first places
     podiums: number; // top three places
     trophies: Trophy[]; // one cup per top-three place, shown in Klubbstugan's Prisskåp
+  };
+  gifts: {
+    claimed: string; // the Friday (YYYY-MM-DD) of the last opened Fredagspaket; '' = none yet
   };
 }
 
@@ -200,6 +203,8 @@ const MIGRATIONS: Record<number, Migration> = {
     ];
     return { ...data, version: 14, team: { ...team, trophies } };
   },
+  // Fredagspaket: no gift opened yet, so a welcome gift waits.
+  14: (data) => ({ ...data, version: 15, gifts: { claimed: '' } }),
 };
 
 function createDefault(): SaveData {
@@ -214,6 +219,7 @@ function createDefault(): SaveData {
     gym: { equipment: {} },
     clubhouse: { pets: {} },
     team: { days: 0, wins: 0, podiums: 0, trophies: [] },
+    gifts: { claimed: '' },
   };
 }
 

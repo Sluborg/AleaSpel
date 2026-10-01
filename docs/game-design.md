@@ -220,8 +220,10 @@ Alea's wish: nicer furniture and clothes are bought with prizes from winning com
 
 ## 9. Retention without pressure
 
-- **Fredagspaket**: a gift box appears in the active house every Friday. Double-tap to open with
-  confetti. Unclaimed gifts stack and never expire.
+- **Fredagspaket** (built, save v15): every Friday (local calendar) a gift waits; the 🎁 button
+  in the main menu wiggles with a count. Tap the box three times, it opens with confetti and gives
+  one random thing from Butiken (clothes and apparatus only if not owned) plus 5 medals. The first
+  gift waits from the start. Up to 3 unopened gifts stack (`gifts.claimed` = last opened Friday).
 - **Seasonal sets** by date: Halloween, Lucia och jul, påsk, midsommar, sommarlov. Items are kept
   forever once received.
 - **Hidden secrets**: tap an object three times, move a mat, and find a sticker, rare leotard pattern

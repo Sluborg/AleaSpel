@@ -5,6 +5,7 @@ import { AvatarEditorScene } from './scenes/AvatarEditorScene';
 import { BootScene } from './scenes/BootScene';
 import { ClubhouseScene } from './scenes/ClubhouseScene';
 import { GardenScene } from './scenes/GardenScene';
+import { GiftScene } from './scenes/GiftScene';
 import { GymScene } from './scenes/GymScene';
 import { HomeScene } from './scenes/HomeScene';
 import { MainMenuScene } from './scenes/MainMenuScene';
@@ -59,6 +60,7 @@ const game = new Phaser.Game({
     AvatarEditorScene,
     HomeScene,
     GardenScene,
+    GiftScene,
     ClubhouseScene,
     GymScene,
     MinigameHubScene,

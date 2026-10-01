@@ -37,7 +37,7 @@ src/
                      Pets (Lagets djur, games in scenes/pets/), RoomScene base for Home,
                      Garden (Trädgården, house exterior builder),
                      Clubhouse (Klubbstugan) and Gym (Mitt gym, practice),
-                     MinigameHub (Tävlingar), TeamCompetition (Tävlingsdag),
+                     MinigameHub (Tävlingar), TeamCompetition (Tävlingsdag), Gift (Fredagspaket),
                      minigames/ (PatternGameScene base: Trampoline, Beam, Bars, Vault;
                      QuickGameScene base: OrderGame, TimingGame, ColorMemory; challenges.ts
                      shared by both), Shop (Butiken)
@@ -45,7 +45,8 @@ src/
   data/              game content as data (menu, furniture, wardrobe, pets, pet games/foods,
                      minigames: shapes, moves, games; competition rivals; gym equipment; shop;
                      clothing occasions)
-  services/          SaveService, PetCare, Gesture (finger-pattern recognizer), Difficulty (levels)
+  services/          SaveService, PetCare, Gesture (finger-pattern recognizer), Difficulty (levels),
+                     House (exterior choices), Gifts (Fredagspaket)
   ui/                reusable UI (Button, GymnastView, NameInput, itemBounds, PetView, petSvg,
                      ScrollList, art helpers, furnitureView)
 public/
