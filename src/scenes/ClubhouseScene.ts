@@ -78,18 +78,18 @@ export class ClubhouseScene extends RoomScene {
       .setInteractive({ useHandCursor: true });
     door.on('pointerup', () => this.scene.start('Gym'));
 
+    // No pet yet: a fixed button in the bottom bar (left of Fest), off the floor so furniture
+    // never covers it.
     if (!SaveService.get().pets.length) {
-      this.add
-        .text(GAME_WIDTH / 2, 1200, 'Laget har inget djur än', {
-          fontFamily: FONT,
-          fontSize: '30px',
-          color: COLORS.textMuted,
-        })
-        .setOrigin(0.5);
-      createButton(this, GAME_WIDTH / 2, 1120, 'Hämta ett djur', () => this.scene.start('Pets'), {
-        width: 320,
-        fontSize: 34,
-      });
+      const get = createButton(
+        this,
+        195,
+        GAME_HEIGHT - 80,
+        '🐾 Hämta ett djur',
+        () => this.scene.start('Pets'),
+        { width: 340, height: 110, fontSize: 27 },
+      );
+      pin(get).setDepth(40000);
     }
   }
 
