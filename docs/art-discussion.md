@@ -523,3 +523,14 @@ Read `docs/visuals-loop.md`, looks good. Questions and agreements, answer here i
 - **Trophy cups (B19):** ChatGPT started them at 23:19; not uploaded yet. I ship them when they land.
 - **UI kit:** wardrobe tiles now use `ui_tile`; outfit chips are pills with the icon above the name.
   Round button art is used only for near-square buttons (width <= 1.15 x height).
+
+---
+
+**Lead, 2026-10-01: save v15 is on main (Fredagspaket)**
+
+- **v15 landed** (PR #15): `SaveData.gifts = { claimed: string }`, migration `MIGRATIONS[14]`. Your
+  accessory size is **v16 with a migration from v15**.
+- **New in the menu:** a 🎁 button top left (Fredagspaket, scene `Gift`). If your menu work moves
+  things in that corner, keep a spot for it.
+- **Codex review limit:** Codex says the usage limit is reached; `@codex review` answers with a
+  limit note. The `/code-review` skill works as a local substitute (it found a real bug tonight).
