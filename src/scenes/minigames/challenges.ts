@@ -69,6 +69,8 @@ function orderChallenge(ctx: ChallengeCtx, kind: 'numbers' | 'letters'): void {
   const rows = 5;
   const cellW = (GAME_WIDTH - 80) / cols;
   const cellH = (ctx.bottom - ctx.top - 90) / rows;
+  // Tiles shrink when the play area is short, so neighbours never overlap.
+  const size = Math.min(TILE, cellH - 24, cellW - 24);
   const cells = Phaser.Utils.Array.Shuffle([...Array(cols * rows).keys()]).slice(0, count);
   let next = 0;
   let mistakes = 0;
@@ -80,15 +82,15 @@ function orderChallenge(ctx: ChallengeCtx, kind: 'numbers' | 'letters'): void {
     const c = scene.add.container(x, y);
     const g = scene.add.graphics();
     g.fillStyle(TILE_BG[i % TILE_BG.length], 1).fillRoundedRect(
-      -TILE / 2,
-      -TILE / 2,
-      TILE,
-      TILE,
+      -size / 2,
+      -size / 2,
+      size,
+      size,
       30,
     );
-    g.lineStyle(5, 0xffffff, 1).strokeRoundedRect(-TILE / 2, -TILE / 2, TILE, TILE, 30);
-    c.add([g, text(scene, 0, 0, label, 72, '#3a2a4a')]);
-    c.setSize(TILE, TILE).setInteractive({ useHandCursor: true });
+    g.lineStyle(5, 0xffffff, 1).strokeRoundedRect(-size / 2, -size / 2, size, size, 30);
+    c.add([g, text(scene, 0, 0, label, Math.round(size * 0.5), '#3a2a4a')]);
+    c.setSize(size, size).setInteractive({ useHandCursor: true });
     c.setScale(0).setAngle(Phaser.Math.Between(-8, 8));
     scene.tweens.add({ targets: c, scale: 1, duration: 220, delay: i * 50, ease: 'Back.out' });
     c.on('pointerdown', () => {
