@@ -1,4 +1,4 @@
-import { FURNITURE } from '../data/furniture';
+import { FURNITURE, isStarter } from '../data/furniture';
 import { rollTraits } from './PetCare';
 
 // Versioned save data in localStorage.
@@ -41,7 +41,7 @@ export function newUid(): string {
 
 // The free furniture every save starts with, placed at its default spot.
 function starterFurniture(extra: string[] = [], placed: Record<string, Position> = {}) {
-  return FURNITURE.filter((f) => !f.price || extra.includes(f.id)).map((f): FurnitureItem => ({
+  return FURNITURE.filter((f) => isStarter(f) || extra.includes(f.id)).map((f): FurnitureItem => ({
     uid: newUid(),
     def: f.id,
     x: placed[f.id]?.x ?? f.defaultX,

@@ -1,10 +1,12 @@
 import type { AssetManifest } from '../data/assets';
+import { FURNITURE } from '../data/furniture';
 import { shopItems, type ShopItem } from '../data/shop';
 import { SaveService, localDate, newUid } from './SaveService';
 
 // Fredagspaket: a gift every Friday (the player's own calendar). Unopened gifts wait, up to
 // MAX_WAITING. The first gift is waiting from the start. A gift holds one thing from Butiken
-// (clothes and apparatus only if the team does not have them) and a few medals.
+// (clothes and apparatus only if the team does not have them) or, half of the time, a gift-only
+// surprise from furniture.ts (`giftOnly`), and a few medals.
 const FRIDAY = 5;
 const MAX_WAITING = 3;
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -56,7 +58,12 @@ export function openGift(manifest: AssetManifest | undefined, now = new Date()):
   const choices = shopItems(manifest).filter(
     (i) => i.kind === 'furniture' || !save.owned.includes(i.id),
   );
-  const item = choices.length ? choices[Math.floor(Math.random() * choices.length)] : undefined;
+  // Gift-only surprises the team does not have yet come first, half of the time.
+  const surprises: ShopItem[] = FURNITURE.filter(
+    (f) => f.giftOnly && !save.furniture.some((p) => p.def === f.id),
+  ).map((f) => ({ id: f.id, kind: 'furniture', name: f.name, price: 0, icon: '🎁', hue: f.hue }));
+  const pool = surprises.length && Math.random() < 0.5 ? surprises : choices;
+  const item = pool.length ? pool[Math.floor(Math.random() * pool.length)] : undefined;
   const medals = item ? GIFT_MEDALS : GIFT_MEDALS * 2;
   SaveService.update((d) => {
     const { claimed } = d.gifts;

@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import { FONT } from '../config';
 import type { FurnitureDef } from '../data/furniture';
-import { artHeight, hasArt, visibleBottom } from './art';
+import { applyHue, artHeight, hasArt, visibleBottom } from './art';
 
 // Delivered furniture art (`furn_<id>`, or `def.art`) is scaled to the row's width, keeping its
 // aspect ratio. Without art the piece is a placeholder shape with its name.
@@ -34,7 +34,7 @@ export function furnitureShape(
   const key = furnitureArtKey(scene, def);
   if (key) {
     const img = scene.add.image(0, 0, key);
-    return [img.setScale(def.width / img.width)];
+    return [applyHue(img.setScale(def.width / img.width), def.hue)];
   }
   const shape =
     def.shape === 'ellipse'

@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import { COLORS, FONT, GAME_HEIGHT, GAME_WIDTH } from '../config';
 import { FURNITURE, type FurnitureDef } from '../data/furniture';
 import { SaveService, type Position } from '../services/SaveService';
-import { artImage } from '../ui/art';
+import { applyHue, artImage } from '../ui/art';
 import { buttonBackground, createButton } from '../ui/Button';
 import { ScrollList } from '../ui/ScrollList';
 import { BaseScene } from './BaseScene';
@@ -497,7 +497,7 @@ export abstract class RoomScene extends BaseScene {
         const key = furnitureArtKey(this, g.def);
         c.add(
           key
-            ? artImage(this, 0, -30, key, 180, 140)
+            ? applyHue(artImage(this, 0, -30, key, 180, 140), g.def.hue)
             : this.add.rectangle(0, -30, 140, 90, g.def.color).setStrokeStyle(4, 0x6b4a55),
         );
         c.add(

@@ -226,6 +226,9 @@ Alea's wish: nicer furniture and clothes are bought with prizes from winning com
   in the main menu wiggles with a count. Tap the box three times, it opens with confetti and gives
   one random thing from Butiken (clothes and apparatus only if not owned) plus 5 medals. The first
   gift waits from the start. Up to 3 unopened gifts stack (`gifts.claimed` = last opened Friday).
+  Half of the gifts are **gift-only surprises** while any are left: colour variants of furniture
+  (`giftOnly` + `hue` rows in `furniture.ts`, e.g. Mintsäng, Blå soffa, Rosa träd) that Butiken
+  never sells.
 - **Seasonal sets** by date: Halloween, Lucia och jul, påsk, midsommar, sommarlov. Items are kept
   forever once received.
 - **Hidden secrets**: tap an object three times, move a mat, and find a sticker, rare leotard pattern
