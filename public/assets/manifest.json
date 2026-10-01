@@ -1134,6 +1134,33 @@
       "tintable": false,
       "license": "Project-owned, AI-generated for AleaSpel",
       "source": "ChatGPT image generation 2026-09-30, batch B17 (assets/source/backdrops/bg_welcome-raw.png), extracted by scripts/art/extract-backdrop.mjs"
+    },
+    {
+      "id": "trophy_bronze",
+      "category": "trophies",
+      "layer": "icon",
+      "file": "trophies/trophy_bronze.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-10-01, batch B19 (assets/source/trophies/trophy_bronze-raw.png), extracted by scripts/art/extract-object.mjs"
+    },
+    {
+      "id": "trophy_gold",
+      "category": "trophies",
+      "layer": "icon",
+      "file": "trophies/trophy_gold.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-10-01, batch B19 (assets/source/trophies/trophy_gold-raw.png), extracted by scripts/art/extract-object.mjs"
+    },
+    {
+      "id": "trophy_silver",
+      "category": "trophies",
+      "layer": "icon",
+      "file": "trophies/trophy_silver.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-10-01, batch B19 (assets/source/trophies/trophy_silver-raw.png), extracted by scripts/art/extract-object.mjs"
     }
   ]
 }
