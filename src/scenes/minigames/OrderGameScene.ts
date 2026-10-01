@@ -1,14 +1,15 @@
-import { runChallenge } from './challenges';
+import { runChallenge, type ChallengeKind } from './challenges';
 import { PLAY_BOTTOM, PLAY_TOP, QuickGameScene } from './QuickGameScene';
 
-// Sifferhopp and Bokstavsjakt (`variant` numbers or letters): tap the tiles in order.
+// One scene for the warm-ups that are a single challenge per round, picked by the row's
+// `variant`: Sifferhopp (numbers), Bokstavsjakt (letters), Para ihop (pairs).
 export class OrderGameScene extends QuickGameScene {
   constructor() {
     super('OrderGame');
   }
 
   protected playRound(roundNo: number): void {
-    runChallenge(this.def.variant === 'letters' ? 'letters' : 'numbers', {
+    runChallenge((this.def.variant ?? 'numbers') as ChallengeKind, {
       scene: this,
       layer: this.layer,
       level: this.level,
