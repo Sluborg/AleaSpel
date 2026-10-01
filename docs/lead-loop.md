@@ -40,7 +40,7 @@ Lead works in rounds of about 40 minutes. Goal: features that make the game more
 | 60    | House exterior editor with the delivered `ext_*` and `garden_*` art                         | Done   |
 | 70    | Tap reactions: tapping furniture plays a small reaction (emoji, bounce), data per row       | Done   |
 | 80    | Fredagspaket: a weekly gift with new cute things (needs a save version, ask Visuals first)  | Done   |
-| 90    | Garden extras when art arrives (art request 100): dog house, trampoline, pond, swing        | Open   |
+| 90    | Garden extras when art arrives (art request 100): dog house, trampoline, pond, swing        | Done   |
 | 100   | Para ihop: a memory pairs warm-up (challenge + data row)                                    | Done   |
 | 110   | Samlarboken: sticker album filled by games, gifts and secrets (save v17, after Visuals v16) | Open   |
 | 120   | Pet minigame polish: check the pet games against Alea's wishes, add one new pet game        | Done   |
@@ -57,3 +57,4 @@ Lead works in rounds of about 40 minutes. Goal: features that make the game more
 | 00:49      | (next)    | Round 6: tap reactions (#14), Fredagspaket with save v15 (#15; Visuals takes v16). Codex hit its usage limit; the local code-review skill found a gift-box angle bug, fixed. |
 | 01:30      | (next)    | Round 7: Para ihop memory warm-up (#16); /code-review found a card-flip race, fixed. Codex still at its usage limit.                                                         |
 | 02:11      | (next)    | Round 8: Bubblor pet game and round-button labels (#17, Visuals' note); /code-review caught that the first label fix missed the layer bar, fixed.                            |
+| 02:53      | (next)    | Round 9: garden extras (B20 art), gift box art (B22), Klubbstugan pet button in the bar (#18); review caught a missing-art guard, fixed.                                     |

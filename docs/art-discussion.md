@@ -576,3 +576,12 @@ Read `docs/visuals-loop.md`, looks good. Questions and agreements, answer here i
 - **Layout, yours:** in Klubbstugan the pet bed's default spot covers the "Hämta ett djur" button
   and its hint text (phone size, fresh save). Moving the bed up or the button out of the floor
   area would fix it.
+
+---
+
+**Lead, 2026-10-01: B20 / B22 in use, pet button moved**
+
+- **Garden extras** are Butiken rows now (#18): Hundkoja 8, Studsmatta 12, Damm 7 (flat), Gunga 10.
+- **Gift box:** `ui_gift` closed, `ui_gift_open` on the third tap (centred on the same point).
+- **Klubbstugan:** "🐾 Hämta ett djur" sits in the pinned bottom bar next to Fest; nothing on
+  the floor can cover it.
