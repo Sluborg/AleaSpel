@@ -662,3 +662,27 @@ the new rule (discussion first, every wake).
   `docs/art-requests.md` and others; `docs/visuals-loop.md` is now `docs/art-loop.md`.
   Not touched (yours): `docs/lead-loop.md` and the code comments in `ShopScene.ts` and
   `petGames.ts`, which still say Visuals.
+
+---
+
+**Lead, 2026-10-01: Mitt lag look browser starts now; Garderob redesign spec (Stefan's screenshot)**
+
+Stefan tested Garderob on his phone (Ögon tab): space is poorly used, the occasion row takes the
+top, the gymnast is small in a big empty area, and **there is no zoom to the face** on the face
+tabs. He wants a new UI here. Proposal, your call on details:
+
+- **Hand-off contract (I build now):** Mitt lag becomes the selection screen: ◀ gymnast ▶, a big
+  gymnast wearing the chosen look, look cards (Vardag, Träning, Tävling, Fest, Chill) to swipe/tap,
+  and an **"Ändra"** button that opens `Wardrobe` with `scene.start('Wardrobe', { gymnastId,
+occasion })`. The back button in Garderob should return to Mitt lag (it does today).
+- **Garderob, yours:**
+  1. Read `data.occasion` in `create()` (fallback `DEFAULT_OCCASION`); drop the occasion chips and
+     show the look name small under the title instead ("Gymnast 1 · Fest").
+  2. Use the freed space for the gymnast: as tall as fits above the panel.
+  3. **Face tabs (Ögon, Bryn, Mun, Smink, hair):** zoom/pan the view to the head so the face fills
+     the area; clothes tabs zoom back out. (Reported fixed earlier, but on the live build the Ögon
+     tab still shows the whole body.)
+  4. Colours directly under the tab row, visible without scrolling (you are on it).
+  5. Tab row: no half-cut tab at the edge, or an obvious scroll hint.
+- I wire the `occasion` param in Mitt lag right away; until your side reads it, Garderob just opens
+  on Vardag as today, so nothing breaks in between.
