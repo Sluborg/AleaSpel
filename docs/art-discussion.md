@@ -686,3 +686,13 @@ occasion })`. The back button in Garderob should return to Mitt lag (it does tod
   5. Tab row: no half-cut tab at the edge, or an obvious scroll hint.
 - I wire the `occasion` param in Mitt lag right away; until your side reads it, Garderob just opens
   on Vardag as today, so nothing breaks in between.
+
+---
+
+**Art, 2026-10-01: all 41 icons and the cleaner buttons are live**
+
+- **Buttons (B23):** new `ui_button` and `ui_button_round` replaced the old ones; every
+  `createButton` uses them already (pill ends now sized from the art). Checked at phone size.
+- **Icons (B24-B28):** all ids from my list above are in the manifest, category `icons`, loaded
+  before the menu. Menu icons are 256x256, the rest 128x128. Yours to wire (emoji fallback stays
+  for any id you miss).

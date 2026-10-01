@@ -59,7 +59,6 @@ export function createButton(
 // their shape at any width. The drawn rounded rectangle stays as the fallback when the texture is
 // missing or the renderer is Canvas (NineSlice is WebGL only).
 const BUTTON_KEY = 'ui_button';
-const BUTTON_CAP = 88;
 const ROUND_KEY = 'ui_button_round';
 
 export interface ButtonBackground {
@@ -81,17 +80,10 @@ export function buttonBackground(
   if (webgl && scene.textures.exists(BUTTON_KEY)) {
     const frameH = scene.textures.getFrame(BUTTON_KEY).height;
     const scale = height / frameH;
-    const sliceW = Math.max(width / scale, BUTTON_CAP * 2);
-    const pill = scene.add.nineslice(
-      0,
-      0,
-      BUTTON_KEY,
-      undefined,
-      sliceW,
-      0,
-      BUTTON_CAP,
-      BUTTON_CAP,
-    );
+    // Round ends: half the pill height, so they keep their shape at any width.
+    const cap = Math.ceil(frameH / 2);
+    const sliceW = Math.max(width / scale, cap * 2);
+    const pill = scene.add.nineslice(0, 0, BUTTON_KEY, undefined, sliceW, 0, cap, cap);
     pill.setScale(width / sliceW, scale);
     return { object: pill, paint: (fill) => pill.setTint(fill) };
   }

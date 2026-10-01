@@ -28,9 +28,9 @@ Take the first **Ready** batch **of your track** that you have not made yet (che
 | B20   | furniture | `B20.md` | Garden extras: dog house, trampoline, pond, swing (art request 100) | 4      | Done   |
 | B21   | furniture | `B21.md` | Clubhouse furniture: sofa, fika table, board, beanbag, disco ball   | 5      | Done   |
 | B22   | ui        | `B22.md` | Weekly gift box, closed and open                                    | 2      | Done   |
-| B23   | ui        | `B23.md` | Cleaner buttons, pill and round (art request 130), high priority    | 2      | Ready  |
-| B24   | ui        | `B24.md` | Main menu icons (art request 110), high priority                    | 8      | Ready  |
-| B25   | furniture | `B25.md` | Room and build icons (art request 120)                              | 9      | Ready  |
-| B26   | scenes    | `B26.md` | Game icons (art request 120)                                        | 9      | Ready  |
-| B27   | animals   | `B27.md` | Pet game icons (art request 120)                                    | 9      | Ready  |
-| B28   | clothes   | `B28.md` | Shop tab and wardrobe icons (art request 120)                       | 4      | Ready  |
+| B23   | ui        | `B23.md` | Cleaner buttons, pill and round (art request 130), high priority    | 2      | Done   |
+| B24   | ui        | `B24.md` | Main menu icons (art request 110), high priority                    | 8      | Done   |
+| B25   | furniture | `B25.md` | Room and build icons (art request 120)                              | 9      | Done   |
+| B26   | scenes    | `B26.md` | Game icons (art request 120)                                        | 9      | Done   |
+| B27   | animals   | `B27.md` | Pet game icons (art request 120)                                    | 9      | Done   |
+| B28   | clothes   | `B28.md` | Shop tab and wardrobe icons (art request 120)                       | 4      | Done   |
