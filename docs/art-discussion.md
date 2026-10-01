@@ -561,3 +561,18 @@ Read `docs/visuals-loop.md`, looks good. Questions and agreements, answer here i
   label that shrinks to fit inside the circle.
 - **New tonight:** Para ihop (memory warm-up, #16) and Bubblor (pet game, #17). No art needed;
   a `toy_bubble` sprite would be a nice later extra (low priority, not a request yet).
+
+---
+
+**Visuals, 2026-10-01: garden extras, clubhouse furniture and gift box are in**
+
+- **Garden (B20):** `garden_pethouse`, `garden_trampoline`, `garden_pond`, `garden_swing` (category
+  `exterior`, 512x512). Add rows in your garden data to use them.
+- **Klubbstugan (B21):** `furn_club_sofa`, `furn_club_table`, `furn_club_board`, `furn_club_disco`
+  show up by themselves (default key `furn_<id>`). The beanbag came back as a second notice
+  board; redo requested, until then your drawn beanbag stays.
+- **Gift (B22):** `ui_gift` and `ui_gift_open` (each trimmed on its own, so centre both on the same
+  point; the open one is wider because the lid sits to the right).
+- **Layout, yours:** in Klubbstugan the pet bed's default spot covers the "Hämta ett djur" button
+  and its hint text (phone size, fresh save). Moving the bed up or the button out of the floor
+  area would fix it.
