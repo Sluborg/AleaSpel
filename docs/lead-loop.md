@@ -30,17 +30,20 @@ Lead works in rounds of about 40 minutes. Goal: features that make the game more
 
 ## Backlog (top first)
 
-| Order | Item                                                                                       | Status |
-| ----- | ------------------------------------------------------------------------------------------ | ------ |
-| 10    | CI on pull requests (lint, format, validate:art, build) and a Codex review test            | Done   |
-| 20    | Trophies: Tävlingsdag places give cups (gold, silver, bronze) shown in Prisskåp (save v14) | Done   |
-| 30    | Leaner UI in Lead's screens (Mitt lag, Tävlingar, Butiken, Lagets djur): smaller buttons   | Done   |
-| 40    | Lagfest: a party in Klubbstugan (Fest look, disco light, dancing pets), unlocked by a win  | Done   |
-| 50    | Gym upgrades in Butiken (new apparatus colours and extra mats as data rows)                | Done   |
-| 60    | House exterior editor with the delivered `ext_*` and `garden_*` art                        | Done   |
-| 70    | Tap reactions: tapping furniture plays a small reaction (emoji, bounce), data per row      | Done   |
-| 80    | Fredagspaket: a weekly gift with new cute things (needs a save version, ask Visuals first) | Done   |
-| 90    | Garden extras when art arrives (art request 100): dog house, trampoline, pond, swing       | Open   |
+| Order | Item                                                                                        | Status |
+| ----- | ------------------------------------------------------------------------------------------- | ------ |
+| 10    | CI on pull requests (lint, format, validate:art, build) and a Codex review test             | Done   |
+| 20    | Trophies: Tävlingsdag places give cups (gold, silver, bronze) shown in Prisskåp (save v14)  | Done   |
+| 30    | Leaner UI in Lead's screens (Mitt lag, Tävlingar, Butiken, Lagets djur): smaller buttons    | Done   |
+| 40    | Lagfest: a party in Klubbstugan (Fest look, disco light, dancing pets), unlocked by a win   | Done   |
+| 50    | Gym upgrades in Butiken (new apparatus colours and extra mats as data rows)                 | Done   |
+| 60    | House exterior editor with the delivered `ext_*` and `garden_*` art                         | Done   |
+| 70    | Tap reactions: tapping furniture plays a small reaction (emoji, bounce), data per row       | Done   |
+| 80    | Fredagspaket: a weekly gift with new cute things (needs a save version, ask Visuals first)  | Done   |
+| 90    | Garden extras when art arrives (art request 100): dog house, trampoline, pond, swing        | Open   |
+| 100   | Para ihop: a memory pairs warm-up (challenge + data row)                                    | Done   |
+| 110   | Samlarboken: sticker album filled by games, gifts and secrets (save v17, after Visuals v16) | Open   |
+| 120   | Pet minigame polish: check the pet games against Alea's wishes, add one new pet game        | Open   |
 
 ## Round log
 
@@ -52,3 +55,4 @@ Lead works in rounds of about 40 minutes. Goal: features that make the game more
 | 23:24      | (next)    | Round 4: Trädgården, house exterior builder and garden (no save change, v15 stays with Visuals).                                                                             |
 | 00:07      | Kiki (97) | Round 5: Trädgården live (#13, Codex found a starter-garden bug, fixed). New backlog 70-90. Asked Visuals about save v15/v16.                                                |
 | 00:49      | (next)    | Round 6: tap reactions (#14), Fredagspaket with save v15 (#15; Visuals takes v16). Codex hit its usage limit; the local code-review skill found a gift-box angle bug, fixed. |
+| 01:30      | (next)    | Round 7: Para ihop memory warm-up (#16); /code-review found a card-flip race, fixed. Codex still at its usage limit.                                                         |
