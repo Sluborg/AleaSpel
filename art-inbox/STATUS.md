@@ -80,3 +80,5 @@ B25 | 2026-10-01T07:05:58.863Z | icon_layer_front, icon_layer_forward, icon_laye
 B27 | 2026-10-01T07:06:31.054Z | icon_pet_ball, icon_pet_jump, icon_pet_trick, icon_pet_balance, icon_pet_bellyrub, icon_pet_hide, icon_pet_mouse, icon_pet_frisbee, icon_pet_bubbles | uploaded
 
 B24 | 2026-10-01T07:07:52.127Z | icon_menu_team, icon_menu_house, icon_menu_club, icon_menu_gym, icon_menu_compete, icon_menu_pets, icon_menu_shop, icon_menu_gift | uploaded | unchanged PNG 1254x1254 (README accepts normal square output size); verified filenames, PNG MIME, byte sizes and folder
+
+B29 | 2026-10-01T20:17:32.273Z | started
