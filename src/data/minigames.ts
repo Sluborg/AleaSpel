@@ -10,7 +10,7 @@ export interface MoveDef {
 
 export const MOVES: MoveDef[] = [
   { id: 'straight_jump', name: 'Raka hopp', shape: 'triangle', difficulty: 1, pose: 'straight' },
-  { id: 'tuck', name: 'Kroppa', shape: 'circle', difficulty: 1, pose: 'tuck' },
+  { id: 'tuck', name: 'Tuckhopp', shape: 'circle', difficulty: 1, pose: 'tuck' },
   { id: 'seat_drop', name: 'Sittfall', shape: 'u', difficulty: 1, pose: 'straight' },
   { id: 'back_drop', name: 'Ryggfall', shape: 'wave', difficulty: 2, pose: 'straight' },
   { id: 'pike', name: 'Pik', shape: 'v', difficulty: 2, pose: 'pike' },

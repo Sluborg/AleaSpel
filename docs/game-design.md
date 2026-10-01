@@ -110,7 +110,7 @@ draws the gesture during a routine and is scored on shape match and timing.
 | Pattern (drawn) | Move (sv)  | Stars |
 | --------------- | ---------- | ----- |
 | Triangel        | Raka hopp  | 1     |
-| Cirkel          | Kroppa     | 1     |
+| Cirkel          | Tuckhopp   | 1     |
 | Fyrkant         | Sittfall   | 1     |
 | V               | Pik        | 2     |
 | Sicksack        | Grenhopp   | 2     |
