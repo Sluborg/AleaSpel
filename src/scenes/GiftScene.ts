@@ -129,7 +129,7 @@ export class GiftScene extends BaseScene {
 
   private reveal(reward: GiftReward): void {
     (this.children.getByName('say') as Phaser.GameObjects.Text | null)?.destroy();
-    if (this.boxArt) {
+    if (this.boxArt && hasArt(this, 'ui_gift_open')) {
       // Same centre; the open box is a little wider (the lid sits to the right).
       const open = artImage(this, 0, 0, 'ui_gift_open', 420, 420);
       this.boxArt.destroy();
