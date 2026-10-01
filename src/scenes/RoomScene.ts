@@ -288,16 +288,18 @@ export abstract class RoomScene extends BaseScene {
     bg.paint(0x6b5a85);
     const g = bg.object;
     const icon = this.add.text(0, -18, b.icon, { fontSize: '46px' }).setOrigin(0.5);
-    // Narrow (round) buttons get a smaller label so it stays inside the circle.
-    const narrow = w <= 120;
+    // Near-square buttons use the round art (see buttonBackground): a smaller label, shrunk
+    // further if needed, so it stays inside the circle.
+    const round = w <= 132 * 1.15;
     const label = this.add
-      .text(0, narrow ? 34 : 38, b.label, {
+      .text(0, round ? 34 : 38, b.label, {
         fontFamily: FONT,
-        fontSize: narrow ? '17px' : '20px',
+        fontSize: round ? '17px' : '20px',
         color: COLORS.text,
         fontStyle: 'bold',
       })
       .setOrigin(0.5);
+    if (round) label.setScale(Math.min(1, (w * 0.72) / label.width));
     c.add([g, icon, label]);
     c.setSize(w, 132).setInteractive({ useHandCursor: true });
     c.on('pointerdown', () => {
