@@ -1,6 +1,6 @@
 # AleaSpel, project status
 
-Updated 2026-09-30. Read this first when resuming ("continue from project-status.md").
+Updated 2026-10-01. Overnight work: see the morning summary in `docs/lead-loop.md`. Read this first when resuming ("continue from project-status.md").
 
 ## Live
 

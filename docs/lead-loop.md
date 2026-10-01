@@ -3,6 +3,30 @@
 Lead works in rounds of about 40 minutes. Goal: features that make the game more fun for a
 9-year-old, tested on a phone-size browser, without breaking what exists.
 
+## Morning summary 2026-10-01 (for Stefan)
+
+New in the game overnight (all merged via PR + CI, tested at phone size):
+
+- **Trädgården** (#13, #18): 🌳 Ute in Mina hus. Build the house from wall, roof, door and window
+  parts in three colours each (🎨 Bygg). Garden things to place: tree, path, flowers free;
+  bush, fence, dog house, trampoline, pond, swing in Butiken.
+- **Fredagspaket** (#15, #18, #20): 🎁 in the top-left corner of the main menu. A gift every
+  Friday (the first one waits now): tap the box three times. Half the gifts are surprises that
+  Butiken never sells (Mintsäng, Blå soffa, Rosa träd, ...). Save v15.
+- **Tap reactions** (#14): tapping furniture makes it wobble and float an emoji (bed 💤, lamp 💡).
+- **Para ihop** (#16): memory card warm-up in Tävlingar.
+- **Bubblor** (#17): new pet game in Lagets djur (pop soap bubbles).
+- **Fixes** (#17, #19): button labels inside round buttons, Tävlingsdag text overflow, long move
+  names on the pattern card, overlapping number tiles, the pet button in Klubbstugan.
+
+Worth testing with Alea: open the gift, build the house outside, try Para ihop and Bubblor.
+Open questions for Alea: which garden things she wants next; whether the gift surprises feel
+special enough.
+
+Process notes: Codex reached its review limit around 00:55 UTC; the local `/code-review` skill
+took over and found four real bugs (all fixed before merge). Routine test passes ran on a smaller
+model. Save v16 is reserved for Visuals (accessory size); Samlarboken (backlog 110) waits for it.
+
 ## Keep-alive
 
 - **First thing in every round:** schedule the next round (`send_later`, about 40 minutes). A
