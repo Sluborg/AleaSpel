@@ -1251,6 +1251,15 @@
       "tintable": false,
       "license": "Project-owned, AI-generated for AleaSpel",
       "source": "ChatGPT image generation 2026-10-01, batch B22 (assets/source/ui/ui_gift_open-raw.png), extracted by scripts/art/extract-object.mjs"
+    },
+    {
+      "id": "furn_club_beanbag",
+      "category": "furniture",
+      "layer": "room",
+      "file": "furniture/furn_club_beanbag.png",
+      "tintable": false,
+      "license": "Project-owned, AI-generated for AleaSpel",
+      "source": "ChatGPT image generation 2026-10-01, batch B21 (assets/source/furniture/furn_club_beanbag-raw.png), extracted by scripts/art/extract-object.mjs"
     }
   ]
 }
