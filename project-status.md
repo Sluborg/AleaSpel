@@ -64,7 +64,7 @@ eyes_wink`).
 
 ## Lead
 
-- In progress: lead loop (`docs/lead-loop.md`). SaveData is at v14 (trophies).
+- In progress: lead loop (`docs/lead-loop.md`). SaveData is at v15 (Fredagspaket gifts); Visuals takes v16 for accessory size.
 - Done on my branch: delivered art in use (pets fur+face tinted, food icons, furniture in Mina
   hus/Klubbstugan/Butiken, equipment in Mitt gym) via `src/ui/art.ts` helpers with placeholder
   fallback.

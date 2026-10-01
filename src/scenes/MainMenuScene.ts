@@ -1,5 +1,6 @@
-import { COLORS, FONT, GAME_HEIGHT, GAME_WIDTH } from '../config';
+import { COLORS, FONT, GAME_HEIGHT, GAME_WIDTH, MIN_TOUCH } from '../config';
 import { MENU_ENTRIES, type MenuEntry } from '../data/menu';
+import { waitingGifts } from '../services/Gifts';
 import { SaveService } from '../services/SaveService';
 import { artImage, backdrop, hasArt, medalLabel } from '../ui/art';
 import { BaseScene } from './BaseScene';
@@ -36,6 +37,8 @@ export class MainMenuScene extends BaseScene {
       1,
     );
 
+    this.giftButton();
+
     const rows = Math.ceil(MENU_ENTRIES.length / COLS);
     MENU_ENTRIES.forEach((entry, i) => {
       const row = Math.floor(i / COLS);
@@ -53,6 +56,38 @@ export class MainMenuScene extends BaseScene {
         color: COLORS.textMuted,
       })
       .setOrigin(0.5);
+  }
+
+  // Fredagspaket: a gift box in the corner, bouncing with a count when gifts wait.
+  private giftButton(): void {
+    const waiting = waitingGifts();
+    const c = this.add.container(75, 70);
+    const bg = this.add.circle(0, 0, 52, waiting ? 0xff6fae : 0x6b5a85);
+    const icon = this.add.text(0, 2, '🎁', { fontSize: '54px' }).setOrigin(0.5);
+    c.add([bg, icon]);
+    if (waiting) {
+      c.add(this.add.circle(38, -36, 22, 0xffd84d));
+      c.add(
+        this.add
+          .text(38, -36, `${waiting}`, {
+            fontFamily: FONT,
+            fontSize: '28px',
+            color: '#3a2a4a',
+            fontStyle: 'bold',
+          })
+          .setOrigin(0.5),
+      );
+      this.tweens.add({
+        targets: icon,
+        angle: { from: -12, to: 12 },
+        duration: 300,
+        yoyo: true,
+        repeat: -1,
+        repeatDelay: 900,
+      });
+    }
+    c.setSize(MIN_TOUCH, MIN_TOUCH).setInteractive({ useHandCursor: true });
+    c.on('pointerup', () => this.scene.start('Gift'));
   }
 
   private tile(x: number, y: number, entry: MenuEntry, i: number): void {
