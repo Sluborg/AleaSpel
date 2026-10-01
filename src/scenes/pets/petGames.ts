@@ -84,18 +84,30 @@ const ball: Runner = (ctx) => {
   let throws = 0;
   b.on('drag', (_p: Phaser.Input.Pointer, x: number, y: number) => b.setPosition(x, y));
   b.on('dragend', () => {
-    const tx = Phaser.Math.Clamp(b.x, 120, ctx.width - 120);
+    // Let go near the pet: the ball rolls on to the far side, so there is always a chase.
+    let tx = Phaser.Math.Clamp(b.x, 120, ctx.width - 120);
+    if (Math.abs(tx - ctx.pet.x) < 180) tx = ctx.pet.x < ctx.width / 2 ? ctx.width - 140 : 140;
     ctx.scene.tweens.add({
       targets: b,
       x: tx,
       y: ctx.floorY - 20,
-      duration: 350,
+      angle: b.angle + (tx > b.x ? 360 : -360),
+      duration: 450,
       ease: 'Bounce.out',
+    });
+    // She sees it at once: a "!" and little running hops on the way.
+    ctx.sparkle(ctx.pet.x, ctx.home.y - 140, '❗', 1);
+    ctx.scene.tweens.add({
+      targets: ctx.pet,
+      y: ctx.home.y - 25,
+      duration: 110,
+      yoyo: true,
+      repeat: 2,
     });
     ctx.scene.tweens.add({
       targets: ctx.pet,
       x: tx,
-      duration: 450,
+      duration: 650,
       ease: 'Sine.inOut',
       onComplete: () =>
         hop(ctx, 90, () => {

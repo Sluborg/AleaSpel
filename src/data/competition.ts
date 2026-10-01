@@ -4,13 +4,14 @@ export interface RivalTeam {
   id: string;
   name: string; // Swedish
   color: number;
+  icon: string; // emoji badge
   skill: [number, number]; // min and max share of the maximum score
 }
 
 export const RIVAL_TEAMS: RivalTeam[] = [
-  { id: 'sol', name: 'Solstrålarna', color: 0xffc94d, skill: [0.35, 0.6] },
-  { id: 'stjarna', name: 'Stjärnskotten', color: 0x7ec8ff, skill: [0.45, 0.75] },
-  { id: 'blixt', name: 'Blixtarna', color: 0xb388ff, skill: [0.55, 0.85] },
+  { id: 'sol', name: 'Solstrålarna', color: 0xffc94d, icon: '☀️', skill: [0.35, 0.6] },
+  { id: 'stjarna', name: 'Stjärnskotten', color: 0x7ec8ff, icon: '🌟', skill: [0.45, 0.75] },
+  { id: 'blixt', name: 'Blixtarna', color: 0xb388ff, icon: '⚡', skill: [0.55, 0.85] },
 ];
 
 export const TEAM_NAME = 'Mitt lag';
