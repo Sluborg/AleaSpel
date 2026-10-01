@@ -145,18 +145,35 @@ export class AvatarEditorScene extends BaseScene {
             });
             this.build();
           }),
-        { width: 230, fontSize: 30, color: 0x6b5a85 },
+        { width: 240, fontSize: 28, color: 0x6b5a85, icon: 'icon_pencil' },
       ),
     );
-    layer.add(
-      createButton(this, GAME_WIDTH / 2, BUTTONS_Y, 'Ändra', () => this.openWardrobe(gymnast.id), {
-        width: 200,
-        fontSize: 40,
-      }),
+    const edit = createButton(
+      this,
+      GAME_WIDTH / 2,
+      BUTTONS_Y,
+      'Ändra',
+      () => this.openWardrobe(gymnast.id),
+      { width: 210, fontSize: 36, icon: 'icon_hanger' },
     );
+    layer.add(edit);
+    // A gymnast with no saved look yet: Ändra pulses so a new player sees where to dress her.
+    if (!Object.keys(gymnast.looks ?? {}).length) {
+      const pulse = this.tweens.add({
+        targets: edit,
+        scale: 1.08,
+        duration: 600,
+        yoyo: true,
+        repeat: -1,
+        ease: 'Sine.inOut',
+      });
+      edit.once('destroy', () => pulse.remove());
+    }
     if (n < MAX_GYMNASTS) {
       layer.add(
-        createButton(this, GAME_WIDTH - 135, BUTTONS_Y, '+ Ny', () => this.addGymnast(), {
+        createButton(this, GAME_WIDTH - 135, BUTTONS_Y, 'Ny', () => this.addGymnast(), {
+          icon: 'icon_plus',
+          emoji: '+',
           width: 230,
           fontSize: 30,
           color: 0x6b5a85,

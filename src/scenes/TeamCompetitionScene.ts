@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { COLORS, FONT, GAME_WIDTH } from '../config';
+import { iconOrEmoji } from '../ui/art';
 import {
   PLACEMENT_ICONS,
   PLACEMENT_MEDALS,
@@ -76,7 +77,7 @@ export class TeamCompetitionScene extends BaseScene {
       })
       .setOrigin(0.5);
     this.add
-      .text(GAME_WIDTH / 2, 225, 'Alla i laget gör ett program var', {
+      .text(GAME_WIDTH / 2, 225, 'Alla i laget får hoppa en gång', {
         fontFamily: FONT,
         fontSize: '28px',
         color: COLORS.textMuted,
@@ -91,7 +92,7 @@ export class TeamCompetitionScene extends BaseScene {
         .graphics()
         .fillStyle(current ? 0x4a3266 : 0x3a2752, 1)
         .fillRoundedRect(40, y - 40, GAME_WIDTH - 80, 84, 24);
-      this.add.text(70, y, l.game.icon, { fontSize: '44px' }).setOrigin(0, 0.5);
+      iconOrEmoji(this, 100, y, `icon_game_${l.game.id}`, l.game.icon, 64);
       const row = this.add
         .text(150, y, `${l.gymnast.name} · ${l.game.name}`, {
           fontFamily: FONT,

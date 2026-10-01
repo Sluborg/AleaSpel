@@ -6,6 +6,8 @@ export interface ButtonOptions {
   height?: number;
   fontSize?: number;
   color?: number;
+  icon?: string; // manifest id shown left of the label when the art exists
+  emoji?: string; // put before the label instead when the icon art is missing
 }
 
 export function createButton(
@@ -24,8 +26,10 @@ export function createButton(
   const draw = (fill: number) => bg.paint(fill);
   draw(color);
 
+  const useIcon = !!options.icon && scene.textures.exists(options.icon);
+  const shown = !useIcon && options.emoji ? `${options.emoji} ${label}` : label;
   const text = scene.add
-    .text(0, 0, label, {
+    .text(0, 0, shown, {
       fontFamily: FONT,
       fontSize: `${options.fontSize ?? 44}px`,
       color: COLORS.text,
@@ -35,6 +39,15 @@ export function createButton(
     .setOrigin(0.5);
 
   const container = scene.add.container(x, y, [bg.object, text]);
+  if (useIcon) {
+    const size = Math.min(height * 0.5, 60);
+    const gap = 8;
+    const left = -(size + gap + text.width) / 2;
+    const img = scene.add.image(left + size / 2, 0, options.icon!);
+    img.setScale(Math.min(size / img.width, size / img.height));
+    text.setX(left + size + gap + text.width / 2);
+    container.add(img);
+  }
   container.setSize(width, height);
   container.setInteractive({ useHandCursor: true });
 

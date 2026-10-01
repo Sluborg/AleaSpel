@@ -133,3 +133,17 @@ export function artImage(
   const s = Math.min(w / img.width, h / img.height);
   return img.setScale(s);
 }
+
+// An art icon (manifest id) fitted in a size x size box at (x, y), or the emoji as text when the
+// id is missing, so data rows keep their emoji as the fallback.
+export function iconOrEmoji(
+  scene: Phaser.Scene,
+  x: number,
+  y: number,
+  key: string | undefined,
+  emoji: string,
+  size: number,
+): Phaser.GameObjects.Image | Phaser.GameObjects.Text {
+  if (key && hasArt(scene, key)) return artImage(scene, x, y, key, size, size);
+  return scene.add.text(x, y, emoji, { fontSize: `${Math.round(size * 0.8)}px` }).setOrigin(0.5);
+}

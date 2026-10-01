@@ -35,9 +35,9 @@ export class HomeScene extends RoomScene {
       this,
       GAME_WIDTH - 115,
       GAME_HEIGHT - 80,
-      '🌳 Ute',
+      'Ute',
       () => this.scene.start('Garden'),
-      { width: 200, height: 110, fontSize: 34, color: 0x9ad97a },
+      { width: 200, height: 110, fontSize: 34, color: 0x9ad97a, icon: 'icon_garden', emoji: '🌳' },
     );
     pin(out).setDepth(40000);
   }

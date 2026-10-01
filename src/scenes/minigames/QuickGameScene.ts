@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import { COLORS, FONT, GAME_HEIGHT, GAME_WIDTH } from '../../config';
-import { MEDALS_PER_STAR, MINIGAMES, type MinigameDef } from '../../data/minigames';
+import { medalsFor, MINIGAMES, type MinigameDef } from '../../data/minigames';
 import { SaveService, type Gymnast } from '../../services/SaveService';
 import { backdrop } from '../../ui/art';
 import { createButton } from '../../ui/Button';
@@ -147,7 +147,7 @@ export abstract class QuickGameScene extends BaseScene {
     this.finished = true;
     this.layer.removeAll(true);
     const max = this.def.rounds * 3;
-    const earned = this.practice ? 0 : this.total * MEDALS_PER_STAR;
+    const earned = this.practice ? 0 : medalsFor(this.def, this.total);
     const prev = this.gymnast.bests[this.def.id] ?? 0;
     const record = !this.practice && this.total > prev;
     let levelLine = `Nivå ${this.level}`;
@@ -167,7 +167,12 @@ export abstract class QuickGameScene extends BaseScene {
     bg.fillStyle(COLORS.background, 0.95).fillRoundedRect(40, 240, GAME_WIDTH - 80, 780, 40);
     panel.add([
       bg,
-      this.text(GAME_WIDTH / 2, 330, record ? '🎉 Nytt rekord!' : 'Bra jobbat!', 60),
+      this.text(
+        GAME_WIDTH / 2,
+        330,
+        record ? '🎉 Nytt rekord!' : this.total ? 'Bra jobbat!' : 'Försök igen!',
+        60,
+      ),
       this.text(GAME_WIDTH / 2, 470, `${this.total} av ${max} ⭐`, 72, '#ffd84d'),
       this.text(
         GAME_WIDTH / 2,
@@ -178,7 +183,7 @@ export abstract class QuickGameScene extends BaseScene {
       this.text(
         GAME_WIDTH / 2,
         670,
-        `${levelLine}   ·   ${SaveService.get().medals} 🏅`,
+        `${levelLine}   ·   Du har ${SaveService.get().medals} 🏅`,
         32,
         COLORS.textMuted,
       ),

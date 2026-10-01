@@ -59,7 +59,12 @@ export class ShopScene extends BaseScene {
             this.tab = t.kind;
             this.build();
           },
-          { width: 200, fontSize: 34, color: t.kind === this.tab ? COLORS.primary : 0x6b5a85 },
+          {
+            width: 200,
+            fontSize: 34,
+            color: t.kind === this.tab ? COLORS.primary : 0x6b5a85,
+            icon: t.art,
+          },
         ),
       );
     });

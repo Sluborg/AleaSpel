@@ -60,9 +60,16 @@ export class ClubhouseScene extends RoomScene {
       this,
       GAME_WIDTH - 115,
       GAME_HEIGHT - 80,
-      unlocked ? '🎉 Fest' : '🔒 Fest',
+      'Fest',
       () => (unlocked ? this.toggleParty() : this.partyLocked()),
-      { width: 200, height: 110, fontSize: 34, color: unlocked ? 0xb06bff : 0x6b5a85 },
+      {
+        width: 200,
+        height: 110,
+        fontSize: 34,
+        color: unlocked ? 0xb06bff : 0x6b5a85,
+        icon: unlocked ? 'icon_party' : 'icon_lock',
+        emoji: unlocked ? '🎉' : '🔒',
+      },
     );
     pin(fest).setDepth(40000);
 

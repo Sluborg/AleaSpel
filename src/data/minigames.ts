@@ -219,5 +219,13 @@ export const APPARATUS_GAMES = MINIGAMES.filter((g) => (g.kind ?? 'apparatus') =
 
 // Medals per star earned in a round.
 export const MEDALS_PER_STAR = 1;
+// Warm-up games are quick and give many stars, so they pay less: 1 medal per 3 stars.
+export const WARMUP_STARS_PER_MEDAL = 3;
+
+export function medalsFor(def: MinigameDef, stars: number): number {
+  return def.kind === 'warmup'
+    ? Math.round(stars / WARMUP_STARS_PER_MEDAL)
+    : stars * MEDALS_PER_STAR;
+}
 
 export const moveById = (id: string) => MOVES.find((m) => m.id === id) ?? MOVES[0];

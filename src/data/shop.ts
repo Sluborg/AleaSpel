@@ -18,10 +18,10 @@ export interface ShopItem {
   hue?: number;
 }
 
-export const SHOP_TABS: { kind: ShopKind; label: string }[] = [
-  { kind: 'furniture', label: 'Möbler' },
-  { kind: 'gym', label: 'Gym' },
-  { kind: 'clothes', label: 'Kläder' },
+export const SHOP_TABS: { kind: ShopKind; label: string; art: string }[] = [
+  { kind: 'furniture', label: 'Möbler', art: 'icon_tab_furniture' },
+  { kind: 'gym', label: 'Gym', art: 'icon_tab_gym' },
+  { kind: 'clothes', label: 'Kläder', art: 'icon_tab_clothes' },
 ];
 
 // Clothes for sale: manifest id -> price and Swedish name. Free clothes are not listed.
