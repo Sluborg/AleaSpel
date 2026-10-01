@@ -18,11 +18,13 @@ export interface FurnitureDef {
   room?: 'house' | 'clubhouse' | 'garden'; // where it can stand; default house
   flat?: boolean; // lies on the floor or hangs on the wall: always behind standing furniture
   action?: 'trophies'; // extra button when tapped (Prisskåp shows the team's cups)
+  reaction?: string; // emoji that floats up when the piece is tapped (Toca-style surprise)
 }
 
 export const FURNITURE: FurnitureDef[] = [
   {
     id: 'bed',
+    reaction: '💤',
     name: 'Säng',
     shape: 'rect',
     width: 260,
@@ -33,6 +35,7 @@ export const FURNITURE: FurnitureDef[] = [
   },
   {
     id: 'table',
+    reaction: '🍪',
     name: 'Bord',
     shape: 'ellipse',
     width: 170,
@@ -43,6 +46,7 @@ export const FURNITURE: FurnitureDef[] = [
   },
   {
     id: 'lamp',
+    reaction: '💡',
     name: 'Lampa',
     shape: 'rect',
     width: 80,
@@ -66,6 +70,7 @@ export const FURNITURE: FurnitureDef[] = [
   },
   {
     id: 'plant',
+    reaction: '🌱',
     name: 'Växt',
     shape: 'ellipse',
     width: 90,
@@ -78,6 +83,7 @@ export const FURNITURE: FurnitureDef[] = [
   },
   {
     id: 'bookshelf',
+    reaction: '📚',
     name: 'Bokhylla',
     shape: 'rect',
     width: 160,
@@ -90,6 +96,7 @@ export const FURNITURE: FurnitureDef[] = [
   },
   {
     id: 'sofa',
+    reaction: '💕',
     name: 'Soffa',
     shape: 'rect',
     width: 280,
@@ -102,6 +109,7 @@ export const FURNITURE: FurnitureDef[] = [
   },
   {
     id: 'mirror',
+    reaction: '✨',
     name: 'Spegel',
     shape: 'ellipse',
     width: 110,
@@ -115,6 +123,7 @@ export const FURNITURE: FurnitureDef[] = [
   },
   {
     id: 'trophy_shelf',
+    reaction: '🏆',
     name: 'Pokalhylla',
     shape: 'rect',
     width: 200,
@@ -127,6 +136,7 @@ export const FURNITURE: FurnitureDef[] = [
   },
   {
     id: 'bunny_lamp',
+    reaction: '🐰',
     name: 'Kaninlampa',
     shape: 'ellipse',
     width: 80,
@@ -140,6 +150,7 @@ export const FURNITURE: FurnitureDef[] = [
   // Klubbstugan (the team's club house, joined to the gym)
   {
     id: 'club_sofa',
+    reaction: '💕',
     name: 'Lagsoffa',
     shape: 'rect',
     width: 320,
@@ -151,6 +162,7 @@ export const FURNITURE: FurnitureDef[] = [
   },
   {
     id: 'club_table',
+    reaction: '🍪',
     name: 'Fikabord',
     shape: 'ellipse',
     width: 180,
@@ -175,6 +187,7 @@ export const FURNITURE: FurnitureDef[] = [
   },
   {
     id: 'club_petbed',
+    reaction: '💤',
     name: 'Djurkorg',
     shape: 'ellipse',
     width: 200,
@@ -188,6 +201,7 @@ export const FURNITURE: FurnitureDef[] = [
   },
   {
     id: 'club_pethouse',
+    reaction: '🐾',
     name: 'Djurhus',
     shape: 'rect',
     width: 220,
@@ -202,6 +216,7 @@ export const FURNITURE: FurnitureDef[] = [
   },
   {
     id: 'club_board',
+    reaction: '📌',
     name: 'Anslagstavla',
     shape: 'rect',
     width: 220,
@@ -214,6 +229,7 @@ export const FURNITURE: FurnitureDef[] = [
   },
   {
     id: 'club_beanbag',
+    reaction: '😊',
     name: 'Saccosäck',
     shape: 'ellipse',
     width: 150,
@@ -227,6 +243,7 @@ export const FURNITURE: FurnitureDef[] = [
   },
   {
     id: 'club_disco',
+    reaction: '🎶',
     name: 'Discokula',
     shape: 'ellipse',
     width: 90,
@@ -241,6 +258,7 @@ export const FURNITURE: FurnitureDef[] = [
   // Trädgården (outside the house).
   {
     id: 'garden_tree',
+    reaction: '🍎',
     art: 'garden_tree',
     name: 'Träd',
     shape: 'ellipse',
@@ -253,6 +271,7 @@ export const FURNITURE: FurnitureDef[] = [
   },
   {
     id: 'garden_path',
+    reaction: '🐌',
     art: 'garden_path',
     name: 'Gång',
     shape: 'ellipse',
@@ -266,6 +285,7 @@ export const FURNITURE: FurnitureDef[] = [
   },
   {
     id: 'garden_flowers',
+    reaction: '🦋',
     art: 'garden_flowers',
     name: 'Blommor',
     shape: 'ellipse',
@@ -278,6 +298,7 @@ export const FURNITURE: FurnitureDef[] = [
   },
   {
     id: 'garden_bush',
+    reaction: '🐦',
     art: 'garden_bush',
     name: 'Buske',
     shape: 'ellipse',

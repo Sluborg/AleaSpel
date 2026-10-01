@@ -72,6 +72,9 @@ Decided with Alea (2026-09-30):
   of pieces (`SaveData.furniture`, v12): several of a kind, each placed or stored. The 📦
   Förråd button lists stored pieces of that room; tap one to put it in the middle of the view.
 
+- **Tap reactions (built):** tapping a piece of furniture selects it and, when its row has a
+  `reaction` emoji, the piece wobbles and a few emojis float up (bed 💤, lamp 💡, tree 🍎...).
+
 - **Trädgården (built, first version):** the house from outside, reached with 🌳 Ute in Mina hus
   (the door leads back in). The house is put together from one part per slot: Vägg, Tak, Dörr,
   Fönster (`src/data/exterior.ts`: art rows times `HOUSE_HUES` colour shifts). 🎨 Bygg opens the

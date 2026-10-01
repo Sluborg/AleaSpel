@@ -175,7 +175,10 @@ export abstract class RoomScene extends BaseScene {
         this.sortByDepth();
         const onTap = obj.getData('onTap') as (() => void) | undefined;
         if (onTap) onTap();
-        else if (obj.getData('selectable')) this.select(obj);
+        else if (obj.getData('selectable')) {
+          this.select(obj);
+          this.react(obj);
+        }
         return;
       }
       obj.setData('z', undefined); // dragged: sort by where it stands again
@@ -309,6 +312,35 @@ export abstract class RoomScene extends BaseScene {
       b.run();
     });
     return c;
+  }
+
+  // A tapped piece with a `reaction` wobbles and lets a few emojis float up.
+  private react(obj: Phaser.GameObjects.Container): void {
+    const def = FURNITURE.find((f) => f.id === obj.getData('def'));
+    if (!def?.reaction) return;
+    this.tweens.add({ targets: obj, scaleX: 1.08, scaleY: 0.92, duration: 90, yoyo: true });
+    for (let i = 0; i < 4; i++) {
+      const t = this.add
+        .text(
+          obj.x + Phaser.Math.Between(-obj.width / 3, obj.width / 3),
+          obj.y - obj.height / 2,
+          def.reaction,
+          { fontSize: `${Phaser.Math.Between(40, 60)}px` },
+        )
+        .setOrigin(0.5)
+        .setDepth(STANDING * 3 + 1)
+        .setAlpha(0);
+      this.tweens.add({
+        targets: t,
+        y: t.y - Phaser.Math.Between(120, 200),
+        x: t.x + Phaser.Math.Between(-40, 40),
+        alpha: { from: 1, to: 0 },
+        delay: i * 110,
+        duration: 1100,
+        ease: 'Sine.out',
+        onComplete: () => t.destroy(),
+      });
+    }
   }
 
   private drawOutline(obj: Phaser.GameObjects.Container): void {
