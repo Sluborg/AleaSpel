@@ -178,7 +178,7 @@ Built:
 - Step 1: adoption (species + colour + name), care (Mata, Borsta, Klappa, Leka), gentle needs.
 - Step 2 (Alea's feedback): sitting placeholder pets; six games, each with a small interaction
   (Boll: throw; Hopplek: tap fast; Trick: swipe the arrows; Balans: hold; Magkli: rub circles;
-  Kurragömma: find the box; later Fånga musen: tap the running mouse; Frisbee: tap to throw);
+  Kurragömma: find the box; later Fånga musen: tap the running mouse; Frisbee: tap to throw; Bubblor: pop six rising soap bubbles);
   eight foods; a **secret personality** per pet (loves, likes or
   dislikes each game and food, species favourite foods always loved), discovered by trying and
   shown in "Om <namn>". Games and foods are data rows in `src/data/petActivities.ts`.
