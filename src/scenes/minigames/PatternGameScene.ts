@@ -59,6 +59,7 @@ export abstract class PatternGameScene extends BaseScene {
   private returnTo = 'MinigameHub';
   protected level = 1; // this gymnast's level in this game (1-5)
   private ending = false; // roundDone already ran for this round
+  private lastGot = 0; // this round's result for the gymnast's reaction (0 none, 2 good, 3 perfect)
   private deferred?: number; // stars waiting for the window to open (early stroke or challenge)
   private lastKind: RoundKind = 'pattern';
 
@@ -313,6 +314,7 @@ export abstract class PatternGameScene extends BaseScene {
       done: (got) => {
         const s = Phaser.Math.Clamp(got, 0, 3);
         this.total += s;
+        this.lastGot = s;
         this.popup(s ? `${'⭐'.repeat(s)} ${s === 3 ? 'Perfekt!' : 'Bra!'}` : 'Nästan!');
         // The move's reaction uses the move's own scale (1 to its difficulty).
         const d = this.move?.difficulty ?? 1;
@@ -363,6 +365,9 @@ export abstract class PatternGameScene extends BaseScene {
     this.ending = true;
     this.closeWindow();
     this.live = false;
+    // Between rounds the gymnast reacts with a whole-body move (her apparatus move is done).
+    void this.view.play(this.lastGot >= 3 ? 'happy' : this.lastGot > 0 ? 'jump' : 'wobble');
+    this.lastGot = 0;
     this.time.delayedCall(900, () => {
       this.card.setVisible(false);
       this.trail.clear();
@@ -416,6 +421,7 @@ export abstract class PatternGameScene extends BaseScene {
     const got = stars(acc, this.move.difficulty);
     const pct = Math.round(acc * 100);
     this.total += got;
+    this.lastGot = got >= this.move.difficulty ? 3 : got > 0 ? 2 : 0;
     const label =
       got === 0
         ? 'Nästan!'
@@ -464,6 +470,7 @@ export abstract class PatternGameScene extends BaseScene {
       });
     }
 
+    void this.view.play(record ? 'flip' : 'bow');
     const panel = this.add.container(0, 0).setDepth(300);
     const bg = this.add.graphics();
     bg.fillStyle(COLORS.background, 0.94).fillRoundedRect(40, 240, GAME_WIDTH - 80, 780, 40);
