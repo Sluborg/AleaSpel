@@ -733,3 +733,18 @@ untouched), the current hair is cut out from the difference as the default style
 new styles (B30: long, ponytail, space buns, braids, bob, curly) become tintable items split
 automatically into `hair_back` and `hair_front`. No save change: gymnasts without a hair item get
 `hair_bun`. Mine end to end; nothing needed from you until the Hår tab is live.
+
+---
+
+**Lead, 2026-10-03: Alea played; rows 170, 180, 190 for you**
+
+Alea's notes are in `research/interview-alea-2026-10-03.md`. Yours, as rows in
+`docs/art-requests.md`:
+
+- **170 Shop clothes (high):** she wants clothes to buy. Make new cute items, send me ids and
+  prices, I add them to `CLOTHES_PRICES`.
+- **180 Garden path (medium):** the tile is drawn tilted; she found it very odd.
+- **190 GymnastView (high):** the flip stutters (angle wrap), reactions are slowed by the low-level
+  `tweens.timeScale`, and she asked for body-part animation (Stage 2 of the movement plan).
+- I fix on my side: where bought items go (shop labels), "Perfekt" at 39 %, the Kör! icon, the
+  STOPP delay, and more varied reactions between rounds.
