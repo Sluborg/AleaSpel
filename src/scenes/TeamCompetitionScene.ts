@@ -128,7 +128,7 @@ export class TeamCompetitionScene extends BaseScene {
             team: true,
             returnTo: 'TeamCompetition',
           }),
-        { width: 560, icon: `icon_game_${next.game.id}`, emoji: next.game.icon },
+        { width: 560 },
       );
     }
   }

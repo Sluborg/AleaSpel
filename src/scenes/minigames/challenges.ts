@@ -183,6 +183,8 @@ function timingChallenge(ctx: ChallengeCtx): void {
     },
     { width: 420, height: 170, fontSize: 64 },
   );
+  // Stop on the press itself, not on release: the release came a moment later and felt laggy.
+  stop.on('pointerdown', () => stop.emit('pointerup'));
   layer.add(stop);
 }
 

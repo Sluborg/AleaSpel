@@ -13,6 +13,18 @@ import { BaseScene } from './BaseScene';
 const COLS = 3;
 const TILE_W = 212;
 const TILE_H = 290;
+
+// The room a bought item goes to (furniture: its `room`; gym things: the gym; clothes: Garderob).
+function placeOf(item: ShopItem): { icon: string; place: string } {
+  if (item.kind === 'gym') return { icon: '🤸', place: 'Mitt gym' };
+  if (item.kind === 'clothes') return { icon: '👗', place: 'Garderob' };
+  const room = FURNITURE.find((f) => f.id === item.id)?.room ?? 'house';
+  return room === 'garden'
+    ? { icon: '🌳', place: 'Trädgården' }
+    : room === 'clubhouse'
+      ? { icon: '🏡', place: 'Klubbstugan' }
+      : { icon: '🏠', place: 'Mina hus' };
+}
 const TILE_GAP = 14;
 const LIST_TOP = 350;
 
@@ -128,11 +140,22 @@ export class ShopScene extends BaseScene {
     );
     c.add(
       this.add
-        .text(0, -18, item.name, {
+        .text(0, -34, item.name, {
           fontFamily: FONT,
           fontSize: '26px',
           color: COLORS.text,
           fontStyle: 'bold',
+        })
+        .setOrigin(0.5),
+    );
+    // Where it ends up, so she knows which room to look in.
+    const where = placeOf(item);
+    c.add(
+      this.add
+        .text(0, -4, `${where.icon} ${where.place}`, {
+          fontFamily: FONT,
+          fontSize: '21px',
+          color: COLORS.textMuted,
         })
         .setOrigin(0.5),
     );
@@ -165,7 +188,7 @@ export class ShopScene extends BaseScene {
     if (!owned && !afford) {
       c.add(
         this.add
-          .text(0, 16, `${item.price - medals} till`, {
+          .text(0, 22, `${item.price - medals} till`, {
             fontFamily: FONT,
             fontSize: '20px',
             color: COLORS.textMuted,
@@ -192,10 +215,10 @@ export class ShopScene extends BaseScene {
         GAME_WIDTH / 2,
         600,
         def
-          ? `📦 ${item.name} i ${def.room === 'garden' ? 'trädgårdens förråd' : 'förrådet'}!`
+          ? `📦 ${item.name} ligger i Lådan\ni ${placeOf(item).place}!`
           : item.kind === 'gym'
-            ? `🎉 ${item.name} står i gymmet!`
-            : `🎉 ${item.name} är din!`,
+            ? `🎉 ${item.name} står i ${placeOf(item).place}!`
+            : `🎉 ${item.name} finns i ${placeOf(item).place}!`,
         {
           fontFamily: FONT,
           fontSize: '44px',

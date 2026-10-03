@@ -20,6 +20,11 @@ import { CHALLENGE_HINT, runChallenge, type ChallengeKind } from './challenges';
 // stars, medals, records and the result panel. A subclass draws its world, positions the
 // gymnast and animates each round; it opens and closes the drawing window.
 const MIN_STROKE = 60; // design px: shorter strokes are taps, not patterns
+// Between rounds she reacts with one of these, picked at random so it is not the same every time.
+// (`flip` joins the great pool once its rotation is smooth, art request 190.)
+const REACT_GREAT = ['happy', 'spin', 'jump'];
+const REACT_GOOD = ['happy', 'bow', 'spin'];
+const REACT_MISS = ['wobble'];
 
 function strokeLength(pts: { x: number; y: number }[]): number {
   let d = 0;
@@ -425,9 +430,10 @@ export abstract class PatternGameScene extends BaseScene {
     this.closeWindow();
     this.live = false;
     // Between rounds the gymnast reacts with a whole-body move (her apparatus move is done).
-    void this.view.play(this.lastGot >= 3 ? 'happy' : this.lastGot > 0 ? 'jump' : 'wobble');
+    const pool = this.lastGot >= 3 ? REACT_GREAT : this.lastGot > 0 ? REACT_GOOD : REACT_MISS;
+    void this.view.play(Phaser.Utils.Array.GetRandom(pool));
     this.lastGot = 0;
-    this.time.delayedCall(900, () => {
+    this.time.delayedCall(650, () => {
       this.card.setVisible(false);
       this.trail.clear();
       this.nextRound();
@@ -481,14 +487,18 @@ export abstract class PatternGameScene extends BaseScene {
     const pct = Math.round(acc * 100);
     this.total += got;
     this.lastGot = got >= this.move.difficulty ? 3 : got > 0 ? 2 : 0;
+    // The word follows how close the drawing was, not the stars (an easy move caps at one star,
+    // which said "Perfekt!" at 39 %).
     const label =
       got === 0
         ? 'Nästan!'
-        : got >= this.move.difficulty
+        : acc >= 0.8
           ? 'Perfekt!'
-          : got === 1
-            ? 'Okej!'
-            : 'Bra!';
+          : acc >= 0.6
+            ? 'Jättebra!'
+            : acc >= 0.4
+              ? 'Bra!'
+              : 'Okej!';
     const t = this.add
       .text(GAME_WIDTH / 2, 640, `${'⭐'.repeat(got)}${got ? ' ' : ''}${label}  ${pct}%`, {
         fontFamily: FONT,
