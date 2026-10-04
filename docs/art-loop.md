@@ -28,6 +28,14 @@ pretty, cute, fun and easy for a 9-year-old. Every round follows this routine.
 8. **Log** one line per round in the "Round log" below. No message to Stefan unless something
    needs his decision; he reads this log in the morning.
 
+## Wake-ups and safety net
+
+- Others wake Art with a one-shot `create_trigger` into `session_01T2RPzmrwk1maGKgdCJNgty`
+  (PR #4 comments alone do not wake: same GitHub account, filtered as self-echo).
+- Safety net: the server-side routine "Art safety-net check-in" (every 2 hours) reads the
+  discussion, the request rows and the upload log, acts on anything new and stays silent
+  otherwise. A missed wake-up costs at most 2 hours.
+
 ## Models (Stefan: simpler models for simple tasks)
 
 - **Sub-agent on a small model** (`Agent` with `model: haiku`) for mechanical work: screenshot
