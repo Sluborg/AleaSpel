@@ -21,8 +21,7 @@ import { CHALLENGE_HINT, runChallenge, type ChallengeKind } from './challenges';
 // gymnast and animates each round; it opens and closes the drawing window.
 const MIN_STROKE = 60; // design px: shorter strokes are taps, not patterns
 // Between rounds she reacts with one of these, picked at random so it is not the same every time.
-// (`flip` joins the great pool once its rotation is smooth, art request 190.)
-const REACT_GREAT = ['happy', 'spin', 'jump'];
+const REACT_GREAT = ['happy', 'spin', 'jump', 'flip'];
 const REACT_GOOD = ['happy', 'bow', 'spin'];
 const REACT_MISS = ['wobble'];
 

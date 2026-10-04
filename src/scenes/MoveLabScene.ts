@@ -26,9 +26,11 @@ const NAMES: Record<string, string> = {
   landing: 'Landning',
 };
 const PLANNED = ['wave', 'victory', 'arms_up', 'star', 'landing', 'sit'];
-const COLS = 3;
-const BTN_W = 200;
+// Four columns so every move and planned pose fits above the bottom edge (13 today).
+const COLS = 4;
+const BTN_W = 160;
 const BTN_H = 110;
+const GRID_TOP = 830;
 
 export class MoveLabScene extends BaseScene {
   private view?: GymnastView;
@@ -58,7 +60,7 @@ export class MoveLabScene extends BaseScene {
     ];
     ids.forEach((id, i) => {
       const x = GAME_WIDTH / 2 + ((i % COLS) - (COLS - 1) / 2) * (BTN_W + 16);
-      const y = 840 + Math.floor(i / COLS) * (BTN_H + 14);
+      const y = GRID_TOP + Math.floor(i / COLS) * (BTN_H + 12);
       const ready = MOVES.some((m) => m.id === id);
       const b = createButton(
         this,
@@ -69,7 +71,7 @@ export class MoveLabScene extends BaseScene {
         {
           width: BTN_W,
           height: BTN_H,
-          fontSize: ready ? 34 : 24,
+          fontSize: ready ? 30 : 22,
           color: ready ? COLORS.primary : 0x6b5a85,
         },
       );
