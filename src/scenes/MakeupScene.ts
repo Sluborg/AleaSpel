@@ -20,9 +20,9 @@ interface Tool {
 }
 const TOOLS: Tool[] = [
   { layer: 'blush', name: 'Rouge', hint: 'Gnid på kinderna!' },
-  { layer: 'eyeshadow', name: 'Ögonskugga', hint: 'Gnid på ögonlocken!' },
-  { layer: 'lips', name: 'Läppstift', hint: 'Gnid på läpparna!' },
-  { layer: 'facepaint', name: 'Ansiktsfärg', hint: 'Gnid på kinden!' },
+  { layer: 'eyeshadow', name: 'Ögon', hint: 'Gnid på ögonlocken!' },
+  { layer: 'lips', name: 'Läppar', hint: 'Gnid på läpparna!' },
+  { layer: 'facepaint', name: 'Ansikte', hint: 'Gnid på kinden!' },
 ];
 const COLOURS = [0xff6fae, 0xff4f7b, 0xff8a3d, 0xffd84d, 0x7ed957, 0x5aa9ff, 0x8f7bff, 0xc77dff];
 const MASTER_W = 1024;
@@ -185,7 +185,7 @@ export class MakeupScene extends BaseScene {
         createButton(this, 20 + w * (i + 0.5), PANEL_TOP + 70, t.name, () => this.pick(t), {
           width: w - 10,
           height: 110,
-          fontSize: 23,
+          fontSize: 28,
           color: t === this.tool ? COLORS.primary : 0x6b5a85,
         }),
       ),

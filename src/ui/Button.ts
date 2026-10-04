@@ -6,8 +6,8 @@ export interface ButtonOptions {
   height?: number;
   fontSize?: number;
   color?: number;
-  icon?: string; // manifest id shown left of the label when the art exists
-  emoji?: string; // put before the label instead when the icon art is missing
+  icon?: string; // manifest id drawn on a button without a label (round icon button)
+  emoji?: string; // shown instead of the icon when its art is missing
 }
 
 export function createButton(
@@ -26,8 +26,10 @@ export function createButton(
   const draw = (fill: number) => bg.paint(fill);
   draw(color);
 
-  const useIcon = !!options.icon && scene.textures.exists(options.icon);
-  const shown = !useIcon && options.emoji ? `${options.emoji} ${label}` : label;
+  // Text buttons are text only (art next to the label looked crowded); an icon is drawn only on a
+  // button without a label (round icon buttons), with the emoji as its fallback.
+  const iconOnly = !label && !!options.icon && scene.textures.exists(options.icon);
+  const shown = label || (iconOnly ? '' : (options.emoji ?? ''));
   const text = scene.add
     .text(0, 0, shown, {
       fontFamily: FONT,
@@ -37,15 +39,20 @@ export function createButton(
       align: 'center',
     })
     .setOrigin(0.5);
+  // Keep the label inside the pill: clear of the round ends and the top and bottom.
+  const room = Math.min(width - height * 0.45, width * 0.88);
+  const fit = Math.min(
+    1,
+    room / Math.max(1, text.width),
+    (height * 0.8) / Math.max(1, text.height),
+  );
+  text.setScale(fit);
 
   const container = scene.add.container(x, y, [bg.object, text]);
-  if (useIcon) {
-    const size = Math.min(height * 0.5, 60);
-    const gap = 8;
-    const left = -(size + gap + text.width) / 2;
-    const img = scene.add.image(left + size / 2, 0, options.icon!);
+  if (iconOnly) {
+    const size = Math.min(width, height) * 0.58;
+    const img = scene.add.image(0, 0, options.icon!);
     img.setScale(Math.min(size / img.width, size / img.height));
-    text.setX(left + size + gap + text.width / 2);
     container.add(img);
   }
   container.setSize(width, height);
