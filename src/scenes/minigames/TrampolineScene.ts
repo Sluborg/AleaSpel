@@ -91,21 +91,22 @@ export class TrampolineScene extends PatternGameScene {
   // The pose plays at the apex if the pattern was already drawn.
   private performPose(): void {
     if (!this.move || !this.patternDone || this.gotStars === 0) return;
-    const s = this.view.scaleX;
     const t = (props: object) =>
       this.tweens.add({ targets: this.view, duration: 300, yoyo: true, ...props });
     switch (this.move.pose) {
+      // Rigid body only (no squashing or flat turns, which look wrong on a flat figure) until the
+      // cut-out rig brings real tuck, pike and straddle poses.
       case 'tuck':
-        t({ scale: s * 0.7 });
+        t({ angle: -30 });
         break;
       case 'pike':
-        t({ scaleY: s * 0.75, angle: 35 });
+        t({ angle: 35 });
         break;
       case 'straddle':
-        t({ scaleX: s * 1.35 });
+        t({ angle: 15 });
         break;
       case 'twist':
-        this.tweens.add({ targets: this.view, scaleX: -s, duration: 300, yoyo: true });
+        t({ angle: -20 });
         break;
       case 'flip':
         this.tweens.add({
@@ -116,7 +117,7 @@ export class TrampolineScene extends PatternGameScene {
         });
         break;
       default:
-        t({ scaleY: s * 1.08 });
+        t({ angle: 8 });
     }
   }
 }
