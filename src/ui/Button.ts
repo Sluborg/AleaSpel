@@ -87,7 +87,9 @@ export function buttonBackground(
   const webgl = scene.game.renderer.type === Phaser.WEBGL;
   // Near-square buttons (back, icons): the round art, since the pill caps would meet in a seam.
   if (width <= height * 1.15 && scene.textures.exists(ROUND_KEY)) {
-    const disc = scene.add.image(0, 0, ROUND_KEY).setDisplaySize(width, height);
+    // Always a true circle: a slightly wider or taller button must not stretch it into an oval.
+    const d = Math.min(width, height);
+    const disc = scene.add.image(0, 0, ROUND_KEY).setDisplaySize(d, d);
     return { object: disc, paint: (fill) => disc.setTint(fill) };
   }
   if (webgl && scene.textures.exists(BUTTON_KEY)) {
