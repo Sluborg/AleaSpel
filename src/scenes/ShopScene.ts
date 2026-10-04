@@ -5,7 +5,7 @@ import { isNew, SHOP_TABS, shopItems, type ShopItem, type ShopKind } from '../da
 import { FURNITURE } from '../data/furniture';
 import { localDate, newUid, SaveService } from '../services/SaveService';
 import { furnitureArtKey } from '../ui/furnitureView';
-import { applyHue, artImage, hasArt, medalLabel } from '../ui/art';
+import { applyHue, artImage, clothesPicture, hasArt, medalLabel } from '../ui/art';
 import { createButton } from '../ui/Button';
 import { ScrollList } from '../ui/ScrollList';
 import { BaseScene } from './BaseScene';
@@ -134,9 +134,11 @@ export class ShopScene extends BaseScene {
     }
     c.add(g);
     c.add(
-      art
-        ? applyHue(artImage(this, 0, -TILE_H / 2 + 60, artKey, 150, 96), item.hue)
-        : this.add.text(0, -TILE_H / 2 + 55, item.icon, { fontSize: '44px' }).setOrigin(0.5),
+      art && item.kind === 'clothes'
+        ? clothesPicture(this, artKey, 150, 96, 0, -TILE_H / 2 + 60)
+        : art
+          ? applyHue(artImage(this, 0, -TILE_H / 2 + 60, artKey, 150, 96), item.hue)
+          : this.add.text(0, -TILE_H / 2 + 55, item.icon, { fontSize: '44px' }).setOrigin(0.5),
     );
     c.add(
       this.add

@@ -4,7 +4,7 @@ import { ASSET_MANIFEST_KEY, type AssetManifest } from '../data/assets';
 import { FURNITURE } from '../data/furniture';
 import type { ShopItem } from '../data/shop';
 import { openGift, waitingGifts, type GiftReward } from '../services/Gifts';
-import { applyHue, artImage, backdrop, hasArt, medalLabel } from '../ui/art';
+import { applyHue, artImage, backdrop, clothesPicture, hasArt, medalLabel } from '../ui/art';
 import { createButton } from '../ui/Button';
 import { furnitureArtKey } from '../ui/furnitureView';
 import { BaseScene } from './BaseScene';
@@ -195,6 +195,7 @@ export class GiftScene extends BaseScene {
     if (!item) return this.add.text(0, 0, '🏅', { fontSize: '160px' }).setOrigin(0.5);
     const def = FURNITURE.find((f) => f.id === item.id);
     const key = item.art ?? (def ? (furnitureArtKey(this, def) ?? '') : item.id);
+    if (item.kind === 'clothes' && hasArt(this, key)) return clothesPicture(this, key, 280, 280);
     if (hasArt(this, key)) return applyHue(artImage(this, 0, 0, key, 280, 280), item.hue);
     return this.add.text(0, 0, item.icon, { fontSize: '160px' }).setOrigin(0.5);
   }
