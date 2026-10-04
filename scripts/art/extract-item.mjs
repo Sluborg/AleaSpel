@@ -67,7 +67,19 @@ const bb = bbox(fbNoKey, W, H);
 console.log(
   `registration: silhouette overlap ${(iou * 100).toFixed(1)}%, bbox master ${JSON.stringify(ba)} item ${JSON.stringify(bb)}`,
 );
-if (iou < 0.97 || Math.abs(ba.x - bb.x) > 3 || Math.abs(ba.y - bb.y) > 3) {
+// Headwear (ears, hats) may raise the top and widen the box, so only the feet line and the
+// horizontal centre must stay put; a moved or rescaled character shifts both.
+const bottomA = ba.y + ba.h;
+const bottomB = bb.y + bb.h;
+const centreA = ba.x + ba.w / 2;
+const centreB = bb.x + bb.w / 2;
+// Shoes may add a sole under the feet, so the feet line may move down a little, never up.
+if (
+  iou < 0.97 ||
+  bottomB < bottomA - 3 ||
+  bottomB > bottomA + 20 ||
+  Math.abs(centreA - centreB) > 6
+) {
   throw new Error(
     'character moved or changed shape; regenerate the image (registration would be wrong)',
   );

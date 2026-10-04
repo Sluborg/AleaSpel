@@ -126,6 +126,8 @@ for (const file of readdirSync(dir)
       eyeshadow: ['--feather', '6', '--max', '0.7', '--flat', '1', '--cut-eyes', '1'],
       lips: ['--feather', '2', '--max', '0.85', '--flat', '1'],
     };
+    // Freckles and similar dot patterns: keep small blobs.
+    if (/freckle|dots/.test(id)) soft[c] = [...(soft[c] ?? []), '--min-blob', '16'];
     run('extract-makeup.mjs', ['--src', p, '--category', c, '--id', id, ...(soft[c] ?? [])]);
     row(c, c, `wardrobe/${c}/${id}_tint.png`, true, source(p, 'extract-makeup.mjs'));
   } else if (GARMENT[prefix]) {

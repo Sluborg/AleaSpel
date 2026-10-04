@@ -17,6 +17,7 @@ import {
   type Anchors,
 } from '../data/wardrobe';
 import { DEFAULT_OCCASION, OCCASIONS, lookTarget, outfitFor } from '../data/occasions';
+import { isLockedClothing } from '../data/shop';
 import { SaveService, type Gymnast } from '../services/SaveService';
 import { createButton } from '../ui/Button';
 import { GymnastView, MASTER_H } from '../ui/GymnastView';
@@ -179,8 +180,12 @@ export class WardrobeScene extends BaseScene {
     return g.createGeometryMask();
   }
 
+  // Shop and gift-only clothes show up here only once the team owns them.
   private items(): AssetEntry[] {
-    return wardrobeItems(this.cache.json.get(ASSET_MANIFEST_KEY) as AssetManifest | undefined);
+    const owned = SaveService.get().owned;
+    return wardrobeItems(
+      this.cache.json.get(ASSET_MANIFEST_KEY) as AssetManifest | undefined,
+    ).filter((i) => !isLockedClothing(i.id, owned));
   }
 
   private tabs() {

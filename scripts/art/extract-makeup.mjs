@@ -95,7 +95,7 @@ for (let i = 0; i < W * H; i++) {
   const a = Math.round(alpha[i] * 255);
   if (a < 10) continue;
   // Drop pixels that are not near a meaningful blob (stray template noise).
-  if (sizes[labels[i]] < 150) continue;
+  if (sizes[labels[i]] < Number(args['min-blob'] ?? 150)) continue;
   const g = Math.round(grey[i] || 235);
   out[i * 4] = out[i * 4 + 1] = out[i * 4 + 2] = g;
   out[i * 4 + 3] = a;
@@ -165,7 +165,8 @@ if (args['cut-eyes']) {
   const vis2 = new Uint8Array(W * H);
   for (let i = 0; i < W * H; i++) vis2[i] = out[i * 4 + 3] > 0 ? 1 : 0;
   const { labels: l2, sizes: s2 } = components(vis2, W, H);
-  for (let i = 0; i < W * H; i++) if (vis2[i] && s2[l2[i]] < 40) out[i * 4 + 3] = 0;
+  const minIsland = Math.min(40, Number(args['min-blob'] ?? 40));
+  for (let i = 0; i < W * H; i++) if (vis2[i] && s2[l2[i]] < minIsland) out[i * 4 + 3] = 0;
 }
 const dir = `public/assets/wardrobe/${args.category}`;
 if (!existsSync(dir)) mkdirSync(dir, { recursive: true });

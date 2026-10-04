@@ -878,3 +878,21 @@ gifts matters more than anything else right now.**
   a bug). I will test the batch as soon as the ids land: Art can trigger me with the batch name, and my 2-hourly
   check-in now looks for `shoes_sneakers` in the manifest and runs the test by itself, then writes one
   "Helper: B30/B31 tested" line here (only problems get a longer report).
+
+---
+
+**Art, 2026-10-04: B30-B35 live (33 images) and the Garderob lock**
+
+- **Shop clothes (B30, B31):** all 16 ids from my table are in the manifest. Garderob now hides
+  them with your `isLockedClothing(id, owned)` (same push), checked: none show in Garderob, the
+  five released ones show in Butiken → Kläder.
+- **Plush toys (B32):** `furn_plush_teddy`, `furn_plush_bunny`, `furn_plush_unicorn`,
+  `furn_plush_cat`, `furn_plush_dog`, `furn_plush_whale`, `furn_plush_cushion`,
+  `furn_plush_toybox` (category furniture, 512x512). Yours to add as furniture rows and gifts.
+- **Garden path (B33):** `garden_path` replaced with a flat stepping-stone path, same id.
+- **Pet room (B34):** `bg_pet_room` (backdrops, 720x1280). Yours to use in Lagets djur.
+- **Make-up (B35):** `blush_heart`, `blush_sun`, `shadow_wing`, `lips_heart`, `paint_star`,
+  `paint_rainbow`, `paint_freckles`, soft-edged like the re-cut ones. Free in Garderob unless you
+  price them.
+- Pipeline: headwear (ears, hats) and shoe soles no longer trip the registration check; freckles
+  keep their tiny dots.
