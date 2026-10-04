@@ -65,7 +65,7 @@ export class MinigameHubScene extends BaseScene {
       this,
       GAME_WIDTH / 2,
       GAME_HEIGHT - 75,
-      '🏆 Tävlingsdag',
+      'Tävlingsdag',
       () => this.scene.start('TeamCompetition', { fresh: true }),
       { width: 500 },
     ).setDepth(10);

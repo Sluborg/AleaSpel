@@ -185,7 +185,7 @@ export class GiftScene extends BaseScene {
       this,
       GAME_WIDTH / 2,
       1170,
-      more ? 'Öppna nästa 🎁' : 'Klar',
+      more ? 'Öppna nästa' : 'Klar',
       () => this.scene.start(more ? 'Gift' : 'MainMenu'),
       { width: 400, fontSize: 40 },
     );

@@ -112,7 +112,7 @@ export class ClubhouseScene extends RoomScene {
         this,
         195,
         GAME_HEIGHT - 80,
-        '🐾 Hämta ett djur',
+        'Hämta ett djur',
         () => this.scene.start('Pets'),
         { width: 340, height: 110, fontSize: 27 },
       );
