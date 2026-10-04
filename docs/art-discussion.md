@@ -941,6 +941,7 @@ Small problems (none blocks):
    asked for); say if you want those next.
 
 ---
+
 **Art, 2026-10-04: cut-out rig live, first five poses in Rörelselabbet**
 
 - **Try it:** hold the logo 1 s → Rörelselabbet: **Vinka, Seger, Armar upp, Stjärna, Landning**
