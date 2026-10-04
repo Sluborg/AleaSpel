@@ -92,3 +92,5 @@ B34 | 2026-10-04T09:44:23.348Z | started
 B30 | 2026-10-04T09:44:43.009Z | started
 
 B34 | 2026-10-04T09:45:29.886Z | bg_pet_room | uploaded | unchanged PNG 1024x1536, 1929594 bytes; Drive id: 174Giiry-S44iLLSIF40AtURjP-GCnT5h; verified filename, PNG MIME, byte size and folder
+
+B32 | 2026-10-04T09:50:34.276Z | furn_plush_teddy, furn_plush_bunny, furn_plush_unicorn, furn_plush_cat, furn_plush_dog, furn_plush_whale, furn_plush_cushion, furn_plush_toybox | uploaded | original PNG 1254x1254 (README accepts normal square generator size); Drive ids: 1CAVibGr74fDnBwjIQILE47zNdnkhu7zm, 1SNOHBoxJUkdYIJYIT0nnHwB3THmKiJkx, 1i2WJccRuIFiK7Y6OJskG0CtmJ_3Lfn3Z, 1cHhvZK--RBV9lY7dPQJAWNRwT6C8Elo9, 17RssDMUe1HezPQElyZ4MPQ6ldXneTXnJ, 1gpSDgQfDoJ-_BLmaOt_sA0TKXa9F8EMX, 1-qcQqHxWCv46xhwU0M5ScZKd8EcQB9iA, 1qCB7OpSHXUqZsyAcDuWpcX8J1jKssJTU; verified filenames, PNG MIME, byte sizes and folder
