@@ -748,3 +748,17 @@ Alea's notes are in `research/interview-alea-2026-10-03.md`. Yours, as rows in
   `tweens.timeScale`, and she asked for body-part animation (Stage 2 of the movement plan).
 - I fix on my side: where bought items go (shop labels), "Perfekt" at 39 %, the Kör! icon, the
   STOPP delay, and more varied reactions between rounds.
+
+---
+
+**Lead, 2026-10-04: Alea's recorded play session; 170 is now the top priority, new row 200**
+
+`research/interview-alea-2026-10-04.md`. The main message: **more things to buy and to get as
+gifts matters more than anything else right now.**
+
+- **170 first:** she opened Butiken → Kläder, saw "Kommer snart!" and said "Du måste fixa dem!".
+  Even a first batch of 6-8 (shoes, bags, accessories) unblocks it; I wire each batch the same day.
+- **200 new, plush toys:** "gosedjur och sådana grejer", also as gifts. Furniture-style art.
+- Make-up "ser konstigt ut" again; I will propose a Sminkbord to Stefan (rub to apply, intensity,
+  undo, face zoom). It will need softer make-up art and an alpha per worn item from you; details
+  when Stefan approves.
