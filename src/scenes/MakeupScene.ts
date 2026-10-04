@@ -86,7 +86,8 @@ export class MakeupScene extends BaseScene {
       });
     }
     this.drawFace(outfit);
-    this.addBackButton('AvatarEditor');
+    // Sminkbordet opens from Ansikte (the face mode of Garderob) and goes back there.
+    this.addBackButton('Wardrobe', this.faceMode());
     this.hint = this.add
       .text(GAME_WIDTH / 2, 175, '', {
         fontFamily: FONT,
@@ -340,6 +341,10 @@ export class MakeupScene extends BaseScene {
           target[layer] = { item: v.item, tint: v.tint, ...(v.amount < 1 && { amount: v.amount }) };
       }
     });
-    this.scene.start('AvatarEditor');
+    this.scene.start('Wardrobe', this.faceMode());
+  }
+
+  private faceMode() {
+    return { gymnastId: this.gymnast.id, occasion: this.occasion, mode: 'face' };
   }
 }

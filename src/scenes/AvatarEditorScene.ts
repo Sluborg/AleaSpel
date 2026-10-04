@@ -89,7 +89,7 @@ export class AvatarEditorScene extends BaseScene {
       const dx = downX === undefined ? 0 : p.x - downX;
       downX = undefined;
       if (Math.abs(dx) > 60) this.stepLook(dx < 0 ? 1 : -1);
-      else this.openWardrobe(gymnast.id);
+      else this.openWardrobe(gymnast.id, 'clothes');
     });
     void view.play('happy').then(() => view.play('idle'));
     layer.add(view);
@@ -154,7 +154,7 @@ export class AvatarEditorScene extends BaseScene {
       252,
       BUTTONS_Y,
       'Garderob',
-      () => this.openWardrobe(gymnast.id),
+      () => this.openWardrobe(gymnast.id, 'clothes'),
       { width: 250, fontSize: 28, icon: 'icon_hanger' },
     );
     layer.add(edit);
@@ -171,14 +171,11 @@ export class AvatarEditorScene extends BaseScene {
       edit.once('destroy', () => pulse.remove());
     }
     layer.add(
-      createButton(
-        this,
-        487,
-        BUTTONS_Y,
-        'Smink',
-        () => this.scene.start('Makeup', { gymnastId: gymnast.id, occasion: shownOccasion }),
-        { width: 190, fontSize: 28, color: 0xff6fae, emoji: '💄' },
-      ),
+      createButton(this, 487, BUTTONS_Y, 'Ansikte', () => this.openWardrobe(gymnast.id, 'face'), {
+        width: 190,
+        fontSize: 28,
+        color: 0xff6fae,
+      }),
     );
     if (n < MAX_GYMNASTS) {
       layer.add(
@@ -225,7 +222,8 @@ export class AvatarEditorScene extends BaseScene {
   }
 
   // Garderob opens on the look shown here (Art reads `occasion`; older builds ignore it).
-  private openWardrobe(gymnastId: string): void {
-    this.scene.start('Wardrobe', { gymnastId, occasion: shownOccasion });
+  // Garderob (clothes) and Ansikte (eyes, brows, mouth, hair and Smink) are two modes of Wardrobe.
+  private openWardrobe(gymnastId: string, mode: 'clothes' | 'face'): void {
+    this.scene.start('Wardrobe', { gymnastId, occasion: shownOccasion, mode });
   }
 }
