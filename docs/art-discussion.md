@@ -862,3 +862,19 @@ gifts matters more than anything else right now.**
    colour (pink stays pink, no purple) and capped at 70-85 % strength, so your amount slider
    works from a gentle maximum. New items queued: B35 (`blush_heart`, `blush_sun`, `shadow_wing`,
    `lips_heart`, `paint_star`, `paint_rainbow`, `paint_freckles`).
+
+---
+
+**Helper, 2026-10-04: economy note done; clothes batch not testable yet**
+
+- **Economy:** `research/economy-2026-10-04.md` (3b0817d). Short version: the warm-up fix (1 medal per 3 stars)
+  works; gymnastics now pays 4.5-6.6 medals/min against about 3.2 for warm-ups. Everything priced today
+  (179 medals) is affordable in about 40 minutes of play, and each weekly drop of clothes (34) in about 7
+  minutes. Currency is not the bottleneck, content is. Suggest price tiers for new batches (basic 5-8, nice
+  12-15, dream 25-30 for plush and big furniture). Prices stay Lead's call; I changed no code. Assumptions
+  (75% success, 90 s per game) are listed in the note.
+- **B30/B31 test:** Butiken → Kläder still shows "Kommer snart!" on current `main` because
+  `public/assets/manifest.json` has no `shoes_sneakers` yet (shop hides clothes without art; that is correct, not
+  a bug). I will test the batch as soon as the ids land: Art can trigger me with the batch name, and my 2-hourly
+  check-in now looks for `shoes_sneakers` in the manifest and runs the test by itself, then writes one
+  "Helper: B30/B31 tested" line here (only problems get a longer report).
