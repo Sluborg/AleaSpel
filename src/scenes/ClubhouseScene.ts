@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import { COLORS, FONT, GAME_HEIGHT, GAME_WIDTH } from '../config';
 import { SaveService, type Position } from '../services/SaveService';
-import { backdrop } from '../ui/art';
+import { backdrop, hasArt, visibleBox } from '../ui/art';
 import { createButton } from '../ui/Button';
 import { GymnastView } from '../ui/GymnastView';
 import { PetView } from '../ui/PetView';
@@ -9,6 +9,10 @@ import { petSpecies } from '../data/pets';
 import type { FurnitureDef } from '../data/furniture';
 import { trophyView } from '../ui/trophy';
 import { ROOM_WORLD_W, RoomScene, pin, type Placeable } from './RoomScene';
+
+const GYM_DOOR = 'ext_door_1';
+const DOOR_X_IN = 140; // door centre, from the room's right edge
+const DOOR_H = 300; // visible door height
 
 const ROOM = { left: 20, top: 250, right: ROOM_WORLD_W - 20, bottom: GAME_HEIGHT - 20 };
 const FLOOR_Y = 700;
@@ -43,10 +47,18 @@ export class ClubhouseScene extends RoomScene {
       g.fillStyle(0xd9a27a, 1).fillRect(ROOM.left, FLOOR_Y, w, ROOM.bottom - FLOOR_Y);
       g.fillStyle(0xa86b3c, 1).fillRect(ROOM.left, FLOOR_Y - 12, w, 12);
     }
-    // Door to the gym on the right wall, over the backdrop.
-    const door = this.add.graphics();
-    door.fillStyle(0x8fd36b, 1).fillRoundedRect(ROOM.right - 150, FLOOR_Y - 250, 120, 250, 12);
-    door.fillStyle(0x4a7a2a, 1).fillCircle(ROOM.right - 60, FLOOR_Y - 120, 8);
+    // Door to the gym on the right wall, over the backdrop: the house door art standing on the
+    // floor line, or a drawn door as the fallback.
+    if (hasArt(this, GYM_DOOR)) {
+      // Scale so the visible door (not the art's transparent margin) is DOOR_H tall.
+      const box = visibleBox(this, GYM_DOOR);
+      const img = this.add.image(ROOM.right - DOOR_X_IN, FLOOR_Y, GYM_DOOR);
+      img.setScale(DOOR_H / ((box.bottom - box.top) * img.height)).setOrigin(0.5, box.bottom);
+    } else {
+      const door = this.add.graphics();
+      door.fillStyle(0x8fd36b, 1).fillRoundedRect(ROOM.right - 150, FLOOR_Y - 250, 120, 250, 12);
+      door.fillStyle(0x4a7a2a, 1).fillCircle(ROOM.right - 60, FLOOR_Y - 120, 8);
+    }
   }
 
   private gymnastView?: GymnastView;
@@ -73,15 +85,23 @@ export class ClubhouseScene extends RoomScene {
     );
     pin(fest).setDepth(40000);
 
-    this.add
-      .text(ROOM.right - 90, FLOOR_Y - 270, 'Gymmet', {
+    // A sign over the door, so it reads as the way to the gym.
+    const sign = this.add.container(ROOM.right - DOOR_X_IN, FLOOR_Y - DOOR_H - 40);
+    const label = this.add
+      .text(0, 0, '🤸 Gymmet', {
         fontFamily: FONT,
-        fontSize: '26px',
-        color: COLORS.text,
+        fontSize: '28px',
+        color: '#3a2a4a',
+        fontStyle: 'bold',
       })
-      .setOrigin(0.5, 1);
+      .setOrigin(0.5);
+    const board = this.add.graphics();
+    board
+      .fillStyle(0xffffff, 0.92)
+      .fillRoundedRect(-label.width / 2 - 18, -26, label.width + 36, 52, 26);
+    sign.add([board, label]);
     const door = this.add
-      .zone(ROOM.right - 90, FLOOR_Y - 125, 130, 260)
+      .zone(ROOM.right - DOOR_X_IN, FLOOR_Y - DOOR_H / 2, 200, DOOR_H)
       .setInteractive({ useHandCursor: true });
     door.on('pointerup', () => this.scene.start('Gym'));
 
