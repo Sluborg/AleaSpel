@@ -38,6 +38,8 @@ const resolve = (e) => {
   return refs[m[1]][m[2]] + Number(m[3] ?? 0);
 };
 const r = Object.fromEntries(Object.entries(layer.region).map(([k, v]) => [k, resolve(v)]));
+// Top of the eye band (lashes start just above the eye anchor; the brows sit higher).
+const eyeTop = anchors.points.eyeL.y - 4;
 
 // The painted blue is shaded and never exactly the key: estimate the paint colour from the pixels
 // that are clearly paint (strong projection towards the nominal key), then unmix against that.
@@ -97,6 +99,66 @@ for (let i = 0; i < W * H; i++) {
   const g = Math.round(grey[i] || 235);
   out[i * 4] = out[i * 4 + 1] = out[i * 4 + 2] = g;
   out[i * 4 + 3] = a;
+}
+// Optional soft edges (--feather <px>): blur the alpha twice with a box of that radius, kept on
+// the skin, so blush and eyeshadow fade out instead of ending in a hard line.
+const feather = Number(args.feather ?? 0);
+if (feather > 0) {
+  let a = new Float64Array(W * H);
+  for (let i = 0; i < W * H; i++) a[i] = out[i * 4 + 3];
+  const pass = (src, dx, dy) => {
+    const dst = new Float64Array(W * H);
+    for (let y = 0; y < H; y++)
+      for (let x = 0; x < W; x++) {
+        let sum = 0;
+        let n = 0;
+        for (let k = -feather; k <= feather; k++) {
+          const xx = x + k * dx;
+          const yy = y + k * dy;
+          if (xx < 0 || yy < 0 || xx >= W || yy >= H) continue;
+          sum += src[yy * W + xx];
+          n++;
+        }
+        dst[y * W + x] = sum / n;
+      }
+    return dst;
+  };
+  for (let r = 0; r < 2; r++) a = pass(pass(a, 1, 0), 0, 1);
+  for (let i = 0; i < W * H; i++) {
+    const v = body.data[i * 4 + 3] === 255 ? Math.round(a[i]) : 0;
+    if (v >= 6 && out[i * 4 + 3] === 0) out[i * 4] = out[i * 4 + 1] = out[i * 4 + 2] = 235;
+    out[i * 4 + 3] = v >= 6 ? v : 0;
+  }
+}
+// Optional --max <0-1>: caps the strength so make-up stays see-through (Sminkbordet lowers it more).
+// Optional --flat 1: one flat colour (shape only in the alpha), so the tint shows its true colour.
+const maxA = Math.round(Number(args.max ?? 1) * 255);
+for (let i = 0; i < W * H; i++) {
+  if (out[i * 4 + 3] > maxA) out[i * 4 + 3] = maxA;
+  if (args.flat && out[i * 4 + 3]) out[i * 4] = out[i * 4 + 1] = out[i * 4 + 2] = 255;
+}
+// Optional --cut-eyes 1 (eyeshadow): no paint on the eyes themselves. The eyes are where the
+// master differs from the blank-face template inside the eye band; those pixels are cleared.
+if (args['cut-eyes']) {
+  const master = readPng('assets/source/base/master-raw.png');
+  const blank = readPng('assets/source/face/face_blank-raw.png');
+  const eye = new Uint8Array(W * H);
+  for (let y = r.top; y <= r.bottom; y++)
+    for (let x = r.left; x <= r.right; x++) {
+      const i = y * W + x;
+      const p = i * 4;
+      const d =
+        Math.abs(master.data[p] - blank.data[p]) +
+        Math.abs(master.data[p + 1] - blank.data[p + 1]) +
+        Math.abs(master.data[p + 2] - blank.data[p + 2]);
+      // Eye whites, iris and lashes, but not soft skin noise or the brows above.
+      if (d > 60 && y > eyeTop) eye[i] = 1;
+    }
+  for (let y = 1; y < H - 1; y++)
+    for (let x = 1; x < W - 1; x++) {
+      const i = y * W + x;
+      if (eye[i] || eye[i - 1] || eye[i + 1] || eye[i - W] || eye[i + W]) out[i * 4 + 3] = 0;
+    }
 }
 const dir = `public/assets/wardrobe/${args.category}`;
 if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
