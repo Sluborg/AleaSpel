@@ -160,6 +160,13 @@ if (args['cut-eyes']) {
       if (eye[i] || eye[i - 1] || eye[i + 1] || eye[i - W] || eye[i + W]) out[i * 4 + 3] = 0;
     }
 }
+// Final clean-up: drop tiny islands left by the cuts above (validate:art rejects specks).
+{
+  const vis2 = new Uint8Array(W * H);
+  for (let i = 0; i < W * H; i++) vis2[i] = out[i * 4 + 3] > 0 ? 1 : 0;
+  const { labels: l2, sizes: s2 } = components(vis2, W, H);
+  for (let i = 0; i < W * H; i++) if (vis2[i] && s2[l2[i]] < 40) out[i * 4 + 3] = 0;
+}
 const dir = `public/assets/wardrobe/${args.category}`;
 if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
 const file = `${dir}/${args.id}_tint.png`;
