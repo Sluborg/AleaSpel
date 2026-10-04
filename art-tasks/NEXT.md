@@ -40,3 +40,4 @@ Take the first **Ready** batch **of your track** that you have not made yet (che
 | B32   | furniture | `B32.md` | Plush toys (art request 200)                                         | 8      | Ready     |
 | B33   | furniture | `B33.md` | Garden path tile, flat (art request 180)                             | 1      | Ready     |
 | B34   | scenes    | `B34.md` | Pet room backdrop (art request 160)                                  | 1      | Ready     |
+| B35   | faces     | `B35.md` | More make-up and face paint, soft edges (Lead: Sminkbordet)          | 7      | Ready     |

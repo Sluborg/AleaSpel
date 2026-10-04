@@ -61,7 +61,7 @@
     },
     {
       "id": "eyeshadow",
-      "order": 28,
+      "order": 24,
       "region": {
         "top": "eyeL.y-40",
         "bottom": "chin.y+10",

@@ -120,7 +120,13 @@ for (const file of readdirSync(dir)
   } else if (MAKEUP[prefix]) {
     const c = MAKEUP[prefix];
     const p = raw('face/makeup');
-    run('extract-makeup.mjs', ['--src', p, '--category', c, '--id', id]);
+    // Soft, see-through, true-colour make-up; eyeshadow never paints over the eyes.
+    const soft = {
+      blush: ['--feather', '8', '--max', '0.75', '--flat', '1'],
+      eyeshadow: ['--feather', '6', '--max', '0.7', '--flat', '1', '--cut-eyes', '1'],
+      lips: ['--feather', '2', '--max', '0.85', '--flat', '1'],
+    };
+    run('extract-makeup.mjs', ['--src', p, '--category', c, '--id', id, ...(soft[c] ?? [])]);
     row(c, c, `wardrobe/${c}/${id}_tint.png`, true, source(p, 'extract-makeup.mjs'));
   } else if (GARMENT[prefix]) {
     const c = GARMENT[prefix];

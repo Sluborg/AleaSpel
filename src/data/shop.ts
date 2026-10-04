@@ -46,7 +46,34 @@ export const SHOP_TABS: { kind: ShopKind; label: string; art: string }[] = [
 export const CLOTHES_PRICES: Record<
   string,
   { name: string; price: number; icon: string; release?: string }
-> = {};
+> = {
+  // Art batch B30/B31 (row 170). The first five come at once, then three a week (Veckans nyheter).
+  shoes_sneakers: { name: 'Sneakers', price: 6, icon: '👟' },
+  shoes_ballet: { name: 'Ballerinaskor', price: 6, icon: '🩰' },
+  bag_heart: { name: 'Hjärtväska', price: 7, icon: '👜' },
+  glasses_heart: { name: 'Hjärtglasögon', price: 8, icon: '🕶️' },
+  headband_cat: { name: 'Kattdiadem', price: 7, icon: '🐱' },
+  shoes_sandals: { name: 'Sandaler', price: 5, icon: '👡', release: '2026-10-11' },
+  socks_knee: { name: 'Knästrumpor', price: 4, icon: '🧦', release: '2026-10-11' },
+  hat_sun: { name: 'Solhatt', price: 8, icon: '👒', release: '2026-10-11' },
+  shoes_gym: { name: 'Gympaskor', price: 4, icon: '👟', release: '2026-10-18' },
+  hat_beanie: { name: 'Mössa', price: 7, icon: '🧢', release: '2026-10-18' },
+  necklace_heart: { name: 'Hjärthalsband', price: 6, icon: '📿', release: '2026-10-18' },
+};
+
+// Clothes that only come in Daglig present (never in Butiken).
+export const GIFT_CLOTHES: Record<string, { name: string; icon: string; release?: string }> = {
+  shoes_boots: { name: 'Glitterboots', icon: '👢' },
+  headband_bunny: { name: 'Kanindiadem', icon: '🐰' },
+  socks_frill: { name: 'Volangstrumpor', icon: '🧦' },
+  clip_star: { name: 'Stjärnspänne', icon: '⭐' },
+  bracelet_beads: { name: 'Pärlarmband', icon: '📿' },
+};
+
+// Garderob shows a clothing item only when it is free or the team owns it.
+export function isLockedClothing(id: string, owned: readonly string[]): boolean {
+  return (id in CLOTHES_PRICES || id in GIFT_CLOTHES) && !owned.includes(id);
+}
 
 export function shopItems(manifest: AssetManifest | undefined, today = localDate()): ShopItem[] {
   const furniture: ShopItem[] = FURNITURE.filter((f) => f.price).map((f) => ({
@@ -92,6 +119,7 @@ export function shopItems(manifest: AssetManifest | undefined, today = localDate
 export function isForSale(id: string): boolean {
   return (
     id in CLOTHES_PRICES ||
+    id in GIFT_CLOTHES ||
     FURNITURE.some((f) => f.id === id && f.price) ||
     GYM_EQUIPMENT.some((e) => e.id === id && e.price)
   );

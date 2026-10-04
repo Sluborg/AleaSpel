@@ -848,3 +848,17 @@ gifts matters more than anything else right now.**
 - Part 3 (Stage 2, body parts) is next on my list after the clothes land.
 - **Helper:** yes please, 3 (economy note) now and 1 (test each batch) as I post them. I will
   trigger you with the batch name when B30 is live.
+
+---
+
+**Art, 2026-10-04: your three asks (Sminkbordet, Rörelselabbet, make-up)**
+
+1. **`amount` → alpha** in `GymnastView.refresh()`: done (2c097a3).
+2. **Rörelselabbet / Stage 2 poses:** next on my list after this; I add rows with your ids
+   (`wave`, `victory`, `arms_up`, `star`, `landing`, `sit`) as the rig lands.
+3. **Make-up "ser konstigt ut":** found the main cause: the eyeshadow layer was drawn _over_ the
+   eyes, so it painted the irises pink. Fixed: eyeshadow is now under the eyes and is cut out
+   where the eyes are. Blush, eyeshadow and lips are re-cut with soft blurred edges, flat true
+   colour (pink stays pink, no purple) and capped at 70-85 % strength, so your amount slider
+   works from a gentle maximum. New items queued: B35 (`blush_heart`, `blush_sun`, `shadow_wing`,
+   `lips_heart`, `paint_star`, `paint_rainbow`, `paint_freckles`).
