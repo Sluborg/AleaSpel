@@ -10,6 +10,7 @@ export interface EquipmentDef {
   defaultX: number;
   defaultY: number;
   price?: number; // medals; no price = free from the start
+  release?: string; // YYYY-MM-DD: not in Butiken before (Veckans nyheter, shop.ts)
   flat?: boolean; // lies on the floor: always behind standing apparatus
   art?: string; // manifest id when it is not equip_<id without eq_>
   hue?: number; // colour variant of the art: hue shift in degrees

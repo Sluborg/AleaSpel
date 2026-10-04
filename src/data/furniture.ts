@@ -21,6 +21,7 @@ export interface FurnitureDef {
   reaction?: string; // emoji that floats up when the piece is tapped (Toca-style surprise)
   hue?: number; // colour shift of the art in degrees (colour variants share one picture)
   giftOnly?: boolean; // only from Daglig present: never in Butiken, not given at start
+  release?: string; // YYYY-MM-DD: not in Butiken or gifts before (Veckans nyheter, shop.ts)
 }
 
 export const FURNITURE: FurnitureDef[] = [

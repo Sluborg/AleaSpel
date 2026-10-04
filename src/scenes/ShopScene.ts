@@ -1,9 +1,9 @@
 import Phaser from 'phaser';
 import { COLORS, FONT, GAME_HEIGHT, GAME_WIDTH } from '../config';
 import { ASSET_MANIFEST_KEY, type AssetManifest } from '../data/assets';
-import { SHOP_TABS, shopItems, type ShopItem, type ShopKind } from '../data/shop';
+import { isNew, SHOP_TABS, shopItems, type ShopItem, type ShopKind } from '../data/shop';
 import { FURNITURE } from '../data/furniture';
-import { newUid, SaveService } from '../services/SaveService';
+import { localDate, newUid, SaveService } from '../services/SaveService';
 import { furnitureArtKey } from '../ui/furnitureView';
 import { applyHue, artImage, hasArt, medalLabel } from '../ui/art';
 import { createButton } from '../ui/Button';
@@ -148,6 +148,22 @@ export class ShopScene extends BaseScene {
         })
         .setOrigin(0.5),
     );
+    // Veckans nyheter: a NY! ribbon on things released this week.
+    if (isNew(item.release, localDate())) {
+      const ribbon = this.add.graphics();
+      ribbon.fillStyle(0xff4f7b, 1).fillRoundedRect(-TILE_W / 2 + 8, -TILE_H / 2 + 8, 74, 36, 18);
+      c.add(ribbon);
+      c.add(
+        this.add
+          .text(-TILE_W / 2 + 45, -TILE_H / 2 + 26, 'NY!', {
+            fontFamily: FONT,
+            fontSize: '22px',
+            color: '#ffffff',
+            fontStyle: 'bold',
+          })
+          .setOrigin(0.5),
+      );
+    }
     // Where it ends up, so she knows which room to look in.
     const where = placeOf(item);
     c.add(

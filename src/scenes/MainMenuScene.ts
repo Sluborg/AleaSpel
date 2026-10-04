@@ -25,9 +25,17 @@ export class MainMenuScene extends BaseScene {
         .setOrigin(0)
         .setDepth(-50000);
     }
-    if (hasArt(this, 'logo_aleaspel'))
-      artImage(this, GAME_WIDTH / 2, 210, 'logo_aleaspel', 520, 200);
-    else this.addTitle('AleaSpel', 210).setFontSize(96);
+    const logo = hasArt(this, 'logo_aleaspel')
+      ? artImage(this, GAME_WIDTH / 2, 210, 'logo_aleaspel', 520, 200)
+      : this.addTitle('AleaSpel', 210).setFontSize(96);
+    // Hidden door for grown-ups: hold the logo for a second to open Rörelselabbet.
+    logo.setInteractive();
+    let hold: Phaser.Time.TimerEvent | undefined;
+    logo.on('pointerdown', () => {
+      hold = this.time.delayedCall(1000, () => this.scene.start('MoveLab'));
+    });
+    logo.on('pointerup', () => hold?.remove());
+    logo.on('pointerout', () => hold?.remove());
     medalLabel(
       this,
       GAME_WIDTH - 30,
