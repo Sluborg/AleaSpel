@@ -4,7 +4,7 @@ import { ASSET_MANIFEST_KEY, type AssetManifest } from '../data/assets';
 import { DEFAULT_OCCASION, lookTarget, outfitFor } from '../data/occasions';
 import { BASE_BODY_ID, DEFAULT_TINT, drawOrder, FACE_REGION } from '../data/wardrobe';
 import { SaveService, type Gymnast, type WornItem } from '../services/SaveService';
-import { visibleBox } from '../ui/art';
+import { artCropped, visibleBox } from '../ui/art';
 import { createButton } from '../ui/Button';
 import { BaseScene } from './BaseScene';
 
@@ -32,7 +32,8 @@ const FACE_X = GAME_WIDTH / 2;
 const FACE_Y = 540;
 const RUB_STEP = 160; // px of rubbing for one step
 const STEP = 0.2; // strength added per step
-const PANEL_TOP = 930;
+const PANEL_TOP = 840;
+const VARIANT_W = 120;
 
 interface Layer {
   item: string;
@@ -182,7 +183,7 @@ export class MakeupScene extends BaseScene {
     const w = (GAME_WIDTH - 40) / Math.max(1, this.tools.length);
     this.tools.forEach((t, i) =>
       ui.add(
-        createButton(this, 20 + w * (i + 0.5), PANEL_TOP + 70, t.name, () => this.pick(t), {
+        createButton(this, 20 + w * (i + 0.5), PANEL_TOP + 62, t.name, () => this.pick(t), {
           width: w - 10,
           height: 110,
           fontSize: 28,
@@ -191,33 +192,72 @@ export class MakeupScene extends BaseScene {
       ),
     );
     const cur = this.tool && this.layers.get(this.tool.layer);
+    // Variants of the chosen kind of make-up (all manifest items in that layer): tap to switch.
+    if (this.tool && cur) {
+      const variants = this.variants(this.tool.layer);
+      variants.forEach((id, i) => {
+        const x = GAME_WIDTH / 2 + (i - (variants.length - 1) / 2) * (VARIANT_W + 12);
+        const y = PANEL_TOP + 165;
+        const tile = this.add.graphics();
+        tile
+          .fillStyle(0xf6e1ea, 1)
+          .fillRoundedRect(x - VARIANT_W / 2, y - 45, VARIANT_W, 90, 20)
+          .lineStyle(5, id === cur.item ? COLORS.primary : 0xf6e1ea, 1)
+          .strokeRoundedRect(x - VARIANT_W / 2, y - 45, VARIANT_W, 90, 20);
+        const pic = artCropped(this, x, y, id, VARIANT_W - 24, 66);
+        pic.setTint(cur.tint ?? DEFAULT_TINT);
+        const hit = this.add.zone(x, y, VARIANT_W, 90).setInteractive({ useHandCursor: true });
+        hit.on('pointerup', () => this.setVariant(id));
+        ui.add([tile, pic, hit]);
+      });
+    }
     COLOURS.forEach((c, i) => {
       const x = 60 + i * 86;
-      const dot = this.add.circle(x, PANEL_TOP + 180, 34, c);
+      const dot = this.add.circle(x, PANEL_TOP + 268, 34, c);
       if (cur?.tint === c) dot.setStrokeStyle(6, 0xffffff);
       dot.setInteractive({ useHandCursor: true }).on('pointerup', () => this.setColour(c));
       ui.add(dot);
     });
     ui.add(
-      createButton(this, 130, PANEL_TOP + 285, 'Ångra', () => this.doUndo(), {
+      createButton(this, 130, PANEL_TOP + 365, 'Ångra', () => this.doUndo(), {
         width: 220,
         fontSize: 34,
         color: 0x6b5a85,
       }),
     );
     ui.add(
-      createButton(this, 360, PANEL_TOP + 285, 'Sudda', () => this.clearTool(), {
+      createButton(this, 360, PANEL_TOP + 365, 'Sudda', () => this.clearTool(), {
         width: 200,
         fontSize: 34,
         color: 0x6b5a85,
       }),
     );
     ui.add(
-      createButton(this, 590, PANEL_TOP + 285, 'Klar', () => this.save(), {
+      createButton(this, 590, PANEL_TOP + 365, 'Klar', () => this.save(), {
         width: 220,
         fontSize: 38,
       }),
     );
+  }
+
+  private variants(layer: string): string[] {
+    const manifest = this.cache.json.get(ASSET_MANIFEST_KEY) as AssetManifest | undefined;
+    return (manifest?.assets ?? [])
+      .filter((a) => a.category === layer && this.textures.exists(a.id))
+      .map((a) => a.id)
+      .slice(0, 5);
+  }
+
+  private setVariant(id: string): void {
+    if (!this.tool) return;
+    const layer = this.tool.layer;
+    const cur = this.layers.get(layer)!;
+    if (cur.item === id) return;
+    this.undo.push({ layer, before: { ...cur } });
+    this.images.get(layer)!.setTexture(id);
+    // A new shape shows at once, even before any rubbing.
+    this.apply(layer, { ...cur, item: id, amount: cur.amount || STEP * 2 });
+    this.pick(this.tool);
   }
 
   private setColour(c: number): void {
@@ -273,6 +313,7 @@ export class MakeupScene extends BaseScene {
   private apply(layer: string, value: Layer): void {
     this.layers.set(layer, value);
     const img = this.images.get(layer)!;
+    if (img.texture.key !== value.item) img.setTexture(value.item);
     img.setAlpha(value.amount);
     if (value.tint !== undefined) img.setTint(value.tint);
     else img.clearTint();

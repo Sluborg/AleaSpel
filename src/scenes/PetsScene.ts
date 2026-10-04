@@ -15,6 +15,7 @@ const PET_X = GAME_WIDTH / 2;
 const PET_Y = 540;
 const PET_SIZE = 460;
 const FLOOR_Y = 760;
+const PET_ROOM = 'bg_pet_room';
 const PANEL = 0x3a2752;
 
 const NEEDS: { key: keyof PetNeeds; label: string; color: number; wish: string }[] = [
@@ -82,10 +83,21 @@ export class PetsScene extends BaseScene {
     this.busy = false;
     const pet = this.current();
 
-    const room = this.add.graphics();
-    room.fillStyle(0xf6e7d2, 1).fillRoundedRect(20, 170, GAME_WIDTH - 40, FLOOR_Y - 140, 36);
-    room.fillStyle(0xd9b48c, 1).fillRoundedRect(20, FLOOR_Y - 90, GAME_WIDTH - 40, 140, 36);
-    this.layer.add(room);
+    // The pet room: the bg_pet_room backdrop (art request 160) cut to the room box, or the drawn
+    // placeholder when the art is missing.
+    if (hasArt(this, PET_ROOM)) {
+      const img = this.add.image(20, 170, PET_ROOM).setOrigin(0);
+      const sx = img.width / GAME_WIDTH;
+      const sy = img.height / GAME_HEIGHT;
+      img.setCrop(20 * sx, 170 * sy, (GAME_WIDTH - 40) * sx, (FLOOR_Y + 50 - 170) * sy);
+      img.setScale(1 / sx, 1 / sy).setPosition(0, 0);
+      this.layer.add(img);
+    } else {
+      const room = this.add.graphics();
+      room.fillStyle(0xf6e7d2, 1).fillRoundedRect(20, 170, GAME_WIDTH - 40, FLOOR_Y - 140, 36);
+      room.fillStyle(0xd9b48c, 1).fillRoundedRect(20, FLOOR_Y - 90, GAME_WIDTH - 40, 140, 36);
+      this.layer.add(room);
+    }
 
     if (!pet) {
       this.layer.add(this.text(GAME_WIDTH / 2, 420, 'Laget har inget djur än', 44, '#6b4a55'));
