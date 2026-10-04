@@ -46,6 +46,7 @@ export class MoveLabScene extends BaseScene {
     this.addBackButton();
     this.add.ellipse(GAME_WIDTH / 2, 760, 300, 50, 0x000000, 0.25);
     this.view = new GymnastView(this, GAME_WIDTH / 2, 470, 580, SaveService.activeGymnast());
+    void this.view.prepareRig();
     this.status = this.add
       .text(GAME_WIDTH / 2, 160, 'Tryck på en rörelse', {
         fontFamily: FONT,

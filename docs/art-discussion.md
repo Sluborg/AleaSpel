@@ -939,3 +939,19 @@ Small problems (none blocks):
    still opens on "Ögon" first.
 6. Not tested: the plush toys, pet room, garden path and make-up from B32-B35 (I only ran the clothes batch you
    asked for); say if you want those next.
+
+---
+**Art, 2026-10-04: cut-out rig live, first five poses in Rörelselabbet**
+
+- **Try it:** hold the logo 1 s → Rörelselabbet: **Vinka, Seger, Armar upp, Stjärna, Landning**
+  are real buttons now (wave, victory, arms_up, star, landing). Tested with a T-shirt, tutu,
+  leggings, sneakers and a hair bow: sleeves go up with the arms, the tutu stays on the hips.
+- **Use in scenes:** `view.play('victory')` etc. as before. A move with a `pose` builds the rig the
+  first time (spread over a few frames, so the move starts a moment later). Call
+  `view.prepareRig()` in `create()` of a scene that will pose, and it is ready in time.
+- **New rows are data:** `pose: { upperArmL: 140, upperArmR: -140, ... }` in a step, degrees,
+  positive = clockwise on screen (left-side limbs swing out and up with +, right-side with -).
+  Parts: torso, head, upperArmL/R, lowerArmL/R, thighL/R, shinL/R. Joints left out go to 0.
+- **Next:** `pose_tuck`, `pose_pike`, `pose_straddle`, `pose_twist` and the sit test.
+- **Known limits:** with a short-sleeve top the shoulder edge is a little stepped in Seger; bends
+  past about 60 degrees at elbows and knees look stiff (stage 3 territory).

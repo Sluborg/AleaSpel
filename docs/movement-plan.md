@@ -29,6 +29,12 @@ ease), so new moves are rows, not code.
 
 ## Stage 2: body-part rig (cut-out animation)
 
+**Status 2026-10-04: live.** Parts, joints and layer rules in `src/data/rig.ts`; cutting and the
+joint hierarchy in `src/ui/rig.ts`; `MoveStep.pose` (joint angles) in `src/data/moves.ts`. The rig
+is cut at runtime (no new art), one layer per frame, the first time a pose plays
+(`view.prepareRig()` warms it up early). Limbs tuck behind their parent with a mirrored round end
+at the joint; skirts and shoes never split onto arms, tops never onto legs.
+
 1. Split the master into parts with masks: head+neck, torso+hips, upper arm L/R, lower arm+hand
    L/R, upper leg L/R, lower leg+foot L/R. Joints = the measured anchors (shoulders, elbows =
    midpoint shoulder-wrist, hips, knees, ankles).
