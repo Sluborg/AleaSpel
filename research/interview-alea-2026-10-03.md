@@ -23,3 +23,4 @@ Stefan, in Swedish, with an English note and who acts on it.
 - Some circles were not round (round buttons stretched to ovals). Lead: fixed in `buttonBackground`.
 - The tilted stone tile is `garden_path` in Trädgården (art request 180).
 - She wants many more clothes ("massa fler"): art request 170 raised to 20+.
+- Few shoes and accessories ("skor och sånt det finns få av"); she wants them as gifts or in the shop: row 170 now weighted to shoes, socks and accessories, a third gift-only.
