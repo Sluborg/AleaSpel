@@ -1,6 +1,6 @@
 import type { AssetManifest } from '../data/assets';
 import { FURNITURE } from '../data/furniture';
-import { isReleased, shopItems, type ShopItem } from '../data/shop';
+import { GIFT_CLOTHES, isReleased, shopItems, type ShopItem } from '../data/shop';
 import { SaveService, localDate, newUid } from './SaveService';
 
 // Daglig present: a gift every day (the player's own calendar). Unopened gifts wait, up to
@@ -56,6 +56,12 @@ export function openGift(manifest: AssetManifest | undefined, now = new Date()):
       isReleased(f.release, localDate(now)) &&
       !save.furniture.some((p) => p.def === f.id),
   ).map((f) => ({ id: f.id, kind: 'furniture', name: f.name, price: 0, icon: '🎁', hue: f.hue }));
+  // Gift-only clothes join the surprises once their art exists.
+  const known = new Set((manifest?.assets ?? []).map((a) => a.id));
+  for (const [id, c] of Object.entries(GIFT_CLOTHES)) {
+    if (known.has(id) && !save.owned.includes(id) && isReleased(c.release, localDate(now)))
+      surprises.push({ id, kind: 'clothes', name: c.name, price: 0, icon: c.icon });
+  }
   const pool = surprises.length && Math.random() < 0.5 ? surprises : choices;
   const item = pool.length ? pool[Math.floor(Math.random() * pool.length)] : undefined;
   const medals = item ? GIFT_MEDALS : GIFT_MEDALS * 2;

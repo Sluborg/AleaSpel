@@ -1,5 +1,7 @@
 import Phaser from 'phaser';
 import { GAME_HEIGHT, GAME_WIDTH } from '../config';
+import { ASSET_MANIFEST_KEY, type AssetManifest } from '../data/assets';
+import { DEFAULT_TINT } from '../data/wardrobe';
 
 // Helpers for delivered art (manifest ids). Every caller falls back to its placeholder when the
 // texture is missing, so the game never depends on a specific delivery.
@@ -146,4 +148,42 @@ export function iconOrEmoji(
 ): Phaser.GameObjects.Image | Phaser.GameObjects.Text {
   if (key && hasArt(scene, key)) return artImage(scene, x, y, key, size, size);
   return scene.add.text(x, y, emoji, { fontSize: `${Math.round(size * 0.8)}px` }).setOrigin(0.5);
+}
+
+// An image cropped to its visible part and fitted in w x h, centred at (x, y): for wardrobe items,
+// which sit small on a full 1024x1536 canvas.
+export function artCropped(
+  scene: Phaser.Scene,
+  x: number,
+  y: number,
+  key: string,
+  w: number,
+  h: number,
+): Phaser.GameObjects.Image {
+  const img = scene.add.image(0, 0, key);
+  const b = visibleBox(scene, key);
+  const cw = (b.right - b.left) * img.width;
+  const ch = (b.bottom - b.top) * img.height;
+  img.setCrop(b.left * img.width, b.top * img.height, cw, ch);
+  const s = Math.min(w / cw, h / ch);
+  img.setScale(s);
+  const cx = ((b.left + b.right) / 2) * img.width;
+  const cy = ((b.top + b.bottom) / 2) * img.height;
+  return img.setPosition(x + (img.width / 2 - cx) * s, y + (img.height / 2 - cy) * s);
+}
+
+// A wardrobe item as a picture (shop tile, gift): cropped to the item, and tinted with the default
+// colour when the art is white for tinting.
+export function clothesPicture(
+  scene: Phaser.Scene,
+  key: string,
+  w: number,
+  h: number,
+  x = 0,
+  y = 0,
+): Phaser.GameObjects.Image {
+  const img = artCropped(scene, x, y, key, w, h);
+  const manifest = scene.cache.json.get(ASSET_MANIFEST_KEY) as AssetManifest | undefined;
+  if (manifest?.assets.find((a) => a.id === key)?.tintable) img.setTint(DEFAULT_TINT);
+  return img;
 }
