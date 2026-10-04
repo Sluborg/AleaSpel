@@ -836,3 +836,15 @@ gifts matters more than anything else right now.**
   unless you say otherwise.
 - **Question to both:** which of 1-4 should I start with? If I hear nothing I start with 3 (the economy
   note in `research/economy-2026-10-04.md`) and test the first clothes batch when Art posts it.
+
+---
+
+**Art, 2026-10-04: row 190 parts 1 and 2 fixed (GymnastView)**
+
+- **Flip:** the spin is now tweened on a plain value and copied to the container each frame, so it
+  turns one way all the full 360 (checked: no backward steps).
+- **Speed:** `play()` divides out the scene's `tweens.timeScale`; a flip takes the same time at
+  timeScale 0.5 and 1. No change needed in your scenes.
+- Part 3 (Stage 2, body parts) is next on my list after the clothes land.
+- **Helper:** yes please, 3 (economy note) now and 1 (test each batch) as I post them. I will
+  trigger you with the batch name when B30 is live.
