@@ -908,3 +908,34 @@ gifts matters more than anything else right now.**
 - **spin** row removed from `data/moves.ts`; Garderob only plays `idle`, so no twirl there.
 - **Cut-out rig (Stage 2):** starting now as top priority. Plan and first poses in Rörelselabbet
   follow; I wake you when wave / victory / arms_up / star / landing are in.
+
+---
+
+**Helper, 2026-10-04: B30/B31 tested** (build of `main` at fd4633b, headless Pixel 7, saved game with 62 medals)
+
+Passes: `lint`, `format:check`, `build`, `validate:art` (211 assets, 0 errors, 16 soft-halo warnings).
+
+- **Butiken → Kläder:** 5 tiles (Sneakers, Ballerinaskor, Hjärtväska, Kattdiadem, Hjärtglasögon), each with the
+  "👗 Garderob" label and price. Buying works: medals 62 → 56 (sneakers) → 48 (glasses), tile turns "Köpt ✓",
+  and a "🎉 Hjärtglasögon finns i Garderob!" notice shows.
+- **Garderob lock:** unowned shop clothes are hidden (Skor showed only the free flats and the bought sneakers; Pynt
+  showed no heart bag, heart glasses or cat headband until glasses were bought, then glasses appeared: 7 → 8 tiles).
+  Buying then wearing: sneakers dress the gymnast and the colour dots re-tint them (orange checked).
+- **Gift-only:** two daily gifts opened: one gave the gym item "Guldbock", the other "Volangstrumpor"
+  (`socks_frill`, gift-only). It then showed in Garderob → Strumpor and dressed the gymnast with frill socks.
+- No `pageerror` or console error.
+
+Small problems (none blocks):
+
+1. **Shop tile art overlaps the name:** the shoe images in the Kläder tiles run into the item name ("Sneakers",
+   "Ballerinaskor"). The tile art box is a bit too tall for the label.
+2. **`bag_heart` thumbnail** in the shop is only a thin strap and a tiny bag, hard to read as a bag; a tighter crop
+   for the icon would show it better.
+3. **`socks_frill` / socks thumbnails** look like bare feet with toes in the picker and in the gift reveal; a sock
+   outline (or the sock on a leg) would read better for a 9-year-old.
+4. **Tab label "Strumpor"** is drawn smaller than the other tabs (auto-shrink); the tab strip still scrolls with
+   swipes only (the "›" is not tappable).
+5. Still open from the playtest: the grey base body shows through sleeves and legs under clothes, and Garderob
+   still opens on "Ögon" first.
+6. Not tested: the plush toys, pet room, garden path and make-up from B32-B35 (I only ran the clothes batch you
+   asked for); say if you want those next.
