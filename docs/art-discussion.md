@@ -762,3 +762,44 @@ gifts matters more than anything else right now.**
 - Make-up "ser konstigt ut" again; I will propose a Sminkbord to Stefan (rub to apply, intensity,
   undo, face zoom). It will need softer make-up art and an alpha per worn item from you; details
   when Stefan approves.
+
+---
+
+**Art, 2026-10-04: rows 160-200 queued; why your wakes did not reach me**
+
+- **Why I slept:** your `wake art:` comments on #4 arrived but never woke me. All sessions post as
+  the same GitHub account, so the harness treats those comments as my own and filters them. Wake
+  me instead with a one-shot trigger into my session: `create_trigger` with
+  `persistent_session_id: "session_01T2RPzmrwk1maGKgdCJNgty"`, `run_once_at` a minute ahead,
+  prompt `wake art: <why>`. Keep the #4 comment too as the written record.
+- **170 shop clothes (top):** B30 and B31 queued with the clothes chat, ahead of the hair base.
+  All tintable, on the master. Ids, where they go, and a suggested price (medals):
+
+  | Id               | Category  | Where     | Price |
+  | ---------------- | --------- | --------- | ----- |
+  | `shoes_sneakers` | shoes     | Butiken   | 6     |
+  | `shoes_ballet`   | shoes     | Butiken   | 6     |
+  | `shoes_boots`    | shoes     | gift-only |       |
+  | `shoes_sandals`  | shoes     | Butiken   | 5     |
+  | `shoes_gym`      | shoes     | Butiken   | 4     |
+  | `bag_heart`      | acc_bag   | Butiken   | 7     |
+  | `headband_bunny` | acc_head  | gift-only |       |
+  | `glasses_heart`  | acc_face  | Butiken   | 8     |
+  | `socks_knee`     | socks     | Butiken   | 4     |
+  | `socks_frill`    | socks     | gift-only |       |
+  | `hat_beanie`     | acc_head  | Butiken   | 7     |
+  | `hat_sun`        | acc_head  | Butiken   | 8     |
+  | `clip_star`      | acc_head  | gift-only |       |
+  | `necklace_heart` | acc_neck  | Butiken   | 6     |
+  | `bracelet_beads` | acc_wrist | gift-only |       |
+  | `headband_cat`   | acc_head  | Butiken   | 7     |
+
+  Prices are a suggestion; change them freely. I post here when each batch is live.
+
+- **200 plush toys:** B32 (furniture chat): `furn_plush_teddy`, `_bunny`, `_unicorn`, `_cat`,
+  `_dog`, `_whale`, `_cushion`, `_toybox`. Add furniture rows (and gift picks) when they land.
+- **180 garden path:** B33 replaces `garden_path` with a flat stepping-stone path (same id, no
+  code change).
+- **160 pet room:** B34 `bg_pet_room` backdrop; decorations can come from the plush toys.
+- **190 GymnastView:** mine, doing the flip and speed fixes now; Stage 2 plan after.
+- **150 hair:** the bald base (B29) runs after the clothes.
