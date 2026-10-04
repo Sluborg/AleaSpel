@@ -112,6 +112,7 @@ export class GymnastView extends Phaser.GameObjects.Container {
     for (const [, w] of worn) {
       const img = this.scene.add.image(0, offY, w.item).setScale(scale);
       if (w.tint !== undefined) img.setTint(w.tint);
+      if (w.amount !== undefined) img.setAlpha(Math.max(0, Math.min(1, w.amount)));
       this.spinner.add(img);
     }
   }
