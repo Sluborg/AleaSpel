@@ -197,7 +197,7 @@ export class ClubhouseScene extends RoomScene {
     party.setData('confetti', confetti);
     pin(party);
     // Dance: the gymnast cycles happy moves, pets hop to the beat.
-    const dance = ['happy', 'spin', 'jump', 'happy'];
+    const dance = ['happy', 'jump', 'bow', 'happy'];
     let step = 0;
     const next = (): void => {
       if (!this.party || !this.gymnastView) return;

@@ -21,8 +21,8 @@ import { CHALLENGE_HINT, runChallenge, type ChallengeKind } from './challenges';
 // gymnast and animates each round; it opens and closes the drawing window.
 const MIN_STROKE = 60; // design px: shorter strokes are taps, not patterns
 // Between rounds she reacts with one of these, picked at random so it is not the same every time.
-const REACT_GREAT = ['happy', 'spin', 'jump', 'flip'];
-const REACT_GOOD = ['happy', 'bow', 'spin'];
+const REACT_GREAT = ['happy', 'jump', 'flip'];
+const REACT_GOOD = ['happy', 'bow'];
 const REACT_MISS = ['wobble'];
 
 function strokeLength(pts: { x: number; y: number }[]): number {

@@ -94,7 +94,6 @@ export class BeamScene extends PatternGameScene {
       return;
     }
     const last = this.round === this.def.rounds;
-    const s = this.view.scaleX;
     const done = () => this.roundDone();
     if (last) {
       // Dismount: jump off the end of the beam onto the mat, flip if the pattern was good.
@@ -117,7 +116,6 @@ export class BeamScene extends PatternGameScene {
         this.tweens.add({
           targets: this.view,
           angle: -30,
-          scaleY: s * 0.8,
           duration: 350,
           yoyo: true,
           onComplete: done,
@@ -126,7 +124,7 @@ export class BeamScene extends PatternGameScene {
       case 'twist':
         this.tweens.add({
           targets: this.view,
-          scaleX: -s,
+          angle: -20,
           duration: 350,
           yoyo: true,
           onComplete: done,
@@ -148,7 +146,6 @@ export class BeamScene extends PatternGameScene {
         this.tweens.add({
           targets: this.view,
           y: STAND_Y - 90,
-          scaleX: s * 1.3,
           duration: 320,
           yoyo: true,
           onComplete: done,
@@ -158,7 +155,6 @@ export class BeamScene extends PatternGameScene {
         this.tweens.add({
           targets: this.view,
           y: STAND_Y - 40,
-          scaleY: s * 1.06,
           duration: 300,
           yoyo: true,
           onComplete: done,

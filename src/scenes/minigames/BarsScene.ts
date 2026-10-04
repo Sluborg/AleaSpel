@@ -132,7 +132,6 @@ export class BarsScene extends PatternGameScene {
           ease: 'Sine.inOut',
           onComplete: done,
         });
-        this.tweens.add({ targets: this.view, scaleX: -s, duration: 450, yoyo: true });
         break;
       case 'flip':
         this.tweens.add({
@@ -148,7 +147,6 @@ export class BarsScene extends PatternGameScene {
         this.tweens.add({
           targets: this.view,
           y: -HANG,
-          scaleX: s * 1.3,
           duration: 450,
           yoyo: true,
           ease: 'Quad.out',

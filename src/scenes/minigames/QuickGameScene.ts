@@ -13,7 +13,7 @@ export const PLAY_BOTTOM = 1030;
 
 const STAR_TEXT = ['Oj!', 'Bra!', 'Jättebra!', 'Perfekt!'];
 // Whole-body move per star count (data/moves.ts).
-const REACTION = ['wobble', 'jump', 'spin', 'flip'];
+const REACTION = ['wobble', 'jump', 'happy', 'flip'];
 
 // Base for the quick warm-up games (Uppvärmning): an intro card, N rounds worth 0-3 stars each,
 // medals (1 per star) and a personal best like the apparatus games. A subclass builds each round
