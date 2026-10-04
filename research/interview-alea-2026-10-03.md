@@ -15,3 +15,11 @@ Stefan, in Swedish, with an English note and who acts on it.
 | 80    | Hoppet gymnasten gör efter ett moment tar lång tid och blir ganska enformigt. | The reaction jump after each round is slow and repetitive. | Both  | Doing    |
 | 90    | När hon snurrar är animationen inte smooth, den stutterar runt medurs.        | The flip rotation stutters.                                | Art   | Asked    |
 | 100   | Pricka rätt har en fördröjning vid klick.                                     | Pricka rätt reacts late to a tap (fires on release).       | Lead  | Doing    |
+
+## Follow-up 2026-10-04 (screenshots from Stefan)
+
+- Klubbstugan: the door to the gym was a plain green rectangle ("konstig länk till gym"). Lead: real
+  door art with a "Gymmet" sign.
+- Some circles were not round (round buttons stretched to ovals). Lead: fixed in `buttonBackground`.
+- The tilted stone tile is `garden_path` in Trädgården (art request 180).
+- She wants many more clothes ("massa fler"): art request 170 raised to 20+.
