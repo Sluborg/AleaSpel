@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import { ASSET_MANIFEST_KEY, type AssetManifest } from '../data/assets';
 import { DEFAULT_OCCASION, outfitFor } from '../data/occasions';
 import { moveById, moveUsesRig } from '../data/moves';
-import { RIG_PARTS, type RigPart } from '../data/rig';
+import { RIG_PARTS } from '../data/rig';
 import { BASE_BODY_ID, drawOrder } from '../data/wardrobe';
 import type { Gymnast } from '../services/SaveService';
 import { buildRig, cutLayer, type Rig, type RigCut, type RigLayer } from './rig';
@@ -72,7 +72,10 @@ export class GymnastView extends Phaser.GameObjects.Container {
       // Every value is tweened on one plain object and copied to the containers each frame:
       // Phaser wraps `angle` to -180..180, so a flip from -180 to -360 would take the wrong way.
       const st: Record<string, number> = { hold: 0, y: feetY, scaleX: 1, scaleY: 1, angle: 0 };
-      for (const p of RIG_PARTS) st[p.id] = 0;
+      for (const p of RIG_PARTS) {
+        st[p.id] = 0;
+        st[`${p.id}_len`] = 1;
+      }
       const apply = () => {
         this.feet.setPosition(0, st.y).setScale(st.scaleX, st.scaleY);
         this.spinner.setAngle(st.angle);
@@ -85,7 +88,12 @@ export class GymnastView extends Phaser.GameObjects.Container {
         if (s.scaleX !== undefined) props.scaleX = s.scaleX;
         if (s.scaleY !== undefined) props.scaleY = s.scaleY;
         if (s.angle !== undefined) props.angle = s.angle;
-        if (s.pose && this.rig) for (const p of RIG_PARTS) props[p.id] = s.pose[p.id] ?? 0;
+        if (s.pose && this.rig) {
+          for (const p of RIG_PARTS) {
+            props[p.id] = s.pose[p.id] ?? 0;
+            props[`${p.id}_len`] = s.stretch?.[p.id] ?? 1;
+          }
+        }
         return {
           targets: st,
           props,
@@ -114,10 +122,16 @@ export class GymnastView extends Phaser.GameObjects.Container {
     if (this.rig) this.setPose({});
   }
 
-  private setPose(angles: Partial<Record<RigPart | string, number>>): void {
+  // Joint angles and part lengths (`<part>_len`, 1 = as drawn). Lengths are absolute: a child
+  // undoes its parent's squash, so a shin keeps its length under a foreshortened thigh.
+  private setPose(st: Partial<Record<string, number>>): void {
     const rig = this.rig!;
-    for (const p of RIG_PARTS) rig.joints[p.id].setAngle(angles[p.id] ?? 0);
-    rig.headBack.setAngle(angles.head ?? 0);
+    const len = (id: string) => st[`${id}_len`] ?? 1;
+    for (const p of RIG_PARTS) {
+      const own = len(p.id);
+      rig.joints[p.id].setAngle(st[p.id] ?? 0).setScale(1, p.parent ? own / len(p.parent) : own);
+    }
+    rig.headBack.setAngle(st.head ?? 0);
   }
 
   // Builds the jointed rig in the background, one layer per frame, then swaps it in for the

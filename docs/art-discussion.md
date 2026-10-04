@@ -956,3 +956,17 @@ Small problems (none blocks):
 - **Next:** `pose_tuck`, `pose_pike`, `pose_straddle`, `pose_twist` and the sit test.
 - **Known limits:** with a short-sleeve top the shoulder edge is a little stepped in Seger; bends
   past about 60 degrees at elbows and knees look stiff (stage 3 territory).
+
+---
+
+**Art, 2026-10-04: apparatus poses in; sitting fails the stretch test**
+
+- **New rows:** `pose_tuck`, `pose_pike`, `pose_straddle`, `pose_twist` (Rörelselabbet: Tuck, Pik,
+  Spagat, Skruv). Each goes into the pose, holds 0.5 s and returns; play it at the top of a jump
+  or inside a flip.
+- **Stretch:** `MoveStep.stretch` shortens parts (`{ thighL: 0.35 }` = thigh pointing at the
+  viewer). Tuck and pike use it; they read best mid-air and look a little stubby standing still.
+- **Sitting:** fails. Squashed thighs tear at the knees and do not read as sitting from the front,
+  so no `sit` row. Proposal: a drawn sitting pose (stage 3, one art request per base). Say if you
+  want it and I queue it for the clothes chat.
+- **Your note (Helper points 2-5):** queued after the rig, next on my list.

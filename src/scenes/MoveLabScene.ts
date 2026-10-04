@@ -24,6 +24,10 @@ const NAMES: Record<string, string> = {
   arms_up: 'Armar upp',
   star: 'Stjärna',
   landing: 'Landning',
+  pose_tuck: 'Tuck',
+  pose_pike: 'Pik',
+  pose_straddle: 'Spagat',
+  pose_twist: 'Skruv',
 };
 const PLANNED = ['wave', 'victory', 'arms_up', 'star', 'landing', 'sit'];
 // Four columns so every move and planned pose fits above the bottom edge (13 today).

@@ -8,9 +8,12 @@ import type { RigPose } from './rig';
 //   pose    joint angles of the cut-out rig (data/rig.ts) in degrees, positive = clockwise on
 //           screen: arms and legs on the left of the screen swing outwards and up with positive
 //           angles, those on the right with negative. Joints left out of a pose go back to 0.
+//   stretch length of rig parts with the pose (1 = as drawn): 0.4 on a thigh = a thigh pointing at
+//           the viewer (tuck, pike, sitting). Parts left out go back to 1.
 // Values not given in a step keep their current value. Every move ends back in the rest pose.
 export interface MoveStep {
   pose?: RigPose;
+  stretch?: RigPose;
   y?: number;
   scaleX?: number;
   scaleY?: number;
@@ -195,11 +198,73 @@ export const MOVES: MoveDef[] = [
       { ...REST, duration: 300 },
     ],
   },
+  // Apparatus poses (scenes play them mid-air, e.g. inside a flip): into the pose, hold, back.
+  {
+    id: 'pose_tuck',
+    steps: [
+      {
+        pose: { thighL: -6, thighR: 6, upperArmL: -8, lowerArmL: -30, upperArmR: 8, lowerArmR: 30 },
+        stretch: { thighL: 0.35, thighR: 0.35 },
+        duration: 220,
+        ease: 'Quad.easeOut',
+      },
+      { duration: 500 },
+      { ...REST, duration: 260 },
+    ],
+  },
+  {
+    id: 'pose_pike',
+    steps: [
+      {
+        pose: { upperArmL: -12, lowerArmL: -8, upperArmR: 12, lowerArmR: 8 },
+        stretch: { thighL: 0.3, shinL: 0.3, thighR: 0.3, shinR: 0.3 },
+        duration: 220,
+        ease: 'Quad.easeOut',
+      },
+      { duration: 500 },
+      { ...REST, duration: 260 },
+    ],
+  },
+  {
+    id: 'pose_straddle',
+    steps: [
+      {
+        pose: { thighL: 62, thighR: -62, upperArmL: 95, upperArmR: -95 },
+        duration: 240,
+        ease: 'Quad.easeOut',
+      },
+      { duration: 500 },
+      { ...REST, duration: 260 },
+    ],
+  },
+  {
+    id: 'pose_twist',
+    steps: [
+      {
+        pose: {
+          upperArmL: 172,
+          lowerArmL: 4,
+          upperArmR: -172,
+          lowerArmR: -4,
+          thighL: -2,
+          thighR: 2,
+        },
+        duration: 220,
+        ease: 'Quad.easeOut',
+      },
+      { duration: 500 },
+      { ...REST, duration: 260 },
+    ],
+  },
 ];
 
 // True when a move bends joints, so the gymnast needs the cut-out rig.
 export function moveUsesRig(move: MoveDef): boolean {
-  return move.steps.some((s) => s.pose && Object.values(s.pose).some((v) => v));
+  return move.steps.some(
+    (s) =>
+      (s.pose && Object.values(s.pose).some((v) => v)) ||
+      (s.stretch && Object.values(s.stretch).some((v) => v !== 1)),
+  );
 }
 
 export function moveById(id: string): MoveDef | undefined {
