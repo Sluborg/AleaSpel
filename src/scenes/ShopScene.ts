@@ -135,7 +135,7 @@ export class ShopScene extends BaseScene {
     c.add(g);
     c.add(
       art && item.kind === 'clothes'
-        ? clothesPicture(this, artKey, 150, 96, 0, -TILE_H / 2 + 60)
+        ? clothesPicture(this, artKey, 150, 76, 0, -TILE_H / 2 + 54)
         : art
           ? applyHue(artImage(this, 0, -TILE_H / 2 + 60, artKey, 150, 96), item.hue)
           : this.add.text(0, -TILE_H / 2 + 55, item.icon, { fontSize: '44px' }).setOrigin(0.5),
