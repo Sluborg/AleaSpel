@@ -130,13 +130,14 @@ export class AvatarEditorScene extends BaseScene {
       layer.add(c);
     });
 
-    // Actions.
+    // Actions: Garderob and Smink side by side in the middle, rename and new gymnast as round
+    // icon buttons at the ends.
     layer.add(
       createButton(
         this,
-        135,
+        70,
         BUTTONS_Y,
-        'Byt namn',
+        '',
         () =>
           openNameInput(this, gymnast.name, (newName) => {
             // gymnast is the object inside the save data.
@@ -145,30 +146,19 @@ export class AvatarEditorScene extends BaseScene {
             });
             this.build();
           }),
-        { width: 240, fontSize: 28, color: 0x6b5a85, icon: 'icon_pencil' },
-      ),
-    );
-    // Sminkbordet: a round button by her face.
-    layer.add(
-      createButton(
-        this,
-        GAME_WIDTH - 110,
-        400,
-        '💄\nSmink',
-        () => this.scene.start('Makeup', { gymnastId: gymnast.id, occasion: shownOccasion }),
-        { width: 130, height: 130, fontSize: 24, color: 0xff6fae },
+        { width: MIN_TOUCH, height: MIN_TOUCH, color: 0x6b5a85, icon: 'icon_pencil', emoji: '✏️' },
       ),
     );
     const edit = createButton(
       this,
-      GAME_WIDTH / 2,
+      252,
       BUTTONS_Y,
-      'Ändra',
+      'Garderob',
       () => this.openWardrobe(gymnast.id),
-      { width: 210, fontSize: 36, icon: 'icon_hanger' },
+      { width: 250, fontSize: 28, icon: 'icon_hanger' },
     );
     layer.add(edit);
-    // A gymnast with no saved look yet: Ändra pulses so a new player sees where to dress her.
+    // A gymnast with no saved look yet: Garderob pulses so a new player sees where to dress her.
     if (!Object.keys(gymnast.looks ?? {}).length) {
       const pulse = this.tweens.add({
         targets: edit,
@@ -180,13 +170,24 @@ export class AvatarEditorScene extends BaseScene {
       });
       edit.once('destroy', () => pulse.remove());
     }
+    layer.add(
+      createButton(
+        this,
+        487,
+        BUTTONS_Y,
+        'Smink',
+        () => this.scene.start('Makeup', { gymnastId: gymnast.id, occasion: shownOccasion }),
+        { width: 190, fontSize: 28, color: 0xff6fae, emoji: '💄' },
+      ),
+    );
     if (n < MAX_GYMNASTS) {
       layer.add(
-        createButton(this, GAME_WIDTH - 135, BUTTONS_Y, 'Ny', () => this.addGymnast(), {
+        createButton(this, GAME_WIDTH - 70, BUTTONS_Y, '', () => this.addGymnast(), {
           icon: 'icon_plus',
           emoji: '+',
-          width: 230,
-          fontSize: 30,
+          width: MIN_TOUCH,
+          height: MIN_TOUCH,
+          fontSize: 44,
           color: 0x6b5a85,
         }),
       );
