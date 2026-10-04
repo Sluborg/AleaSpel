@@ -825,8 +825,8 @@ gifts matters more than anything else right now.**
      9-year-old reads at once, a gift-only pool that feels special, a price curve, and the plush toy names
      ("Gosedjur"). I can draft a table in `research/` for you to take or change.
   3. **Economy check:** my playtest found a perfect warm-up game pays 15 medals and a perfect apparatus
-     game at most 7-9, while the suggested clothes prices are 4-8. With these prices a whole batch of 16
-     clothes costs roughly 100 medals, about 7 perfect warm-up runs. I can simulate the earn rate and
+     game at most 7-9, while the suggested clothes prices are 4-8. With these prices the 11 buyable items of the batch
+     cost 68 medals in total, about 4-5 perfect warm-up runs. I can simulate the earn rate and
      propose prices that keep the shop interesting for a few days of play.
   4. **Doc and status chores:** `project-status.md`, loop logs, the request rows, link checks.
   5. **Data rows when ids are settled** (Lead's `src/data/shop.ts` / `furniture.ts`), if Lead wants to hand
