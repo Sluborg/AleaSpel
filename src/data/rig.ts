@@ -31,6 +31,17 @@ export interface RigPartDef {
   radius: number;
   cap: number;
   front?: boolean;
+  // Radius of the parent's round end around this joint (the parent keeps the pixels within it),
+  // so a bent knee or elbow shows a round joint instead of a cut corner.
+  round?: number;
+  // The part also takes the pixels behind its joint (the shoulder ball rides with the arm).
+  behindJoint?: boolean;
+  // The cap also carries the parent's pixels on the near side of the joint (the crotch of a
+  // leotard rides with the thigh), so spreading the legs shows fabric instead of a gap.
+  capFill?: boolean;
+  // Pixels the part may not take: right of xMax / left of xMin (an arm never takes the torso side).
+  xMax?: number;
+  xMin?: number;
 }
 
 // L/R are as seen on screen (left = the gymnast's right hand, like the anchors).
@@ -43,6 +54,7 @@ export const RIG_PARTS: RigPartDef[] = [
     bone: [452, 770, 447, 1065],
     radius: 55,
     cap: 66,
+    capFill: true,
   },
   {
     id: 'shinL',
@@ -50,7 +62,8 @@ export const RIG_PARTS: RigPartDef[] = [
     joint: [447, 1065],
     bone: [447, 1065, 443, 1400],
     radius: 45,
-    cap: 36,
+    cap: 34,
+    round: 46,
   },
   {
     id: 'thighR',
@@ -59,6 +72,7 @@ export const RIG_PARTS: RigPartDef[] = [
     bone: [572, 770, 575, 1061],
     radius: 55,
     cap: 66,
+    capFill: true,
   },
   {
     id: 'shinR',
@@ -66,15 +80,18 @@ export const RIG_PARTS: RigPartDef[] = [
     joint: [575, 1061],
     bone: [575, 1061, 581, 1400],
     radius: 45,
-    cap: 36,
+    cap: 34,
+    round: 46,
   },
   {
     id: 'upperArmL',
     parent: 'torso',
-    joint: [432, 440],
-    bone: [432, 440, 362, 605],
+    joint: [428, 446],
+    bone: [428, 446, 362, 605],
     radius: 38,
     cap: 24,
+    behindJoint: true,
+    xMax: 424,
   },
   {
     id: 'lowerArmL',
@@ -82,15 +99,19 @@ export const RIG_PARTS: RigPartDef[] = [
     joint: [362, 605],
     bone: [362, 605, 288, 890],
     radius: 32,
-    cap: 22,
+    cap: 20,
+    xMax: 424,
+    round: 26,
   },
   {
     id: 'upperArmR',
     parent: 'torso',
-    joint: [592, 440],
-    bone: [592, 440, 662, 605],
+    joint: [596, 446],
+    bone: [596, 446, 662, 605],
     radius: 38,
     cap: 24,
+    behindJoint: true,
+    xMin: 600,
   },
   {
     id: 'lowerArmR',
@@ -98,7 +119,9 @@ export const RIG_PARTS: RigPartDef[] = [
     joint: [662, 605],
     bone: [662, 605, 735, 890],
     radius: 32,
-    cap: 22,
+    cap: 20,
+    xMin: 600,
+    round: 26,
   },
   {
     id: 'head',
@@ -157,7 +180,24 @@ export function rigLabelMap(
     const [ax, ay, bx, by] = p.bone;
     const dx = bx - ax;
     const dy = by - ay;
-    return { i, ax, ay, dx, dy, len2: dx * dx + dy * dy, r: p.radius, limb: p.parent !== '' };
+    const parent = RIG_PARTS.find((q) => q.id === p.parent);
+    return {
+      i,
+      ax,
+      ay,
+      dx,
+      dy,
+      len2: dx * dx + dy * dy,
+      r: p.radius,
+      // Limbs start at their joint, unless they carry what lies behind it.
+      fromJoint: p.parent !== '' && !p.behindJoint,
+      // The parent keeps a round end around the joint (a limb's parent only).
+      round: parent?.parent ? (p.round ?? 0) : 0,
+      jx: p.joint[0],
+      jy: p.joint[1],
+      xMax: p.xMax ?? Infinity,
+      xMin: p.xMin ?? -Infinity,
+    };
   }).filter((b) => b.i !== head && !skip.includes(RIG_PARTS[b.i].id));
   const at = (x: number, y: number): number => {
     const mx = (x + 0.5) / res;
@@ -167,7 +207,9 @@ export function rigLabelMap(
     let bestD = Infinity;
     for (const b of bones) {
       const t0 = ((mx - b.ax) * b.dx + (my - b.ay) * b.dy) / b.len2;
-      if (b.limb && t0 < 0) continue;
+      if (b.fromJoint && t0 < 0) continue;
+      if (mx > b.xMax || mx < b.xMin) continue;
+      if (b.round && Math.hypot(mx - b.jx, my - b.jy) < b.round) continue;
       const t = t0 > 1 ? 1 : t0 < 0 ? 0 : t0;
       const ex = mx - b.ax - t * b.dx;
       const ey = my - b.ay - t * b.dy;

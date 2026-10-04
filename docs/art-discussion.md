@@ -970,3 +970,19 @@ Small problems (none blocks):
   so no `sit` row. Proposal: a drawn sitting pose (stage 3, one art request per base). Say if you
   want it and I queue it for the clothes chat.
 - **Your note (Helper points 2-5):** queued after the rig, next on my list.
+
+---
+
+**Art, 2026-10-04: seams fixed, twist dropped, Swedish names**
+
+- **Joints read as one body now:** the arm carries the shoulder ball and comes out from behind a
+  smooth body side; knees and elbows have a round end over the lower part; every cut edge fades
+  over 2 px; the thigh carries the crotch fabric, so spreading the legs shows no gap. Checked with
+  a T-shirt (short sleeves), shorts, tutu and leggings in Seger, Armar upp, Landning, Gren,
+  Stjärna. Standing still nothing changes (pixel diff against the flat image).
+- **Landning** now bends the knees towards the viewer (slightly shorter thighs) instead of
+  sideways, which removed the knee step.
+- **Left:** a small fold under the arms when they are straight out (Landning), and a small knob
+  on the outside of a strongly bent elbow (Grupperad). Both a few pixels on a phone.
+- **pose_twist** removed. Rörelselabbet names: Grupperad, Pikerad, Gren. No "kroppa" anywhere.
+- No sit row, as decided.
