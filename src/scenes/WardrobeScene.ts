@@ -47,6 +47,10 @@ const FACE_ZOOM = 3.6;
 const FACE_HEAD_Y = 440;
 
 type Zone = 'tabs' | 'colors' | 'grid';
+// Mitt lag opens Garderob for clothes or Ansikte for the face; Smink opens Sminkbordet.
+export type WardrobeMode = 'clothes' | 'face' | 'all';
+const FACE_TABS = new Set(['Ögon', 'Bryn', 'Mun', 'Hår']);
+const SMINK = 'Smink';
 
 // Garderob: pick clothes per category and colour tintable items. Items come from the manifest.
 export class WardrobeScene extends BaseScene {
@@ -55,6 +59,7 @@ export class WardrobeScene extends BaseScene {
   private panel?: Phaser.GameObjects.Container;
   private tab = ''; // tab label
   private occasion = DEFAULT_OCCASION; // which look is being dressed
+  private mode: WardrobeMode = 'all'; // clothes, face (Ansikte) or both (older callers)
   private focusLayer = ''; // layer the colour swatches apply to
   // Drag scrolling: the tab strip scrolls sideways, the item grid up and down.
   private tabStrip?: Phaser.GameObjects.Container;
@@ -77,13 +82,14 @@ export class WardrobeScene extends BaseScene {
   }
 
   // Mitt lag chooses the gymnast and the look (occasion) and opens Garderob for it.
-  create(data: { gymnastId?: string; occasion?: string }): void {
+  create(data: { gymnastId?: string; occasion?: string; mode?: WardrobeMode }): void {
     this.cameras.main.setBackgroundColor(COLORS.background);
     const gymnasts = SaveService.get().gymnasts;
     this.gymnast = gymnasts.find((g) => g.id === data.gymnastId) ?? gymnasts[0];
     this.occasion = OCCASIONS.some((o) => o.id === data.occasion)
       ? (data.occasion as string)
       : DEFAULT_OCCASION;
+    this.mode = data.mode ?? 'all';
     this.zoomed = false;
     this.tabScroll = 0;
     this.gridScroll = 0;
@@ -107,7 +113,12 @@ export class WardrobeScene extends BaseScene {
     void this.view.play('idle');
 
     const tabs = this.tabs();
-    this.tab = tabs[0]?.label ?? '';
+    // Open on clothes unless this is Ansikte (the playtest found starting on Ögon confusing).
+    const first =
+      this.mode === 'face'
+        ? tabs[0]
+        : (tabs.find((t) => !FACE_TABS.has(t.label) && t.label !== SMINK) ?? tabs[0]);
+    this.tab = first?.label ?? '';
     this.buildPanel();
     this.setupDragScroll();
   }
@@ -190,7 +201,17 @@ export class WardrobeScene extends BaseScene {
 
   private tabs() {
     const items = this.items();
-    return CATEGORY_TABS.filter((t) => items.some((i) => t.categories.includes(i.category)));
+    const withItems = CATEGORY_TABS.filter((t) =>
+      items.some((i) => t.categories.includes(i.category)),
+    );
+    if (this.mode === 'clothes')
+      return withItems.filter((t) => !FACE_TABS.has(t.label) && t.label !== SMINK);
+    if (this.mode === 'face') {
+      // Make-up lives at Sminkbordet: the Smink tab opens it instead of a grid.
+      const face = withItems.filter((t) => FACE_TABS.has(t.label));
+      return [...face, { label: SMINK, categories: [] as string[] }];
+    }
+    return withItems;
   }
 
   private currentTab() {
@@ -224,6 +245,10 @@ export class WardrobeScene extends BaseScene {
           TAB_Y,
           t.label,
           this.tap('tabs', () => {
+            if (this.mode === 'face' && t.label === SMINK) {
+              this.scene.start('Makeup', { gymnastId: this.gymnast.id, occasion: this.occasion });
+              return;
+            }
             this.tab = t.label;
             this.focusLayer = '';
             this.gridScroll = 0;

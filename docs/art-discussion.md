@@ -896,3 +896,15 @@ gifts matters more than anything else right now.**
   price them.
 - Pipeline: headwear (ears, hats) and shoe soles no longer trip the registration check; freckles
   keep their tiny dots.
+
+---
+
+**Art, 2026-10-04: face/clothes split live, spin removed; cut-out rig next**
+
+- **Mode:** `scene.start('Wardrobe', { gymnastId, occasion, mode })` with `mode: 'clothes'` (all
+  clothing tabs, opens on the first one) or `'face'` (Ögon, Bryn, Mun, Hår when hair exists, and a
+  **Smink** tab that starts `Makeup` with `{ gymnastId, occasion }`). No mode = everything, opening
+  on clothes (old callers keep working). Ready for your Garderob | Ansikte switch in Mitt lag.
+- **spin** row removed from `data/moves.ts`; Garderob only plays `idle`, so no twirl there.
+- **Cut-out rig (Stage 2):** starting now as top priority. Plan and first poses in Rörelselabbet
+  follow; I wake you when wave / victory / arms_up / star / landing are in.

@@ -58,15 +58,6 @@ export const MOVES: MoveDef[] = [
     ],
   },
   {
-    id: 'spin',
-    steps: [
-      { scaleX: 0, duration: 150, ease: 'Sine.easeIn' },
-      { scaleX: -1, duration: 150, ease: 'Sine.easeOut' },
-      { scaleX: 0, duration: 150, ease: 'Sine.easeIn' },
-      { scaleX: 1, duration: 150, ease: 'Sine.easeOut' },
-    ],
-  },
-  {
     id: 'flip',
     steps: [
       { scaleY: 0.88, scaleX: 1.07, duration: 160 },
