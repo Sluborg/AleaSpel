@@ -148,6 +148,17 @@ export class AvatarEditorScene extends BaseScene {
         { width: 240, fontSize: 28, color: 0x6b5a85, icon: 'icon_pencil' },
       ),
     );
+    // Sminkbordet: a round button by her face.
+    layer.add(
+      createButton(
+        this,
+        GAME_WIDTH - 110,
+        400,
+        '💄\nSmink',
+        () => this.scene.start('Makeup', { gymnastId: gymnast.id, occasion: shownOccasion }),
+        { width: 130, height: 130, fontSize: 24, color: 0xff6fae },
+      ),
+    );
     const edit = createButton(
       this,
       GAME_WIDTH / 2,

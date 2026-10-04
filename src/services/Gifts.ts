@@ -1,6 +1,6 @@
 import type { AssetManifest } from '../data/assets';
 import { FURNITURE } from '../data/furniture';
-import { shopItems, type ShopItem } from '../data/shop';
+import { isReleased, shopItems, type ShopItem } from '../data/shop';
 import { SaveService, localDate, newUid } from './SaveService';
 
 // Daglig present: a gift every day (the player's own calendar). Unopened gifts wait, up to
@@ -46,12 +46,15 @@ export function waitingGifts(now = new Date()): number {
 export function openGift(manifest: AssetManifest | undefined, now = new Date()): GiftReward | null {
   if (!waitingGifts(now)) return null;
   const save = SaveService.get();
-  const choices = shopItems(manifest).filter(
+  const choices = shopItems(manifest, localDate(now)).filter(
     (i) => i.kind === 'furniture' || !save.owned.includes(i.id),
   );
   // Gift-only surprises the team does not have yet come first, half of the time.
   const surprises: ShopItem[] = FURNITURE.filter(
-    (f) => f.giftOnly && !save.furniture.some((p) => p.def === f.id),
+    (f) =>
+      f.giftOnly &&
+      isReleased(f.release, localDate(now)) &&
+      !save.furniture.some((p) => p.def === f.id),
   ).map((f) => ({ id: f.id, kind: 'furniture', name: f.name, price: 0, icon: '🎁', hue: f.hue }));
   const pool = surprises.length && Math.random() < 0.5 ? surprises : choices;
   const item = pool.length ? pool[Math.floor(Math.random() * pool.length)] : undefined;

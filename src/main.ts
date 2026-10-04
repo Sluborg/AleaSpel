@@ -17,6 +17,8 @@ import { TimingGameScene } from './scenes/minigames/TimingGameScene';
 import { PetsScene } from './scenes/PetsScene';
 import { WardrobeScene } from './scenes/WardrobeScene';
 import { ShopScene } from './scenes/ShopScene';
+import { MoveLabScene } from './scenes/MoveLabScene';
+import { MakeupScene } from './scenes/MakeupScene';
 import { BarsScene } from './scenes/minigames/BarsScene';
 import { BeamScene } from './scenes/minigames/BeamScene';
 import { TrampolineScene } from './scenes/minigames/TrampolineScene';
@@ -75,6 +77,8 @@ const game = new Phaser.Game({
     BarsScene,
     VaultScene,
     ShopScene,
+    MoveLabScene,
+    MakeupScene,
   ],
 });
 

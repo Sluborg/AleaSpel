@@ -177,7 +177,7 @@ export abstract class QuickGameScene extends BaseScene {
       this.text(
         GAME_WIDTH / 2,
         590,
-        this.practice ? 'Träning ger inga medaljer' : `+${earned} 🏅`,
+        this.practice ? 'Träning ger inga medaljer' : `${this.total} ⭐ → +${earned} 🏅`,
         52,
       ),
       this.text(
@@ -187,6 +187,7 @@ export abstract class QuickGameScene extends BaseScene {
         32,
         COLORS.textMuted,
       ),
+      this.text(GAME_WIDTH / 2, 730, this.practice ? '' : 'Fler ⭐ ger fler 🏅!', 30, '#ffd84d'),
       createButton(
         this,
         GAME_WIDTH / 2 - 150,

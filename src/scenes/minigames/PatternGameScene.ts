@@ -578,7 +578,7 @@ export abstract class PatternGameScene extends BaseScene {
           ? 'Träning ger inga medaljer'
           : this.team
             ? `${this.total} ⭐ till laget`
-            : `+${earned} 🏅`,
+            : `${this.total} ⭐ → +${earned} 🏅`,
         {
           fontFamily: FONT,
           fontSize: this.practice ? '38px' : '56px',
@@ -599,6 +599,15 @@ export abstract class PatternGameScene extends BaseScene {
           color: COLORS.textMuted,
         },
       )
+      .setOrigin(0.5);
+    // She thought medals were always the same: say plainly that stars decide them.
+    const more = this.add
+      .text(GAME_WIDTH / 2, 730, this.practice || this.team ? '' : 'Fler ⭐ ger fler 🏅!', {
+        fontFamily: FONT,
+        fontSize: '30px',
+        color: '#ffd84d',
+        fontStyle: 'bold',
+      })
       .setOrigin(0.5);
     const again = createButton(
       this,
@@ -639,7 +648,7 @@ export abstract class PatternGameScene extends BaseScene {
         color: this.team ? COLORS.primary : 0x6b5a85,
       },
     );
-    panel.add([bg, title, score, medals, bank, back]);
+    panel.add([bg, title, score, medals, bank, more, back]);
     if (this.team) again.destroy();
     else panel.add(again);
     for (let i = 0; i < 12; i++) {

@@ -53,6 +53,7 @@ function starterFurniture(extra: string[] = [], placed: Record<string, Position>
 export interface WornItem {
   item: string;
   tint?: number;
+  amount?: number; // 0-1 strength (make-up from Sminkbordet); missing = full. Optional, old saves keep working.
 }
 
 export interface Gymnast {
