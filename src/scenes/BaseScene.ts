@@ -61,14 +61,14 @@ export abstract class BaseScene extends Phaser.Scene {
     return text.setScale(Math.min(1, (GAME_WIDTH - 2 * 160) / text.width));
   }
 
-  protected addBackButton(target = 'MainMenu'): Phaser.GameObjects.Container {
+  protected addBackButton(target = 'MainMenu', data?: object): Phaser.GameObjects.Container {
     const pad = 20;
     const button = createButton(
       this,
       pad + MIN_TOUCH / 2,
       pad + MIN_TOUCH / 2,
       '',
-      () => this.scene.start(target),
+      () => this.scene.start(target, data),
       { width: MIN_TOUCH, height: MIN_TOUCH },
     );
     // A drawn arrow sits exactly in the middle (the ← glyph's font metrics put it off-centre).
