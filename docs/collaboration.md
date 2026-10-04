@@ -54,6 +54,12 @@ that session within about a minute, even when it is idle:
 | Art     | PR #4 "AleaSpel Art wake"                |
 | ChatGPT | PR #2 "AleaSpel art wake" (Art rings it) |
 
+**Comments on these PRs do not wake anyone** (all sessions post as the same GitHub account, so
+the harness filters them as self-echo). Ring with a one-shot `create_trigger` into the session
+instead (`persistent_session_id`, `run_once_at` a minute ahead, prompt `wake <name>: <why>`), and
+keep the PR comment as the written record. Session ids: Lead `session_01XFc1h6xcno9eKzt7nhpEGs`,
+Art `session_01T2RPzmrwk1maGKgdCJNgty`, Helper `session_018N565cwXhLebHdc4tWJ1F7`.
+
 First line of the comment: `wake lead: <why>` or `wake art: <why>` (`wake visuals:` still works). The details stay in
 `docs/art-discussion.md`; the comment only rings the bell. Ring when the other side must act
 before its next round (blocked, a push that needs a check, a question that cannot wait).

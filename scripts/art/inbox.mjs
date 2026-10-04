@@ -37,7 +37,7 @@ const TEMPLATES = {
 const KIND = [
   [/^(eyes|brows|mouth|blush|lips|shadow|paint)_/, { canvas: [1024, 1536], template: 'face' }],
   [
-    /^(tshirt|shorts|dress|jacket|hoodie|slippers|socks|leotard|skirt|top|leggings|shoes|bow|headband|glasses|medal|necklace|wristbands|bag)_?/,
+    /^(tshirt|shorts|dress|jacket|hoodie|slippers|socks|leotard|skirt|top|leggings|shoes|bow|headband|glasses|medal|necklace|wristbands|bag|hat|clip|bracelet|base)_?/,
     { canvas: [1024, 1536], template: 'master' },
   ],
   [

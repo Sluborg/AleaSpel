@@ -51,16 +51,19 @@ export class GymnastView extends Phaser.GameObjects.Container {
     if (!move) return Promise.resolve();
     const h = this.viewHeight;
     const feetY = this.feet.y;
-    const midY = this.spinner.y;
     return new Promise((resolve) => {
+      // The spin is tweened on a plain object and copied to the container each frame: Phaser
+      // wraps `angle` to -180..180, so a flip from -180 to -360 would take the wrong way round.
+      const spin = { y: 0, scaleX: 1, scaleY: 1, angle: this.spinner.angle };
       const tweens = move.steps.map((s) => ({
-        targets: [this.feet, this.spinner],
+        targets: [this.feet, spin],
+        onUpdate: () => this.spinner.setAngle(spin.angle),
         duration: s.duration,
         ease: s.ease ?? 'Sine.easeInOut',
         props: {
           ...(s.y !== undefined && {
             y: {
-              getEnd: (t: unknown) => (t === this.feet ? feetY - s.y! * h : midY),
+              getEnd: (t: unknown) => (t === this.feet ? feetY - s.y! * h : 0),
             },
           }),
           ...(s.scaleX !== undefined && {
@@ -70,7 +73,7 @@ export class GymnastView extends Phaser.GameObjects.Container {
             scaleY: { getEnd: (t: unknown) => (t === this.feet ? s.scaleY! : 1) },
           }),
           ...(s.angle !== undefined && {
-            angle: { getEnd: (t: unknown) => (t === this.spinner ? s.angle! : 0) },
+            angle: { getEnd: (t: unknown) => (t === spin ? s.angle! : 0) },
           }),
         },
       }));
@@ -79,6 +82,8 @@ export class GymnastView extends Phaser.GameObjects.Container {
         loop: move.loop ? -1 : 0,
         onComplete: () => resolve(),
       });
+      // Moves play at real speed even when a scene slows its other tweens (easy levels).
+      this.tweenChain.setTimeScale(1 / (this.scene.tweens.timeScale || 1));
     });
   }
 
