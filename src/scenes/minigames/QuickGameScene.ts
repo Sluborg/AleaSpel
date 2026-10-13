@@ -13,7 +13,7 @@ export const PLAY_BOTTOM = 1030;
 
 const STAR_TEXT = ['Oj!', 'Bra!', 'Jättebra!', 'Perfekt!'];
 // Whole-body move per star count (data/moves.ts).
-const REACTION = ['wobble', 'jump', 'happy', 'flip'];
+const REACTION = ['wobble', 'happy', 'arms_up', 'victory'];
 
 // Base for the quick warm-up games (Uppvärmning): an intro card, N rounds worth 0-3 stars each,
 // medals (1 per star) and a personal best like the apparatus games. A subclass builds each round
@@ -64,6 +64,7 @@ export abstract class QuickGameScene extends BaseScene {
     this.progress = this.text(GAME_WIDTH - 40, 190, '', 34).setOrigin(1, 0.5);
     this.score = this.text(40, 190, '⭐ 0', 34).setOrigin(0, 0.5);
     this.view = new GymnastView(this, 110, GAME_HEIGHT - 150, 260, this.gymnast, 'traning');
+    void this.view.prepareRig();
     void this.view.play('idle');
     this.layer = this.add.container(0, 0);
     this.showIntro();
@@ -161,7 +162,7 @@ export abstract class QuickGameScene extends BaseScene {
         );
       });
     }
-    void this.view.play(record ? 'happy' : 'bow');
+    void this.view.play(record ? 'victory' : 'bow');
     const panel = this.add.container(0, 0).setDepth(300);
     const bg = this.add.graphics();
     bg.fillStyle(COLORS.background, 0.95).fillRoundedRect(40, 240, GAME_WIDTH - 80, 780, 40);

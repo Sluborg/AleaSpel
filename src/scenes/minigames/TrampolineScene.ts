@@ -94,24 +94,16 @@ export class TrampolineScene extends PatternGameScene {
     const t = (props: object) =>
       this.tweens.add({ targets: this.view, duration: 300, yoyo: true, ...props });
     switch (this.move.pose) {
-      // Rigid body only (no squashing or flat turns, which look wrong on a flat figure) until the
-      // cut-out rig brings real tuck, pike and straddle poses.
+      // Real body poses from the cut-out rig.
       case 'tuck':
-        t({ angle: -30 });
-        break;
       case 'pike':
-        t({ angle: 35 });
-        break;
       case 'straddle':
-        t({ angle: 15 });
-        break;
-      case 'twist':
-        t({ angle: -20 });
+        this.rigPose();
         break;
       case 'flip':
         this.tweens.add({
           targets: this.view,
-          angle: 360,
+          angle: this.flipAngle(),
           duration: 600,
           onComplete: () => this.view.setAngle(0),
         });

@@ -113,22 +113,8 @@ export class BeamScene extends PatternGameScene {
     }
     switch (this.move?.pose) {
       case 'pike':
-        this.tweens.add({
-          targets: this.view,
-          angle: -30,
-          duration: 350,
-          yoyo: true,
-          onComplete: done,
-        });
-        break;
-      case 'twist':
-        this.tweens.add({
-          targets: this.view,
-          angle: -20,
-          duration: 350,
-          yoyo: true,
-          onComplete: done,
-        });
+        this.rigPose();
+        this.time.delayedCall(700, done);
         break;
       case 'flip':
         this.tweens.add({
@@ -143,6 +129,7 @@ export class BeamScene extends PatternGameScene {
         });
         break;
       case 'straddle':
+        this.rigPose();
         this.tweens.add({
           targets: this.view,
           y: STAND_Y - 90,
@@ -152,6 +139,7 @@ export class BeamScene extends PatternGameScene {
         });
         break;
       default:
+        this.rigPose(); // grupperad (tuck); nothing for straight moves
         this.tweens.add({
           targets: this.view,
           y: STAND_Y - 40,

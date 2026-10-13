@@ -107,16 +107,23 @@ Decided with Alea (2026-09-30):
 Core mechanic: **finger patterns**. Each move is a data row with a gesture template; the player
 draws the gesture during a routine and is scored on shape match and timing.
 
-| Pattern (drawn) | Move (sv)  | Stars |
-| --------------- | ---------- | ----- |
-| Triangel        | Raka hopp  | 1     |
-| Cirkel          | Tuckhopp   | 1     |
-| Fyrkant         | Sittfall   | 1     |
-| V               | Pik        | 2     |
-| Sicksack        | Grenhopp   | 2     |
-| S               | Halv skruv | 2     |
-| Hjärta          | Volt       | 3     |
-| Stjärna         | Stjärnhopp | 3     |
+| Pattern (drawn) | Move (sv)      | Stars |
+| --------------- | -------------- | ----- |
+| Triangel        | Rakt hopp      | 1     |
+| Cirkel          | Grupperat hopp | 1     |
+| Fyrkant         | Katthopp       | 1     |
+| V               | Pikhopp        | 2     |
+| Sicksack        | Grenhopp       | 2     |
+| S               | Spagathopp     | 2     |
+| Hjärta          | Frivolt        | 3     |
+| Stjärna         | Stjärnhopp     | 3     |
+
+Move names (Stefan 2026-10-13: "good words that make Swedish sense"): real Swedish gymnastics
+terms from `research/gymnastics-vocabulary-sv.md` (grupperat, pikhopp, gren, frivolt, sittstuds,
+katthopp), never made-up words. No twist moves: a turn around the long axis cannot be shown on a
+flat 2D figure, so Halv skruv, Barani, Piruett, Skruvsväng, Skruvhopp and Jurtjenko became
+Spagathopp, Bakåtvolt, Benlyft, Knälyft, Grupperat hopp and Bakåtvolt. Body poses (grupperad,
+pikerad, gren) come from the cut-out rig (`pose_<pose>` rows in `data/moves.ts`).
 
 Decision (Alea's feedback 2026-09-30): no swipes, only drawn patterns, scored by how accurately
 they were drawn (percent shown, stars by accuracy bands per difficulty).
@@ -144,7 +151,7 @@ they were drawn (percent shown, stars by accuracy bands per difficulty).
     round, levels 1-2 show all cards for a moment first). They are rows in
     `data/minigames.ts` with `kind: 'warmup'`; Tävlingsdag uses the apparatus games only.
   - 16 symbols to draw (added Topp, U, L, M, Våg, Diamant, Hus, Åtta) and new moves using them
-    (Ryggfall, Barani, Språng, Bukrullning, Flyaway, Rondat, Jurtjenko).
+    (Ryggstuds, Bakåtvolt, Språng, Bukomsväng, Flygande avhopp, Rondat).
   - **Mixed rounds** (Stefan 2026-09-30): each apparatus has a `mix` of round kinds in
     `data/minigames.ts`; every round picks one at random (draw the move, or its challenge:
     Studsmatta timing and colours, Bom colours and timing, Barr numbers and timing, Hopp timing

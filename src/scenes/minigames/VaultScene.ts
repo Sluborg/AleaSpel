@@ -103,33 +103,25 @@ export class VaultScene extends PatternGameScene {
 
   private pose(): void {
     if (!this.move || this.gotStars === 0) return;
-    const s = this.view.scaleX;
     const t = (props: object) =>
       this.tweens.add({ targets: this.view, duration: 320, yoyo: true, ...props });
     switch (this.move.pose) {
       case 'flip':
         this.tweens.add({
           targets: this.view,
-          angle: 360,
+          angle: this.flipAngle(),
           duration: 650,
           onComplete: () => this.view.setAngle(0),
         });
         break;
-      // Rigid body only until the cut-out rig brings real poses.
-      case 'twist':
-        t({ angle: -20 });
-        break;
+      // Real body poses from the cut-out rig.
       case 'tuck':
-        t({ angle: -30 });
-        break;
       case 'straddle':
-        t({ angle: 15 });
-        break;
       case 'pike':
-        t({ angle: 35 });
+        this.rigPose();
         break;
       default:
-        t({ scaleY: s * 1.08 });
+        t({ angle: 8 });
     }
   }
 

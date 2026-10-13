@@ -91,7 +91,7 @@ export class AvatarEditorScene extends BaseScene {
       if (Math.abs(dx) > 60) this.stepLook(dx < 0 ? 1 : -1);
       else this.openWardrobe(gymnast.id, 'clothes');
     });
-    void view.play('happy').then(() => view.play('idle'));
+    void view.play('wave').then(() => view.play('idle'));
     layer.add(view);
 
     // Look cards, one per occasion.
