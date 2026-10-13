@@ -7,6 +7,7 @@ export interface MoveDef {
   difficulty: 1 | 2 | 3; // stars at stake
   // No 'twist': a turn around the long axis cannot be shown on a flat 2D figure.
   pose: 'tuck' | 'pike' | 'straddle' | 'flip' | 'straight';
+  backward?: boolean; // flip: rotate backwards (Bakåtvolt)
 }
 
 export const MOVES: MoveDef[] = [
@@ -19,7 +20,14 @@ export const MOVES: MoveDef[] = [
   { id: 'split_jump', name: 'Spagathopp', shape: 's', difficulty: 2, pose: 'straddle' },
   { id: 'front_flip', name: 'Frivolt', shape: 'heart', difficulty: 3, pose: 'flip' },
   { id: 'star_jump', name: 'Stjärnhopp', shape: 'star', difficulty: 3, pose: 'straddle' },
-  { id: 'back_flip', name: 'Bakåtvolt', shape: 'infinity', difficulty: 3, pose: 'flip' },
+  {
+    id: 'back_flip',
+    name: 'Bakåtvolt',
+    shape: 'infinity',
+    difficulty: 3,
+    pose: 'flip',
+    backward: true,
+  },
   // Beam
   { id: 'balance', name: 'Balans', shape: 'peak', difficulty: 1, pose: 'straight' },
   { id: 'squat', name: 'Knäböj', shape: 'house', difficulty: 1, pose: 'tuck' },
@@ -50,7 +58,14 @@ export const MOVES: MoveDef[] = [
   { id: 'handspring', name: 'Överslag', shape: 'circle', difficulty: 2, pose: 'flip' },
   { id: 'vault_flip', name: 'Frivolt', shape: 'heart', difficulty: 3, pose: 'flip' },
   { id: 'vault_star', name: 'Stjärnhopp', shape: 'star', difficulty: 3, pose: 'straddle' },
-  { id: 'back_flip_vault', name: 'Bakåtvolt', shape: 'm', difficulty: 3, pose: 'flip' },
+  {
+    id: 'back_flip_vault',
+    name: 'Bakåtvolt',
+    shape: 'm',
+    difficulty: 3,
+    pose: 'flip',
+    backward: true,
+  },
 ];
 
 export interface MinigameDef {

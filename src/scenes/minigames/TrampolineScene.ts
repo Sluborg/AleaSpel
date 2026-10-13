@@ -103,7 +103,7 @@ export class TrampolineScene extends PatternGameScene {
       case 'flip':
         this.tweens.add({
           targets: this.view,
-          angle: 360,
+          angle: this.flipAngle(),
           duration: 600,
           onComplete: () => this.view.setAngle(0),
         });

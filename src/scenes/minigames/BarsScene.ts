@@ -145,6 +145,7 @@ export class BarsScene extends PatternGameScene {
         });
         break;
       case 'pike':
+      case 'tuck':
         this.tweens.add({
           targets: this.pivot,
           angle: this.pivot.angle + 360,

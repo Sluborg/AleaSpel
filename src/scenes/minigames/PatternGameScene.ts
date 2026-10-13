@@ -235,6 +235,11 @@ export abstract class PatternGameScene extends BaseScene {
     if (pose && bodyMoveById(`pose_${pose}`)) void this.view.play(`pose_${pose}`);
   }
 
+  // Full turn for a flip: clockwise is forwards when she faces right, backward moves turn back.
+  protected flipAngle(): number {
+    return this.move?.backward ? -360 : 360;
+  }
+
   // --- rounds ------------------------------------------------------------------
 
   private nextRound(): void {
