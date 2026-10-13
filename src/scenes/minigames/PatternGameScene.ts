@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { moveById as bodyMoveById } from '../../data/moves';
 import { COLORS, FONT, GAME_HEIGHT, GAME_WIDTH } from '../../config';
 import { shapeById, type Pt } from '../../data/gestureShapes';
 import {
@@ -21,8 +22,8 @@ import { CHALLENGE_HINT, runChallenge, type ChallengeKind } from './challenges';
 // gymnast and animates each round; it opens and closes the drawing window.
 const MIN_STROKE = 60; // design px: shorter strokes are taps, not patterns
 // Between rounds she reacts with one of these, picked at random so it is not the same every time.
-const REACT_GREAT = ['happy', 'jump', 'flip'];
-const REACT_GOOD = ['happy', 'bow'];
+const REACT_GREAT = ['victory', 'arms_up', 'flip', 'happy'];
+const REACT_GOOD = ['happy', 'wave', 'bow'];
 const REACT_MISS = ['wobble'];
 
 function strokeLength(pts: { x: number; y: number }[]): number {
@@ -117,6 +118,7 @@ export abstract class PatternGameScene extends BaseScene {
       this.gymnast,
       this.practice ? 'traning' : 'tavling',
     );
+    void this.view.prepareRig(); // cut the rig now, so the first pose starts on time
     this.trail = this.add.graphics().setDepth(200);
     this.buildCard();
     this.progress = this.add
@@ -224,6 +226,13 @@ export abstract class PatternGameScene extends BaseScene {
       this.time.delayedCall(300, () => this.nextRound());
     });
     panel.add([bg, title, text, extra, bestText, go]);
+  }
+
+  // The cut-out rig's apparatus pose (row pose_<pose> in data/moves.ts) on top of the scene's own
+  // motion: grupperad, pikerad, gren. Flips and straight moves stay whole-body motion.
+  protected rigPose(): void {
+    const pose = this.move?.pose;
+    if (pose && bodyMoveById(`pose_${pose}`)) void this.view.play(`pose_${pose}`);
   }
 
   // --- rounds ------------------------------------------------------------------
@@ -379,7 +388,7 @@ export abstract class PatternGameScene extends BaseScene {
         // The move's reaction uses the move's own scale (1 to its difficulty).
         const d = this.move?.difficulty ?? 1;
         this.deferred = s === 0 ? 0 : Math.max(1, Math.round((s * d) / 3));
-        void this.view.play(s ? 'happy' : 'wobble');
+        void this.view.play(s ? 'arms_up' : 'wobble');
         this.time.delayedCall(700, () => {
           layer.destroy();
           back(() => this.playRound());
@@ -538,7 +547,7 @@ export abstract class PatternGameScene extends BaseScene {
       });
     }
 
-    void this.view.play(record ? 'flip' : 'bow');
+    void this.view.play(record ? 'victory' : 'bow');
     const panel = this.add.container(0, 0).setDepth(300);
     const bg = this.add.graphics();
     bg.fillStyle(COLORS.background, 0.94).fillRoundedRect(40, 240, GAME_WIDTH - 80, 780, 40);

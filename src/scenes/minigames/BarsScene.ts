@@ -97,7 +97,6 @@ export class BarsScene extends PatternGameScene {
       });
       return;
     }
-    const s = this.view.scaleX;
     const last = this.round === this.def.rounds;
     if (last) {
       // Dismount: one giant swing, let go at the top and land on the mat.
@@ -124,15 +123,6 @@ export class BarsScene extends PatternGameScene {
       return;
     }
     switch (this.move?.pose) {
-      case 'twist':
-        this.tweens.add({
-          targets: this.pivot,
-          angle: this.pivot.angle + 360,
-          duration: 900,
-          ease: 'Sine.inOut',
-          onComplete: done,
-        });
-        break;
       case 'flip':
         this.tweens.add({
           targets: this.pivot,
@@ -144,6 +134,7 @@ export class BarsScene extends PatternGameScene {
         break;
       case 'straddle':
         // Release and catch: fly up above the bar, straddle, come back.
+        this.rigPose();
         this.tweens.add({
           targets: this.view,
           y: -HANG,
@@ -161,7 +152,7 @@ export class BarsScene extends PatternGameScene {
           ease: 'Sine.inOut',
           onComplete: done,
         });
-        this.tweens.add({ targets: this.view, scaleY: s * 0.75, duration: 450, yoyo: true });
+        this.rigPose();
         break;
       default:
         this.tweens.add({
